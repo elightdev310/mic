@@ -1,0 +1,10 @@
+/_backup
+/vendor
+/node_modules
+/public/storage
+/ssh-key
+Homestead.yaml
+Homestead.json
+.env
+access.log
+error.log
