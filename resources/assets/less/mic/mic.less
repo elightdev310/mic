@@ -1,0 +1,91 @@
+@import "../bootstrap/variables.less";
+@import "../bootstrap/mixins.less";
+@import "component.less";
+
+.navbar-brand {
+  height: auto;
+  padding: 10px;
+}
+
+.main-header {
+  background: #fff;
+  .logo {
+    width: auto;
+    height: auto;
+    padding: 10px;
+    .logo-lg {
+      display: inline-block; 
+    }
+  }
+}
+
+.fixed .content-wrapper, .fixed .right-side, 
+.main-sidebar, .left-side {
+  padding-top: 100px;
+}
+
+@media (max-width: (@screen-xs-max)) {
+  .fixed .content-wrapper, .fixed .right-side, 
+  .main-sidebar, .left-side {
+    padding-top: 70px;
+  }
+}
+
+/* smaller than Extra small screen */
+@media (max-width: (@screen-xs-max)) {
+  .navbar-brand {
+    padding: 5px 10px;
+    img.site-logo {
+      height: 60px;
+    }
+  }
+
+  .main-header .logo {
+    padding: 5px 10px;
+    img.site-logo {
+      height: 60px;
+    }
+  }
+}
+
+.dashboard-page {
+  .dashboard-section {
+    padding: 50px 0px;
+    width: 350px;
+    margin: 0 auto;
+
+    .btn-link {
+      display: block;
+      margin: 10px 0px;
+    }
+  }
+}
+
+.doctor-page.partner-page .content-wrapper {
+  background: #50a0a2;
+}
+.pcp-page.partner-page .content-wrapper {
+  background: #90b312;
+}
+
+.specialist-page.partner-page .content-wrapper {
+  background: #605ca8;
+}
+.therapist-page.partner-page .content-wrapper {
+  background: #ff851b;
+}
+
+.attorney-page.partner-page .content-wrapper {
+  background: #6a6300;
+}
+.insurer-page.partner-page .content-wrapper {
+  background: #d81b60;
+}
+
+.cc-injury-quiz {
+  .injury-quiz-form {
+    .form-material {
+      margin-left: 17px;
+    }
+  }
+}

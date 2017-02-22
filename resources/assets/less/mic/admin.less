@@ -1,0 +1,79 @@
+@import "../bootstrap/variables.less";
+@import "../bootstrap/mixins.less";
+@import "component.less";
+
+.main-header {
+  background: #fff;
+  .logo {
+    width: auto;
+    height: auto;
+    padding: 0px 10px;
+    .logo-lg {
+      display: inline-block; 
+    }
+  }
+}
+
+.color-inherited {
+  color: inherit !important;
+}
+
+/* smaller than Extra small screen */
+@media (max-width: (@screen-xs-max)) {
+  .navbar-brand {
+    padding: 5px 10px;
+    img.site-logo {
+      height: 60px;
+    }
+  }
+
+  .main-header .logo {
+    padding: 5px 10px;
+    img.site-logo {
+      height: 60px;
+    }
+  }
+  .fixed .content-wrapper, .fixed .right-side,
+  .main-sidebar, .left-side {
+    padding-top: 120px;
+  }
+}
+
+.sidebar-menu .treeview-menu {
+  padding-left: 15px;
+}
+
+.application-list {
+  li span.text > a{
+    color: inherit;
+  }
+}
+
+@media (min-width: (@screen-sm)) {
+  .materials-form .control-label {
+    text-align: left;
+    margin-bottom: 0;
+    padding-top: 7px; 
+  }
+}
+
+.panel.infolist .materials-form .form-group {
+  border-bottom: none; 
+  overflow-y: inherit;
+}
+
+.row-action a.action-link {
+  .fa {
+    font-size: 1.4em;
+    margin-top: 2px;
+  }
+}
+
+.bulk-action-section {
+  margin: 20px 0px;
+  .action-name {
+    float: left;
+    width: auto;
+    margin-right: 10px;
+  }
+}

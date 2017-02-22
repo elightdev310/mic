@@ -1,0 +1,31 @@
+@text-size:     14px;
+@label-color:   #666;
+
+.auth-page {
+
+.apply-page {
+  .app-panel {
+    .panel-title > a {
+      font-size: @text-size;
+      color: @label-color;
+      label {
+        cursor: pointer;
+      }
+    }
+    .panel-title > a.accordion-toggle::after, 
+    a[data-toggle="collapse"]::after {
+      content:"\e113";
+      font-family: 'Glyphicons Halflings';
+      float: right;
+      margin-top: 2px;
+    }
+    .panel-title > a.accordion-toggle.collapsed::after, 
+    a.collapsed[data-toggle="collapse"]::after  {
+      content:"\e114";
+    }
+  }
+
+
+}
+
+}

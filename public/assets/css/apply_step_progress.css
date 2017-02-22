@@ -1,0 +1,26 @@
+/*
+Step Bar which indicates progress when the user arrives at the step, and 
+indicates the end of the progress with a different shape and color.
+*/
+.bs-wizard {margin-top: 40px;}
+
+.bs-wizard {padding: 0 0 10px 0;}
+.bs-wizard > .bs-wizard-step {padding: 0; position: relative;}
+.bs-wizard > .bs-wizard-step + .bs-wizard-step {}
+.bs-wizard > .bs-wizard-step .bs-wizard-stepnum {color: #595959; font-size: 16px; margin-bottom: 5px;}
+.bs-wizard > .bs-wizard-step .bs-wizard-info {color: #999; font-size: 14px;}
+.bs-wizard > .bs-wizard-step > .bs-wizard-dot {position: absolute; width: 30px; height: 30px; display: block; background: #0099ff; right: 0px; top: 45px; margin-top: -15px; margin-left: -15px; border-radius: 50%; z-index: 10; right: -15px; } 
+.bs-wizard > .bs-wizard-step > .bs-wizard-dot:after {content: ' '; width: 14px; height: 14px; background: #40b9fe; border-radius: 50px; position: absolute; top: 8px; left: 8px; } 
+.bs-wizard > .bs-wizard-step > .bs-wizard-dot.first-dot { left: 0;} 
+
+.bs-wizard > .bs-wizard-step > .progress {position: relative; border-radius: 0px; height: 8px; box-shadow: none; margin: 20px 0;}
+.bs-wizard > .bs-wizard-step > .progress > .progress-bar {width:0px; box-shadow: none; background: #0099ff;}
+
+
+/*Definitions only for active status*/
+.bs-wizard > .bs-wizard-step.active .bs-wizard-stepnum {font-weight:bold}
+
+/*Definitions for complete status*/
+.bs-wizard > .bs-wizard-step.active > .progress > .progress-bar {width:100%;}
+.bs-wizard > .bs-wizard-step.passed > .progress > .progress-bar {width:100%;}
+.bs-wizard > .bs-wizard-step.active .bs-wizard-stepnum {color: #005A96;opacity: 0.5;}

@@ -1,0 +1,281 @@
+.materials-form .form-material {
+  position: relative;
+}
+.materials-form .form-material > label {
+  position: absolute;
+  top: 6px;
+  left: 0;
+  font-size: 13px;
+  font-weight: 600;
+  transform: translateY(-24px);
+}
+.materials-form .form-material.floating > label {
+  font-size: 15px;
+  font-weight: 400;
+  cursor: text;
+  z-index: 10;
+  transition: all 0.15s ease-out;
+  transform: translateY(0);
+}
+.materials-form .form-material.floating > .form-control[disabled] + label,
+.materials-form .form-material.floating > .form-control[readonly] + label,
+.materials-form fieldset[disabled] .form-material.floating > label {
+  cursor: not-allowed;
+}
+.materials-form .form-material > .form-control {
+  padding-left: 0;
+  padding-right: 0;
+  border: 0;
+  border-radius: 0;
+  background-color: transparent;
+  box-shadow: 0 1px 0 #e6e6e6;
+}
+.materials-form .form-material > .form-control:focus {
+  background-color: transparent;
+  box-shadow: 0 2px 0 #646464;
+}
+.materials-form .form-material > .form-control:focus + label {
+  color: #646464;
+}
+.materials-form .form-material > .form-control:focus ~ .input-group-addon {
+  box-shadow: 0 2px 0 #646464;
+}
+.materials-form .form-material > .form-control:focus + label,
+.materials-form .form-material.floating.open > label {
+  font-size: 13px;
+  font-weight: 600;
+  cursor: default;
+  transform: translateY(-24px);
+}
+.materials-form .form-material .form-control[disabled],
+.materials-form .form-material .form-control[readonly],
+.materials-form .form-material fieldset[disabled] .form-control {
+  background-color: #fff;
+  border-bottom: 1px dashed #ccc;
+  box-shadow: none;
+}
+.materials-form .form-material.input-group .input-group-addon {
+  border: none;
+  background-color: transparent;
+  border-radius: 0 !important;
+  box-shadow: 0 1px 0 #e6e6e6;
+  transition: all 0.15s ease-out;
+}
+.materials-form .form-material.form-material-primary > .form-control:focus {
+  box-shadow: 0 2px 0 #5c90d2;
+}
+.materials-form .form-material.form-material-primary > .form-control:focus + label {
+  color: #5c90d2;
+}
+.materials-form .form-material.form-material-primary > .form-control:focus ~ .input-group-addon {
+  color: #5c90d2;
+  box-shadow: 0 2px 0 #5c90d2;
+}
+.materials-form .form-material.form-material-success > .form-control:focus {
+  box-shadow: 0 2px 0 #46c37b;
+}
+.materials-form .form-material.form-material-success > .form-control:focus + label {
+  color: #46c37b;
+}
+.materials-form .form-material.form-material-success > .form-control:focus ~ .input-group-addon {
+  color: #46c37b;
+  box-shadow: 0 2px 0 #46c37b;
+}
+.materials-form .form-material.form-material-info > .form-control:focus {
+  box-shadow: 0 2px 0 #70b9eb;
+}
+.materials-form .form-material.form-material-info > .form-control:focus + label {
+  color: #70b9eb;
+}
+.materials-form .form-material.form-material-info > .form-control:focus ~ .input-group-addon {
+  color: #70b9eb;
+  box-shadow: 0 2px 0 #70b9eb;
+}
+.materials-form .form-material.form-material-warning > .form-control:focus {
+  box-shadow: 0 2px 0 #f3b760;
+}
+.materials-form .form-material.form-material-warning > .form-control:focus + label {
+  color: #f3b760;
+}
+.materials-form .form-material.form-material-warning > .form-control:focus ~ .input-group-addon {
+  color: #f3b760;
+  box-shadow: 0 2px 0 #f3b760;
+}
+.materials-form .form-material.form-material-danger > .form-control:focus {
+  box-shadow: 0 2px 0 #d26a5c;
+}
+.materials-form .form-material.form-material-danger > .form-control:focus + label {
+  color: #d26a5c;
+}
+.materials-form .form-material.form-material-danger > .form-control:focus ~ .input-group-addon {
+  color: #d26a5c;
+  box-shadow: 0 2px 0 #d26a5c;
+}
+.materials-form .has-success .form-material > .form-control {
+  box-shadow: 0 1px 0 #46c37b;
+}
+.materials-form .has-success .form-material > .form-control:focus {
+  box-shadow: 0 2px 0 #46c37b;
+}
+.materials-form .has-success .form-material > .form-control:focus + label {
+  color: #46c37b;
+}
+.materials-form .has-success .form-material > .form-control:focus ~ .input-group-addon {
+  color: #46c37b;
+  box-shadow: 0 2px 0 #46c37b;
+}
+.materials-form .has-success .form-material > .form-control + label {
+  color: #46c37b;
+}
+.materials-form .has-success .form-material > .form-control ~ .input-group-addon {
+  color: #46c37b;
+  box-shadow: 0 1px 0 #46c37b;
+}
+.materials-form .has-success .form-material > .help-block {
+  color: #46c37b;
+}
+.materials-form .has-info .form-material > .form-control {
+  box-shadow: 0 1px 0 #70b9eb;
+}
+.materials-form .has-info .form-material > .form-control:focus {
+  box-shadow: 0 2px 0 #70b9eb;
+}
+.materials-form .has-info .form-material > .form-control:focus + label {
+  color: #70b9eb;
+}
+.materials-form .has-info .form-material > .form-control:focus ~ .input-group-addon {
+  color: #70b9eb;
+  box-shadow: 0 2px 0 #70b9eb;
+}
+.materials-form .has-info .form-material > .form-control + label {
+  color: #70b9eb;
+}
+.materials-form .has-info .form-material > .form-control ~ .input-group-addon {
+  color: #70b9eb;
+  box-shadow: 0 1px 0 #70b9eb;
+}
+.materials-form .has-info .form-material > .help-block {
+  color: #70b9eb;
+}
+.materials-form .has-warning .form-material > .form-control {
+  box-shadow: 0 1px 0 #f3b760;
+}
+.materials-form .has-warning .form-material > .form-control:focus {
+  box-shadow: 0 2px 0 #f3b760;
+}
+.materials-form .has-warning .form-material > .form-control:focus + label {
+  color: #f3b760;
+}
+.materials-form .has-warning .form-material > .form-control:focus ~ .input-group-addon {
+  color: #f3b760;
+  box-shadow: 0 2px 0 #f3b760;
+}
+.materials-form .has-warning .form-material > .form-control + label {
+  color: #f3b760;
+}
+.materials-form .has-warning .form-material > .form-control ~ .input-group-addon {
+  color: #f3b760;
+  box-shadow: 0 1px 0 #f3b760;
+}
+.materials-form .has-warning .form-material > .help-block {
+  color: #f3b760;
+}
+.materials-form .has-error .form-material > .form-control {
+  box-shadow: 0 1px 0 #d26a5c;
+}
+.materials-form .has-error .form-material > .form-control:focus {
+  box-shadow: 0 2px 0 #d26a5c;
+}
+.materials-form .has-error .form-material > .form-control:focus + label {
+  color: #d26a5c;
+}
+.materials-form .has-error .form-material > .form-control:focus ~ .input-group-addon {
+  color: #d26a5c;
+  box-shadow: 0 2px 0 #d26a5c;
+}
+.materials-form .has-error .form-material > .form-control + label {
+  color: #d26a5c;
+}
+.materials-form .has-error .form-material > .form-control ~ .input-group-addon {
+  color: #d26a5c;
+  box-shadow: 0 1px 0 #d26a5c;
+}
+.materials-form .has-error .form-material > .help-block {
+  color: #d26a5c;
+}
+.navbar-brand {
+  height: auto;
+  padding: 10px;
+}
+.main-header {
+  background: #fff;
+}
+.main-header .logo {
+  width: auto;
+  height: auto;
+  padding: 10px;
+}
+.main-header .logo .logo-lg {
+  display: inline-block;
+}
+.fixed .content-wrapper,
+.fixed .right-side,
+.main-sidebar,
+.left-side {
+  padding-top: 100px;
+}
+@media (max-width: 767px) {
+  .fixed .content-wrapper,
+  .fixed .right-side,
+  .main-sidebar,
+  .left-side {
+    padding-top: 70px;
+  }
+}
+/* smaller than Extra small screen */
+@media (max-width: 767px) {
+  .navbar-brand {
+    padding: 5px 10px;
+  }
+  .navbar-brand img.site-logo {
+    height: 60px;
+  }
+  .main-header .logo {
+    padding: 5px 10px;
+  }
+  .main-header .logo img.site-logo {
+    height: 60px;
+  }
+}
+.dashboard-page .dashboard-section {
+  padding: 50px 0px;
+  width: 350px;
+  margin: 0 auto;
+}
+.dashboard-page .dashboard-section .btn-link {
+  display: block;
+  margin: 10px 0px;
+}
+.doctor-page.partner-page .content-wrapper {
+  background: #50a0a2;
+}
+.pcp-page.partner-page .content-wrapper {
+  background: #90b312;
+}
+.specialist-page.partner-page .content-wrapper {
+  background: #605ca8;
+}
+.therapist-page.partner-page .content-wrapper {
+  background: #ff851b;
+}
+.attorney-page.partner-page .content-wrapper {
+  background: #6a6300;
+}
+.insurer-page.partner-page .content-wrapper {
+  background: #d81b60;
+}
+.cc-injury-quiz .injury-quiz-form .form-material {
+  margin-left: 17px;
+}
+
+/*# sourceMappingURL=mic.css.map */
