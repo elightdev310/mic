@@ -37,7 +37,9 @@ class ClaimModule {
                 ->find($id);
     return $i_quiz;
   }
-  public function getIQuestionsByIds($ids) {
+  public function getIQuestionsByAnswers($answers) {
+    $ids = array_keys($answers);
+
     $i_questions = IQuestion::withTrashed()
                       ->whereIn('id', $ids)
                       ->orderBy('weight', 'ASC')
@@ -45,8 +47,5 @@ class ClaimModule {
                       ->get();
 
     return $i_questions; 
-  }
-  public function getIAnswers($claim_id) {
-    
   }
 }

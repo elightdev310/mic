@@ -48,4 +48,9 @@ class MICHelper
 
     // return $type;
   }
+
+  public static function currentUser() {
+    $user = Auth::user();
+    return $user;
+  }
 }

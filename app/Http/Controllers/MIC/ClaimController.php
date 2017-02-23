@@ -27,6 +27,8 @@ use App\MIC\Helpers\MICHelper;
  */
 class ClaimController extends Controller
 {
+  const PAGE_LIMIT = 10;
+
   public function __construct()
   {
 
@@ -76,8 +78,7 @@ class ClaimController extends Controller
   public function ccReviewAnswer(Request $request) {
     $answers = session('i_answers');
 
-    $ids = array_keys($answers);
-    $questions = ClaimModule::getIQuestionsByIds($ids);
+    $questions = ClaimModule::getIQuestionsByAnswers($answers);
     
     $params = array();
     $params['answers'] = $answers;
@@ -115,7 +116,7 @@ class ClaimController extends Controller
     $request->session()->forget('i_answers');
 
     // TO DO: Notify new claim
-    
+
     return redirect()->route('patient.claim.create.upload_photo', $claim->id);
   }
 
@@ -141,5 +142,16 @@ class ClaimController extends Controller
     return view('mic.patient.claim.cc_complete_submission', $params);
   }
 
-  
+  /**
+   * GET: myclaims
+   */
+  public function myClaimsPage(Request $request) {
+    $user = MICHelper::currentUser();
+    $claims = Claim::where('patient_uid', $user->id)
+                    ->paginate(self::PAGE_LIMIT);
+
+    $params = array();
+    $params['claims'] = $claims;
+    return view('mic.patient.claim.myclaims', $params);
+  }
 }

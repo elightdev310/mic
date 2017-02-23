@@ -13,11 +13,19 @@
   <div class="content-wrapper">
     @if(LAConfigs::getByKey('layout') == 'layout-top-nav') <div class="container"> @endif
 
+    <div class="container">
+
+    @if(!isset($no_header))
+      @include('mic.layouts.partials.contentheader')
+    @endif
+
     <!-- Main content -->
     <section class="content {{ $no_padding or '' }}">
       <!-- Your Page Content Here -->
       @yield('content')
     </section><!-- /.content -->
+    
+    </div><!-- /.container -->
 
     @if(LAConfigs::getByKey('layout') == 'layout-top-nav') </div> @endif
   </div><!-- /.content-wrapper -->
