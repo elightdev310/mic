@@ -38,6 +38,14 @@ Route::group(['middleware' => ['auth', 'permission:PATIENT_PANEL']],
     'as'=>$as1.'claim.create.submit', 'uses'=>'MIC\ClaimController@ccSubmitClaim' 
   ]);
 
+  Route::get('claim/create/{claim_id}/upload-photo', [
+    'as'=>$as1.'claim.create.upload_photo', 'uses'=>'MIC\ClaimController@ccUploadPhoto' 
+  ]);
+  
+  Route::get('claim/create/complete-submission/{claim_id}', [
+    'as'=>$as1.'claim.create.complete', 'uses'=>'MIC\ClaimController@ccCompleteSubmit' 
+  ]);
+
 });
 
 Route::group(['middleware' => ['auth', 'permission:PARTNER_PANEL']], 

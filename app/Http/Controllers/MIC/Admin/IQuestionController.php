@@ -18,7 +18,7 @@ use Dwij\Laraadmin\Models\Module;
 use Dwij\Laraadmin\Models\ModuleFields;
 
 use App\MIC\Models\IQuestion;
-use App\MIC\Facades\ClaimFacade as Claim;
+use App\MIC\Facades\ClaimFacade as ClaimModule;
 
 /**
  * Class IQuestionController
@@ -38,7 +38,7 @@ class IQuestionController extends Controller
 
   public function quizList(Request $request)
   {
-    $questions = Claim::getIQuestions();
+    $questions = ClaimModule::getIQuestions();
 
     $params = array();
     $params['questions'] = $questions;

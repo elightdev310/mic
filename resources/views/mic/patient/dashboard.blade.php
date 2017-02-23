@@ -15,7 +15,7 @@
 @section('content')
 <div class="hold-transition dashboard-section">
   <h3 class="text-center">Patient Dashboard</h3>
-  <a class="btn btn-default btn-lg btn-link" href="{{ route('patient.claim.create') }}">Create A Claim</a>
+  <a class="btn btn-primary btn-lg btn-link" href="{{ route('patient.claim.create') }}">Create A Claim</a>
   <a class="btn btn-default btn-lg btn-link" href="#">My Claim</a>
   <a class="btn btn-default btn-lg btn-link" href="#">Learning Center</a>
   <a class="btn btn-default btn-lg btn-link" href="#">More</a>

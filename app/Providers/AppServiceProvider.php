@@ -6,7 +6,7 @@ use Illuminate\Support\ServiceProvider;
 use Illuminate\Foundation\AliasLoader;
 
 use App\MIC\Modules\PartnerApp;
-use App\MIC\Modules\Claim;
+use App\MIC\Modules\ClaimModule;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -31,7 +31,7 @@ class AppServiceProvider extends ServiceProvider
       return new PartnerApp($app);
     });
     $this->app->bind('micclaim', function ($app) {
-      return new Claim($app);
+      return new ClaimModule($app);
     });
 
     $loader = AliasLoader::getInstance();

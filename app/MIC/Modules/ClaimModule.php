@@ -5,7 +5,7 @@ namespace App\MIC\Modules;
 use DB;
 use App\MIC\Models\IQuestion;
 
-class Claim {
+class ClaimModule {
   /**
    * Laravel application
    *

@@ -13,12 +13,12 @@ use App\Http\Requests;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller as Controller;
 
-use App\MIC\Models\Application;
+use App\MIC\Models\Claim;
 
 use Dwij\Laraadmin\Models\Module;
 use Dwij\Laraadmin\Models\ModuleFields;
 
-use App\MIC\Facades\ClaimFacade as Claim;
+use App\MIC\Facades\ClaimFacade as ClaimModule;
 use App\MIC\Helpers\MICHelper;
 
 /**
@@ -50,7 +50,7 @@ class ClaimController extends Controller
    * GET: claim/create/injury-questions
    */
   public function ccInjuryQuestion(Request $request) {
-    $questions = Claim::getIQuestions();
+    $questions = ClaimModule::getIQuestions();
     $answers = session('i_answers');
 
     $params = array();
@@ -77,7 +77,7 @@ class ClaimController extends Controller
     $answers = session('i_answers');
 
     $ids = array_keys($answers);
-    $questions = Claim::getIQuestionsByIds($ids);
+    $questions = ClaimModule::getIQuestionsByIds($ids);
     
     $params = array();
     $params['answers'] = $answers;
@@ -100,8 +100,46 @@ class ClaimController extends Controller
    * GET: claim/create/submit
    */
   public function ccSubmitClaim(Request $request) {
+    $answers = session('i_answers');
+    if (!$answers) {
+      return redirect('/');
+    }
+
+    $user = Auth::user();
+    // Create Claim Model
+    $claim = new Claim;
+    $claim->patient_uid = $user->id;
+    $claim->setAnswers($answers);
+    $claim->save();
+
     $request->session()->forget('i_answers');
-    return "Submit Claim";
+
+    // TO DO: Notify new claim
+    
+    return redirect()->route('patient.claim.create.upload_photo', $claim->id);
   }
 
+  /**
+   * GET: claim/create/{claim_id}/upload-photo
+   */
+  public function ccUploadPhoto(Request $request, $claim_id) {
+    $claim = Claim::find($claim_id);
+
+    $params = array();
+    $params['claim'] = $claim;
+    return view('mic.patient.claim.cc_upload_photo', $params);
+  }
+
+  /**
+   * GET: claim/create/complete-submission/{claim_id}
+   */
+  public function ccCompleteSubmit(Request $request, $claim_id) {
+    $claim = Claim::find($claim_id);
+
+    $params = array();
+    $params['claim'] = $claim;
+    return view('mic.patient.claim.cc_complete_submission', $params);
+  }
+
+  
 }

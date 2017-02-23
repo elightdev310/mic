@@ -90,4 +90,8 @@ Route::group(['as' => $as, 'middleware' => ['auth', 'permission:ADMIN_PANEL']], 
 	/* ================== IQuestions ================== */
 	Route::resource(config('laraadmin.adminRoute') . '/iquestions', 'LA\IQuestionsController');
 	Route::get(config('laraadmin.adminRoute') . '/iquestion_dt_ajax', 'LA\IQuestionsController@dtajax');
+
+	/* ================== Claims ================== */
+	Route::resource(config('laraadmin.adminRoute') . '/claims', 'LA\ClaimsController');
+	Route::get(config('laraadmin.adminRoute') . '/claim_dt_ajax', 'LA\ClaimsController@dtajax');
 });
