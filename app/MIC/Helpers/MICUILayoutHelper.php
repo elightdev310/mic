@@ -19,7 +19,7 @@ class MICUILayoutHelper
   public static function getPartnerTypeTitle($uid=null, $default='Partner') {
     $title = '';
     $partner_type = MICHelper::getPartnerType($uid);
-    $title = ucwords(config('mic.partner_type.').$partner_type);
+    $title = ucwords(config('mic.partner_type.'.$partner_type));
 
     if (empty($title)) {
       $title = $default;

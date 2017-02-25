@@ -94,4 +94,8 @@ Route::group(['as' => $as, 'middleware' => ['auth', 'permission:ADMIN_PANEL']], 
 	/* ================== Claims ================== */
 	Route::resource(config('laraadmin.adminRoute') . '/claims', 'LA\ClaimsController');
 	Route::get(config('laraadmin.adminRoute') . '/claim_dt_ajax', 'LA\ClaimsController@dtajax');
+
+	/* ================== Partner2Claims ================== */
+	Route::resource(config('laraadmin.adminRoute') . '/partner2claims', 'LA\Partner2ClaimsController');
+	Route::get(config('laraadmin.adminRoute') . '/partner2claim_dt_ajax', 'LA\Partner2ClaimsController@dtajax');
 });

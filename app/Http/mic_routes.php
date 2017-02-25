@@ -58,5 +58,12 @@ Route::group(['middleware' => ['auth', 'permission:PATIENT_PANEL']],
 
 Route::group(['middleware' => ['auth', 'permission:PARTNER_PANEL']], 
               function () {
+  $as2 = 'partner.';
+  Route::get('partner/claims', [
+    'as'=>$as2.'claims', 'uses'=>'MIC\ClaimController@partnerClaims' 
+  ]);
 
+  Route::get('partner/claim/{claim_id}', [
+    'as'=>$as2.'claim.page', 'uses'=>'MIC\ClaimController@partnerClaimPage' 
+  ]);
 });

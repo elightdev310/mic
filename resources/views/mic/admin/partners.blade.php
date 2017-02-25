@@ -21,6 +21,7 @@
           <thead>
             <th class="partner-name">Full Name</th>
             <th class="partner-email">Email</th>
+            <th class="partner-role">Membership Role</th>
             <th class="partner-company">Company</th>
             <th class="partner-phone">Phone</th>
             <th class="partner-user">User Account</th>
@@ -34,6 +35,7 @@
                 {{ $partner->first_name.' '.$partner->last_name }}
               </td>
               <td class="partner-email">{{ $partner->user->email }}</td>
+              <td class="partner-role">{{ MICHelper::getPartnerTypeTitle($partner) }}</td>
               <td class="partner-company">{{ $partner->company }}</td>
               <td class="partner-phone">{{ $partner->phone}}</td>
               <td class="partner-user">

@@ -50,7 +50,7 @@
               </td>
               <td class="app-email">{{ $app->email }}</td>
               <td class="app-company">{{ $app->partner->company }}</td>
-              <td class="app-role">{{ ucwords(config('mic.partner_type.'.$app->partner->membership_role)) }}</td>
+              <td class="app-role">{{ MICHelper::getPartnerTypeTitle($app->partner) }}</td>
               <td class="app-submit-date">{{ MICUILayoutHelper::agoTime($app->created_at) }} ago</td>
               <td class="row-action">
                 <a href="#" class="action-link approve-action" data-url="{{ route('micadmin.app.approve', [$app->id]) }}" title="Approve">

@@ -34,7 +34,7 @@
               </td>
               <td class="app-email">{{ $app->email }}</td>
               <td class="app-company">{{ $app->partner->company }}</td>
-              <td class="app-role">{{ ucwords(config('mic.partner_type.'.$app->partner->membership_role)) }}</td>
+              <td class="app-role">{{ MICHelper::getPartnerTypeTitle($app->partner) }}</td>
               <td class="app-submit-date">{{ MICUILayoutHelper::strTime($app->created_at) }}</td>
               <td class="action"></td>
             </tr>

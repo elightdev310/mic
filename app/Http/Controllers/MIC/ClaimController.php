@@ -146,17 +146,4 @@ class ClaimController extends Controller
     $params['claim'] = $claim;
     return view('mic.patient.claim.cc_complete_submission', $params);
   }
-
-  /**
-   * GET: myclaims
-   */
-  public function myClaimsPage(Request $request) {
-    $user = MICHelper::currentUser();
-    $claims = Claim::where('patient_uid', $user->id)
-                    ->paginate(self::PAGE_LIMIT);
-
-    $params = array();
-    $params['claims'] = $claims;
-    return view('mic.patient.claim.myclaims', $params);
-  }
 }

@@ -144,7 +144,7 @@
 
               <div class="form-group">
                 <label for="membership_role" class="col-md-2">Membership Role :</label>
-                <div class="col-md-10 fvalue">{{ config('mic.partner_type.'.$partner->membership_role) }}</div>
+                <div class="col-md-10 fvalue">{{ MICHelper::getPartnerTypeTitle($partner) }}</div>
               </div>
               <div class="form-group">
                 <label for="membership_level" class="col-md-2">Membership Level :</label>

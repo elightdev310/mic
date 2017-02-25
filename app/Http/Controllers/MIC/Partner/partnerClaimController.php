@@ -9,6 +9,7 @@ namespace App\Http\Controllers\MIC\Partner;
 use Illuminate\Http\Request;
 use Auth;
 
+use App\MIC\Helpers\MICHelper;
 use App\MIC\Facades\ClaimFacade as ClaimModule;
 
 use App\User;
@@ -17,14 +18,28 @@ use App\MIC\Models\Claim;
 trait PartnerClaimController
 {
   /**
+   * Get: partner/claims
+   */
+  public function partnerClaims(Request $request) {
+    $user = MICHelper::currentUser();
+    $claims = ClaimModule::getClaimsByPartner($user->id);
+
+    $params = array();
+    $params['claims'] = $claims;
+    return view('mic.partner.claim.claims', $params);
+  }
+
+  /**
    * Get: partner/claim/{claim_id}
    */
   public function partnerClaimPage(Request $request, $claim_id) {
+    $user = MICHelper::currentUser();
     $claim = Claim::find($claim_id);
-    if (!$claim) {
+    if (!$claim || !ClaimModule::checkP2C($user->id, $claim_id)) {
       return view('errors.404');
     }
 
+    // IOI
     $answers = $claim->getAnswers();
     $questions = ClaimModule::getIQuestionsByAnswers($answers);
 
@@ -33,6 +48,6 @@ trait PartnerClaimController
     $params['questions'] = $questions;
     $params['answers'] = $answers;
     
-    return view('mic.patient.claim.page', $params);
+    return view('mic.partner.claim.page', $params);
   }
 }

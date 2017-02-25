@@ -4,6 +4,7 @@ namespace App\MIC\Helpers;
 
 use Auth;
 use App\MIC\Models\User;
+use App\MIC\Facades\ClaimFacade as ClaimModule;
 
 class MICHelper
 {
@@ -49,8 +50,17 @@ class MICHelper
     // return $type;
   }
 
+  public static function getPartnerTypeTitle($partner) {
+    return config('mic.partner_type.'.$partner->membership_role);
+  }
+
+  public static function checkIfP2C($partner_uid, $claim_id) {
+    return CLaimModule::checkP2C($partner_uid, $claim_id);
+  }
+
   public static function currentUser() {
     $user = Auth::user();
     return $user;
   }
+
 }
