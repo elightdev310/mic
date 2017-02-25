@@ -6,15 +6,10 @@
 
 return [
   'admin' => [
-    'patients' => [
-      'title' => 'Patients', 
-      'url'   => 'admin/patients', 
-      'icon'  => 'fa-user', 
-    ], 
-    'partners' => [
-      'title' => 'Partners', 
-      'url'   => 'admin/partners', 
-      'icon'  => 'fa-user', 
+    'claims' => [
+      'title' => 'Claims', 
+      'url'   => 'admin/claims', 
+      'icon'  => 'fa-tasks', 
     ], 
     'partner_apps' => [
       'title' => 'Applications (Partner)', 
@@ -37,6 +32,16 @@ return [
           'icon'  => 'fa-file-code-o', 
         ],
       ]
+    ], 
+    'patients' => [
+      'title' => 'Patients', 
+      'url'   => 'admin/patients', 
+      'icon'  => 'fa-user', 
+    ], 
+    'partners' => [
+      'title' => 'Partners', 
+      'url'   => 'admin/partners', 
+      'icon'  => 'fa-user', 
     ], 
     'i_questions' => [
       'title' => 'Injury Questions', 

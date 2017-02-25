@@ -21,17 +21,22 @@ use Dwij\Laraadmin\Models\ModuleFields;
 use App\MIC\Facades\ClaimFacade as ClaimModule;
 use App\MIC\Helpers\MICHelper;
 
+use App\Http\Controllers\MIC\Patient\PatientClaimController;
+use App\Http\Controllers\MIC\Partner\PartnerClaimController;
+
 /**
  * Class UserController
- * @package App\Http\Controllers\MIC\Admin
+ * @package App\Http\Controllers\MIC
  */
 class ClaimController extends Controller
 {
+  use PatientClaimController, PartnerClaimController;
+
   const PAGE_LIMIT = 10;
 
   public function __construct()
   {
-
+    
   }
 
   /**

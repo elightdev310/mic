@@ -71,4 +71,12 @@ Route::group(['prefix'=>config('mic.adminRoute'),
     'as'=>$as.'iquiz.delete', 'uses'=>'MIC\Admin\IQuestionController@quizDelete' 
   ]);  
 
+  Route::get('claims', [
+    'as'=>$as.'claim.list', 'uses'=>'MIC\Admin\ClaimController@claimsList' 
+  ]);
+
+  Route::get('claim/{claim_id}', [
+    'as'=>$as.'claim.page', 'uses'=>'MIC\Admin\ClaimController@claimPage' 
+  ]);
+
 });

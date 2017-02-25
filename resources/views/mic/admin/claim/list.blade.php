@@ -1,16 +1,12 @@
-@extends('mic.layouts.patient')
+@extends('mic.layouts.admin')
 
-@section('htmlheader_title')My Claims @endsection
-@section('contentheader_title')My Claims @endsection
+@section('htmlheader_title')Claims@endsection
+@section('contentheader_title')Claims @endsection
 
-@section('page_id')my_claims @endsection
-
-@section('page_classes')my-claims @endsection
-
-@section('content')
+@section('main-content')
   <div class="row">
     <section class="col-md-12">
-      <div class="my-claims-list box box-primary">
+      <div class="claims-list box box-primary">
         <div class="box-header row">
           <div class="col-sm-6">
 
@@ -23,6 +19,7 @@
         <table class="table table-striped table-hover">
           <thead>
             <th class="claim-id">#</th>
+            <th class="patient-user">Patient User</th>
             <th class="claim-submit-date">Submit Time</th>
             <th class="row-action">Action</th>
           </thead>
@@ -30,9 +27,12 @@
             @foreach ($claims as $claim)
             <tr data-claim-id="{{ $claim->id }}">
               <td class="claim-id">
-                <a href="{{ route('patient.claim.page', [$claim->id]) }}" class="">
+                <a href="{{ route('micadmin.claim.page', [$claim->id]) }}" class="">
                   Claim #{{ $claim->id }}
                 </a>
+              </td>
+              <td class="patient-user">
+                {{ $claim->patientUser->name }}
               </td>
               <td class="claim-submit-date">{{ MICUILayoutHelper::strTime($claim->created_at, "M d, Y H:i") }}</td>
               <td class="row-action">
