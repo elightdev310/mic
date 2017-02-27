@@ -1,4 +1,4 @@
-@if (count($photos))
+@if (isset($photos) && count($photos))
 @foreach ($photos as $photo)
 <li>
   <a class="fm_file_sel" href="{{ $photo->file->path() }}" title="{{ $photo->file->name }}" data-gallery="#claim-photo" 

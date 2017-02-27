@@ -101,7 +101,9 @@ class ClaimModule {
   }
 
   public function getClaimPhotos($claim_id) {
-    $photos = ClaimPhoto::where('claim_id', $claim_id)->get();
+    $photos = ClaimPhoto::where('claim_id', $claim_id)
+                        ->orderBy('id', 'ASC')
+                        ->get();
     return $photos;
   }
 }

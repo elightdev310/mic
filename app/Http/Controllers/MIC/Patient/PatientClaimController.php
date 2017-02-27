@@ -73,6 +73,7 @@ trait PatientClaimController
       
       // print_r($file);
       //$this->createClaimFolder($claim_id, 'photos');
+      $folder = storage_path("claims/photos/".$claim_id);
       $upload = $this->uploadClaimFile($file, $folder);
 
       if( $upload ) {

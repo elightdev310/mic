@@ -1,7 +1,7 @@
 /_backup
 /vendor
 /node_modules
-/public/storage
+/storage
 /ssh-key
 Homestead.yaml
 Homestead.json
