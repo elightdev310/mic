@@ -8,6 +8,7 @@ use App\MIC\Models\IQuestion;
 use App\MIC\Models\Claim;
 use App\MIC\Models\User;
 use App\MIC\Models\Partner2Claim;
+use App\MIC\Models\ClaimPhoto;
 
 class ClaimModule {
   /**
@@ -97,5 +98,10 @@ class ClaimModule {
     $claims = Claim::find($claim_ids);
 
     return $claims;
+  }
+
+  public function getClaimPhotos($claim_id) {
+    $photos = ClaimPhoto::where('claim_id', $claim_id)->get();
+    return $photos;
   }
 }

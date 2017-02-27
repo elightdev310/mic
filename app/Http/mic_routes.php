@@ -54,6 +54,14 @@ Route::group(['middleware' => ['auth', 'permission:PATIENT_PANEL']],
     'as'=>$as1.'claim.page', 'uses'=>'MIC\ClaimController@patientClaimPage' 
   ]);
 
+  Route::post('patient/claim/{claim_id}/upload-photo', [
+    'as'=>$as1.'claim.upload.photo', 'uses'=>'MIC\ClaimController@patientUploadPhoto' 
+  ]);
+
+  Route::get('patient/claim/{claim_id}/photo-list', [
+    'as'=>$as1.'claim.photo_list', 'uses'=>'MIC\ClaimController@claimPhotoList' 
+  ]);
+
 });
 
 Route::group(['middleware' => ['auth', 'permission:PARTNER_PANEL']], 

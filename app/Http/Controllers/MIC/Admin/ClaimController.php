@@ -56,6 +56,9 @@ class ClaimController extends Controller
     $answers = $claim->getAnswers();
     $questions = ClaimModule::getIQuestionsByAnswers($answers);
 
+    // Photo
+    $photos = ClaimModule::getClaimPhotos($claim_id);
+
     //Assign Partner
     $assigned_partners = ClaimModule::getPartnersByClaim($claim_id);
     $partner_list = User::where('type', 'partner')
@@ -66,6 +69,7 @@ class ClaimController extends Controller
     $params['claim'] = $claim;
     $params['questions'] = $questions;
     $params['answers'] = $answers;
+    $params['photos'] = $photos;
     $params['partners'] = $assigned_partners;
     $params['partner_list'] = $partner_list;
 

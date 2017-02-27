@@ -9,11 +9,15 @@ namespace App\Http\Controllers\MIC\Patient;
 use Illuminate\Http\Request;
 use Auth;
 
+use Illuminate\Support\Facades\Input;
+use Illuminate\Support\Facades\View;
 use App\MIC\Facades\ClaimFacade as ClaimModule;
 use App\MIC\Helpers\MICHelper;
 
 use App\User;
 use App\MIC\Models\Claim;
+use App\MIC\Models\ClaimPhoto;
+use App\Models\Upload;
 
 trait PatientClaimController
 {
@@ -46,11 +50,60 @@ trait PatientClaimController
     $answers = $claim->getAnswers();
     $questions = ClaimModule::getIQuestionsByAnswers($answers);
     
+    // Photo
+    $photos = ClaimModule::getClaimPhotos($claim_id);
+
     $params = array();
     $params['claim'] = $claim;
     $params['questions'] = $questions;
     $params['answers'] = $answers;
+    $params['photos'] = $photos;
     
     return view('mic.patient.claim.page', $params);
+  }
+
+
+  /**
+   * Upload Photos
+   */
+  public function patientUploadPhoto(Request $request, $claim_id) {
+    if(Input::hasFile('file')) {
+
+      $file = Input::file('file');
+      
+      // print_r($file);
+      //$this->createClaimFolder($claim_id, 'photos');
+      $upload = $this->uploadClaimFile($file, $folder);
+
+      if( $upload ) {
+        $photo = ClaimPhoto::create([
+          'claim_id' => $claim_id,
+          'file_id'  => $upload->id, 
+        ]);
+        $photo->save();
+
+        // TO DO: Notify to Upload Photo
+
+        return response()->json([
+          "status" => "success",
+          "upload" => $upload
+        ], 200);
+      } else {
+        return response()->json([
+          "status" => "error"
+        ], 400);
+      }
+    } else {
+      return response()->json('error: upload file not found.', 400);
+    }
+  }
+
+  public function claimPhotoList(Request $request, $claim_id)
+  {
+    $photos = ClaimModule::getClaimPhotos($claim_id);
+    $view = View::make('mic.patient.claim.partials.photo_list', ['claim_id'=>$claim_id, 'photos'=>$photos]);
+    $photo_list = $view->render();
+
+    return response()->json(['photo_html' => $photo_list]);
   }
 }

@@ -203,6 +203,11 @@
 .materials-form .has-error .form-material > .help-block {
   color: #d26a5c;
 }
+.claim-photo-section .blueimp-gallery > .indicator > li {
+  width: 30px;
+  height: 30px;
+  border-radius: 15px;
+}
 .main-header {
   background: #fff;
 }

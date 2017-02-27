@@ -203,6 +203,11 @@
 .materials-form .has-error .form-material > .help-block {
   color: #d26a5c;
 }
+.claim-photo-section .blueimp-gallery > .indicator > li {
+  width: 30px;
+  height: 30px;
+  border-radius: 15px;
+}
 .navbar-brand {
   height: auto;
   padding: 10px;
@@ -275,6 +280,35 @@
 }
 .cc-injury-quiz .injury-quiz-form .form-material {
   margin-left: 17px;
+}
+/* =================== Upload using DZ =================== */
+.dropzone-form {
+  border: 1px dashed #0087F7;
+  border-radius: 5px;
+  background: white;
+  text-align: center;
+  margin-top: 15px;
+  margin-bottom: 15px;
+  /*min-height: 100px;*/
+  padding: 8px;
+  vertical-align: middle;
+  cursor: pointer;
+}
+.dropzone-form div.dz-message {
+  display: block;
+  padding: 20px 0px;
+  color: #999;
+}
+.dropzone-form div.dz-message i.fa {
+  font-size: 40px;
+}
+.dropzone-form .closeDZ {
+  display: block;
+  position: relative;
+  width: 10px;
+  float: right;
+  margin-top: -2px;
+  margin-right: 2px;
 }
 
 /*# sourceMappingURL=mic.css.map */

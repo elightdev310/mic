@@ -98,4 +98,8 @@ Route::group(['as' => $as, 'middleware' => ['auth', 'permission:ADMIN_PANEL']], 
 	/* ================== Partner2Claims ================== */
 	Route::resource(config('laraadmin.adminRoute') . '/partner2claims', 'LA\Partner2ClaimsController');
 	Route::get(config('laraadmin.adminRoute') . '/partner2claim_dt_ajax', 'LA\Partner2ClaimsController@dtajax');
+
+	/* ================== ClaimPhotos ================== */
+	Route::resource(config('laraadmin.adminRoute') . '/claimphotos', 'LA\ClaimPhotosController');
+	Route::get(config('laraadmin.adminRoute') . '/claimphoto_dt_ajax', 'LA\ClaimPhotosController@dtajax');
 });

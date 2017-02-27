@@ -43,10 +43,14 @@ trait PartnerClaimController
     $answers = $claim->getAnswers();
     $questions = ClaimModule::getIQuestionsByAnswers($answers);
 
+    // Photo
+    $photos = ClaimModule::getClaimPhotos($claim_id);
+
     $params = array();
     $params['claim'] = $claim;
     $params['questions'] = $questions;
     $params['answers'] = $answers;
+    $params['photos'] = $photos;
     
     return view('mic.partner.claim.page', $params);
   }

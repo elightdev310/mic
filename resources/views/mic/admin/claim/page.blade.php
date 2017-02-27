@@ -107,7 +107,7 @@
               <h4>Photos</h4>
             </div>
             <div class="panel-body">
-              @include('mic.patient.claim.partials.photos')
+              @include('mic.partner.claim.partials.photos')
             </div>
           </div>
         </div>

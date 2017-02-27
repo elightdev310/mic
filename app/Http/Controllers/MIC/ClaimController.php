@@ -13,11 +13,14 @@ use App\Http\Requests;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller as Controller;
 
+use App\Models\Upload;
 use App\MIC\Models\Claim;
+
 
 use Dwij\Laraadmin\Models\Module;
 use Dwij\Laraadmin\Models\ModuleFields;
 
+use Illuminate\Support\Facades\Input;
 use App\MIC\Facades\ClaimFacade as ClaimModule;
 use App\MIC\Helpers\MICHelper;
 
@@ -145,5 +148,41 @@ class ClaimController extends Controller
     $params = array();
     $params['claim'] = $claim;
     return view('mic.patient.claim.cc_complete_submission', $params);
+  }
+
+  protected function createClaimFolder($claim_id, $file_type) {
+
+  }
+
+  protected function uploadClaimFile($file, $folder) {
+    $filename = $file->getClientOriginalName();
+    $date_append = date("Y-m-d-His-");
+    $upload_success = Input::file('file')->move($folder, $date_append.$filename);
+
+    if( $upload_success ) {
+      $public = true;
+      $upload = Upload::create([
+        "name" => $filename,
+        "path" => $folder.DIRECTORY_SEPARATOR.$date_append.$filename,
+        "extension" => pathinfo($filename, PATHINFO_EXTENSION),
+        "caption" => "",
+        "hash" => "",
+        "public" => $public,
+        "user_id" => Auth::user()->id
+      ]);
+      // apply unique random hash to file
+      while(true) {
+        $hash = strtolower(str_random(20));
+        if(!Upload::where("hash", $hash)->count()) {
+          $upload->hash = $hash;
+          break;
+        }
+      }
+      $upload->save();
+
+      return $upload;
+    } else {
+      return false;
+    }
   }
 }
