@@ -99,6 +99,23 @@ trait PatientClaimController
     }
   }
 
+  public function patientDeletePhoto(Request $request, $claim_id, $photo_id) {
+    $photo = ClaimPhoto::where('id', $photo_id)
+                       ->where('claim_id', $claim_id)
+                       ->first();
+    if ($photo) {
+      $upload = Upload::find($photo->file_id);
+      if ($upload) {
+        unlink($upload->path);
+        $upload->forceDelete();
+      }
+      $photo->forceDelete();
+    }
+
+    return response()->json([
+        "status" => "success",
+      ], 200);
+  }
   public function claimPhotoList(Request $request, $claim_id)
   {
     $photos = ClaimModule::getClaimPhotos($claim_id);

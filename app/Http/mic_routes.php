@@ -57,6 +57,9 @@ Route::group(['middleware' => ['auth', 'permission:PATIENT_PANEL']],
   Route::post('patient/claim/{claim_id}/upload-photo', [
     'as'=>$as1.'claim.upload.photo', 'uses'=>'MIC\ClaimController@patientUploadPhoto' 
   ]);
+  Route::get('patient/claim/{claim_id}/delete/{photo_id}', [
+    'as'=>$as1.'claim.delete.photo', 'uses'=>'MIC\ClaimController@patientDeletePhoto' 
+  ]);
 
   Route::get('patient/claim/{claim_id}/photo-list', [
     'as'=>$as1.'claim.photo_list', 'uses'=>'MIC\ClaimController@claimPhotoList' 
