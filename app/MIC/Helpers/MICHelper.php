@@ -58,6 +58,15 @@ class MICHelper
     return CLaimModule::checkP2C($partner_uid, $claim_id);
   }
 
+  public static function getUserTitle($user_id, $partner_title=true) {
+    $user = User::find($user_id);
+    $title = $user->name;
+    if ($partner_title && $user->partner) {
+      $title .= " (". self::getPartnerTypeTitle($user->partner) .")";
+    }
+    return $title;
+  }
+
   public static function currentUser() {
     $user = Auth::user();
     return $user;

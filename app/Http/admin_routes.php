@@ -102,4 +102,12 @@ Route::group(['as' => $as, 'middleware' => ['auth', 'permission:ADMIN_PANEL']], 
 	/* ================== ClaimPhotos ================== */
 	Route::resource(config('laraadmin.adminRoute') . '/claimphotos', 'LA\ClaimPhotosController');
 	Route::get(config('laraadmin.adminRoute') . '/claimphoto_dt_ajax', 'LA\ClaimPhotosController@dtajax');
+
+	/* ================== ClaimDocs ================== */
+	Route::resource(config('laraadmin.adminRoute') . '/claimdocs', 'LA\ClaimDocsController');
+	Route::get(config('laraadmin.adminRoute') . '/claimdoc_dt_ajax', 'LA\ClaimDocsController@dtajax');
+
+	/* ================== ClaimDocAccesses ================== */
+	Route::resource(config('laraadmin.adminRoute') . '/claimdocaccesses', 'LA\ClaimDocAccessesController');
+	Route::get(config('laraadmin.adminRoute') . '/claimdocaccess_dt_ajax', 'LA\ClaimDocAccessesController@dtajax');
 });

@@ -47,7 +47,29 @@ $(function () {
       $("#fm_dz_photo").slideUp();
   });
 
-  
+  // Delete Link
+  $('.claim-photo-section').on('click', 'a.delete-photo-link', function() {
+    var delete_url = $(this).data('url');
+    var $photo_item = $(this).closest('.claim-photo-item');
+    bootbox.confirm({
+      message: "<p>Are you sure to delete photo?</p>", 
+      callback: function (result) {
+        if (result) {
+          $.ajax({
+              dataType: 'json',
+              url: delete_url,
+              success: function ( json ) {
+                if (json.status=='success') {
+                  $photo_item.remove();
+                }
+              }
+          });
+          
+        }
+      }
+    });
+  });
+
 });
 
 function loadClaimPhotos() {

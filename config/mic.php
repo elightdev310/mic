@@ -26,6 +26,12 @@ return [
       'cancel'  => 'cancel', 
     ), 
 
+  // Permission
+  'permission' => array(
+      'micadmin_panel' => 'MICADMIN_PANEL', 
+      'patient_panel' => 'PATIENT_PANEL', 
+      'partner_panel' => 'PARTNER_PANEL', 
+  ), 
   // User Role
   'user_role' => array(
       'super_admin'   => 'SUPER_ADMIN', 

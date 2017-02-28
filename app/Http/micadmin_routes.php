@@ -86,4 +86,10 @@ Route::group(['prefix'=>config('mic.adminRoute'),
     'as'=>$as.'claim.unassign.partner', 'uses'=>'MIC\Admin\ClaimController@claimUnassignPartner' 
   ]);
 
+  Route::get('claim/{claim_id}/doc-access-panel/{doc_id}', [
+    'as'=>$as.'claim.doc.access_panel', 'uses'=>'MIC\Admin\ClaimController@claimDocAccessPanel' 
+  ]);
+  Route::get('claim/{claim_id}/set-doc-access/{doc_id}', [
+    'as'=>$as.'claim.doc.set_access', 'uses'=>'MIC\Admin\ClaimController@setClaimDocAccess' 
+  ]);
 });

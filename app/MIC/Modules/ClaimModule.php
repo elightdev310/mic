@@ -3,12 +3,17 @@
 namespace App\MIC\Modules;
 
 use DB;
+use Auth;
 
+use App\Models\Upload;
 use App\MIC\Models\IQuestion;
 use App\MIC\Models\Claim;
 use App\MIC\Models\User;
 use App\MIC\Models\Partner2Claim;
 use App\MIC\Models\ClaimPhoto;
+use App\MIC\Models\ClaimDoc;
+use App\MIC\Models\ClaimDocAccess;
+use App\User as UserModel;
 
 class ClaimModule {
   /**
@@ -106,4 +111,80 @@ class ClaimModule {
                         ->get();
     return $photos;
   }
+
+  public function getCDAdocs($uid) {
+    $data = array();
+    $cda = ClaimDocAccess::where('partner_uid', $uid)->get();
+    foreach ($cda as $item) {
+      $data[] = $item->doc_id;
+    }
+    return $data;
+  }
+
+  public function getClaimDocs($claim_id, $uid) {
+    $user = UserModel::find($uid);
+    $docs = array();
+
+    if ($user->can(config('mic.permission.micadmin_panel'))) {
+      $docs = ClaimDoc::where('claim_id', $claim_id)
+                    ->orderBy('id', 'DESC')
+                    ->get();
+    }
+    else if ($user->hasRole(config('mic.user_role.patient'))) {
+      $docs = ClaimDoc::where('claim_id', $claim_id)
+                    ->where('type', '')
+                    ->orderBy('id', 'DESC')
+                    ->get();
+    }
+    else {
+      $cda_docs = $this->getCDAdocs($uid);
+      $sub_query = "creator_uid = $uid";
+      if (!empty($cda_docs)) {
+        $ids = join(", ",$cda_docs);
+        $sub_query .= " OR id IN($ids) ";
+      }
+      $docs = ClaimDoc::where('claim_id', $claim_id)
+                    ->whereRaw($sub_query)
+                    ->orderBy('id', 'DESC')
+                    ->get(); 
+    }
+    
+    return $docs;
+  }
+
+  public function deleteClaimDoc($doc) {
+    $this->deleteClaimDocAccess($doc->id);
+
+    $upload = Upload::find($doc->file_id);
+    if ($upload) {
+      unlink($upload->path);
+      $upload->forceDelete();
+    }
+    $doc->forceDelete();
+  }
+
+  public function deleteClaimDocAccess($doc_id) {
+    DB::table('claimdocaccesses')->where('doc_id', $doc_id)->delete();
+  }
+
+  public function getClaimDocAccessData($claim, $doc) {
+
+    $data = array();
+    $data[$claim->patient_uid] = 'patient';
+
+    $partners = $this->getPartnersByClaim($claim->id);
+    foreach ($partners as $partner) {
+      $data[$partner->id] = false;
+    }
+
+    $cda = ClaimDocAccess::where('doc_id', $doc->id)->get();
+    foreach ($cda as $item) {
+      $data[$item->partner_uid] = 'access';
+    }
+
+    return $data;
+  }
+
+
+
 }

@@ -54,7 +54,14 @@
         <div class="tab-content">
           <div class="panel infolist">
             <div class="panel-default panel-heading">
-              <h4>Docs</h4>
+              <div class="row">
+                <div class="col-sm-6">
+                  <h4>Docs</h4>
+                </div>
+                <div class="col-sm-6">
+                  <button id="AddNewDoc" class="btn btn-success btn-sm pull-right mt5">Add New Document</button>
+                </div>
+              </div>
             </div>
             <div class="panel-body">
               @include('mic.patient.claim.partials.docs')

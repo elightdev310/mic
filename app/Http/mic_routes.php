@@ -10,6 +10,16 @@
 Route::group(['middleware' => ['auth']], 
               function () {
 
+  Route::post('claim/{claim_id}/upload-doc', [
+    'as'=>'claim.upload.doc', 'uses'=>'MIC\ClaimController@uploadClaimDoc' 
+  ]);
+  Route::get('claim/{claim_id}/delete/{doc_id}', [
+    'as'=>'claim.delete.doc', 'uses'=>'MIC\ClaimController@deleteClaimDoc' 
+  ]);
+
+  Route::get('claim/{claim_id}/doc-list', [
+    'as'=>'claim.doc_list', 'uses'=>'MIC\ClaimController@claimDocList' 
+  ]);
 });
 
 Route::group(['middleware' => ['auth', 'permission:PATIENT_PANEL']], 
@@ -64,7 +74,6 @@ Route::group(['middleware' => ['auth', 'permission:PATIENT_PANEL']],
   Route::get('patient/claim/{claim_id}/photo-list', [
     'as'=>$as1.'claim.photo_list', 'uses'=>'MIC\ClaimController@claimPhotoList' 
   ]);
-
 });
 
 Route::group(['middleware' => ['auth', 'permission:PARTNER_PANEL']], 

@@ -53,12 +53,17 @@ trait PatientClaimController
     // Photo
     $photos = ClaimModule::getClaimPhotos($claim_id);
 
+    // Doc
+    $docs = ClaimModule::getClaimDocs($claim_id, $user->id);
+
     $params = array();
+    $params['user'] = $user;
     $params['claim'] = $claim;
     $params['questions'] = $questions;
     $params['answers'] = $answers;
     $params['photos'] = $photos;
-    
+    $params['docs'] = $docs;
+
     return view('mic.patient.claim.page', $params);
   }
 
@@ -118,8 +123,9 @@ trait PatientClaimController
   }
   public function claimPhotoList(Request $request, $claim_id)
   {
+    $claim = Claim::find($claim_id);
     $photos = ClaimModule::getClaimPhotos($claim_id);
-    $view = View::make('mic.patient.claim.partials.photo_list', ['claim_id'=>$claim_id, 'photos'=>$photos]);
+    $view = View::make('mic.patient.claim.partials.photo_list', ['claim'=>$claim, 'photos'=>$photos]);
     $photo_list = $view->render();
 
     return response()->json(['photo_html' => $photo_list]);

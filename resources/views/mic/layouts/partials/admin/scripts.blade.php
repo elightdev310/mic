@@ -12,7 +12,7 @@
 <script src="{{ asset('la-assets/plugins/bootstrap-datetimepicker/bootstrap-datetimepicker.js') }}" type="text/javascript"></script>
 
 <!-- AdminLTE App -->
-<script src="{{ asset('la-assets/js/app.min.js') }}" type="text/javascript"></script>
+<script src="{{ asset('la-assets/js/app.js') }}" type="text/javascript"></script>
 
 <script src="{{ asset('la-assets/plugins/stickytabs/jquery.stickytabs.js') }}" type="text/javascript"></script>
 <script src="{{ asset('la-assets/plugins/slimScroll/jquery.slimscroll.min.js') }}" type="text/javascript"></script>

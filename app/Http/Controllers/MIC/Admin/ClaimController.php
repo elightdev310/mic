@@ -15,10 +15,13 @@ use App\Http\Controllers\Controller as Controller;
 use App\MIC\Models\User;
 use App\MIC\Models\Partner;
 use App\MIC\Models\Claim;
+use App\MIC\Models\ClaimDoc;
+use App\MIC\Models\ClaimDocAccess;
 
 use Dwij\Laraadmin\Models\Module;
 use Dwij\Laraadmin\Models\ModuleFields;
 
+use Illuminate\Support\Facades\View;
 use App\MIC\Facades\ClaimFacade as ClaimModule;
 use App\MIC\Helpers\MICHelper;
 
@@ -47,6 +50,7 @@ class ClaimController extends Controller
    * Get: admin/claim/{claim_id}
    */
   public function claimPage(Request $request, $claim_id) {
+    $user = MICHelper::currentUser();
     $claim = Claim::find($claim_id);
     if (!$claim) {
       return view('errors.404');
@@ -59,6 +63,9 @@ class ClaimController extends Controller
     // Photo
     $photos = ClaimModule::getClaimPhotos($claim_id);
 
+    // Doc
+    $docs = ClaimModule::getClaimDocs($claim_id, $user->id);
+
     //Assign Partner
     $assigned_partners = ClaimModule::getPartnersByClaim($claim_id);
     $partner_list = User::where('type', 'partner')
@@ -66,10 +73,12 @@ class ClaimController extends Controller
                         ->get();
     
     $params = array();
+    $params['user'] = $user;
     $params['claim'] = $claim;
     $params['questions'] = $questions;
     $params['answers'] = $answers;
     $params['photos'] = $photos;
+    $params['docs'] = $docs;
     $params['partners'] = $assigned_partners;
     $params['partner_list'] = $partner_list;
 
@@ -106,5 +115,53 @@ class ClaimController extends Controller
     return redirect()->back()
                 ->with('_panel', 'assign-partner')
                 ->with('status', $user->name." is unassigned from claim #".$claim_id.", successfully.");
+  }
+
+  /**
+   * JSON-GET: Access Doc Panel
+   */
+  public function claimDocAccessPanel(Request $request, $claim_id, $doc_id) {
+    $claim = Claim::find($claim_id);
+    $doc = ClaimDoc::find($doc_id);
+    $cda = ClaimModule::getClaimDocAccessData($claim, $doc);
+
+    $params = array();
+    $params['claim'] = $claim;
+    $params['doc']   = $doc;
+    $params['cda']   = $cda;
+
+    $view = View::make('mic.admin.claim.partials.doc_access_panel', $params);
+    $panel = $view->render();
+
+    return response()->json(['status'=>'success', 'panel' => $panel]);
+  }
+
+  public function setClaimDocAccess(Request $request, $claim_id, $doc_id) {
+    $claim = Claim::find($claim_id);
+    $doc = ClaimDoc::find($doc_id);
+    $i_cda = $request->input('cda');
+
+    if (!is_array($i_cda)) {
+      $i_cda = array();
+    }
+
+    // Set CDA table
+    $cda = ClaimDocAccess::where('doc_id', $doc_id)->get();
+    foreach ($cda as $row) {
+      if (isset( $i_cda[$row->partner_uid] )) {
+        unset($i_cda[$row->partner_uid]);   // Already Access
+      } else {
+        $row->forceDelete();
+      }
+    }
+
+    foreach ($i_cda as $uid=>$item) {
+      $n_cda = new ClaimDocAccess;
+      $n_cda->doc_id = $doc_id;
+      $n_cda->partner_uid = $uid;
+      $n_cda->save();
+    }
+
+    return response()->json(['status'=>'success']);
   }
 }

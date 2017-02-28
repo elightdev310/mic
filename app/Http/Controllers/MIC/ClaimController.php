@@ -15,12 +15,13 @@ use App\Http\Controllers\Controller as Controller;
 
 use App\Models\Upload;
 use App\MIC\Models\Claim;
-
+use App\MIC\Models\ClaimDoc;
 
 use Dwij\Laraadmin\Models\Module;
 use Dwij\Laraadmin\Models\ModuleFields;
 
 use Illuminate\Support\Facades\Input;
+use Illuminate\Support\Facades\View;
 use App\MIC\Facades\ClaimFacade as ClaimModule;
 use App\MIC\Helpers\MICHelper;
 
@@ -184,5 +185,76 @@ class ClaimController extends Controller
     } else {
       return false;
     }
+  }
+
+  /**
+   * Upload Photos
+   */
+  public function uploadClaimDoc(Request $request, $claim_id) {
+    $user = Auth::user();
+
+    if($user && Input::hasFile('file')) {
+
+      $file = Input::file('file');
+      
+      // print_r($file);
+      $folder = storage_path("claims/docs/".$claim_id);
+      $upload = $this->uploadClaimFile($file, $folder);
+
+      if( $upload ) {
+        $doc = ClaimDoc::create([
+          'claim_id' => $claim_id,
+          'file_id'  => $upload->id, 
+          'creator_uid' =>$user->id, 
+        ]);
+        $doc->save();
+
+        // TO DO: Notify to Upload Doc
+
+        return response()->json([
+          "status" => "success",
+          "upload" => $upload
+        ], 200);
+      } else {
+        return response()->json([
+          "status" => "error"
+        ], 400);
+      }
+    } else {
+      return response()->json('error: upload file not found.', 400);
+    }
+  }
+
+  public function deleteClaimDoc(Request $request, $claim_id, $doc_id) {
+    $user = MICHelper::currentUser();
+
+    $doc = ClaimDoc::where('id', $doc_id)
+                   ->where('claim_id', $claim_id)
+                   ->first();
+    if ($doc && $doc->creator_uid==$user->id) {
+      ClaimModule::deleteClaimDoc($doc);
+      
+      return response()->json([
+        "status" => "success",
+      ], 200);
+    } else {
+      return response()->json('error: file cannot be deleted.', 400);
+    }
+  }
+
+  public function claimDocList(Request $request, $claim_id)
+  {
+    $user = MICHelper::currentUser();
+    
+    $claim = Claim::find($claim_id);
+    $docs = ClaimModule::getClaimDocs($claim_id, $user->id);
+    $params = array();
+    $params['user']   = $user;
+    $params['claim']  = $claim;
+    $params['docs']   = $docs;
+    $view = View::make('mic.patient.claim.partials.doc_list', $params);
+    $doc_list = $view->render();
+
+    return response()->json(['doc_html' => $doc_list]);
   }
 }
