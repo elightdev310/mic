@@ -110,14 +110,17 @@ class MICUILayoutHelper
     return $str;
   }
 
-  public static function agoTime($datetime) {
+  public static function agoTime($datetime, $suffix='') {
     $interval = date_create('now')->diff( $datetime );
-    if ( $v = $interval->y >= 1 ) { return $interval->y.' '.str_plural('year',   $interval->y); }
-    if ( $v = $interval->m >= 1 ) { return $interval->m.' '.str_plural('month',  $interval->m); }
-    if ( $v = $interval->d >= 1 ) { return $interval->d.' '.str_plural('day',    $interval->d); }
-    if ( $v = $interval->h >= 1 ) { return $interval->h.' '.str_plural('hour',   $interval->h); }
-    if ( $v = $interval->i >= 1 ) { return $interval->i.' '.str_plural('minute', $interval->i); }
-    return $interval->s.' '.str_plural('second', $interval->s);
+    if ( $v = $interval->y >= 1 ) { return $interval->y.' '.str_plural('year',   $interval->y).$suffix; }
+    if ( $v = $interval->m >= 1 ) { return $interval->m.' '.str_plural('month',  $interval->m).$suffix; }
+    if ( $v = $interval->d >= 1 ) { return $interval->d.' '.str_plural('day',    $interval->d).$suffix; }
+    if ( $v = $interval->h >= 1 ) { return $interval->h.' '.str_plural('hour',   $interval->h).$suffix; }
+    if ( $v = $interval->i >= 1 ) { return $interval->i.' '.str_plural('minute', $interval->i).$suffix; }
+    if ( $interval->s == 0 ) {
+      return 'Just now';
+    }
+    return $interval->s.' '.str_plural('second', $interval->s).$suffix;
   }
 
 }

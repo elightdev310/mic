@@ -51,4 +51,14 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
     {
         return $this->hasMany('App\Upload');
     }
+
+    public function role() 
+    {
+        return $this->belongsTo('App\Role');
+    }
+
+    public function patient() 
+    {
+        return $this->hasOne('App\Models\Patient', 'user_id');
+    }
 }

@@ -346,8 +346,186 @@ ul.claim-photo-section li.claim-photo-item .hovereffect:hover a.info {
   background-position: center center;
   z-index: 100000;
 }
+#view_doc_modal button.close {
+  float: left;
+  padding: 15px;
+  margin-right: 10px;
+  border-right: solid 1px #ddd;
+}
+#view_doc_modal .modal-body {
+  background: #f6f9fc;
+}
 ul.claim-doc-section {
   overflow: auto;
+}
+.doc-comment-section {
+  overflow-y: auto;
+  padding-bottom: 10px;
+}
+.doc-comment-section .comment-card-w-hint {
+  -ms-flex: 0 0 auto;
+  flex: 0 0 auto;
+}
+.doc-comment-section .comment-card {
+  margin: 10px 10px 0;
+  border: 1px solid #e8e8e8;
+  border-radius: 4px;
+  background-color: #fff;
+  box-shadow: 0 1px 2px #e8e8e8;
+}
+.doc-comment-section .comment-field {
+  position: relative;
+  display: table;
+  box-sizing: border-box;
+  width: 100%;
+  padding: 10px;
+  table-layout: fixed;
+  border-radius: inherit;
+  background-color: #fff;
+  -ms-flex: 0 0 auto;
+  flex: 0 0 auto;
+}
+.doc-comment-section .comment-field .commenter-photo {
+  display: table-cell;
+  width: 32px;
+  padding-right: 10px;
+  vertical-align: top;
+  white-space: nowrap;
+}
+.doc-comment-section .mentions-container {
+  position: relative;
+  width: 100%;
+  display: table-cell;
+  vertical-align: top;
+}
+.doc-comment-section .mentions-container .mentions-input {
+  width: 100%;
+  display: inline-block;
+  min-height: 30px;
+  word-wrap: break-word;
+}
+.doc-comment-section .mentions-container .comment-input-text {
+  resize: none;
+  overflow: hidden;
+  width: 100%;
+  background: #fcfad8;
+  border: none;
+  padding: 5px;
+  height: 30px;
+}
+.doc-comment-section .mentions-container .placeholder-text {
+  box-sizing: border-box;
+  position: absolute;
+  padding: 6px;
+  color: #aaa;
+}
+.doc-comment-section .comment-box {
+  display: block;
+  width: 100%;
+  vertical-align: top;
+}
+.doc-comment-section .comment-box .commenter-photo {
+  -ms-flex: 0 0 auto;
+  flex: 0 0 auto;
+}
+.doc-comment-section .comment-box .commenter-photo img {
+  width: 32px;
+  height: 32px;
+}
+.doc-comment-section .comment-box .mentions-container {
+  -ms-flex: 1 1 auto;
+  flex: 1 1 auto;
+}
+.doc-comment-section .comment-box .post-area {
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-align: end;
+  align-items: flex-end;
+  -ms-flex-pack: justify;
+  justify-content: flex-end;
+  margin-top: 5px;
+}
+.doc-comment-section .threaded-comment-list {
+  padding-bottom: 10px;
+  transition: box-shadow 0.2s ease, border 0.2s ease;
+  color: #3d464d;
+}
+.doc-comment-section .threaded-comment-list .comment-activity {
+  width: 100%;
+  opacity: 1;
+}
+.doc-comment-section .threaded-comment-list .comment-activity .comment {
+  display: table;
+  box-sizing: border-box;
+  width: 100%;
+  padding: 10px 10px 0;
+  table-layout: fixed;
+}
+.doc-comment-section .threaded-comment-list .comment-activity .comment .commenter-photo {
+  display: table-cell;
+  width: 40px;
+  padding-top: 4px;
+  padding-right: 8px;
+  vertical-align: top;
+  white-space: nowrap;
+}
+.doc-comment-section .threaded-comment-list .comment-activity .comment .commenter-photo img {
+  width: 32px;
+  height: 32px;
+}
+.doc-comment-section .threaded-comment-list .comment-activity .comment .comment-body {
+  display: table-cell;
+  width: 99%;
+  vertical-align: top;
+}
+.doc-comment-section .threaded-comment-list .comment-activity .comment .comment-body .comment-top-bar {
+  display: block;
+  width: 100%;
+  height: 20px;
+  margin-bottom: 0;
+  padding-top: 1px;
+}
+.doc-comment-section .threaded-comment-list .comment-activity .comment .comment-body .comment-top-bar .commenter-name {
+  font-size: 15px;
+  font-weight: 600;
+  display: inline-block;
+  overflow: hidden;
+  max-width: 140px;
+  margin-right: 5px;
+  vertical-align: top;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.doc-comment-section .threaded-comment-list .comment-activity .comment .comment-body .comment-top-bar .comment-when {
+  font-size: 11px;
+  display: inline-block;
+  color: #a1a1a1;
+}
+.doc-comment-section .threaded-comment-list .comment-activity .comment .comment-body .comment-text {
+  font-size: 13px;
+  line-height: 18px;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  color: #4c545a;
+  margin-top: 5px;
+}
+.doc-comment-section .threaded-comment-list .comment-reply-section {
+  padding-left: 50px;
+}
+.doc-comment-section .comment-field--reply {
+  margin-top: 10px;
+  padding-bottom: 0;
+  border-top: 1px solid #e8e8e8;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+  background-color: transparent;
+  display: none;
+}
+.doc-comment-section .threaded-comment-list.focus-thread .comment-field--reply {
+  display: block;
+}
+.doc-comment-section .threaded-comment-list.focus-thread .comment-reply-section {
+  display: none;
 }
 .navbar-brand {
   height: auto;

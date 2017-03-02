@@ -9,7 +9,7 @@
 
 Route::group(['middleware' => ['auth']], 
               function () {
-
+  // Claim Doc 
   Route::post('claim/{claim_id}/upload-doc', [
     'as'=>'claim.upload.doc', 'uses'=>'MIC\ClaimController@uploadClaimDoc' 
   ]);
@@ -20,6 +20,20 @@ Route::group(['middleware' => ['auth']],
   Route::get('claim/{claim_id}/doc-list', [
     'as'=>'claim.doc_list', 'uses'=>'MIC\ClaimController@claimDocList' 
   ]);
+
+  Route::get('claim/{claim_id}/view/{doc_id}', [
+    'as'=>'claim.doc.view_panel', 'uses'=>'MIC\ClaimController@claimDocViewPanel' 
+  ]);
+
+  // Claim Doc Comment
+  Route::get('claim/doc/{doc_id}/comment/{comment_id}/post', [
+    'as'=>'claim.doc.comment.post', 'uses'=>'MIC\ClaimController@postClaimDocComment' 
+  ]);
+
+  Route::get('claim/doc/{doc_id}/comment/list', [
+    'as'=>'claim.doc.comment.list', 'uses'=>'MIC\ClaimController@claimDocCommentList' 
+  ]);
+  
 });
 
 Route::group(['middleware' => ['auth', 'permission:PATIENT_PANEL']], 

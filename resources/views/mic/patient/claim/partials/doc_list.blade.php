@@ -10,12 +10,15 @@
     @foreach ($docs as $doc)
     <tr data-doc-id="{{ $doc->id }}" class="claim-doc-item">
       <td class="doc-name">
-        {{ $doc->file->name }}
+        <a href="#" data-url="{{ route('claim.doc.view_panel', [$claim->id, $doc->id]) }}" data-path="{{$doc->file->path()}}" class="view-doc-link">
+          {{ $doc->file->name }}
+        </a>
       </td>
       <td class="doc-creator">{{ MICHelper::getUserTitle($doc->creator_uid) }}</td>
       <td class="doc-uploaded-at">{{ MICUILayoutHelper::strTime($doc->created_at, "M d, Y H:i") }}</td>
       <td class="row-action">
-        <a href="#" class="action-link view-doc-link"><i class="fa fa-eye"></i></a>
+        <a href="#" data-url="{{ route('claim.doc.view_panel', [$claim->id, $doc->id]) }}" class="action-link view-doc-link"><i class="fa fa-eye"></i></a>
+        <a href="{{ $doc->file->path() }}?download" class="action-link download-doc-link"><i class="fa fa-download"></i></a>
 
         @if ($user->can(config('mic.permission.micadmin_panel')))
         <a href="#" class="action-link access-doc-link" 
@@ -24,7 +27,7 @@
 
         @if ($user->id == $doc->creator_uid)
         <a href="#" class="action-link delete-doc-link" 
-            data-url="{{ route('claim.delete.doc', [$claim->id, $doc->id]) }}">
+            data-url="{{ route('claim.delete.doc', [$claim->id, $doc->id]) }}" data-path="{{$doc->file->path()}}">
           <i class="fa fa-trash"></i>
         </a>
         @endif

@@ -8,7 +8,7 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 use Dwij\Laraadmin\Models\Module;
 
-class CreateUsersTable extends Migration
+class CreateClaimdocsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -17,14 +17,11 @@ class CreateUsersTable extends Migration
      */
     public function up()
     {
-        Module::generate("Users", 'users', 'name', 'fa-group', [
-            ["name", "Name", "Name", false, "", 5, 250, true],
-            ["context_id", "Context", "Integer", false, "0", 0, 0, false],
-            ["email", "Email", "Email", true, "", 0, 250, false],
-            ["password", "Password", "Password", false, "", 6, 250, true],
-            ["type", "User Type", "Dropdown", false, "Employee", 0, 0, false, ["employee","partner","patient"]],
-            ["status", "Status", "Dropdown", false, "", 0, 0, false, ["active","pending","cancel"]],
-            ["confirm_code", "Confirm Code", "String", false, "", 0, 50, false],
+        Module::generate("Claimdocs", 'claimdocs', 'file_id', 'fa-cube', [
+            ["claim_id", "Claim", "Integer", false, "0", 0, 4294967295, false],
+            ["file_id", "File", "Integer", false, "", 0, 4294967295, false],
+            ["type", "Type", "TextField", false, "", 0, 20, false],
+            ["creator_uid", "Creator", "Dropdown", false, "", 0, 0, false, "@users"],
         ]);
 		
 		/*
@@ -70,8 +67,8 @@ class CreateUsersTable extends Migration
      */
     public function down()
     {
-        if (Schema::hasTable('users')) {
-            Schema::drop('users');
+        if (Schema::hasTable('claimdocs')) {
+            Schema::drop('claimdocs');
         }
     }
 }

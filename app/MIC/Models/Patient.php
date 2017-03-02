@@ -12,7 +12,6 @@ use App\Models\Patient as PatientModule;
 
 class Patient extends PatientModule
 {
-
   public function user() {
     return $this->belongsTo('App\MIC\Models\User', 'user_id');
   }

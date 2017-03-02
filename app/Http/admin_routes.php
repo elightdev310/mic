@@ -110,4 +110,8 @@ Route::group(['as' => $as, 'middleware' => ['auth', 'permission:ADMIN_PANEL']], 
 	/* ================== ClaimDocAccesses ================== */
 	Route::resource(config('laraadmin.adminRoute') . '/claimdocaccesses', 'LA\ClaimDocAccessesController');
 	Route::get(config('laraadmin.adminRoute') . '/claimdocaccess_dt_ajax', 'LA\ClaimDocAccessesController@dtajax');
+
+	/* ================== ClaimDocComments ================== */
+	Route::resource(config('laraadmin.adminRoute') . '/claimdoccomments', 'LA\ClaimDocCommentsController');
+	Route::get(config('laraadmin.adminRoute') . '/claimdoccomment_dt_ajax', 'LA\ClaimDocCommentsController@dtajax');
 });

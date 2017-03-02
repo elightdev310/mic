@@ -8,7 +8,7 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 use Dwij\Laraadmin\Models\Module;
 
-class CreateUsersTable extends Migration
+class CreateClaimdoccommentsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -17,14 +17,11 @@ class CreateUsersTable extends Migration
      */
     public function up()
     {
-        Module::generate("Users", 'users', 'name', 'fa-group', [
-            ["name", "Name", "Name", false, "", 5, 250, true],
-            ["context_id", "Context", "Integer", false, "0", 0, 0, false],
-            ["email", "Email", "Email", true, "", 0, 250, false],
-            ["password", "Password", "Password", false, "", 6, 250, true],
-            ["type", "User Type", "Dropdown", false, "Employee", 0, 0, false, ["employee","partner","patient"]],
-            ["status", "Status", "Dropdown", false, "", 0, 0, false, ["active","pending","cancel"]],
-            ["confirm_code", "Confirm Code", "String", false, "", 0, 50, false],
+        Module::generate("Claimdoccomments", 'claimdoccomments', 'comment', 'fa-cube', [
+            ["comment", "Comment", "Textarea", false, "", 0, 0, false],
+            ["doc_id", "Doc", "Integer", false, "", 0, 4294967295, false],
+            ["author_uid", "Author", "Dropdown", false, "", 0, 0, false, "@users"],
+            ["p_comment_id", "Parent Comment", "Integer", false, "", 0, 4294967295, false],
         ]);
 		
 		/*
@@ -70,8 +67,8 @@ class CreateUsersTable extends Migration
      */
     public function down()
     {
-        if (Schema::hasTable('users')) {
-            Schema::drop('users');
+        if (Schema::hasTable('claimdoccomments')) {
+            Schema::drop('claimdoccomments');
         }
     }
 }

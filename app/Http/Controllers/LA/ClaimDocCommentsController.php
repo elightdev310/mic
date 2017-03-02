@@ -17,37 +17,37 @@ use Collective\Html\FormFacade as Form;
 use Dwij\Laraadmin\Models\Module;
 use Dwij\Laraadmin\Models\ModuleFields;
 
-use App\Models\Claim;
+use App\Models\ClaimDocComment;
 
-class ClaimsController extends Controller
+class ClaimDocCommentsController extends Controller
 {
 	public $show_action = true;
-	public $view_col = 'patient_uid';
-	public $listing_cols = ['id', 'answers', 'patient_uid'];
+	public $view_col = 'comment';
+	public $listing_cols = ['id', 'comment', 'doc_id', 'author_uid', 'p_comment_id'];
 	
 	public function __construct() {
 		// Field Access of Listing Columns
 		if(\Dwij\Laraadmin\Helpers\LAHelper::laravel_ver() == 5.3) {
 			$this->middleware(function ($request, $next) {
-				$this->listing_cols = ModuleFields::listingColumnAccessScan('Claims', $this->listing_cols);
+				$this->listing_cols = ModuleFields::listingColumnAccessScan('ClaimDocComments', $this->listing_cols);
 				return $next($request);
 			});
 		} else {
-			$this->listing_cols = ModuleFields::listingColumnAccessScan('Claims', $this->listing_cols);
+			$this->listing_cols = ModuleFields::listingColumnAccessScan('ClaimDocComments', $this->listing_cols);
 		}
 	}
 	
 	/**
-	 * Display a listing of the Claims.
+	 * Display a listing of the ClaimDocComments.
 	 *
 	 * @return \Illuminate\Http\Response
 	 */
 	public function index()
 	{
-		$module = Module::get('Claims');
+		$module = Module::get('ClaimDocComments');
 		
 		if(Module::hasAccess($module->id)) {
-			return View('la.claims.index', [
+			return View('la.claimdoccomments.index', [
 				'show_actions' => $this->show_action,
 				'listing_cols' => $this->listing_cols,
 				'module' => $module
@@ -58,7 +58,7 @@ class ClaimsController extends Controller
 	}
 
 	/**
-	 * Show the form for creating a new claim.
+	 * Show the form for creating a new claimdoccomment.
 	 *
 	 * @return \Illuminate\Http\Response
 	 */
@@ -68,16 +68,16 @@ class ClaimsController extends Controller
 	}
 
 	/**
-	 * Store a newly created claim in database.
+	 * Store a newly created claimdoccomment in database.
 	 *
 	 * @param  \Illuminate\Http\Request  $request
 	 * @return \Illuminate\Http\Response
 	 */
 	public function store(Request $request)
 	{
-		if(Module::hasAccess("Claims", "create")) {
+		if(Module::hasAccess("ClaimDocComments", "create")) {
 		
-			$rules = Module::validateRules("Claims", $request);
+			$rules = Module::validateRules("ClaimDocComments", $request);
 			
 			$validator = Validator::make($request->all(), $rules);
 			
@@ -85,9 +85,9 @@ class ClaimsController extends Controller
 				return redirect()->back()->withErrors($validator)->withInput();
 			}
 			
-			$insert_id = Module::insert("Claims", $request);
+			$insert_id = Module::insert("ClaimDocComments", $request);
 			
-			return redirect()->route(config('laraadmin.adminRoute') . '.claims.index');
+			return redirect()->route(config('laraadmin.adminRoute') . '.claimdoccomments.index');
 			
 		} else {
 			return redirect(config('laraadmin.adminRoute')."/");
@@ -95,30 +95,30 @@ class ClaimsController extends Controller
 	}
 
 	/**
-	 * Display the specified claim.
+	 * Display the specified claimdoccomment.
 	 *
 	 * @param  int  $id
 	 * @return \Illuminate\Http\Response
 	 */
 	public function show($id)
 	{
-		if(Module::hasAccess("Claims", "view")) {
+		if(Module::hasAccess("ClaimDocComments", "view")) {
 			
-			$claim = Claim::find($id);
-			if(isset($claim->id)) {
-				$module = Module::get('Claims');
-				$module->row = $claim;
+			$claimdoccomment = ClaimDocComment::find($id);
+			if(isset($claimdoccomment->id)) {
+				$module = Module::get('ClaimDocComments');
+				$module->row = $claimdoccomment;
 				
-				return view('la.claims.show', [
+				return view('la.claimdoccomments.show', [
 					'module' => $module,
 					'view_col' => $this->view_col,
 					'no_header' => true,
 					'no_padding' => "no-padding"
-				])->with('claim', $claim);
+				])->with('claimdoccomment', $claimdoccomment);
 			} else {
 				return view('errors.404', [
 					'record_id' => $id,
-					'record_name' => ucfirst("claim"),
+					'record_name' => ucfirst("claimdoccomment"),
 				]);
 			}
 		} else {
@@ -127,28 +127,28 @@ class ClaimsController extends Controller
 	}
 
 	/**
-	 * Show the form for editing the specified claim.
+	 * Show the form for editing the specified claimdoccomment.
 	 *
 	 * @param  int  $id
 	 * @return \Illuminate\Http\Response
 	 */
 	public function edit($id)
 	{
-		if(Module::hasAccess("Claims", "edit")) {			
-			$claim = Claim::find($id);
-			if(isset($claim->id)) {	
-				$module = Module::get('Claims');
+		if(Module::hasAccess("ClaimDocComments", "edit")) {			
+			$claimdoccomment = ClaimDocComment::find($id);
+			if(isset($claimdoccomment->id)) {	
+				$module = Module::get('ClaimDocComments');
 				
-				$module->row = $claim;
+				$module->row = $claimdoccomment;
 				
-				return view('la.claims.edit', [
+				return view('la.claimdoccomments.edit', [
 					'module' => $module,
 					'view_col' => $this->view_col,
-				])->with('claim', $claim);
+				])->with('claimdoccomment', $claimdoccomment);
 			} else {
 				return view('errors.404', [
 					'record_id' => $id,
-					'record_name' => ucfirst("claim"),
+					'record_name' => ucfirst("claimdoccomment"),
 				]);
 			}
 		} else {
@@ -157,7 +157,7 @@ class ClaimsController extends Controller
 	}
 
 	/**
-	 * Update the specified claim in storage.
+	 * Update the specified claimdoccomment in storage.
 	 *
 	 * @param  \Illuminate\Http\Request  $request
 	 * @param  int  $id
@@ -165,9 +165,9 @@ class ClaimsController extends Controller
 	 */
 	public function update(Request $request, $id)
 	{
-		if(Module::hasAccess("Claims", "edit")) {
+		if(Module::hasAccess("ClaimDocComments", "edit")) {
 			
-			$rules = Module::validateRules("Claims", $request, true);
+			$rules = Module::validateRules("ClaimDocComments", $request, true);
 			
 			$validator = Validator::make($request->all(), $rules);
 			
@@ -175,9 +175,9 @@ class ClaimsController extends Controller
 				return redirect()->back()->withErrors($validator)->withInput();;
 			}
 			
-			$insert_id = Module::updateRow("Claims", $request, $id);
+			$insert_id = Module::updateRow("ClaimDocComments", $request, $id);
 			
-			return redirect()->route(config('laraadmin.adminRoute') . '.claims.index');
+			return redirect()->route(config('laraadmin.adminRoute') . '.claimdoccomments.index');
 			
 		} else {
 			return redirect(config('laraadmin.adminRoute')."/");
@@ -185,18 +185,18 @@ class ClaimsController extends Controller
 	}
 
 	/**
-	 * Remove the specified claim from storage.
+	 * Remove the specified claimdoccomment from storage.
 	 *
 	 * @param  int  $id
 	 * @return \Illuminate\Http\Response
 	 */
 	public function destroy($id)
 	{
-		if(Module::hasAccess("Claims", "delete")) {
-			Claim::find($id)->delete();
+		if(Module::hasAccess("ClaimDocComments", "delete")) {
+			ClaimDocComment::find($id)->delete();
 			
 			// Redirecting to index() method
-			return redirect()->route(config('laraadmin.adminRoute') . '.claims.index');
+			return redirect()->route(config('laraadmin.adminRoute') . '.claimdoccomments.index');
 		} else {
 			return redirect(config('laraadmin.adminRoute')."/");
 		}
@@ -209,11 +209,11 @@ class ClaimsController extends Controller
 	 */
 	public function dtajax()
 	{
-		$values = DB::table('claims')->select($this->listing_cols)->whereNull('deleted_at');
+		$values = DB::table('claimdoccomments')->select($this->listing_cols)->whereNull('deleted_at');
 		$out = Datatables::of($values)->make();
 		$data = $out->getData();
 
-		$fields_popup = ModuleFields::getModuleFields('Claims');
+		$fields_popup = ModuleFields::getModuleFields('ClaimDocComments');
 		
 		for($i=0; $i < count($data->data); $i++) {
 			for ($j=0; $j < count($this->listing_cols); $j++) { 
@@ -222,7 +222,7 @@ class ClaimsController extends Controller
 					$data->data[$i][$j] = ModuleFields::getFieldValue($fields_popup[$col], $data->data[$i][$j]);
 				}
 				if($col == $this->view_col) {
-					$data->data[$i][$j] = '<a href="'.url(config('laraadmin.adminRoute') . '/claims/'.$data->data[$i][0]).'">'.$data->data[$i][$j].'</a>';
+					$data->data[$i][$j] = '<a href="'.url(config('laraadmin.adminRoute') . '/claimdoccomments/'.$data->data[$i][0]).'">'.$data->data[$i][$j].'</a>';
 				}
 				// else if($col == "author") {
 				//    $data->data[$i][$j];
@@ -231,12 +231,12 @@ class ClaimsController extends Controller
 			
 			if($this->show_action) {
 				$output = '';
-				if(Module::hasAccess("Claims", "edit")) {
-					$output .= '<a href="'.url(config('laraadmin.adminRoute') . '/claims/'.$data->data[$i][0].'/edit').'" class="btn btn-warning btn-xs" style="display:inline;padding:2px 5px 3px 5px;"><i class="fa fa-edit"></i></a>';
+				if(Module::hasAccess("ClaimDocComments", "edit")) {
+					$output .= '<a href="'.url(config('laraadmin.adminRoute') . '/claimdoccomments/'.$data->data[$i][0].'/edit').'" class="btn btn-warning btn-xs" style="display:inline;padding:2px 5px 3px 5px;"><i class="fa fa-edit"></i></a>';
 				}
 				
-				if(Module::hasAccess("Claims", "delete")) {
-					$output .= Form::open(['route' => [config('laraadmin.adminRoute') . '.claims.destroy', $data->data[$i][0]], 'method' => 'delete', 'style'=>'display:inline']);
+				if(Module::hasAccess("ClaimDocComments", "delete")) {
+					$output .= Form::open(['route' => [config('laraadmin.adminRoute') . '.claimdoccomments.destroy', $data->data[$i][0]], 'method' => 'delete', 'style'=>'display:inline']);
 					$output .= ' <button class="btn btn-danger btn-xs" type="submit"><i class="fa fa-times"></i></button>';
 					$output .= Form::close();
 				}

@@ -22,7 +22,7 @@ class CreatePatientsTable extends Migration
             ["last_name", "Last Name", "String", false, "", 0, 50, true],
             ["phone", "Phone Number", "String", false, "", 0, 50, false],
             ["date_birth", "Date of Birth", "Date", false, "1990-01-01", 0, 0, false],
-            ["user_id", "User ", "Dropdown", false, "2", 0, 256, false, "@users"],
+            ["user_id", "User", "Dropdown", false, "2", 0, 256, false, "@users"],
         ]);
 		
 		/*

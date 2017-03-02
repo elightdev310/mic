@@ -16,6 +16,7 @@ use App\Http\Controllers\Controller as Controller;
 use App\Models\Upload;
 use App\MIC\Models\Claim;
 use App\MIC\Models\ClaimDoc;
+use App\MIC\Models\ClaimDocComment;
 
 use Dwij\Laraadmin\Models\Module;
 use Dwij\Laraadmin\Models\ModuleFields;
@@ -256,5 +257,86 @@ class ClaimController extends Controller
     $doc_list = $view->render();
 
     return response()->json(['doc_html' => $doc_list]);
+  }
+
+  /**
+   * JSON-GET: Doc View Panel
+   */
+  public function claimDocViewPanel(Request $request, $claim_id, $doc_id) {
+    $claim = Claim::find($claim_id);
+    $doc = ClaimDoc::find($doc_id);
+    $file = $doc->file;
+
+    $params = array();
+    $params['claim'] = $claim;
+    $params['doc']   = $doc;
+    $params['file']  = $file;
+
+    $view = View::make('mic.patient.claim.partials.doc_view_panel', $params);
+    $panel = $view->render();
+
+    return response()->json(['status'=>'success', 'panel' => $panel]);
+  }
+
+  /**
+   * JSON-GET: Post Claim Doc Comment 
+   */
+  public function postClaimDocComment(Request $request, $doc_id, $comment_id) {
+    $user = MICHelper::currentUser();
+
+    $doc = ClaimDoc::find($doc_id);
+    // Check if user has access to claim doc
+    if (!ClaimModule::checkCDA($user->id, $doc_id)) {
+      return response()->json(['status'=>'error',
+                               'error' =>'You can\'t post comment.' ]);
+    }
+    
+    $comment_text = $request->input('comment');
+    if (!empty($comment_text)) {
+      // insert comment
+      $comment = new ClaimDocComment;
+      $comment->comment = $comment_text;
+      $comment->doc_id  = $doc_id;
+      $comment->author_uid = $user->id;
+      $comment->p_comment_id = $comment_id;
+      $comment->save();
+
+      if ($comment_id != 0) {
+        $p_comment = ClaimDocComment::find($comment_id);
+        $p_comment->updated_at = $comment->created_at;
+        $p_comment->save();
+      }
+    }
+
+    return response()->json(['status'=>'success']);
+  }
+
+
+  public function claimDocCommentList(Request $request, $doc_id) {
+    $doc = ClaimDoc::find($doc_id);
+
+    $threads = ClaimDocComment::where('doc_id', $doc_id)
+                ->where('p_comment_id', 0)
+                ->orderBy('updated_at', 'DESC')
+                ->get();
+
+    $comments = '';
+    foreach ($threads as $thread) {
+      $th_comments = ClaimDocComment::where('doc_id', $doc_id)
+                ->where('p_comment_id', $thread->id)
+                ->orderBy('created_at', 'ASC')
+                ->get();
+      $th_comments->prepend($thread);
+
+      $params = array();
+      $params['doc']   = $doc;
+      $params['thread']= $thread;
+      $params['th_comments'] = $th_comments;
+      $view = View::make('mic.patient.claim.partials.comment_thread', $params);
+      
+      $comments .= $view;
+    }
+
+    return response()->json(['status'=>'success', 'comments_html'=>$comments]);
   }
 }

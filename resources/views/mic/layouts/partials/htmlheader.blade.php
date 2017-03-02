@@ -30,5 +30,5 @@
   @stack('styles')
 
   <!-- MIC style -->
-  <link href="{{ asset('assets/css/mic.css') }}" rel="stylesheet" type="text/css" />
+  <link href="{{ asset('assets/css/mic.css') }}?ts={{date('U')}}" rel="stylesheet" type="text/css" />
 </head>

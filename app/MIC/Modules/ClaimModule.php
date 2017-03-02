@@ -184,7 +184,27 @@ class ClaimModule {
 
     return $data;
   }
+  /**
+   * Check if user has access to claim doc
+   */
+  public function checkCDA($user_id, $doc_id) {
+    $doc = ClaimDoc::find($doc_id);
+    $claim = $doc->claim;
 
+    // Doc Author, Claim Creator
+    if ($doc->creator_uid == $user_id || $claim->patient_uid == $user_id) {
+      return true;
+    }
 
+    // Check CDA
+    $cda = ClaimDocAccess::where('doc_id', $doc_id)
+                         ->where('partner_uid', $user_id)
+                         ->first();
+    if ($cda) {
+      return true;
+    }
+    
+    return false;
+  }
 
 }
