@@ -527,6 +527,53 @@ ul.claim-doc-section {
 .doc-comment-section .threaded-comment-list.focus-thread .comment-reply-section {
   display: none;
 }
+.activity-list-section {
+  border: solid 1px #cacaca;
+  border-radius: 3px;
+  background: #fafafa;
+}
+.activity-list-section .ca-feed-item {
+  border-bottom: solid 1px #e8e8e8;
+  padding: 10px;
+  display: table;
+}
+.activity-list-section .ca-feed-item:last-child {
+  border-bottom: none;
+}
+.activity-list-section .ca-feed-item .user-avatar {
+  display: table-cell;
+  padding-right: 10px;
+  padding-bottom: 10px;
+}
+.activity-list-section .ca-feed-item .user-avatar img {
+  width: 48px;
+  height: 48px;
+}
+.activity-list-section .ca-feed-item .feed-body {
+  display: table-cell;
+  width: 100%;
+  vertical-align: top;
+}
+.activity-list-section .ca-feed-item .feed-user {
+  margin-bottom: 10px;
+}
+.activity-list-section .ca-feed-item .user-name {
+  font-size: 1.1em;
+  font-weight: 700;
+  color: #2196F3;
+}
+.activity-list-section .ca-feed-item .comment-text {
+  padding: 5px 10px;
+  font-style: italic;
+}
+.activity-list-section .ca-feed-item .activity-time {
+  color: #888;
+  font-size: 0.9em;
+}
+.activity-list-section .no-activity {
+  text-align: center;
+  padding: 30px 0px;
+}
 .main-header {
   background: #fff;
 }

@@ -391,3 +391,55 @@ ul.claim-doc-section {
     }
   }
 }
+
+.activity-list-section {
+  border: solid 1px #cacaca;
+  border-radius: 3px;
+  background: #fafafa;
+
+  .ca-feed-item {
+    border-bottom: solid 1px #e8e8e8;
+    padding: 10px;
+    display: table;
+    &:last-child {
+      border-bottom: none;
+    }
+
+    .user-avatar {
+      display: table-cell;
+      padding-right: 10px;
+      padding-bottom: 10px;
+      img {
+        width: 48px;
+        height: 48px;
+      }
+    }
+    .feed-body {
+      display: table-cell;
+      width: 100%;
+      vertical-align: top;
+    }
+
+    .feed-user {
+      margin-bottom: 10px;
+    }
+    .user-name {
+      font-size: 1.1em;
+      font-weight: 700;
+      color: #2196F3;
+    }
+    .comment-text {
+      padding: 5px 10px;
+      font-style: italic;
+    }
+
+    .activity-time {
+      color: #888;
+      font-size: 0.9em;
+    }
+  }
+  .no-activity {
+    text-align: center;
+    padding: 30px 0px;
+  }
+}

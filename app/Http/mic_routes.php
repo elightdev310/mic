@@ -33,7 +33,11 @@ Route::group(['middleware' => ['auth']],
   Route::get('claim/doc/{doc_id}/comment/list', [
     'as'=>'claim.doc.comment.list', 'uses'=>'MIC\ClaimController@claimDocCommentList' 
   ]);
-  
+
+  // Activity
+  Route::get('claim/{claim_id}/activity-list', [
+    'as'=>'claim.activity_list', 'uses'=>'MIC\ClaimController@claimAcitivityList' 
+  ]);  
 });
 
 Route::group(['middleware' => ['auth', 'permission:PATIENT_PANEL']], 

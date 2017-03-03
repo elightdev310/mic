@@ -14,7 +14,7 @@
   <ul data-toggle="ajax-tab" class="nav nav-tabs profile" role="tablist">
     <li class=""><a href="{{ url(route('patient.myclaims')) }}" data-toggle="tooltip" data-placement="right" title="" data-original-title="Back to My Claims"><i class="fa fa-chevron-left"></i></a></li>
     <li class="active"><a role="tab" data-toggle="tab" class="active" href="#tab-ioi" data-target="#tab-ioi" aria-expanded="true"><i class="fa fa-bars"></i> IOI</a></li>
-    <li class=""><a role="tab" data-toggle="tab" href="#tab-activity" data-target="#tab-activity" aria-expanded="false"><i class="fa fa-clock-o"></i> Activity</a></li>
+    <li class="tab-activity"><a role="tab" data-toggle="tab" href="#tab-activity" data-target="#tab-activity" aria-expanded="false"><i class="fa fa-clock-o"></i> Activity</a></li>
     <li class=""><a role="tab" data-toggle="tab" href="#tab-docs" data-target="#tab-docs" aria-expanded="false"><i class="fa fa-file-word-o"></i> Docs</a></li>
     <li class=""><a role="tab" data-toggle="tab" href="#tab-photos" data-target="#tab-photos" aria-expanded="false"><i class="fa fa-file-photo-o"></i> Photos</a></li>
     <li class=""><a role="tab" data-toggle="tab" href="#tab-action" data-target="#tab-action" aria-expanded="false"><i class="fa fa-cube"></i> Action</a></li>

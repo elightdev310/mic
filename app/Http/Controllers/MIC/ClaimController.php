@@ -125,7 +125,18 @@ class ClaimController extends Controller
 
     $request->session()->forget('i_answers');
 
-    // TO DO: Notify new claim
+    // Activity Feed
+    $ca_type = 'create_claim';
+    $ca_params = array(
+        'claim' => $claim, 
+        'user'  => $user, 
+      );
+    $ca_content = ClaimModule::getCAContent($ca_type, $ca_params);
+    $ca = ClaimModule::insertClaimActivity($claim->id, $ca_content, $user->id, $ca_type);
+    $ca_feeders = ClaimModule::getCAFeeders($ca_type, $ca_params);
+    ClaimModule::insertCAFeeds($claim->id, $ca->id, $ca_feeders);
+    // Notify
+    
 
     return redirect()->route('patient.claim.create.upload_photo', $claim->id);
   }
@@ -210,6 +221,18 @@ class ClaimController extends Controller
         ]);
         $doc->save();
 
+        $claim = Claim::find($claim_id);
+        // Activity Feed
+        $ca_type = 'upload_doc';
+        $ca_params = array(
+            'claim' => $claim, 
+            'user'  => $user, 
+            'doc'   => $doc, 
+          );
+        $ca_content = ClaimModule::getCAContent($ca_type, $ca_params);
+        $ca = ClaimModule::insertClaimActivity($claim->id, $ca_content, $user->id, $ca_type);
+        $ca_feeders = ClaimModule::getCAFeeders($ca_type, $ca_params);
+        ClaimModule::insertCAFeeds($claim->id, $ca->id, $ca_feeders);
         // TO DO: Notify to Upload Doc
 
         return response()->json([
@@ -233,8 +256,23 @@ class ClaimController extends Controller
                    ->where('claim_id', $claim_id)
                    ->first();
     if ($doc && $doc->creator_uid==$user->id) {
-      ClaimModule::deleteClaimDoc($doc);
+      $claim = Claim::find($claim_id);
       
+      // Activity Feed
+      $ca_type = 'delete_doc';
+      $ca_params = array(
+          'claim' => $claim, 
+          'user'  => $user, 
+          'doc'   => $doc, 
+        );
+      $ca_content = ClaimModule::getCAContent($ca_type, $ca_params);
+      $ca = ClaimModule::insertClaimActivity($claim->id, $ca_content, $user->id, $ca_type);
+      $ca_feeders = ClaimModule::getCAFeeders($ca_type, $ca_params);
+      ClaimModule::insertCAFeeds($claim->id, $ca->id, $ca_feeders);
+      // TO DO: Notify to Delete Doc
+
+      ClaimModule::deleteClaimDoc($doc);
+
       return response()->json([
         "status" => "success",
       ], 200);
@@ -306,6 +344,20 @@ class ClaimController extends Controller
         $p_comment->updated_at = $comment->created_at;
         $p_comment->save();
       }
+
+      // Activity Feed
+      $ca_type = 'post_comment';
+      $ca_params = array(
+          'user'    => $user, 
+          'doc'     => $doc, 
+          'comment' => $comment, 
+        );
+      $ca_content = ClaimModule::getCAContent($ca_type, $ca_params);
+      $ca = ClaimModule::insertClaimActivity($doc->claim_id, $ca_content, $user->id, $ca_type);
+      $ca_feeders = ClaimModule::getCAFeeders($ca_type, $ca_params);
+      ClaimModule::insertCAFeeds($doc->claim_id, $ca->id, $ca_feeders);
+      // TO DO: Notify to post comment
+      
     }
 
     return response()->json(['status'=>'success']);
@@ -338,5 +390,22 @@ class ClaimController extends Controller
     }
 
     return response()->json(['status'=>'success', 'comments_html'=>$comments]);
+  }
+
+  public function claimAcitivityList(Request $request, $claim_id) {
+    $user = MICHelper::currentUser();
+    
+    $claim = Claim::find($claim_id);
+
+    $user_type = $user->type;
+    $ca_feeds = ClaimModule::getCAFeeds($claim_id, $user_type);
+    $params = array();
+    $params['user']   = $user;
+    $params['claim']  = $claim;
+    $params['ca_feeds'] = $ca_feeds;
+    $view = View::make('mic.patient.claim.partials.activity_list', $params);
+    $activity_list = $view->render();
+
+    return response()->json(['activity_html' => $activity_list]);
   }
 }

@@ -60,6 +60,9 @@ class ClaimController extends Controller
     $answers = $claim->getAnswers();
     $questions = ClaimModule::getIQuestionsByAnswers($answers);
 
+    // Activity Feeds
+    $ca_feeds = ClaimModule::getCAFeeds($claim_id, 'employee');
+
     // Photo
     $photos = ClaimModule::getClaimPhotos($claim_id);
 
@@ -73,13 +76,14 @@ class ClaimController extends Controller
                         ->get();
     
     $params = array();
-    $params['user'] = $user;
-    $params['claim'] = $claim;
-    $params['questions'] = $questions;
-    $params['answers'] = $answers;
-    $params['photos'] = $photos;
-    $params['docs'] = $docs;
-    $params['partners'] = $assigned_partners;
+    $params['user']       = $user;
+    $params['claim']      = $claim;
+    $params['questions']  = $questions;
+    $params['answers']    = $answers;
+    $params['ca_feeds']   = $ca_feeds;
+    $params['photos']     = $photos;
+    $params['docs']       = $docs;
+    $params['partners']   = $assigned_partners;
     $params['partner_list'] = $partner_list;
 
     $params['no_header'] = true;
@@ -91,6 +95,8 @@ class ClaimController extends Controller
    * GET: Assign Partner to Claim [POST]
    */
   public function claimAssignPartner(Request $request, $claim_id, $partner_uid) {
+    $currentUser = MICHelper::currentUser();
+
     $user = User::find($partner_uid);
     if (ClaimModule::checkP2C($partner_uid, $claim_id)) {
       return redirect()->back()
@@ -98,6 +104,19 @@ class ClaimController extends Controller
                 ->withErrors($user->name." already assigned to claim #".$claim_id);
     } else {
       ClaimModule::insertP2C($partner_uid, $claim_id);
+
+      $claim = Claim::find($claim_id);
+      // Activity Feed
+      $ca_type = 'assign_partner';
+      $ca_params = array(
+          'partner' => $user, 
+          'claim'   => $claim
+        );
+      $ca_content = ClaimModule::getCAContent($ca_type, $ca_params);
+      $ca = ClaimModule::insertClaimActivity($claim_id, $ca_content, $currentUser->id, $ca_type);
+      $ca_feeders = ClaimModule::getCAFeeders($ca_type, $ca_params);
+      ClaimModule::insertCAFeeds($claim_id, $ca->id, $ca_feeders);
+      // TO DO: Notify to assign partner
     }
     return redirect()->back()
                 ->with('_panel', 'assign-partner')
@@ -108,8 +127,22 @@ class ClaimController extends Controller
    * GET: UnAssign Partner From Claim [POST]
    */
   public function claimUnassignPartner(Request $request, $claim_id, $partner_uid) {
+    $currentUser = MICHelper::currentUser();
     $user = User::find($partner_uid);
     
+    $claim = Claim::find($claim_id);
+    // Activity Feed
+    $ca_type = 'unassign_partner';
+    $ca_params = array(
+        'partner' => $user, 
+        'claim'   => $claim
+      );
+    $ca_content = ClaimModule::getCAContent($ca_type, $ca_params);
+    $ca = ClaimModule::insertClaimActivity($claim_id, $ca_content, $currentUser->id, $ca_type);
+    $ca_feeders = ClaimModule::getCAFeeders($ca_type, $ca_params);
+    ClaimModule::insertCAFeeds($claim_id, $ca->id, $ca_feeders);
+    // TO DO: Notify to unassign partner
+      
     ClaimModule::removeP2C($partner_uid, $claim_id);
     
     return redirect()->back()

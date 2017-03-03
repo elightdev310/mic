@@ -13,7 +13,11 @@ use App\MIC\Models\Partner2Claim;
 use App\MIC\Models\ClaimPhoto;
 use App\MIC\Models\ClaimDoc;
 use App\MIC\Models\ClaimDocAccess;
+use App\MIC\Models\ClaimActivity;
+use App\MIC\Models\ClaimActivityFeed;
 use App\User as UserModel;
+
+use App\MIC\Helpers\MICHelper;
 
 class ClaimModule {
   /**
@@ -105,6 +109,48 @@ class ClaimModule {
     return $claims;
   }
 
+  public function getCAFeeds($claim_id, $user_type) {
+    $user = MICHelper::currentUser();
+    $feeds = array();
+    switch ($user_type) {
+      case 'patient':
+        $feeds = ClaimActivity::where('claim_id', $claim_id)
+                              ->where('public_patient', 1)
+                              ->orderBy('created_at', 'DESC')
+                              ->get();
+        break;
+      case 'partner':
+        // $feeds = DB::table('claimactivities')
+        //            ->rightJoin('claimactivityfeeds', function($join) use($claim_id, $user) {
+        //                 $join->on('claimactivities.id', '=', 'claimactivityfeeds.ca_id')
+        //                      ->where('claimactivityfeeds.claim_id', '=', $claim_id)
+        //                      ->where('claimactivityfeeds.feeder_uid', '=', $user->id);
+        //               })
+        //            ->get();
+        $cafs = DB::table('claimactivityfeeds')
+                    ->where('claim_id', $claim_id)
+                    ->where('feeder_uid', $user->id)
+                    ->pluck('ca_id');
+        
+        $feeds = ClaimActivity::whereIn('id', $cafs)
+                              ->orderBy('created_at', 'DESC')
+                              ->get();
+
+        break;
+      case 'employee':
+        $feeds = ClaimActivity::where('claim_id', $claim_id)
+                              ->orderBy('created_at', 'DESC')
+                              ->get();
+        break;
+    }
+
+    if (empty($feeds)) {
+      $feeds = array();
+    }
+
+    return $feeds;
+  }
+
   public function getClaimPhotos($claim_id) {
     $photos = ClaimPhoto::where('claim_id', $claim_id)
                         ->orderBy('id', 'ASC')
@@ -125,26 +171,26 @@ class ClaimModule {
     $user = UserModel::find($uid);
     $docs = array();
 
-    if ($user->can(config('mic.permission.micadmin_panel'))) {
+    if ($user->type == 'employee') {
       $docs = ClaimDoc::where('claim_id', $claim_id)
                     ->orderBy('id', 'DESC')
                     ->get();
     }
-    else if ($user->hasRole(config('mic.user_role.patient'))) {
+    else if ($user->type == 'patient') {
       $docs = ClaimDoc::where('claim_id', $claim_id)
                     ->where('type', '')
                     ->orderBy('id', 'DESC')
                     ->get();
     }
-    else {
+    else if ($user->type == 'partner') {
       $cda_docs = $this->getCDAdocs($uid);
       $sub_query = "creator_uid = $uid";
       if (!empty($cda_docs)) {
         $ids = join(", ",$cda_docs);
         $sub_query .= " OR id IN($ids) ";
       }
-      $docs = ClaimDoc::where('claim_id', $claim_id)
-                    ->whereRaw($sub_query)
+      $sub_query = "claim_id = $claim_id AND ($sub_query)";
+      $docs = ClaimDoc::whereRaw($sub_query)
                     ->orderBy('id', 'DESC')
                     ->get(); 
     }
@@ -184,6 +230,14 @@ class ClaimModule {
 
     return $data;
   }
+
+  public function getCDA($doc_id) {
+    $cdas = ClaimDocAccess::where('doc_id', $doc_id)
+                         ->get();
+    if (!$cdas) { return arrau(); }
+    return $cdas;
+  }
+
   /**
    * Check if user has access to claim doc
    */
@@ -205,6 +259,100 @@ class ClaimModule {
     }
     
     return false;
+  }
+
+  public function insertClaimActivity($claim_id, $content, $author_uid, $type, $public_patient=1) {
+    $ca = new ClaimActivity;
+    $ca->claim_id = $claim_id;
+    $ca->content  = $content;
+    $ca->author_uid = $author_uid;
+    $ca->type     = $type;
+    $ca->public_patient = $public_patient;
+    $ca->save();
+
+    return $ca;
+  }
+
+  public function getCAContent($type, $params) {
+    $content = '';
+    extract($params);
+    switch ($type) {
+      case 'create_claim':
+        // use $claim, $user
+        $msg = '%s submitted claim #%d';
+        $content = sprintf($msg, $claim->id);
+        break;
+      case 'upload_doc':
+        // use $claim, $user, $doc
+        $msg = 'Uploaded %s to claim #%d';
+        $content = sprintf($msg, $doc->file->name, $claim->id);
+        break;
+      case 'delete_doc':
+        // use $claim, $user, $doc
+        $msg = 'Deleted %s from claim #%d';
+        $content = sprintf($msg, $doc->file->name, $claim->id);
+        break;
+      case 'post_comment':
+        // use $claim, $user, $doc, $comment
+        $msg = 'Posted comment to document (%s) <br/><div class="comment-text">%s</div>';
+        $content = sprintf($msg, $doc->file->name, nl2br($comment->comment));
+        break;
+      case 'assign_partner':
+        // use $partner, $claim
+        $msg = 'Assigned %s to claim #%d';
+        $content = sprintf($msg, $partner->name, $claim->id);
+        break;
+      case 'unassign_partner':
+        // use $partner, $claim
+        $msg = 'Unassigned %s from claim #%d';
+        $content = sprintf($msg, $partner->name, $claim->id);
+        break;
+    }
+
+    return $content;
+  }
+
+  public function getCAFeeders($type, $params) {
+    $feeders = array();
+    extract($params);
+    switch ($type) {
+      case 'create_claim':
+        break;
+      case 'upload_doc': 
+        // use $claim, $user, $doc
+        if (MICHelper::isPartner($doc->creator_uid)) {
+          $feeders[$doc->creator_uid] = $doc->creator_uid;   // Partner Author
+        }
+        break;
+      case 'delete_doc':
+      case 'post_comment':
+        // use $claim, $user, $doc
+        $cdas = $this->getCDA($doc->id);
+        foreach ($cdas as $cda) {
+          $feeders[$cda->partner_uid] = $cda->partner_uid;
+        }
+        if (MICHelper::isPartner($doc->creator_uid)) {
+          $feeders[$doc->creator_uid] = $doc->creator_uid;   // Partner Author
+        }
+        break;
+      case 'assign_partner': 
+      case 'unassign_partner': 
+        // use $partner, $claim
+        $feeders[$partner->id] = $partner->id;    // Assigned Partner
+        break;
+    }
+
+    return $feeders;
+  }
+
+  public function insertCAFeeds($claim_id, $claim_activity_id, $feeders) {
+    foreach ($feeders as $feeder_uid) {
+      $caf = new ClaimActivityFeed;
+      $caf->claim_id    = $claim_id;
+      $caf->feeder_uid  = $feeder_uid;
+      $caf->ca_id       = $claim_activity_id;
+      $caf->save();
+    }    
   }
 
 }

@@ -26,28 +26,6 @@ class MICHelper
     }
 
     return $user->partner->membership_role;
-
-    // $type = '';
-    // if ($user->hasRole(config('mic.user_role.doctor'))) {
-    //   $type=strtolower(config('mic.user_role.doctor'));
-    // }
-    // else if ($user->hasRole(config('mic.user_role.pcp'))) {
-    //   $type=strtolower(config('mic.user_role.pcp'));
-    // } 
-    // else if ($user->hasRole(config('mic.user_role.specialist'))) {
-    //   $type=strtolower(config('mic.user_role.specialist'));
-    // } 
-    // else if ($user->hasRole(config('mic.user_role.therapist'))) {
-    //   $type=strtolower(config('mic.user_role.therapist'));
-    // } 
-    // else if ($user->hasRole(config('mic.user_role.attorney'))) {
-    //   $type=strtolower(config('mic.user_role.attorney'));
-    // } 
-    // else if ($user->hasRole(config('mic.user_role.insurer'))) {
-    //   $type=strtolower(config('mic.user_role.insurer'));
-    // } 
-
-    // return $type;
   }
 
   public static function getPartnerTypeTitle($partner) {
@@ -70,6 +48,30 @@ class MICHelper
   public static function currentUser() {
     $user = Auth::user();
     return $user;
+  }
+
+  public static function isPartner($user) {
+    if (is_numeric($user)) {
+      $user = User::find($user);
+    }
+
+    if ($user->type == 'partner') {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  public static function isPatient($user) {
+    if (is_numeric($user)) {
+      $user = User::find($user);
+    }
+
+    if ($user->type == 'patient') {
+      return true;
+    } else {
+      return false;
+    }
   }
 
 }

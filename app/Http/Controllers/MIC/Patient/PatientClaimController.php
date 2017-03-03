@@ -50,6 +50,9 @@ trait PatientClaimController
     $answers = $claim->getAnswers();
     $questions = ClaimModule::getIQuestionsByAnswers($answers);
     
+    // Activity Feeds
+    $ca_feeds = ClaimModule::getCAFeeds($claim_id, 'patient');
+
     // Photo
     $photos = ClaimModule::getClaimPhotos($claim_id);
 
@@ -57,12 +60,13 @@ trait PatientClaimController
     $docs = ClaimModule::getClaimDocs($claim_id, $user->id);
 
     $params = array();
-    $params['user'] = $user;
-    $params['claim'] = $claim;
-    $params['questions'] = $questions;
-    $params['answers'] = $answers;
-    $params['photos'] = $photos;
-    $params['docs'] = $docs;
+    $params['user']       = $user;
+    $params['claim']      = $claim;
+    $params['questions']  = $questions;
+    $params['answers']    = $answers;
+    $params['ca_feeds']   = $ca_feeds;
+    $params['photos']     = $photos;
+    $params['docs']       = $docs;
 
     return view('mic.patient.claim.page', $params);
   }

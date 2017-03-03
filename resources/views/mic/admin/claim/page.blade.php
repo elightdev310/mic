@@ -39,7 +39,7 @@
     <li class="@if (!session('_panel') || session('_panel')=='ioi') active @endif">
       <a role="tab" data-toggle="tab" class="active" href="#tab-ioi" data-target="#tab-ioi" aria-expanded="true">
         <i class="fa fa-bars"></i> IOI</a></li>
-    <li class="@if (session('_panel') == 'activity') active @endif">
+    <li class="tab-activity @if (session('_panel') == 'activity') active @endif">
       <a role="tab" data-toggle="tab" href="#tab-activity" data-target="#tab-activity" aria-expanded="false">
         <i class="fa fa-clock-o"></i> Activity</a></li>
     <li class="@if (session('_panel') == 'docs') active @endif">
