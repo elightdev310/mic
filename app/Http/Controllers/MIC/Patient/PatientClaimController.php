@@ -76,12 +76,12 @@ trait PatientClaimController
    * Upload Photos
    */
   public function patientUploadPhoto(Request $request, $claim_id) {
+    $user = MICHelper::currentUser();
+
     if(Input::hasFile('file')) {
 
       $file = Input::file('file');
       
-      // print_r($file);
-      //$this->createClaimFolder($claim_id, 'photos');
       $folder = storage_path("claims/photos/".$claim_id);
       $upload = $this->uploadClaimFile($file, $folder);
 
@@ -92,6 +92,18 @@ trait PatientClaimController
         ]);
         $photo->save();
 
+        $claim = Claim::find($claim_id);
+        // Activity Feed
+        $ca_type = 'upload_photo';
+        $ca_params = array(
+            'claim' => $claim, 
+            'user'  => $user, 
+            'photo' => $photo, 
+          );
+        $ca_content = ClaimModule::getCAContent($ca_type, $ca_params);
+        $ca = ClaimModule::insertClaimActivity($claim->id, $ca_content, $user->id, $ca_type);
+        $ca_feeders = ClaimModule::getCAFeeders($ca_type, $ca_params);
+        ClaimModule::insertCAFeeds($claim->id, $ca->id, $ca_feeders);
         // TO DO: Notify to Upload Photo
 
         return response()->json([
@@ -109,10 +121,25 @@ trait PatientClaimController
   }
 
   public function patientDeletePhoto(Request $request, $claim_id, $photo_id) {
+    $user = MICHelper::currentUser();
     $photo = ClaimPhoto::where('id', $photo_id)
                        ->where('claim_id', $claim_id)
                        ->first();
     if ($photo) {
+      $claim = Claim::find($claim_id);
+      // Activity Feed
+      $ca_type = 'delete_photo';
+      $ca_params = array(
+          'claim' => $claim, 
+          'user'  => $user, 
+          'photo' => $photo, 
+        );
+      $ca_content = ClaimModule::getCAContent($ca_type, $ca_params);
+      $ca = ClaimModule::insertClaimActivity($claim->id, $ca_content, $user->id, $ca_type);
+      $ca_feeders = ClaimModule::getCAFeeders($ca_type, $ca_params);
+      ClaimModule::insertCAFeeds($claim->id, $ca->id, $ca_feeders);
+      // TO DO: Notify to Delete Photo
+      
       $upload = Upload::find($photo->file_id);
       if ($upload) {
         unlink($upload->path);

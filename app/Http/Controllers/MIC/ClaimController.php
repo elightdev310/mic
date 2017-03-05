@@ -203,7 +203,7 @@ class ClaimController extends Controller
    * Upload Photos
    */
   public function uploadClaimDoc(Request $request, $claim_id) {
-    $user = Auth::user();
+    $user = MICHelper::currentUser();
 
     if($user && Input::hasFile('file')) {
 

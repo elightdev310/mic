@@ -282,14 +282,25 @@ class ClaimModule {
         $msg = '%s submitted claim #%d';
         $content = sprintf($msg, $claim->id);
         break;
+      case 'upload_photo':
+        // use $claim, $user, $photo
+        $msg = 'Uploaded photo (%s) to claim #%d';
+        $content = sprintf($msg, $photo->file->name, $claim->id);
+        break;
+      case 'delete_photo':
+        // use $claim, $user, $photo
+        $msg = 'Deleted photo (%s) from claim #%d';
+        $content = sprintf($msg, $photo->file->name, $claim->id);
+        break;
+
       case 'upload_doc':
         // use $claim, $user, $doc
-        $msg = 'Uploaded %s to claim #%d';
+        $msg = 'Uploaded document (%s) to claim #%d';
         $content = sprintf($msg, $doc->file->name, $claim->id);
         break;
       case 'delete_doc':
         // use $claim, $user, $doc
-        $msg = 'Deleted %s from claim #%d';
+        $msg = 'Deleted document (%s) from claim #%d';
         $content = sprintf($msg, $doc->file->name, $claim->id);
         break;
       case 'post_comment':
@@ -317,6 +328,14 @@ class ClaimModule {
     extract($params);
     switch ($type) {
       case 'create_claim':
+        break;
+      case 'upload_photo':
+      case 'delete_photo':
+        // use $claim, $user, $photo
+        $p2cs = Partner2Claim::where('claim_id', $claim->id)->get();
+        foreach ($p2cs as $p2c) {
+          $feeders[$p2c->partner_uid] = $p2c->partner_uid;
+        }
         break;
       case 'upload_doc': 
         // use $claim, $user, $doc
