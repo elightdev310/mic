@@ -122,4 +122,8 @@ Route::group(['as' => $as, 'middleware' => ['auth', 'permission:ADMIN_PANEL']], 
 	/* ================== ClaimActivityFeeds ================== */
 	Route::resource(config('laraadmin.adminRoute') . '/claimactivityfeeds', 'LA\ClaimActivityFeedsController');
 	Route::get(config('laraadmin.adminRoute') . '/claimactivityfeed_dt_ajax', 'LA\ClaimActivityFeedsController@dtajax');
+
+	/* ================== ClaimAssignRequests ================== */
+	Route::resource(config('laraadmin.adminRoute') . '/claimassignrequests', 'LA\ClaimAssignRequestsController');
+	Route::get(config('laraadmin.adminRoute') . '/claimassignrequest_dt_ajax', 'LA\ClaimAssignRequestsController@dtajax');
 });

@@ -71,6 +71,7 @@ class ClaimController extends Controller
 
     //Assign Partner
     $assigned_partners = ClaimModule::getPartnersByClaim($claim_id);
+    $assign_requests = ClaimModule::getCARsByClaim($claim_id, 'employee');
     $partner_list = User::where('type', 'partner')
                         ->where('status', 'active')
                         ->get();
@@ -85,43 +86,79 @@ class ClaimController extends Controller
     $params['docs']       = $docs;
     $params['partners']   = $assigned_partners;
     $params['partner_list'] = $partner_list;
+    $params['assign_requests'] = $assign_requests;
 
     $params['no_header'] = true;
     $params['no_padding'] = 'no-padding';
     return view('mic.admin.claim.page', $params);
   }
 
-  /**
-   * GET: Assign Partner to Claim [POST]
-   */
-  public function claimAssignPartner(Request $request, $claim_id, $partner_uid) {
+  public function claimAssignRequest(Request $request, $claim_id, $partner_uid) {
     $currentUser = MICHelper::currentUser();
 
     $user = User::find($partner_uid);
+    // Check Valid Reuqest
     if (ClaimModule::checkP2C($partner_uid, $claim_id)) {
       return redirect()->back()
                 ->with('_panel', 'assign-partner')
                 ->withErrors($user->name." already assigned to claim #".$claim_id);
-    } else {
-      ClaimModule::insertP2C($partner_uid, $claim_id);
-
-      $claim = Claim::find($claim_id);
-      // Activity Feed
-      $ca_type = 'assign_partner';
-      $ca_params = array(
-          'partner' => $user, 
-          'claim'   => $claim
-        );
-      $ca_content = ClaimModule::getCAContent($ca_type, $ca_params);
-      $ca = ClaimModule::insertClaimActivity($claim_id, $ca_content, $currentUser->id, $ca_type);
-      $ca_feeders = ClaimModule::getCAFeeders($ca_type, $ca_params);
-      ClaimModule::insertCAFeeds($claim_id, $ca->id, $ca_feeders);
-      // TO DO: Notify to assign partner
+    } else if (ClaimModule::checkCAR($partner_uid, $claim_id)) {
+      return redirect()->back()
+                ->with('_panel', 'assign-partner')
+                ->withErrors("We already sent a request to ".$user->name." (claim #".$claim_id.")");
     }
+
+    ClaimModule::insertAssignRequest($partner_uid, $claim_id);
+
+    $claim = Claim::find($claim_id);
+    // Activity Feed
+    $ca_type = 'assign_request';
+    $ca_params = array(
+        'partner' => $user, 
+        'claim'   => $claim
+      );
+    $ca_content = ClaimModule::getCAContent($ca_type, $ca_params);
+    $ca = ClaimModule::insertClaimActivity($claim_id, $ca_content, $currentUser->id, $ca_type, 0);
+    $ca_feeders = ClaimModule::getCAFeeders($ca_type, $ca_params);
+    ClaimModule::insertCAFeeds($claim_id, $ca->id, $ca_feeders);
+    // TO DO: Notify partner to send request
+      
     return redirect()->back()
                 ->with('_panel', 'assign-partner')
-                ->with('status', $user->name." is assigned to claim #".$claim_id.", successfully.");
+                ->with('status', "Sent request to ".$user->name." (claim #".$claim_id.")" );
   }
+
+  // /**
+  //  * GET: Assign Partner to Claim [POST]
+  //  */
+  // public function claimAssignPartner(Request $request, $claim_id, $partner_uid) {
+  //   $currentUser = MICHelper::currentUser();
+
+  //   $user = User::find($partner_uid);
+  //   if (ClaimModule::checkP2C($partner_uid, $claim_id)) {
+  //     return redirect()->back()
+  //               ->with('_panel', 'assign-partner')
+  //               ->withErrors($user->name." already assigned to claim #".$claim_id);
+  //   } else {
+  //     ClaimModule::insertP2C($partner_uid, $claim_id);
+
+  //     $claim = Claim::find($claim_id);
+  //     // Activity Feed
+  //     $ca_type = 'assign_partner';
+  //     $ca_params = array(
+  //         'partner' => $user, 
+  //         'claim'   => $claim
+  //       );
+  //     $ca_content = ClaimModule::getCAContent($ca_type, $ca_params);
+  //     $ca = ClaimModule::insertClaimActivity($claim_id, $ca_content, $currentUser->id, $ca_type);
+  //     $ca_feeders = ClaimModule::getCAFeeders($ca_type, $ca_params);
+  //     ClaimModule::insertCAFeeds($claim_id, $ca->id, $ca_feeders);
+  //     // TO DO: Notify to assign partner
+  //   }
+  //   return redirect()->back()
+  //               ->with('_panel', 'assign-partner')
+  //               ->with('status', $user->name." is assigned to claim #".$claim_id.", successfully.");
+  // }
 
   /**
    * GET: UnAssign Partner From Claim [POST]

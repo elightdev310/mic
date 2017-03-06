@@ -73,4 +73,10 @@ return [
       'paypal'  => 'Paypal'
     ), 
 
+  // Claim Assign Request Status
+  'car_status' => array(
+      '0'    => '-', 
+      '1'    => 'approved', 
+      '2'    => 'rejected', 
+    ), 
 ];

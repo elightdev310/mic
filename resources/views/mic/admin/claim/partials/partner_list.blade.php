@@ -20,10 +20,12 @@
         <td class="action">
           @if (MICHelper::checkIfP2C($user->id, $claim->id))
           <span class="text-green">Assigned</span>
+          @elseif (MICHelper::checkIfCAR($user->id, $claim->id))
+          <span class="text-warning">Sent request</span>
           @else
-          <a class="btn btn-primary btn-sm assign-partner-link" href="#tab-partners" 
-              data-url="{{ route('micadmin.claim.assign.partner', [$claim->id, $user->id]) }}">
-            Assign
+          <a class="btn btn-primary btn-sm assign-request-link" href="#tab-partners" 
+              data-url="{{ route('micadmin.claim.assign_request.partner', [$claim->id, $user->id]) }}">
+            Send Request
           </a>
           @endif
         </td>
@@ -38,12 +40,12 @@
 <script>
 (function ($) {
 $(document).ready(function() {
-  $('a.assign-partner-link').click(function() {
+  $('a.assign-request-link').click(function() {
     var assign_url = $(this).data('url');
     var $partner_item = $(this).closest('.partner-item');
     var partner = $partner_item.find('.partner-name').html();
     bootbox.confirm({
-      message: "<p>Are you sure to assign "+partner+" to Claim #{{ $claim->id }}?</p>", 
+      message: "<p>Are you sure to send a request to "+partner+"?</p>", 
       callback: function (result) {
         if (result) {
           window.location.href = assign_url;

@@ -9,6 +9,7 @@ use App\Models\Upload;
 use App\MIC\Models\IQuestion;
 use App\MIC\Models\Claim;
 use App\MIC\Models\User;
+use App\MIC\Models\ClaimAssignRequest;
 use App\MIC\Models\Partner2Claim;
 use App\MIC\Models\ClaimPhoto;
 use App\MIC\Models\ClaimDoc;
@@ -61,6 +62,51 @@ class ClaimModule {
                       ->get();
 
     return $i_questions; 
+  }
+
+  public function insertAssignRequest($partner_uid, $claim_id) {
+    $car = new ClaimAssignRequest;
+    $car->partner_uid     = $partner_uid;
+    $car->claim_id        = $claim_id;
+    $car->partner_approve = 0;
+    $car->patient_approve = 0;
+    $car->status          = 'pending';
+    $car->save();
+  }
+
+  public function checkCAR($partner_uid, $claim_id) {
+    $car = ClaimAssignRequest::where('partner_uid', $partner_uid)
+                  ->where('claim_id', $claim_id)
+                  ->where('status', 'pending')
+                  ->first();
+    if ($car) {
+      return $car;
+    }
+    return false;
+  }
+
+  public function getCARsByClaim($claim_id, $user_type) {
+    $car = ClaimAssignRequest::where('claim_id', $claim_id);
+    switch ($user_type) {
+      case 'patient':
+        $car->where('partner_approve', 1)
+            ->where('patient_approve', 0);
+        break;
+      case 'emplyee':
+        break;
+    }
+
+    $car = $car->orderBy('partner_approve', 'ASC')
+               ->orderBy('patient_approve', 'ASC')
+               ->get();
+    return $car;
+  }
+  public function getCARsByPartner($partner_uid) {
+    $car = ClaimAssignRequest::where('partner_uid', $partner_uid)
+                ->where('partner_approve', 0)
+                ->orderBy('id', 'ASC')
+                ->get();
+    return $car;
   }
 
 
@@ -116,7 +162,7 @@ class ClaimModule {
       case 'patient':
         $feeds = ClaimActivity::where('claim_id', $claim_id)
                               ->where('public_patient', 1)
-                              ->orderBy('created_at', 'DESC')
+                              ->orderBy('id', 'DESC')
                               ->get();
         break;
       case 'partner':
@@ -133,13 +179,13 @@ class ClaimModule {
                     ->pluck('ca_id');
         
         $feeds = ClaimActivity::whereIn('id', $cafs)
-                              ->orderBy('created_at', 'DESC')
+                              ->orderBy('id', 'DESC')
                               ->get();
 
         break;
       case 'employee':
         $feeds = ClaimActivity::where('claim_id', $claim_id)
-                              ->orderBy('created_at', 'DESC')
+                              ->orderBy('id', 'DESC')
                               ->get();
         break;
     }
@@ -308,6 +354,31 @@ class ClaimModule {
         $msg = 'Posted comment to document (%s) <br/><div class="comment-text">%s</div>';
         $content = sprintf($msg, $doc->file->name, nl2br($comment->comment));
         break;
+      case 'assign_request':
+        // use $partner, $claim
+        $msg = 'Sent a request to %s for claim #%d';
+        $content = sprintf($msg, $partner->name, $claim->id);
+        break;
+      case 'partner_approve_request':
+        // use $partner, $claim
+        $msg = '%s approved a request for claim #%d';
+        $content = sprintf($msg, $partner->name, $claim->id);
+        break;
+      case 'partner_reject_request':
+        // use $partner, $claim
+        $msg = '%s rejected a request for claim #%d';
+        $content = sprintf($msg, $partner->name, $claim->id);
+        break;
+      case 'patient_approve_request':
+        // use $partner, $claim
+        $msg = 'Approved %s for claim #%d';
+        $content = sprintf($msg, $partner->name, $claim->id);
+        break;
+      case 'patient_reject_request':
+        // use $partner, $claim
+        $msg = 'Rejected %s for claim #%d';
+        $content = sprintf($msg, $partner->name, $claim->id);
+        break;
       case 'assign_partner':
         // use $partner, $claim
         $msg = 'Assigned %s to claim #%d';
@@ -354,6 +425,12 @@ class ClaimModule {
           $feeders[$doc->creator_uid] = $doc->creator_uid;   // Partner Author
         }
         break;
+      case 'patient_approve_request': 
+      case 'patient_reject_request': 
+        break;
+      case 'assign_request': 
+      case 'partner_approve_request': 
+      case 'partner_reject_request': 
       case 'assign_partner': 
       case 'unassign_partner': 
         // use $partner, $claim

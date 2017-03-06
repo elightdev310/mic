@@ -32,6 +32,10 @@ class MICHelper
     return config('mic.partner_type.'.$partner->membership_role);
   }
 
+  public static function checkIfCAR($partner_uid, $claim_id) {
+    return CLaimModule::checkCAR($partner_uid, $claim_id);
+  }
+
   public static function checkIfP2C($partner_uid, $claim_id) {
     return CLaimModule::checkP2C($partner_uid, $claim_id);
   }

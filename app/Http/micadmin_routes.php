@@ -79,8 +79,11 @@ Route::group(['prefix'=>config('mic.adminRoute'),
     'as'=>$as.'claim.page', 'uses'=>'MIC\Admin\ClaimController@claimPage' 
   ]);
 
-  Route::get('claim/{claim_id}/assign/{partner_uid}', [
-    'as'=>$as.'claim.assign.partner', 'uses'=>'MIC\Admin\ClaimController@claimAssignPartner' 
+  // Route::get('claim/{claim_id}/assign/{partner_uid}', [
+  //   'as'=>$as.'claim.assign.partner', 'uses'=>'MIC\Admin\ClaimController@claimAssignPartner' 
+  // ]);
+  Route::get('claim/{claim_id}/assign-request/{partner_uid}', [
+    'as'=>$as.'claim.assign_request.partner', 'uses'=>'MIC\Admin\ClaimController@claimAssignRequest' 
   ]);
   Route::get('claim/{claim_id}/unassign/{partner_uid}', [
     'as'=>$as.'claim.unassign.partner', 'uses'=>'MIC\Admin\ClaimController@claimUnassignPartner' 

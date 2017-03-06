@@ -18,6 +18,7 @@
     <li class=""><a role="tab" data-toggle="tab" href="#tab-docs" data-target="#tab-docs" aria-expanded="false"><i class="fa fa-file-word-o"></i> Docs</a></li>
     <li class=""><a role="tab" data-toggle="tab" href="#tab-photos" data-target="#tab-photos" aria-expanded="false"><i class="fa fa-file-photo-o"></i> Photos</a></li>
     <li class=""><a role="tab" data-toggle="tab" href="#tab-action" data-target="#tab-action" aria-expanded="false"><i class="fa fa-cube"></i> Action</a></li>
+    <li class=""><a role="tab" data-toggle="tab" href="#tab-partners" data-target="#tab-partners" aria-expanded="false"><i class="fa fa-users"></i> Partners</a></li>
   </ul>
 
     <div class="tab-content">
@@ -100,6 +101,20 @@
             </div>
             <div class="panel-body">
               @include('mic.patient.claim.partials.action')
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Partners -->
+      <div role="tabpanel" class="tab-pane fade" id="tab-partners">
+        <div class="tab-content">
+          <div class="panel infolist">
+            <div class="panel-default panel-heading">
+              <h4>Partners</h4>
+            </div>
+            <div class="panel-body">
+              @include('mic.patient.claim.partials.partners')
             </div>
           </div>
         </div>

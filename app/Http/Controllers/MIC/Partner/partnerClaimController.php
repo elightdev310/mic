@@ -14,6 +14,7 @@ use App\MIC\Facades\ClaimFacade as ClaimModule;
 
 use App\User;
 use App\MIC\Models\Claim;
+use App\MIC\Models\ClaimAssignRequest;
 
 trait PartnerClaimController
 {
@@ -23,9 +24,11 @@ trait PartnerClaimController
   public function partnerClaims(Request $request) {
     $user = MICHelper::currentUser();
     $claims = ClaimModule::getClaimsByPartner($user->id);
+    $assign_requests = ClaimModule::getCARsByPartner($user->id);
 
     $params = array();
     $params['claims'] = $claims;
+    $params['assign_requests'] = $assign_requests;
     return view('mic.partner.claim.claims', $params);
   }
 
@@ -63,4 +66,51 @@ trait PartnerClaimController
     
     return view('mic.partner.claim.page', $params);
   }
+
+  public function partnerCARAction(Request $request, $claim_id, $car_id, $action) {
+    $currentUser = MICHelper::currentUser();
+    $car = ClaimAssignRequest::find($car_id);
+    if (!$car) {
+      return redirect()->back()->withErrors("Failed to handle a request.");
+    }
+
+    $claim = Claim::find($claim_id);
+
+    if ($action == 'approve') {
+      $car->partner_approve = 1;
+      $car->save();
+      
+      // Activity Feed
+      $ca_type = 'partner_approve_request';
+      $ca_params = array(
+          'partner' => $currentUser, 
+          'claim'   => $claim
+        );
+      $ca_content = ClaimModule::getCAContent($ca_type, $ca_params);
+      $ca = ClaimModule::insertClaimActivity($claim_id, $ca_content, $currentUser->id, $ca_type);
+      $ca_feeders = ClaimModule::getCAFeeders($ca_type, $ca_params);
+      ClaimModule::insertCAFeeds($claim_id, $ca->id, $ca_feeders);
+      
+      return redirect()->back()->with('status', "Approved a request for claim #$claim_id");
+    } else if ($action == 'reject') {
+      $car->partner_approve = 2;
+      $car->status = 'rejected';
+      $car->save();
+
+      // Activity Feed
+      $ca_type = 'partner_reject_request';
+      $ca_params = array(
+          'partner' => $currentUser, 
+          'claim'   => $claim
+        );
+      $ca_content = ClaimModule::getCAContent($ca_type, $ca_params);
+      $ca = ClaimModule::insertClaimActivity($claim_id, $ca_content, $currentUser->id, $ca_type, 0);
+      $ca_feeders = ClaimModule::getCAFeeders($ca_type, $ca_params);
+      ClaimModule::insertCAFeeds($claim_id, $ca->id, $ca_feeders);
+
+      return redirect()->back()->with('status', "Rejected a request for claim #$claim_id");
+    }
+  }
+
+
 }

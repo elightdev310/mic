@@ -14,9 +14,10 @@ use Illuminate\Support\Facades\View;
 use App\MIC\Facades\ClaimFacade as ClaimModule;
 use App\MIC\Helpers\MICHelper;
 
-use App\User;
+use App\MIC\Models\User;
 use App\MIC\Models\Claim;
 use App\MIC\Models\ClaimPhoto;
+use App\MIC\Models\ClaimAssignRequest;
 use App\Models\Upload;
 
 trait PatientClaimController
@@ -59,6 +60,10 @@ trait PatientClaimController
     // Doc
     $docs = ClaimModule::getClaimDocs($claim_id, $user->id);
 
+    // Partners
+    $assign_requests = ClaimModule::getCARsByClaim($claim_id, 'patient');
+    $assigned_partners = ClaimModule::getPartnersByClaim($claim_id);
+    
     $params = array();
     $params['user']       = $user;
     $params['claim']      = $claim;
@@ -67,6 +72,8 @@ trait PatientClaimController
     $params['ca_feeds']   = $ca_feeds;
     $params['photos']     = $photos;
     $params['docs']       = $docs;
+    $params['assign_requests'] = $assign_requests;
+    $params['partners'] = $assigned_partners;
 
     return view('mic.patient.claim.page', $params);
   }
@@ -161,4 +168,80 @@ trait PatientClaimController
 
     return response()->json(['photo_html' => $photo_list]);
   }
+
+  public function patientCARAction(Request $request, $claim_id, $car_id, $action) {
+    $currentUser = MICHelper::currentUser();
+    $car = ClaimAssignRequest::find($car_id);
+    if (!$car) {
+      return redirect()->back()->withErrors("Failed to handle a request.");
+    }
+
+    $claim = Claim::find($claim_id);
+
+    if ($action == 'approve') {
+      $car->patient_approve = 1;
+      $car->status = 'approved';
+      $car->save();
+      
+      // Activity Feed
+      $ca_type = 'patient_approve_request';
+      $ca_params = array(
+          'partner' => $car->partnerUser, 
+          'claim'   => $claim
+        );
+      $ca_content = ClaimModule::getCAContent($ca_type, $ca_params);
+      $ca = ClaimModule::insertClaimActivity($claim_id, $ca_content, $currentUser->id, $ca_type);
+      $ca_feeders = ClaimModule::getCAFeeders($ca_type, $ca_params);
+      ClaimModule::insertCAFeeds($claim_id, $ca->id, $ca_feeders);
+      
+      // Assign Partner to Claim
+      $this->claimAssignPartner($claim_id, $car->partner_uid);
+
+      return redirect()->back()->with('status', "Approved $car->partnerUser->name for claim #$claim_id");
+    } else if ($action == 'reject') {
+      $car->patient_approve = 2;
+      $car->status = 'rejected';
+      $car->save();
+
+      // Activity Feed
+      $ca_type = 'patient_reject_request';
+      $ca_params = array(
+          'partner' => $car->partnerUser, 
+          'claim'   => $claim
+        );
+      $ca_content = ClaimModule::getCAContent($ca_type, $ca_params);
+      $ca = ClaimModule::insertClaimActivity($claim_id, $ca_content, $currentUser->id, $ca_type);
+      $ca_feeders = ClaimModule::getCAFeeders($ca_type, $ca_params);
+      ClaimModule::insertCAFeeds($claim_id, $ca->id, $ca_feeders);
+
+      return redirect()->back()->with('status', "Rejected $car->partnerUser->name for claim #$claim_id");
+    }
+  }
+
+  protected function claimAssignPartner($claim_id, $partner_uid) {
+    $currentUser = MICHelper::currentUser();
+
+    $user = User::find($partner_uid);
+    if (ClaimModule::checkP2C($partner_uid, $claim_id)) {
+      return false;
+    } else {
+      ClaimModule::insertP2C($partner_uid, $claim_id);
+
+      $claim = Claim::find($claim_id);
+      // Activity Feed
+      $ca_type = 'assign_partner';
+      $ca_params = array(
+          'partner' => $user, 
+          'claim'   => $claim
+        );
+      $ca_content = ClaimModule::getCAContent($ca_type, $ca_params);
+      $ca = ClaimModule::insertClaimActivity($claim_id, $ca_content, $currentUser->id, $ca_type);
+      $ca_feeders = ClaimModule::getCAFeeders($ca_type, $ca_params);
+      ClaimModule::insertCAFeeds($claim_id, $ca->id, $ca_feeders);
+      // TO DO: Notify to assign partner
+      
+    }
+  }
+
+
 }

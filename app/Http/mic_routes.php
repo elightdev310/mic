@@ -92,6 +92,10 @@ Route::group(['middleware' => ['auth', 'permission:PATIENT_PANEL']],
   Route::get('patient/claim/{claim_id}/photo-list', [
     'as'=>$as1.'claim.photo_list', 'uses'=>'MIC\ClaimController@claimPhotoList' 
   ]);
+
+  Route::get('patient/claim/{claim_id}/assign-request/{car_id}/{action}', [
+    'as'=>$as1.'claim.assign-request.action', 'uses'=>'MIC\ClaimController@patientCARAction' 
+  ]);
 });
 
 Route::group(['middleware' => ['auth', 'permission:PARTNER_PANEL']], 
@@ -103,5 +107,8 @@ Route::group(['middleware' => ['auth', 'permission:PARTNER_PANEL']],
 
   Route::get('partner/claim/{claim_id}', [
     'as'=>$as2.'claim.page', 'uses'=>'MIC\ClaimController@partnerClaimPage' 
+  ]);
+  Route::get('partner/claim/{claim_id}/assign-request/{car_id}/{action}', [
+    'as'=>$as2.'claim.assign-request.action', 'uses'=>'MIC\ClaimController@partnerCARAction' 
   ]);
 });
