@@ -1,7 +1,3 @@
-@if (session('_panel')=='assign-partner')
-  @include('mic.admin.partials.success_error')
-@endif
-
 <div class="box-body table-responsive">
 
   <table class="table table-striped table-hover">

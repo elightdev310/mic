@@ -197,7 +197,9 @@ trait PatientClaimController
       // Assign Partner to Claim
       $this->claimAssignPartner($claim_id, $car->partner_uid);
 
-      return redirect()->back()->with('status', "Approved $car->partnerUser->name for claim #$claim_id");
+      return redirect()->back()
+                ->with('status', "Approved {$car->partnerUser->name} for claim #$claim_id")
+                ->with('_panel', 'partners');;
     } else if ($action == 'reject') {
       $car->patient_approve = 2;
       $car->status = 'rejected';
@@ -214,7 +216,9 @@ trait PatientClaimController
       $ca_feeders = ClaimModule::getCAFeeders($ca_type, $ca_params);
       ClaimModule::insertCAFeeds($claim_id, $ca->id, $ca_feeders);
 
-      return redirect()->back()->with('status', "Rejected $car->partnerUser->name for claim #$claim_id");
+      return redirect()->back()
+              ->with('status', "Rejected {$car->partnerUser->name} for claim #$claim_id")
+              ->with('_panel', 'partners');
     }
   }
 

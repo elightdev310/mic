@@ -121,6 +121,9 @@
               <h4>Action</h4>
             </div>
             <div class="panel-body">
+              @if (session('_panel')=='action')
+                @include('mic.admin.partials.success_error')
+              @endif
               @include('mic.patient.claim.partials.action')
             </div>
           </div>
@@ -135,6 +138,9 @@
               <h4>Assigned Partners</h4>
             </div>
             <div class="panel-body">
+              @if (session('_panel')=='assign-partner')
+                @include('mic.admin.partials.success_error')
+              @endif
               @include('mic.admin.claim.partials.assigned_partners')
             </div>
           </div>
