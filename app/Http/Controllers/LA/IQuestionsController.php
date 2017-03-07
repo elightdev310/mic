@@ -23,7 +23,7 @@ class IQuestionsController extends Controller
 {
 	public $show_action = true;
 	public $view_col = 'quiz';
-	public $listing_cols = ['id', 'quiz', 'weight'];
+	public $listing_cols = ['id', 'quiz', 'show_creating', 'weight'];
 	
 	public function __construct() {
 		// Field Access of Listing Columns

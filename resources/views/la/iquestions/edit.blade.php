@@ -34,6 +34,7 @@
 					
 					{{--
 					@la_input($module, 'quiz')
+					@la_input($module, 'show_creating')
 					@la_input($module, 'weight')
 					--}}
                     <br>

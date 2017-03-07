@@ -108,6 +108,7 @@
 					</div>
 					<div class="panel-body">
 						@la_display($module, 'quiz')
+						@la_display($module, 'show_creating')
 						@la_display($module, 'weight')
 					</div>
 				</div>
