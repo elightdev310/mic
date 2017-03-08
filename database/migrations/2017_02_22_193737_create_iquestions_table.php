@@ -19,7 +19,7 @@ class CreateIquestionsTable extends Migration
     {
         Module::generate("Iquestions", 'iquestions', 'quiz', 'fa-plus-square', [
             ["quiz", "Question", "Textarea", false, "", 0, 0, false],
-            ["show_creating", "Show in Creating", "Integer", false, "0", 0, 7, false],
+            ["show_creating", "Show in Creating", "Integer", false, "1", 0, 7, false],
             ["weight", "Weight", "Integer", false, "0", 0, 255, false],
         ]);
 		

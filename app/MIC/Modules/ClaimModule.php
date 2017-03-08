@@ -40,9 +40,14 @@ class ClaimModule {
       $this->app = $app;
   }
 
-  public function getIQuestions()
-  {
-    $i_questions = IQuestion::orderBy('weight', 'ASC')->orderBy('id', 'ASC')->get();
+  public function getIQuestions($show_creating = 'all')
+  { 
+    if ($show_creating === 'all') {
+      $i_questions = IQuestion::orderBy('weight', 'ASC')->orderBy('id', 'ASC')->get();
+    } else {
+      $i_questions = IQuestion::where('show_creating', $show_creating)
+                        ->orderBy('weight', 'ASC')->orderBy('id', 'ASC')->get();
+    }
 
     return $i_questions;
   }
@@ -62,6 +67,21 @@ class ClaimModule {
                       ->get();
 
     return $i_questions; 
+  }
+
+  public function getAnwsersByQuestions($claim_id, $questions) {
+    $claim = Claim::find($claim_id);
+    $answers = $claim->getAnswers();
+
+    $data = array();
+    foreach ($questions as $quiz) {
+      if (isset($answers[$quiz->id])) {
+        $data[$quiz->id] = $answers[$quiz->id];
+      } else {
+        $data[$quiz->id] = '';
+      }
+    }
+    return $data;
   }
 
   public function insertAssignRequest($partner_uid, $claim_id) {

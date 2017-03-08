@@ -20,8 +20,20 @@
           
         </div><!-- /.box-header -->
         <div class="box-body">
-          {!! Form::label('quiz', "Question: ") !!}
-          {!! Form::textarea('quiz', null, ['rows'=>'3', 'class'=>'form-control']) !!}
+          <div class="form-group">
+            {!! Form::label('quiz', "Question: ") !!}
+            {!! Form::textarea('quiz', null, ['rows'=>'3', 'class'=>'form-control']) !!}
+          </div>
+
+          <div class="form-group">
+            {!! Form::label('show_creating', "Show in Creating: ") !!}
+            {!! 
+              Form::select('show_creating', 
+                            [0=>"Not Show", 1=>"Show"],
+                            1, 
+                            ['class' => 'form-control']) 
+            !!}
+          </div>
         </div><!-- /.box-body -->
         <div class="box-footer clearfix no-border">
           <div class="paginator pull-right">

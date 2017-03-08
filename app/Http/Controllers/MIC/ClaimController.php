@@ -62,7 +62,7 @@ class ClaimController extends Controller
    * GET: claim/create/injury-questions
    */
   public function ccInjuryQuestion(Request $request) {
-    $questions = ClaimModule::getIQuestions();
+    $questions = ClaimModule::getIQuestions(1);
     $answers = session('i_answers');
 
     $params = array();

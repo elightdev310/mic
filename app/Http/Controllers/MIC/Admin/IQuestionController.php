@@ -75,6 +75,7 @@ class IQuestionController extends Controller
     }
     $quiz = new IQuestion;
     $quiz->quiz = $request->input('quiz');
+    $quiz->show_creating = $request->input('show_creating');
 
     $weight = IQuestion::select(DB::raw('max(weight) as max_weight'))->first();
     if ($weight) {
@@ -112,6 +113,7 @@ class IQuestionController extends Controller
     }
 
     $quiz->quiz = $request->input('quiz');
+    $quiz->show_creating = $request->input('show_creating');
     $quiz->save();
 
     return redirect()->route('micadmin.iquiz.list');

@@ -32,6 +32,10 @@
               </span>
 
                 {{ $quiz->quiz }}
+                &nbsp;
+                @if ($quiz->show_creating)
+                <span class="text-primary"><i>[Show in Creating]</i></span>
+                @endif
 
               {!! Form::input("hidden", "q_weight[$quiz->id]", $quiz->weight, 
                               ['class'=>'q-weight']) !!}
