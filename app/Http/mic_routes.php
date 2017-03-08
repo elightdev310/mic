@@ -96,6 +96,10 @@ Route::group(['middleware' => ['auth', 'permission:PATIENT_PANEL']],
   Route::get('patient/claim/{claim_id}/assign-request/{car_id}/{action}', [
     'as'=>$as1.'claim.assign-request.action', 'uses'=>'MIC\ClaimController@patientCARAction' 
   ]);
+
+  Route::post('claim/{claim_id}/update-ioi', [
+    'as'=>$as1.'claim.update.ioi', 'uses'=>'MIC\ClaimController@updateIOI' 
+  ]);
 });
 
 Route::group(['middleware' => ['auth', 'permission:PARTNER_PANEL']], 

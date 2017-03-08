@@ -39,10 +39,17 @@
         <div class="tab-content">
           <div class="panel infolist">
             <div class="panel-default panel-heading">
-              <h4>Incident of Injury Information</h4>
+              <div class="row">
+                <div class="col-sm-6">
+                  <h4>Incident of Injury Information</h4>
+                </div>
+                <div class="col-sm-6">
+                  <button id="UpdateIOI" class="btn btn-success btn-sm pull-right mt5">Save Changes</button>
+                </div>
+              </div>
             </div>
             <div class="panel-body">
-              @if (session('_panel')=='ioi')
+              @if (!session('_panel') || session('_panel')=='ioi')
                 @include('mic.admin.partials.success_error')
               @endif
               @include('mic.patient.claim.partials.ioi')

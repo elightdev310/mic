@@ -348,6 +348,11 @@ class ClaimModule {
         $msg = '%s submitted claim #%d';
         $content = sprintf($msg, $claim->id);
         break;
+      case 'update_ioi': 
+        // use $claim
+        $msg = 'Updated Incident of Injury Information of claim #%d';
+        $content = sprintf($msg, $claim->id);
+        break;
       case 'upload_photo':
         // use $claim, $user, $photo
         $msg = 'Uploaded photo (%s) to claim #%d';
@@ -420,6 +425,7 @@ class ClaimModule {
     switch ($type) {
       case 'create_claim':
         break;
+      case 'update_ioi': 
       case 'upload_photo':
       case 'delete_photo':
         // use $claim, $user, $photo

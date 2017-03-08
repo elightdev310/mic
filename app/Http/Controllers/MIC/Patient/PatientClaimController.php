@@ -84,6 +84,26 @@ trait PatientClaimController
     return view('mic.patient.claim.page', $params);
   }
 
+  public function updateIOI(Request $request, $claim_id) {
+    $user = MICHelper::currentUser();
+    $claim = Claim::find($claim_id);
+    $answers = $request->input('answer');
+    $claim->setAnswers($answers);
+    $claim->save();
+
+    // Activity Feed
+    $ca_type = 'update_ioi';
+    $ca_params = array(
+        'claim' => $claim, 
+      );
+    $ca_content = ClaimModule::getCAContent($ca_type, $ca_params);
+    $ca = ClaimModule::insertClaimActivity($claim->id, $ca_content, $user->id, $ca_type);
+    $ca_feeders = ClaimModule::getCAFeeders($ca_type, $ca_params);
+    ClaimModule::insertCAFeeds($claim->id, $ca->id, $ca_feeders);
+
+    return redirect()->back()
+            ->with('status', 'Updated answers, successfully.');
+  }
 
   /**
    * Upload Photos
