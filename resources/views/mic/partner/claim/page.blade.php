@@ -39,7 +39,7 @@
               <h4>Incident of Injury Information</h4>
             </div>
             <div class="panel-body">
-              @include('mic.patient.claim.partials.ioi')
+              @include('mic.partner.claim.partials.ioi')
             </div>
           </div>
         </div>

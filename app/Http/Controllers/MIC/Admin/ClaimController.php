@@ -57,8 +57,12 @@ class ClaimController extends Controller
     }
 
     // IOI
-    $answers = $claim->getAnswers();
-    $questions = ClaimModule::getIQuestionsByAnswers($answers);
+    // $answers = $claim->getAnswers();
+    // $questions = ClaimModule::getIQuestionsByAnswers($answers);
+    $questions = ClaimModule::getIQuestions(1);
+    $answers   = ClaimModule::getAnwsersByQuestions($claim_id, $questions);
+    $addi_questions = ClaimModule::getIQuestions(0);
+    $addi_answers   = ClaimModule::getAnwsersByQuestions($claim_id, $addi_questions);
 
     // Activity Feeds
     $ca_feeds = ClaimModule::getCAFeeds($claim_id, 'employee');
@@ -81,6 +85,8 @@ class ClaimController extends Controller
     $params['claim']      = $claim;
     $params['questions']  = $questions;
     $params['answers']    = $answers;
+    $params['addi_questions']  = $addi_questions;
+    $params['addi_answers']    = $addi_answers;
     $params['ca_feeds']   = $ca_feeds;
     $params['photos']     = $photos;
     $params['docs']       = $docs;

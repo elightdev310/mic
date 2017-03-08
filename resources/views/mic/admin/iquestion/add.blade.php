@@ -30,7 +30,7 @@
             {!! 
               Form::select('show_creating', 
                             [0=>"Not Show", 1=>"Show"],
-                            1, 
+                            0, 
                             ['class' => 'form-control']) 
             !!}
           </div>
