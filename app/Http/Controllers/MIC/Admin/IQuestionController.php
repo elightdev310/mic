@@ -33,7 +33,7 @@ class IQuestionController extends Controller
    */
   public function __construct()
   {
-
+    
   }
 
   public function quizList(Request $request)

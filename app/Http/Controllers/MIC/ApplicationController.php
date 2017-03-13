@@ -38,7 +38,7 @@ class ApplicationController extends Controller
    */
   public function __construct()
   {
-
+    
   }
 
   public function applyStep1Form(Request $request)

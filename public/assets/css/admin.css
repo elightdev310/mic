@@ -203,6 +203,17 @@
 .materials-form .has-error .form-material > .help-block {
   color: #d26a5c;
 }
+.panel.infolist .materials-form .form-group {
+  border-bottom: none;
+  overflow-y: inherit;
+}
+@media (min-width: 768px) {
+  .materials-form .control-label {
+    text-align: left;
+    margin-bottom: 0;
+    padding-top: 7px;
+  }
+}
 ul.claim-photo-section {
   overflow: auto;
 }
@@ -614,17 +625,6 @@ ul.claim-doc-section {
 }
 .application-list li span.text > a {
   color: inherit;
-}
-@media (min-width: 768px) {
-  .materials-form .control-label {
-    text-align: left;
-    margin-bottom: 0;
-    padding-top: 7px;
-  }
-}
-.panel.infolist .materials-form .form-group {
-  border-bottom: none;
-  overflow-y: inherit;
 }
 .row-action a.action-link .fa {
   font-size: 1.2em;

@@ -203,6 +203,17 @@
 .materials-form .has-error .form-material > .help-block {
   color: #d26a5c;
 }
+.panel.infolist .materials-form .form-group {
+  border-bottom: none;
+  overflow-y: inherit;
+}
+@media (min-width: 768px) {
+  .materials-form .control-label {
+    text-align: left;
+    margin-bottom: 0;
+    padding-top: 7px;
+  }
+}
 ul.claim-photo-section {
   overflow: auto;
 }
@@ -581,6 +592,9 @@ ul.claim-doc-section {
 .main-header {
   background: #fff;
 }
+.main-header > .navbar {
+  margin-left: 0px;
+}
 .main-header .logo {
   width: auto;
   height: auto;
@@ -588,6 +602,35 @@ ul.claim-doc-section {
 }
 .main-header .logo .logo-lg {
   display: inline-block;
+}
+.main-header .navbar-login {
+  width: 305px;
+  padding: 10px;
+  padding-bottom: 0px;
+}
+.main-header .user-nav {
+  margin-top: 15px;
+}
+.main-header .user-nav .user-nav-link img {
+  width: 40px;
+  margin-right: 10px;
+}
+.main-header .user-nav li.user-menu-item {
+  border-top: solid 1px #e5e5e5;
+}
+.main-header .user-nav li.user-menu-item a {
+  padding: 10px 10px 10px 20px;
+}
+.main-header .navbar-brand > img {
+  display: inline-block;
+}
+.main-header .navbar-login-session {
+  padding: 10px;
+  padding-bottom: 0px;
+  padding-top: 0px;
+}
+.main-header .icon-size {
+  font-size: 48px;
 }
 .fixed .content-wrapper,
 .fixed .right-side,

@@ -3,7 +3,7 @@
  *
  */
 
-namespace App\Http\Controllers\MIC\Admin;
+namespace App\Http\Controllers\MIC;
 
 use Auth;
 use Validator;
@@ -27,9 +27,11 @@ use App\User as AuthUser;
 use Illuminate\Support\Facades\Hash;
 use App\MIC\Facades\PartnerAppFacade as PartnerApp;
 
+use App\MIC\Helpers\MICHelper;
+
 /**
  * Class UserController
- * @package App\Http\Controllers\MIC\Admin
+ * @package App\Http\Controllers\MIC
  */
 class UserController extends Controller
 {
@@ -39,56 +41,21 @@ class UserController extends Controller
    * @return void
    */
 
-  const PAGE_LIMIT = 10;
-
   public function __construct()
   {
     
   }
 
-  public function index(Request $request)
+  public function userSettings(Request $request)
   {
-    $users = User::where('id', '<>', 2)
-              ->orderBy('created_at', 'DESC')
-              ->paginate(self::PAGE_LIMIT);
+    if ($request->input('panel')) {
+      $request->session()->flash('_action', 'save'.$request->input('panel'));
+      return redirect()->route('user.settings');
+    }
 
-    $params = array();
-    $params['users'] = $users;
-    $params['no_padding'] = 'no-padding';
-    
-    return view('mic.admin.users', $params);
-  }
-
-  public function patientList(Request $request)
-  {
-    $patients = Patient::orderBy('created_at', 'DESC')
-                  ->paginate(self::PAGE_LIMIT);
-
-    $params = array();
-    $params['patients'] = $patients;
-    $params['no_padding'] = 'no-padding';
-
-    return view('mic.admin.patients', $params);
-  }
-
-  public function partnerList(Request $request)
-  {
-    $partners = Partner::where('user_id', '<>', 2)
-                  ->orderBy('created_at', 'DESC')
-                  ->paginate(self::PAGE_LIMIT);
-
-    $params = array();
-    $params['partners'] = $partners;
-    $params['no_padding'] = 'no-padding';
-
-    return view('mic.admin.partners', $params);
-  }
-
-  public function userSettings(Request $request, $uid)
-  {
-    //dump($request->session());
-    $user = User::find($uid);
-    if (!$user || $uid==config('mic.pending_user')) {
+    $_user = MICHelper::currentUser();
+    $user = User::find($_user->id);
+    if (!$user) {
       return view('errors.404');
     }
 
@@ -108,12 +75,13 @@ class UserController extends Controller
     $params['no_header'] = true;
     $params['no_padding'] = 'no-padding';
 
-    return view('mic.admin.user_settings', $params);
+    return view('mic.commons.user.user_settings', $params);
   }
 
-  public function saveUserSettings(Request $request, $uid) {
-    $user = User::find($uid);
-    if (!$user || $uid==config('mic.pending_user')) {
+  public function saveUserSettings(Request $request) {
+    $_user = MICHelper::currentUser();
+    $user = User::find($_user->id);
+    if (!$user) {
       return view('errors.404');
     }
 
@@ -127,7 +95,6 @@ class UserController extends Controller
   protected function saveAccountSettings(Request $request, $user) {
     $_user = AuthUser::find($user->id);
 
-    $status                 = $request->input('status');
     $old_password           = $request->input('old_password');
     $password               = $request->input('password');
     $password_comfirmation  = $request->input('password_comfirmation');    
@@ -155,7 +122,6 @@ class UserController extends Controller
               'remember_token' => Str::random(60),
           ])->save();
     }
-    $_user->status = $status;
     $_user->save();
 
     return redirect()->back()->with('status', 'Account settings saved, successfully.');

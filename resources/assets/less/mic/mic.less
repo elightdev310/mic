@@ -10,6 +10,9 @@
 
 .main-header {
   background: #fff;
+  & > .navbar {
+    margin-left: 0px;
+  }
   .logo {
     width: auto;
     height: auto;
@@ -17,6 +20,47 @@
     .logo-lg {
       display: inline-block; 
     }
+  }
+
+  .navbar-login
+  {
+      width: 305px;
+      padding: 10px;
+      padding-bottom: 0px;
+  }
+
+  .user-nav {
+    margin-top: 15px;
+    .user-nav-link {
+      img { 
+        width: 40px; 
+        margin-right: 10px;
+      }
+    }
+
+
+    li.user-menu-item {
+      border-top: solid 1px #e5e5e5;
+      a{
+        padding: 10px 10px 10px 20px; 
+      }
+    }
+  }
+
+  .navbar-brand > img {
+    display: inline-block;
+  }
+  
+  .navbar-login-session
+  {
+    padding: 10px;
+    padding-bottom: 0px;
+    padding-top: 0px;
+  }
+
+  .icon-size
+  {
+    font-size: 48px;
   }
 }
 
