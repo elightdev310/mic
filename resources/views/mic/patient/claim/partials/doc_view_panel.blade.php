@@ -13,7 +13,7 @@
           <div class="comment-field">
             <div class="comment-box">
               <div class="commenter-photo">
-                <img src="http://www.gravatar.com/avatar/cf7bfe2df7006928124a56f1fe8a148d.jpg?s=80&amp;d=mm&amp;r=g" class="img-circle" alt="User Image">
+                {!! MICUILayoutHelper::avatarImage($currentUser, 32) !!}
               </div>
               <div class="mentions-container">
                 <div class="mentions-input">

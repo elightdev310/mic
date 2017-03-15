@@ -553,8 +553,8 @@ ul.claim-doc-section {
 }
 .activity-list-section .ca-feed-item .user-avatar {
   display: table-cell;
-  padding-right: 10px;
-  padding-bottom: 10px;
+  margin-right: 10px;
+  margin-bottom: 10px;
 }
 .activity-list-section .ca-feed-item .user-avatar img {
   width: 48px;
@@ -584,6 +584,16 @@ ul.claim-doc-section {
 .activity-list-section .no-activity {
   text-align: center;
   padding: 30px 0px;
+}
+.user-avatar-settings-wrapper {
+  display: table;
+}
+.user-avatar-settings-wrapper .user-avatar-image {
+  display: table-cell;
+  padding: 10px 15px;
+}
+.user-avatar-settings-wrapper .user-avatar-update {
+  display: table-cell;
 }
 .main-header {
   background: #fff;

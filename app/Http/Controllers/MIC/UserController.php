@@ -8,6 +8,8 @@ namespace App\Http\Controllers\MIC;
 use Auth;
 use Validator;
 use Mail;
+use Image;
+
 use App\Http\Requests;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
@@ -127,8 +129,24 @@ class UserController extends Controller
     return redirect()->back()->with('status', 'Account settings saved, successfully.');
   }
 
+  protected function updateAvatar(Request $request, $user) {
+    if($request->hasFile('avatar')){
+      $avatar = $request->file('avatar');
+      $filename = snake_case($user->name). time() . '.' . $avatar->getClientOriginalExtension();
+      Image::make($avatar)->resize(120, 120)->save( public_path(config('mic.avatar_path') . $filename ) );
+      
+      if ($user->avatar && $user->avatar!='default.jpg') {
+        unlink( public_path(config('mic.avatar_path') . $user->avatar) );
+      }
+
+      $user->avatar = $filename;
+      $user->save();
+    }
+  }
 
   protected function saveGeneralSettingsEmployee(Request $request, $user) {
+    $this->updateAvatar($request, $user);
+
     $employee = $user->employee;
     if (!$employee || !$employee->user_id) 
     {
@@ -159,6 +177,8 @@ class UserController extends Controller
   }
 
   protected function saveGeneralSettingsPatient(Request $request, $user) {
+    $this->updateAvatar($request, $user);
+
     $patient = $user->patient;
     if (!$patient || !$patient->user_id) 
     {
@@ -192,6 +212,8 @@ class UserController extends Controller
   }
 
   protected function saveGeneralSettingsPartner(Request $request, $user) {
+    $this->updateAvatar($request, $user);
+
     $partner = $user->partner;
     if (!$partner || !$partner->user_id) 
     {

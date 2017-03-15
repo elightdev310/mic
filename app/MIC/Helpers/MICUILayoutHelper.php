@@ -3,6 +3,7 @@
 namespace App\MIC\Helpers;
 
 use Auth;
+use App\MIC\Models\User;
 
 class MICUILayoutHelper
 {
@@ -123,4 +124,18 @@ class MICUILayoutHelper
     return $interval->s.' '.str_plural('second', $interval->s).$suffix;
   }
 
+  public static function avatarImage($user, $size=120) {
+    if (is_numeric($user)) {
+      $user = User::find($user);
+    }
+    if (!$user->avatar) {
+      $user->avatar = 'default.jpg';
+    }
+
+    $avatar_url = url(config('mic.avatar_path') . $user->avatar);
+
+    $html = sprintf('<img src="%s" class="user-avatar img-circle" width="%d" height="%d" alt="User Image">', 
+                     $avatar_url, $size, $size);
+    return $html;
+  }
 }

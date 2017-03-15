@@ -32,6 +32,7 @@
             <tr data-user-id="{{ $user->id }}">
               <td class="user-id">{{ $user->id }}</td>
               <td class="user-name">
+                {!! MICUILayoutHelper::avatarImage($user, 24) !!}
                 <a href="{{ url(route('micadmin.user.settings', [$user->id])) }}">
                   {{ $user->name }}
                 </a>

@@ -22,6 +22,7 @@ class CreateUsersTable extends Migration
             ["context_id", "Context", "Integer", false, "0", 0, 0, false],
             ["email", "Email", "Email", true, "", 0, 250, false],
             ["password", "Password", "Password", false, "", 6, 250, true],
+            ["avatar", "Avatar", "String", false, "default.jpg", 0, 255, false],
             ["type", "User Type", "Dropdown", false, "employee", 0, 0, false, ["employee","partner","patient"]],
             ["status", "Status", "Dropdown", false, "", 0, 0, false, ["active","pending","cancel"]],
             ["confirm_code", "Confirm Code", "String", false, "", 0, 50, false],

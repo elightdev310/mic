@@ -4,8 +4,13 @@
 
 {!! Form::open(['route' =>'user.save_settings.post', 
                 'method'=>'post', 
+                'enctype'=>'multipart/form-data', 
                 'class' =>'materials-form']) !!}
   <input type="hidden" name="_action" value="saveGeneralSettingsPartner" />
+
+  <div class="form-group">
+    @include('mic.commons.user.partials.user_avatar')
+  </div>
 
   <div class="form-group">
     {!! Form::label('first_name', 'First Name :', ['class' => 'control-label col-md-4 col-lg-2']); !!}

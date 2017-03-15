@@ -2,7 +2,7 @@
 @foreach ($ca_feeds as $feed)
   <div class="ca-feed-item" data-activity="{{ $feed->id }}">
     <div class="user-avatar">
-      <img src="http://www.gravatar.com/avatar/cf7bfe2df7006928124a56f1fe8a148d.jpg?s=80&amp;d=mm&amp;r=g" class="img-circle" alt="User Image">
+      {!! MICUILayoutHelper::avatarImage($feed->author, 48) !!}
     </div>
     <div class="feed-body">
       <div class="feed-user">

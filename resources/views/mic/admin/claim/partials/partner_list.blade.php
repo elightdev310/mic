@@ -12,7 +12,10 @@
     <tbody>
       @foreach ($partner_list as $user)
       <tr class="partner-item" data-partner-uid="{{ $user->id }}">
-        <td class="partner-name">{{ $user->name }}</td>
+        <td class="partner-name">
+          {!! MICUILayoutHelper::avatarImage($user, 24) !!}
+          {{ $user->name }}
+        </td>
         <td class="partner-email">{{ $user->email }}</td>
         <td class="partner-role">{{ MICHelper::getPartnerTypeTitle($user->partner) }}</td>
         <td class="partner-company">{{ $user->partner->company }}</td>

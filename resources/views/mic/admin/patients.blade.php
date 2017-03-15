@@ -38,7 +38,7 @@
               <td class="patient-birth">{{ MICUILayoutHelper::strTime($patient->date_birth) }}</td>
               <td class="patient-user">
                 <a href="{{ url(route('micadmin.user.settings', [$patient->user_id])) }}">
-                  <i class="fa fa-user"></i>
+                  {!! MICUILayoutHelper::avatarImage($patient->user, 24) !!}
                   {{ $patient->user->name.' (#'.$patient->user_id.')' }}
                 </a>
               </td>

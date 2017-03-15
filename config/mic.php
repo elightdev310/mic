@@ -16,7 +16,7 @@ return [
   'front_url' => url('/'),
   
   'logo_url'  => asset('assets/img/logo.png'), 
-
+  'avatar_path' => 'uploads/avatar/', 
   'pending_user' => 2, 
 
   // User Status

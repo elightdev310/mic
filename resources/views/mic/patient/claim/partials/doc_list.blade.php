@@ -14,7 +14,10 @@
           {{ $doc->file->name }}
         </a>
       </td>
-      <td class="doc-creator">{{ MICHelper::getUserTitle($doc->creator_uid) }}</td>
+      <td class="doc-creator">
+        {!! MICUILayoutHelper::avatarImage($doc->creator, 24) !!}
+        {{ MICHelper::getUserTitle($doc->creator_uid) }}
+      </td>
       <td class="doc-uploaded-at">{{ MICUILayoutHelper::strTime($doc->created_at, "M d, Y H:i") }}</td>
       <td class="row-action">
         <a href="#" data-url="{{ route('claim.doc.view_panel', [$claim->id, $doc->id]) }}" class="action-link view-doc-link"><i class="fa fa-eye"></i></a>

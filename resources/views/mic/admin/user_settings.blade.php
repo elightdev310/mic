@@ -12,7 +12,7 @@
         <div class="row">
           <div class="col-md-3">
             <div class="profile-icon text-primary">
-              <i class="fa fa-users"></i>
+              {!! MICUILayoutHelper::avatarImage($user, 70) !!}
             </div>
           </div>
           <div class="col-md-9">

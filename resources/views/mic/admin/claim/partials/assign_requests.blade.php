@@ -12,7 +12,10 @@
     <tbody>
       @foreach ($assign_requests as $req)
       <tr class="request-item" data-partner-uid="{{ $req->id }}">
-        <td class="partner-name">{{ $req->partnerUser->name }}</td>
+        <td class="partner-name">
+          {!! MICUILayoutHelper::avatarImage($req->partnerUser, 24) !!}
+          {{ $req->partnerUser->name }}
+        </td>
         <td class="partner-role">{{ MICHelper::getPartnerTypeTitle($req->partnerUser->partner) }}</td>
         <td class="submitted-at">{{ MICUILayoutHelper::strTime($req->created_at, "M d, Y H:i") }}</td>
         <td class="partner-approve text-center">{{ ucfirst(config('mic.car_status.'.$req->partner_approve)) }}</td>

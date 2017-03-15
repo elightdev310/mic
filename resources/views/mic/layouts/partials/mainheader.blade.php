@@ -36,7 +36,7 @@
       <ul class="nav navbar-nav user-nav navbar-right">
         <li class="dropdown">
           <a href="#" class="dropdown-toggle user-nav-link" data-toggle="dropdown">
-              <img src="http://www.gravatar.com/avatar/cf7bfe2df7006928124a56f1fe8a148d.jpg?s=80&amp;d=mm&amp;r=g" class="img-circle" alt="User Image">
+              {!! MICUILayoutHelper::avatarImage($currentUser, 40) !!}
               <strong>{{ $currentUser->name }}</strong>
           </a>
           <ul class="dropdown-menu">
@@ -45,7 +45,7 @@
                     <div class="row">
                         <div class="col-lg-4">
                             <p class="text-center">
-                              <img src="http://www.gravatar.com/avatar/cf7bfe2df7006928124a56f1fe8a148d.jpg?s=80&amp;d=mm&amp;r=g" class="img-circle" alt="User Image">
+                              {!! MICUILayoutHelper::avatarImage($currentUser, 80) !!}
                             </p>
                         </div>
                         <div class="col-lg-8">

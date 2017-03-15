@@ -21,7 +21,7 @@
       <div class="row">
         <div class="col-md-3">
           <div class="patient-avatar">
-            <img src="{{ Gravatar::fallback(asset('la-assets/img/user2-160x160.jpg'))->get(Auth::user()->email) }}" class="img-circle" alt="User Image" />
+            {!! MICUILayoutHelper::avatarImage($claim->patientUser, 80) !!}
           </div>
         </div>
         <div class="col-md-9">

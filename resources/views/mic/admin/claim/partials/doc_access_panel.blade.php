@@ -8,6 +8,7 @@
     @foreach ($cda as $uid=>$item)
     <tr class="cda-item">
       <td>
+        {!! MICUILayoutHelper::avatarImage($uid, 24) !!}
         {{ MICHelper::getUserTitle($uid) }}
         @if ($doc->creator_uid == $uid)
         &nbsp;<strong>[Author]</strong>

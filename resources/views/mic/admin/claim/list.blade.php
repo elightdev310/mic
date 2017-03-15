@@ -32,6 +32,7 @@
                 </a>
               </td>
               <td class="patient-user">
+                {!! MICUILayoutHelper::avatarImage($claim->patientUser, 24) !!}
                 {{ $claim->patientUser->name }}
               </td>
               <td class="claim-submit-date">{{ MICUILayoutHelper::strTime($claim->created_at, "M d, Y H:i") }}</td>

@@ -7,7 +7,7 @@
         <div class="comment-activity">
           <div class="comment">
             <div class="commenter-photo">
-              <img src="http://www.gravatar.com/avatar/cf7bfe2df7006928124a56f1fe8a148d.jpg?s=80&amp;d=mm&amp;r=g" class="img-circle" alt="User Image">
+              {!! MICUILayoutHelper::avatarImage($comment->author, 32) !!}
             </div>
             <div class="comment-body">
               <div class="comment-top-bar">

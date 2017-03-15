@@ -111,6 +111,7 @@
 						@la_display($module, 'context_id')
 						@la_display($module, 'email')
 						@la_display($module, 'password')
+						@la_display($module, 'avatar')
 						@la_display($module, 'type')
 						@la_display($module, 'status')
 						@la_display($module, 'confirm_code')

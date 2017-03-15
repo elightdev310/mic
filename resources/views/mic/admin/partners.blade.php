@@ -40,7 +40,7 @@
               <td class="partner-phone">{{ $partner->phone}}</td>
               <td class="partner-user">
                 <a href="{{ url(route('micadmin.user.settings', [$partner->user_id])) }}">
-                  <i class="fa fa-user"></i>
+                  {!! MICUILayoutHelper::avatarImage($partner->user, 24) !!}
                   {{ $partner->user->name.' ('.$partner->user_id.')' }}
                 </a>
               </td>

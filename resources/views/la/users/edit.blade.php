@@ -37,6 +37,7 @@
 					@la_input($module, 'context_id')
 					@la_input($module, 'email')
 					@la_input($module, 'password')
+					@la_input($module, 'avatar')
 					@la_input($module, 'type')
 					@la_input($module, 'status')
 					@la_input($module, 'confirm_code')
