@@ -9,6 +9,8 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 
+use Illuminate\Session\TokenMismatchException;
+
 class Handler extends ExceptionHandler
 {
     /**
@@ -21,6 +23,8 @@ class Handler extends ExceptionHandler
         HttpException::class,
         ModelNotFoundException::class,
         ValidationException::class,
+
+        TokenMismatchException::class,
     ];
 
     /**
@@ -45,6 +49,14 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $e)
     {
+        // redirect back with form input except the _token (forcing a new token to be generated)
+        
+        if (!$request->ajax()) {
+          if ($e instanceof TokenMismatchException) {
+            return response()->view('errors.token_mismatch');
+          }
+        }
+
         return parent::render($request, $e);
     }
 }

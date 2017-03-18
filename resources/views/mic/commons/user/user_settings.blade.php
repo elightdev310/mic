@@ -1,4 +1,4 @@
-@extends('mic.layouts.app')
+@extends('mic.layouts.'.$layout)
 
 @section('htmlheader_title') User Settings @endsection
 @section('contentheader_title')@endsection

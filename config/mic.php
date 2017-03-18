@@ -3,6 +3,9 @@
  * Config genrated using MIC
  */
 
+ini_set('memory_limit','1024M');
+ini_set('upload_max_filesize','10M');
+
 return [
 
   /*

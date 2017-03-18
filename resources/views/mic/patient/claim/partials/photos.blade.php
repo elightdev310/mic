@@ -28,7 +28,7 @@
 var fm_dz_photo = null;
 $(function () {
   fm_dz_photo = new Dropzone("#fm_dz_photo", {
-      maxFilesize: 2,
+      maxFilesize: 8, // MB
       acceptedFiles: "image/*",
       init: function() {
           this.on("complete", function(file) {

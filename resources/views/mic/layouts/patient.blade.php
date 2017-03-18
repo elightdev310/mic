@@ -30,9 +30,9 @@
     @if(LAConfigs::getByKey('layout') == 'layout-top-nav') </div> @endif
   </div><!-- /.content-wrapper -->
 
-  @include('mic.layouts.partials.footer')
-
 </div><!-- ./wrapper -->
+
+@include('mic.layouts.partials.footer')
 
 @section('scripts')
   @include('mic.layouts.partials.scripts')

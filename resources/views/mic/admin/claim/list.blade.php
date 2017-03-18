@@ -51,7 +51,6 @@
         </div>
 
       </div><!-- /.box -->
-
     </section>
   </div>
 @endsection

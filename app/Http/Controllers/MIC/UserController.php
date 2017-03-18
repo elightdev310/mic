@@ -45,7 +45,7 @@ class UserController extends Controller
 
   public function __construct()
   {
-    
+
   }
 
   public function userSettings(Request $request)
@@ -76,6 +76,7 @@ class UserController extends Controller
 
     $params['no_header'] = true;
     $params['no_padding'] = 'no-padding';
+    $params['layout'] = MICHelper::layoutType($user);
 
     return view('mic.commons.user.user_settings', $params);
   }
@@ -83,6 +84,7 @@ class UserController extends Controller
   public function saveUserSettings(Request $request) {
     $_user = MICHelper::currentUser();
     $user = User::find($_user->id);
+
     if (!$user) {
       return view('errors.404');
     }

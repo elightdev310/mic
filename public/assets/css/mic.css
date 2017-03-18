@@ -595,6 +595,25 @@ ul.claim-doc-section {
 .user-avatar-settings-wrapper .user-avatar-update {
   display: table-cell;
 }
+html,
+body {
+  height: 100%;
+  margin: 0;
+  background: #ecf0f5;
+}
+.wrapper {
+  min-height: 100%;
+  margin: 0 auto -50px;
+  padding-bottom: 50px;
+  background-color: inherit !important;
+}
+.content-wrapper {
+  background: inherit;
+}
+.main-footer {
+  height: 50px;
+  position: relative;
+}
 .navbar-brand {
   height: auto;
   padding: 10px;
@@ -684,22 +703,22 @@ ul.claim-doc-section {
   display: block;
   margin: 10px 0px;
 }
-.doctor-page.partner-page .content-wrapper {
+.doctor-page.partner-page {
   background: #50a0a2;
 }
-.pcp-page.partner-page .content-wrapper {
+.pcp-page.partner-page {
   background: #90b312;
 }
-.specialist-page.partner-page .content-wrapper {
+.specialist-page.partner-page {
   background: #605ca8;
 }
-.therapist-page.partner-page .content-wrapper {
+.therapist-page.partner-page {
   background: #ff851b;
 }
-.attorney-page.partner-page .content-wrapper {
+.attorney-page.partner-page {
   background: #6a6300;
 }
-.insurer-page.partner-page .content-wrapper {
+.insurer-page.partner-page {
   background: #d81b60;
 }
 .cc-injury-quiz .injury-quiz-form .form-material {

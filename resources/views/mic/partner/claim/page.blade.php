@@ -30,91 +30,88 @@
         <i class="fa fa-cube"></i> Action</a></li>
   </ul>
 
-    <div class="tab-content">
-      <!-- IOI -->
-      <div role="tabpanel" class="tab-pane fade @if (!session('_panel') || session('_panel')=='ioi') active in @endif" id="tab-ioi">
-        <div class="tab-content">
-          <div class="panel infolist">
-            <div class="panel-default panel-heading">
-              <h4>Incident of Injury Information</h4>
-            </div>
-            <div class="panel-body">
-              @include('mic.partner.claim.partials.ioi')
-            </div>
+  <div class="tab-content">
+    <!-- IOI -->
+    <div role="tabpanel" class="tab-pane fade @if (!session('_panel') || session('_panel')=='ioi') active in @endif" id="tab-ioi">
+      <div class="tab-content">
+        <div class="panel infolist">
+          <div class="panel-default panel-heading">
+            <h4>Incident of Injury Information</h4>
+          </div>
+          <div class="panel-body">
+            @include('mic.partner.claim.partials.ioi')
           </div>
         </div>
       </div>
+    </div>
 
-      <!-- Activity -->
-      <div role="tabpanel" class="tab-pane fade @if (session('_panel') == 'activity') active in @endif" id="tab-activity">
-        <div class="tab-content">
-          <div class="panel infolist">
-            <div class="panel-default panel-heading">
-              <h4>Activity</h4>
-            </div>
-            <div class="panel-body">
-              @include('mic.patient.claim.partials.activity')
-            </div>
+    <!-- Activity -->
+    <div role="tabpanel" class="tab-pane fade @if (session('_panel') == 'activity') active in @endif" id="tab-activity">
+      <div class="tab-content">
+        <div class="panel infolist">
+          <div class="panel-default panel-heading">
+            <h4>Activity</h4>
+          </div>
+          <div class="panel-body">
+            @include('mic.patient.claim.partials.activity')
           </div>
         </div>
       </div>
+    </div>
 
-      <!-- Docs -->
-      <div role="tabpanel" class="tab-pane fade @if (session('_panel') == 'docs') active in @endif" id="tab-docs">
-        <div class="tab-content">
-          <div class="panel infolist">
-            <div class="panel-default panel-heading">
-              <div class="row">
-                <div class="col-sm-6">
-                  <h4>Docs</h4>
-                </div>
-                <div class="col-sm-6">
-                  <button id="AddNewDoc" class="btn btn-success btn-sm pull-right mt5">Add New Document</button>
-                </div>
+    <!-- Docs -->
+    <div role="tabpanel" class="tab-pane fade @if (session('_panel') == 'docs') active in @endif" id="tab-docs">
+      <div class="tab-content">
+        <div class="panel infolist">
+          <div class="panel-default panel-heading">
+            <div class="row">
+              <div class="col-sm-6">
+                <h4>Docs</h4>
+              </div>
+              <div class="col-sm-6">
+                <button id="AddNewDoc" class="btn btn-success btn-sm pull-right mt5">Add New Document</button>
               </div>
             </div>
-            <div class="panel-body">
-              @include('mic.patient.claim.partials.docs')
-            </div>
+          </div>
+          <div class="panel-body">
+            @include('mic.patient.claim.partials.docs')
           </div>
         </div>
       </div>
-
-      <!-- Photos -->
-      <div role="tabpanel" class="tab-pane fade @if (session('_panel') == 'photos') active in @endif" id="tab-photos">
-        <div class="tab-content">
-          <div class="panel infolist">
-            <div class="panel-default panel-heading">
-              <h4>Photos</h4>
-            </div>
-            <div class="panel-body">
-              @include('mic.partner.claim.partials.photos')
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Action -->
-      <div role="tabpanel" class="tab-pane fade @if (session('_panel') == 'action') active in @endif" id="tab-action">
-        <div class="tab-content">
-          <div class="panel infolist">
-            <div class="panel-default panel-heading">
-              <h4>Action</h4>
-            </div>
-            <div class="panel-body">
-              @if (session('_panel')=='action')
-                @include('mic.admin.partials.success_error')
-              @endif
-              @include('mic.patient.claim.partials.action')
-            </div>
-          </div>
-        </div>
-      </div>
-
     </div>
+
+    <!-- Photos -->
+    <div role="tabpanel" class="tab-pane fade @if (session('_panel') == 'photos') active in @endif" id="tab-photos">
+      <div class="tab-content">
+        <div class="panel infolist">
+          <div class="panel-default panel-heading">
+            <h4>Photos</h4>
+          </div>
+          <div class="panel-body">
+            @include('mic.partner.claim.partials.photos')
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Action -->
+    <div role="tabpanel" class="tab-pane fade @if (session('_panel') == 'action') active in @endif" id="tab-action">
+      <div class="tab-content">
+        <div class="panel infolist">
+          <div class="panel-default panel-heading">
+            <h4>Action</h4>
+          </div>
+          <div class="panel-body">
+            @if (session('_panel')=='action')
+              @include('mic.admin.partials.success_error')
+            @endif
+            @include('mic.patient.claim.partials.action')
+          </div>
+        </div>
+      </div>
+    </div>
+
   </div>
-</div>
 
 </div>
-
 @endsection

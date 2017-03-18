@@ -78,4 +78,11 @@ class MICHelper
     }
   }
 
+  public static function layoutType($user) {
+    if ($user->type == 'patient' || $user->type == 'partner') {
+      return $user->type;
+    }
+    
+    return 'app';
+  }
 }

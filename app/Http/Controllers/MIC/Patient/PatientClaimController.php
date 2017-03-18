@@ -32,6 +32,7 @@ trait PatientClaimController
 
     $params = array();
     $params['claims'] = $claims;
+    
     return view('mic.patient.claim.myclaims', $params);
   }
 
