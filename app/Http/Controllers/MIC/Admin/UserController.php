@@ -99,7 +99,7 @@ class UserController extends Controller
     } 
     else if ($user->type == 'partner') {
       $params['partner'] = $user->partner? $user->partner : new Partner;
-      $params['payment_info'] = $params['partner']->paymentInfo? $params['partner']->paymentInfo : new PaymentInfo;
+      $params['payment_info'] = $user->paymentInfo? $user->paymentInfo : new PaymentInfo;
     }
     else {
       $params['employee'] = $user->employee? $user->employee : new Employee;
@@ -231,7 +231,6 @@ class UserController extends Controller
     {
       $partner = new Partner;
       $partner->user_id = $user->id;
-      $payment_info = new PaymentInfo;
     }
 
     $validator = Validator::make($request->all(), [
@@ -261,13 +260,7 @@ class UserController extends Controller
     $partner->state       = $request->input('state');
     $partner->zip         = $request->input('zip');
 
-    if (isset($payment_info)) {
-      $payment_info->save();
-      $partner->payment_info_id = $payment_info->id;
-    }
-
     $partner->save();
-
 
     $user->name = $partner->first_name.' '.$partner->last_name;
     $user->save();
@@ -309,16 +302,6 @@ class UserController extends Controller
   }
 
   protected function savePaymentSettings(Request $request, $user) {
-    $partner = $user->partner;
-    $payment_info = $partner->paymentInfo;
-    if (!$payment_info ) 
-    {
-      $payment_info = new PaymentInfo;
-      $payment_info->save();
-      $partner->payment_info_id = $payment_info->id;
-      $partner->save();
-    }
-
     $validator = Validator::make($request->all(), [
       'payment_type'  => 'required', 
       'name_card'     => 'required', 
@@ -337,8 +320,14 @@ class UserController extends Controller
                 ->withErrors($validator)
                 ->withInput();
     }
-
-    $partner->payment_type     = $request->input('payment_type');
+    
+    $payment_info = $user->paymentInfo;
+    if (!$payment_info ) 
+    {
+      $payment_info = new PaymentInfo;
+      $payment_info->user_id = $user->id;
+      $payment_info->save();
+    }
     
     $payment_info->name_card   = $request->input('name_card');
     $payment_info->cc_number   = $request->input('cc_number');
@@ -351,8 +340,9 @@ class UserController extends Controller
     $payment_info->state       = $request->input('state');
     $payment_info->zip         = $request->input('zip');
 
+    $payment_info->payment_type= $request->input('payment_type');
+
     $payment_info->save();
-    $partner->save();
 
     return redirect()->back()->with('status', 'Payment settings saved, successfully.');
   }

@@ -118,8 +118,6 @@
 						@la_display($module, 'zip')
 						@la_display($module, 'membership_role')
 						@la_display($module, 'membership_level')
-						@la_display($module, 'payment_type')
-						@la_display($module, 'payment_info_id')
 						@la_display($module, 'user_id')
 					</div>
 				</div>

@@ -29,8 +29,6 @@ class CreatePartnersTable extends Migration
             ["zip", "Zip Code", "String", false, "", 0, 20, false],
             ["membership_role", "Membership Role", "Dropdown", false, "", 0, 0, false, ["attorney","pcp","doctor","therapist","specialist","insurer"]],
             ["membership_level", "Membership Level", "String", false, "", 0, 20, false],
-            ["payment_type", "Payment Type", "Dropdown", false, "", 0, 0, false, ["paypal","visa"]],
-            ["payment_info_id", "Payment Information", "Dropdown", false, "0", 0, 0, false, "@paymentinfos"],
             ["user_id", "User", "Dropdown", false, "2", 0, 0, false, "@users"],
         ]);
 		

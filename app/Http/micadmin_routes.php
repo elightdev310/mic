@@ -95,4 +95,8 @@ Route::group(['prefix'=>config('mic.adminRoute'),
   Route::get('claim/{claim_id}/set-doc-access/{doc_id}', [
     'as'=>$as.'claim.doc.set_access', 'uses'=>'MIC\Admin\ClaimController@setClaimDocAccess' 
   ]);
+
+  Route::get('learning-videos', [
+    'as'=>$as.'learning_videos.list', 'uses'=>'MIC\Admin\VideoController@videoList' 
+  ]);  
 });

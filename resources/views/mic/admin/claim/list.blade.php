@@ -1,6 +1,6 @@
 @extends('mic.layouts.admin')
 
-@section('htmlheader_title')Claims@endsection
+@section('htmlheader_title')Claims @endsection
 @section('contentheader_title')Claims @endsection
 
 @section('main-content')

@@ -115,7 +115,7 @@ class MICAuthController extends Controller
           $error = 'We sent verification email. Please check email to verfiy your email account.';
         } else if ($user->hasRole(config('mic.user_role.partner'))) {
           $error = "Your account is pending. We're reviewing your account.";
-          return $this->postLogin($request);
+          // return $this->postLogin($request);
         }
         return redirect()->back()->withErrors($error);
       }

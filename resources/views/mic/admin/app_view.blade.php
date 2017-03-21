@@ -165,7 +165,7 @@
             <div class="panel-body">
               <div class="form-group">
                 <label for="payment_type" class="col-md-2">Payment Type :</label>
-                <div class="col-md-10 fvalue">{{ config('mic.payment_type.'.$partner->payment_type) }}</div>
+                <div class="col-md-10 fvalue">{{ config('mic.payment_type.'.$payment_info->payment_type) }}</div>
               </div>
 
               <div class="form-group">

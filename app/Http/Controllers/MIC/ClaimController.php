@@ -408,4 +408,5 @@ class ClaimController extends Controller
 
     return response()->json(['activity_html' => $activity_list]);
   }
+
 }

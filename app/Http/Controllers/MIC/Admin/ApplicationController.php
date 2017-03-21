@@ -67,7 +67,7 @@ class ApplicationController extends Controller
     $params = array();
     $params['app'] = $app;
     $params['partner'] = $app->partner? $app->partner : new Partner ;
-    $params['payment_info'] = $params['partner']->paymentInfo? $params['partner']->paymentInfo : new PaymentInfo;
+    $params['payment_info'] = $app->user->paymentInfo? $app->user->paymentInfo : new PaymentInfo;
     $params['no_header'] = true;
     $params['no_padding'] = 'no-padding';
 

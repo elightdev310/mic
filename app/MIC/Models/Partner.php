@@ -15,8 +15,4 @@ class Partner extends PartnerModule
   public function user() {
     return $this->belongsTo('App\MIC\Models\User', 'user_id');
   }
-
-  public function paymentInfo() {
-    return $this->belongsTo('App\MIC\Models\PaymentInfo', 'payment_info_id');
-  }
 }

@@ -23,7 +23,7 @@ class PaymentInfosController extends Controller
 {
 	public $show_action = true;
 	public $view_col = 'name_card';
-	public $listing_cols = ['id', 'name_card', 'cc_number', 'exp', 'cid', 'address', 'address2', 'city', 'state', 'zip'];
+	public $listing_cols = ['id', 'name_card', 'cc_number', 'exp', 'cid', 'address', 'address2', 'city', 'state', 'zip', 'user_id', 'payment_type'];
 	
 	public function __construct() {
 		// Field Access of Listing Columns

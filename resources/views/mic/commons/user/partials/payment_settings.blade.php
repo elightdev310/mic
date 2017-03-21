@@ -2,12 +2,6 @@
   @include('mic.commons.success_error')
 @endif
 
-@if (!$user->partner)
-<div class="alert alert-warning">
-  <strong>You need to set partner profile in Genearl Settings, first.</strong>
-</div>
-@else
-
 {!! Form::open(['route' =>'user.save_settings.post', 
                 'method'=>'post', 
                 'class' =>'materials-form']) !!}
@@ -19,7 +13,7 @@
       {!! 
         Form::select('payment_type', 
                       config('mic.payment_type'),
-                      $partner->payment_type, 
+                      $payment_info->payment_type, 
                       ['class' => 'form-control', 'placeholder'=>'Please select payment type']) 
       !!}
     </div></div>
@@ -90,5 +84,3 @@
   </div>
 
 {!! Form::close() !!}
-
-@endif

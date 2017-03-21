@@ -16,9 +16,10 @@ return [
 
   'adminRoute' => 'admin',
   
-  'front_url' => url('/'),
+  'front_url' => '/',
+
+  'logo_url'  => '/assets/img/logo.png', 
   
-  'logo_url'  => asset('assets/img/logo.png'), 
   'avatar_path' => 'uploads/avatar/', 
   'pending_user' => 2, 
 
@@ -33,7 +34,7 @@ return [
   'permission' => array(
       'micadmin_panel' => 'MICADMIN_PANEL', 
       'patient_panel' => 'PATIENT_PANEL', 
-      'partner_panel' => 'PARTNER_PANEL', 
+      'partner_panel' => 'PARTNER_PANEL',
   ), 
   // User Role
   'user_role' => array(

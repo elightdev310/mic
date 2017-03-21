@@ -42,6 +42,8 @@
 					@la_input($module, 'city')
 					@la_input($module, 'state')
 					@la_input($module, 'zip')
+					@la_input($module, 'user_id')
+					@la_input($module, 'payment_type')
 					--}}
                     <br>
 					<div class="form-group">

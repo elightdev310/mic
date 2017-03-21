@@ -116,6 +116,8 @@
 						@la_display($module, 'city')
 						@la_display($module, 'state')
 						@la_display($module, 'zip')
+						@la_display($module, 'user_id')
+						@la_display($module, 'payment_type')
 					</div>
 				</div>
 			</div>

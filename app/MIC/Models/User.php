@@ -21,4 +21,8 @@ class User extends UserModule
   public function employee() {
     return $this->hasOne('App\MIC\Models\Employee', 'user_id');
   }
+
+  public function paymentInfo() {
+    return $this->hasOne('App\MIC\Models\PaymentInfo', 'user_id');
+  }
 }

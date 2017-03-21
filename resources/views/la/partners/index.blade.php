@@ -70,8 +70,6 @@
 					@la_input($module, 'zip')
 					@la_input($module, 'membership_role')
 					@la_input($module, 'membership_level')
-					@la_input($module, 'payment_type')
-					@la_input($module, 'payment_info_id')
 					@la_input($module, 'user_id')
 					--}}
 				</div>

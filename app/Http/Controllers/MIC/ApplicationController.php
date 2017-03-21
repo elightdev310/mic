@@ -224,6 +224,8 @@ class ApplicationController extends Controller
           'city'        => $data['pi_city'], 
           'state'       => $data['pi_state'], 
           'zip'         => $data['pi_zip'], 
+          'user_id'     => $uid, 
+          'payment_type'=> $data['payment_type'], 
         );
 
       $pi_id = Module::insert("PaymentInfos", (object)$pi);
@@ -246,8 +248,6 @@ class ApplicationController extends Controller
           'zip'               => $data['zip'], 
           'membership_role'   => $data['membership_role'], 
           'membership_level'  => $data['membership_level'], 
-          'payment_type'      => $data['payment_type'], 
-          'payment_info_id'   => $pi_id, 
           'user_id'           => $uid, 
         );
 

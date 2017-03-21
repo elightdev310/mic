@@ -27,6 +27,8 @@ class CreatePaymentinfosTable extends Migration
             ["city", "City", "String", false, "", 0, 100, false],
             ["state", "State", "String", false, "", 0, 50, false],
             ["zip", "Zip Code", "String", false, "", 0, 20, false],
+            ["user_id", "User", "Dropdown", false, "", 0, 0, false, "@users"],
+            ["payment_type", "Payment Type", "Dropdown", false, "", 0, 0, false, ["paypal","visa"]],
         ]);
 		
 		/*
