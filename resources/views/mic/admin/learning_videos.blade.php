@@ -15,7 +15,7 @@
         {!! Form::open(['route'=>'micadmin.learning_video.sort.post', 'method'=>'post']) !!}
         <div class="box-header">
           <div class="pull-left">
-            <p class="description">Please drag & drop to rearrange questions.</p>
+            <p class="description">Please drag & drop to rearrange videos in group.</p>
           </div>
           <div class="pull-right">
             <a href="{{ route('micadmin.learning_video.add') }}" class="btn btn-success">Add Video</a>
@@ -37,7 +37,9 @@
                     </div>
                     <div class="video-info">
                       <div class="video-title">
+                        <a href="//www.youtube.com/embed/{{ $video->video->id }}" data-lightbox-title="">
                         {{ $video->video->snippet->title }}
+                        </a>
                       </div>
                       <div class="video-channel">
                         {{ $video->video->snippet->channelTitle }}
@@ -113,4 +115,21 @@
   });
 })(jQuery);
 </script>
+@endpush
+
+
+@push('styles')
+<link href="{{ asset('assets/plugins/responsive/responsive.min.css') }}" rel="stylesheet" type="text/css" />
+<style>
+.btn-success {
+  background-color: #10cfbd !important;
+  border-color: #0eb7a7 !important;
+  color: white !important;
+}
+</style>
+@endpush
+
+@push('scripts')
+<script src="{{ asset('assets/plugins/responsive/responsive.ie10mobilefix.min.js') }}"></script>
+<script src="{{ asset('assets/plugins/responsive/responsive.min.js') }}"></script>
 @endpush
