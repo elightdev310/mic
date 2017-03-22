@@ -41,6 +41,7 @@ class VideoController extends Controller
   public function videoList(Request $request)
   {
     $groups = array(
+        'all'           => 'All Users', 
         'patient'       => 'Patient', 
         'doctor'        => 'Doctor', 
         'pcp'           => 'Primary Care Provider', 
@@ -106,5 +107,53 @@ class VideoController extends Controller
   public function videoDelete(Request $request, $va_id) {
     VideoModule::removeYoutubeVideo($va_id);
     return redirect()->back()->with('status', 'Success to delete video.');
+  }
+
+  public function userVideoAddForm(Request $request, $uid) {
+    $params = array();
+    $params['user_id'] = $uid;
+    $params['no_padding'] = 'no-padding';
+    return view('mic.admin.video.user_add', $params);
+  }
+
+  public function userVideoAddPost(Request $request, $uid) {
+    $validator = Validator::make($request->all(), [
+      'vid' => 'required',
+    ]);
+
+    if ($validator->fails()) {
+      return redirect()->back()
+                ->withErrors($validator)
+                ->withInput();
+    }
+
+    $vid = $request->input('vid');
+    $group = 'user';
+
+    if (!VideoModule::addYoutubeVideo($vid, $group, $uid)) {
+      return redirect()->back()
+                ->withErrors('Failed to add youtube video')
+                ->withInput()
+                ->with('_action', 'saveLearningCenter');
+    }
+
+    return redirect()->route('micadmin.user.settings', [$uid])
+              ->with('_action', 'saveLearningCenter');
+  }
+
+  public function userVideoDelete(Request $request, $uid, $va_id) {
+    VideoModule::removeYoutubeVideo($va_id);
+    return redirect()->back()->with('status', 'Success to delete video.')
+            ->with('_action', 'saveLearningCenter');
+  }
+
+  public function userVideoSortPost(Request $request, $uid) {
+    $va_weight = $request->input('va_weight');
+    foreach ($va_weight as $va_id=>$vaw) {
+      $va = VideoAccess::find($va_id);
+      $va->weight = $vaw;
+      $va->save();
+    }
+    return redirect()->back()->with('_action', 'saveLearningCenter');
   }
 }

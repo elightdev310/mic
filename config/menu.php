@@ -48,6 +48,11 @@ return [
       'url'   => 'admin/i-questions', 
       'icon'  => 'fa-question-circle', 
     ], 
+    'learning_videos' => [
+      'title' => 'Learning Videos', 
+      'url'   => 'admin/learning-videos', 
+      'icon'  => 'fa-file-video-o', 
+    ], 
     'users' => [
       'title' => 'User Accounts', 
       'url'   => 'admin/users', 

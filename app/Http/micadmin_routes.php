@@ -114,4 +114,17 @@ Route::group(['prefix'=>config('mic.adminRoute'),
   Route::get('learning-videos/{va_id}/delete', [
     'as'=>$as.'learning_video.delete', 'uses'=>'MIC\Admin\VideoController@videoDelete' 
   ]);  
+
+  Route::get('user/{uid}/learning-videos/add', [
+    'as'=>$as.'user.learning_video.add', 'uses'=>'MIC\Admin\VideoController@userVideoAddForm' 
+  ]);  
+  Route::post('user/{uid}/learning-videos/add', [
+    'as'=>$as.'user.learning_video.add.post', 'uses'=>'MIC\Admin\VideoController@userVideoAddPost' 
+  ]);
+  Route::get('user/{uid}/learning-videos/{va_id}/delete', [
+    'as'=>$as.'user.learning_video.delete', 'uses'=>'MIC\Admin\VideoController@userVideoDelete' 
+  ]);
+  Route::post('user/{uid}/learning-videos/sort', [
+    'as'=>$as.'user.learning_video.sort.post', 'uses'=>'MIC\Admin\VideoController@userVideoSortPost' 
+  ]);  
 });

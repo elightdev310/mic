@@ -65,6 +65,13 @@
           <i class="fa fa-users"></i> Account Settings
         </a>
       </li>
+
+      <li class="@if (session('_action')=='saveLearningCenter') active @endif">
+        <a role="tab" data-toggle="tab" class="@if (session('_action')=='saveLearningCenter') active @endif" 
+            href="#tab-learning-center" data-target="#tab-learning-center" aria-expanded="false">
+          <i class="fa fa-file-video-o"></i> Learning Center
+        </a>
+      </li>
     </ul>
 
     <div class="tab-content">
@@ -76,7 +83,7 @@
               <h4>General Settings</h4>
             </div>
             <div class="panel-body">
-              @include('mic.admin.partials.user.general_settings_'.$user->type)
+              @include('mic.admin.user.general_settings_'.$user->type)
             </div>
           </div>
         </div>
@@ -91,7 +98,7 @@
               <h4>Membership Settings</h4>
             </div>
             <div class="panel-body">
-              @include('mic.admin.partials.user.membership_settings')
+              @include('mic.admin.user.membership_settings')
             </div>
           </div>
         </div>
@@ -105,7 +112,7 @@
               <h4>Payment Settings</h4>
             </div>
             <div class="panel-body">
-              @include('mic.admin.partials.user.payment_settings')
+              @include('mic.admin.user.payment_settings')
             </div>
           </div>
         </div>
@@ -120,7 +127,21 @@
               <h4>Account Settings</h4>
             </div>
             <div class="panel-body">
-              @include('mic.admin.partials.user.account_settings')
+              @include('mic.admin.user.account_settings')
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Learning Center -->
+      <div role="tabpanel" class="tab-pane fade @if (session('_action')=='saveLearningCenter') active in @endif" id="tab-learning-center">
+        <div class="tab-content">
+          <div class="panel infolist">
+            <div class="panel-default panel-heading">
+              <h4>Learning Center</h4>
+            </div>
+            <div class="panel-body">
+              @include('mic.admin.user.learning_center')
             </div>
           </div>
         </div>

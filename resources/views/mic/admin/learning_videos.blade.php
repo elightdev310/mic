@@ -26,7 +26,7 @@
           <div class="group-videos">
             @foreach ($group_videos as $group=>$g_videos)
             <div class="group-video-section">
-              <div class="group-title">{{ $groups[$group] }}</div>
+              <div class="group-title">For {{ $groups[$group] }}</div>
               @if (!empty($g_videos))
                 <ul class="video-list todo-list">
                   @foreach ($g_videos as $video)
@@ -37,7 +37,7 @@
                     </div>
                     <div class="video-info">
                       <div class="video-title">
-                        <a href="//www.youtube.com/embed/{{ $video->video->id }}" data-lightbox-title="">
+                        <a href="//www.youtube.com/embed/{{ $video->video->id }}" data-lity>
                         {{ $video->video->snippet->title }}
                         </a>
                       </div>
@@ -119,17 +119,9 @@
 
 
 @push('styles')
-<link href="{{ asset('assets/plugins/responsive/responsive.min.css') }}" rel="stylesheet" type="text/css" />
-<style>
-.btn-success {
-  background-color: #10cfbd !important;
-  border-color: #0eb7a7 !important;
-  color: white !important;
-}
-</style>
+<link href="{{ asset('assets/plugins/lity/lity.min.css') }}" rel="stylesheet" type="text/css" />
 @endpush
 
 @push('scripts')
-<script src="{{ asset('assets/plugins/responsive/responsive.ie10mobilefix.min.js') }}"></script>
-<script src="{{ asset('assets/plugins/responsive/responsive.min.js') }}"></script>
+<script src="{{ asset('assets/plugins/lity/lity.min.js') }}"></script>
 @endpush
