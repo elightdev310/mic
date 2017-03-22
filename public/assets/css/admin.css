@@ -214,6 +214,9 @@
     padding-top: 7px;
   }
 }
+.text-color-primary {
+  color: #0A4390;
+}
 ul.claim-photo-section {
   overflow: auto;
 }

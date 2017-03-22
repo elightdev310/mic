@@ -48,6 +48,11 @@ Route::group(['middleware' => ['auth']],
     'as'=>'claim.activity_list', 'uses'=>'MIC\ClaimController@claimAcitivityList' 
   ]);  
 
+  // Learning Center
+  Route::get('learning-center', [
+    'as'=>'learning_center', 'uses'=>'MIC\VideoController@learningCenter' 
+  ]);  
+
 });
 
 Route::group(['middleware' => ['auth', 'permission:PATIENT_PANEL']], 

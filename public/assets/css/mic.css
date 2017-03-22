@@ -214,6 +214,9 @@
     padding-top: 7px;
   }
 }
+.text-color-primary {
+  color: #0A4390;
+}
 ul.claim-photo-section {
   overflow: auto;
 }
@@ -631,6 +634,13 @@ body {
 .content-wrapper {
   background: inherit;
 }
+.content-box {
+  position: relative;
+  border: solid 1px #cacaca;
+  background: #fafafa;
+  width: 100%;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+}
 .main-footer {
   height: 50px;
   position: relative;
@@ -776,6 +786,12 @@ body {
 }
 .patient-claim-page .panel.infolist .form-group:last-child {
   padding-bottom: 10px;
+}
+.learning-center-videos.video-list .video-info {
+  min-height: 120px;
+}
+.learning-center-videos.video-list .video-thumbnail img {
+  width: 100%;
 }
 
 /*# sourceMappingURL=mic.css.map */

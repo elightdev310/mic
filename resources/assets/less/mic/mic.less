@@ -1,5 +1,6 @@
 @import "../bootstrap/variables.less";
 @import "../bootstrap/mixins.less";
+@import "variables.less";
 @import "component.less";
 @import "common.less";
 
@@ -19,6 +20,14 @@ html, body {
 
 .content-wrapper {
   background: inherit;
+}
+
+.content-box {
+  position: relative;
+  border: solid 1px #cacaca;
+  background: #fafafa;
+  width: 100%;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
 }
 
 .main-footer {
@@ -197,4 +206,18 @@ html, body {
 
 .patient-claim-page .panel.infolist .form-group:last-child {
   padding-bottom: 10px;
+}
+
+.learning-center-videos.video-list {
+  .video-item {
+    
+  }
+  .video-info {
+    min-height: 120px;
+  }
+  .video-thumbnail {
+    img {
+      width: 100%;
+    }
+  }
 }
