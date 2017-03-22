@@ -595,6 +595,27 @@ ul.claim-doc-section {
 .user-avatar-settings-wrapper .user-avatar-update {
   display: table-cell;
 }
+.video-list .video-info {
+  color: #888;
+}
+.video-list .video-info .video-title {
+  font-size: 1.1em;
+  color: #48B0F7;
+  font-weight: 700;
+}
+.video-list .video-thumbnail {
+  position: relative;
+}
+.video-list .video-thumbnail .video-duration {
+  position: absolute;
+  right: 5px;
+  bottom: 5px;
+  padding: 0px 5px;
+  color: white;
+  background: #000;
+  opacity: 0.7;
+  font-weight: bold;
+}
 html,
 body {
   height: 100%;

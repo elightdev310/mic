@@ -4,6 +4,8 @@ namespace App\MIC\Helpers;
 
 use Auth;
 use App\MIC\Models\User;
+use DateTime;
+use DateInterval;
 
 class MICUILayoutHelper
 {
@@ -111,7 +113,16 @@ class MICUILayoutHelper
     return $str;
   }
 
+  public static function duration($dur) {
+    $dt = new DateTime();
+    $dt->add(new DateInterval($dur));
+    $interval = $dt->diff(new DateTime());
+    return $interval->format('%I:%S');
+  }
   public static function agoTime($datetime, $suffix='') {
+    if (is_string($datetime)) {
+      $datetime = date_create($datetime);
+    }
     $interval = date_create('now')->diff( $datetime );
     if ( $v = $interval->y >= 1 ) { return $interval->y.' '.str_plural('year',   $interval->y).$suffix; }
     if ( $v = $interval->m >= 1 ) { return $interval->m.' '.str_plural('month',  $interval->m).$suffix; }

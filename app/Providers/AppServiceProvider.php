@@ -7,6 +7,7 @@ use Illuminate\Foundation\AliasLoader;
 
 use App\MIC\Modules\PartnerApp;
 use App\MIC\Modules\ClaimModule;
+use App\MIC\Modules\VideoModule;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -34,6 +35,9 @@ class AppServiceProvider extends ServiceProvider
     });
     $this->app->bind('micclaim', function ($app) {
       return new ClaimModule($app);
+    });
+    $this->app->bind('micvideo', function ($app) {
+      return new VideoModule($app);
     });
 
     $loader = AliasLoader::getInstance();

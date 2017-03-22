@@ -126,4 +126,12 @@ Route::group(['as' => $as, 'middleware' => ['auth', 'permission:ADMIN_PANEL']], 
 	/* ================== ClaimAssignRequests ================== */
 	Route::resource(config('laraadmin.adminRoute') . '/claimassignrequests', 'LA\ClaimAssignRequestsController');
 	Route::get(config('laraadmin.adminRoute') . '/claimassignrequest_dt_ajax', 'LA\ClaimAssignRequestsController@dtajax');
+
+	/* ================== YoutubeVideos ================== */
+	Route::resource(config('laraadmin.adminRoute') . '/youtubevideos', 'LA\YoutubeVideosController');
+	Route::get(config('laraadmin.adminRoute') . '/youtubevideo_dt_ajax', 'LA\YoutubeVideosController@dtajax');
+
+	/* ================== VideoAccesses ================== */
+	Route::resource(config('laraadmin.adminRoute') . '/videoaccesses', 'LA\VideoAccessesController');
+	Route::get(config('laraadmin.adminRoute') . '/videoaccess_dt_ajax', 'LA\VideoAccessesController@dtajax');
 });

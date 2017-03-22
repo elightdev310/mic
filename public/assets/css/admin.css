@@ -595,6 +595,27 @@ ul.claim-doc-section {
 .user-avatar-settings-wrapper .user-avatar-update {
   display: table-cell;
 }
+.video-list .video-info {
+  color: #888;
+}
+.video-list .video-info .video-title {
+  font-size: 1.1em;
+  color: #48B0F7;
+  font-weight: 700;
+}
+.video-list .video-thumbnail {
+  position: relative;
+}
+.video-list .video-thumbnail .video-duration {
+  position: absolute;
+  right: 5px;
+  bottom: 5px;
+  padding: 0px 5px;
+  color: white;
+  background: #000;
+  opacity: 0.7;
+  font-weight: bold;
+}
 .main-header {
   background: #fff;
 }
@@ -647,6 +668,32 @@ ul.claim-doc-section {
   float: left;
   width: auto;
   margin-right: 10px;
+}
+.group-videos .group-video-section {
+  margin-bottom: 50px;
+}
+.group-videos .group-title {
+  padding: 5px 0px;
+  font-size: 16px;
+  font-weight: bold;
+  border-bottom: solid 1px #ccc;
+}
+.video-list > li {
+  position: relative;
+}
+.video-list > li .video-thumbnail {
+  display: table-cell;
+  vertical-align: middle;
+}
+.video-list > li .video-info {
+  display: table-cell;
+  vertical-align: middle;
+  padding-left: 10px;
+}
+.video-list > li .tools {
+  position: absolute;
+  top: 10px;
+  right: 10px;
 }
 
 /*# sourceMappingURL=admin.css.map */
