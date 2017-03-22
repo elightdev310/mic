@@ -26,6 +26,7 @@ use App\User as AuthUser;
 
 use Illuminate\Support\Facades\Hash;
 use App\MIC\Facades\PartnerAppFacade as PartnerApp;
+use App\MIC\Facades\VideoFacade as VideoModule;
 
 /**
  * Class UserController
@@ -86,7 +87,11 @@ class UserController extends Controller
 
   public function userSettings(Request $request, $uid)
   {
-    //dump($request->session());
+    if ($request->input('panel')) {
+      $request->session()->flash('_action', 'save'.$request->input('panel'));
+      return redirect()->route('micadmin.user.settings', [$uid]);
+    }
+
     $user = User::find($uid);
     if (!$user || $uid==config('mic.pending_user')) {
       return view('errors.404');
@@ -105,10 +110,14 @@ class UserController extends Controller
       $params['employee'] = $user->employee? $user->employee : new Employee;
     }
 
+    //Learning Center
+    $user_videos = VideoModule::getVideoList('user', $user->id);
+    $params['user_videos'] = $user_videos;
+
     $params['no_header'] = true;
     $params['no_padding'] = 'no-padding';
 
-    return view('mic.admin.user_settings', $params);
+    return view('mic.admin.user.user_settings', $params);
   }
 
   public function saveUserSettings(Request $request, $uid) {
@@ -345,5 +354,9 @@ class UserController extends Controller
     $payment_info->save();
 
     return redirect()->back()->with('status', 'Payment settings saved, successfully.');
+  }
+
+  protected function saveLearningCenter(Request $request, $user) {
+
   }
 }
