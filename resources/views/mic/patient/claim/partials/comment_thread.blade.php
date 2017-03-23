@@ -28,7 +28,7 @@
       <div class="comment-field comment-field--reply">
         <div class="comment-box">
           <div class="commenter-photo">
-            {!! MICUILayoutHelper::avatarImage($user, 80) !!}
+            {!! MICUILayoutHelper::avatarImage($currentUser, 80) !!}
           </div>
           <div class="mentions-container">
             <div class="mentions-input">

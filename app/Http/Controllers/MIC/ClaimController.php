@@ -24,6 +24,7 @@ use Dwij\Laraadmin\Models\ModuleFields;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\View;
 use App\MIC\Facades\ClaimFacade as ClaimModule;
+use App\MIC\Facades\NotificationFacade as NotificationModule;
 use App\MIC\Helpers\MICHelper;
 
 use App\Http\Controllers\MIC\Patient\PatientClaimController;
@@ -126,17 +127,12 @@ class ClaimController extends Controller
     $request->session()->forget('i_answers');
 
     // Activity Feed
-    $ca_type = 'create_claim';
     $ca_params = array(
         'claim' => $claim, 
         'user'  => $user, 
       );
-    $ca_content = ClaimModule::getCAContent($ca_type, $ca_params);
-    $ca = ClaimModule::insertClaimActivity($claim->id, $ca_content, $user->id, $ca_type);
-    $ca_feeders = ClaimModule::getCAFeeders($ca_type, $ca_params);
-    ClaimModule::insertCAFeeds($claim->id, $ca->id, $ca_feeders);
-    // Notify
-    
+    ClaimModule::addClaimActivity($claim->id, $user->id, 'create_claim', $ca_params);
+    NotificationModule::addNotification('claim.create_claim', $ca_params);
 
     return redirect()->route('patient.claim.create.upload_photo', $claim->id);
   }
@@ -346,18 +342,13 @@ class ClaimController extends Controller
       }
 
       // Activity Feed
-      $ca_type = 'post_comment';
       $ca_params = array(
           'user'    => $user, 
           'doc'     => $doc, 
           'comment' => $comment, 
         );
-      $ca_content = ClaimModule::getCAContent($ca_type, $ca_params);
-      $ca = ClaimModule::insertClaimActivity($doc->claim_id, $ca_content, $user->id, $ca_type);
-      $ca_feeders = ClaimModule::getCAFeeders($ca_type, $ca_params);
-      ClaimModule::insertCAFeeds($doc->claim_id, $ca->id, $ca_feeders);
-      // TO DO: Notify to post comment
-      
+      ClaimModule::addClaimActivity($doc->claim_id, $user->id, 'post_comment', $ca_params);
+      NotificationModule::addNotification('claim.doc.post_comment', $ca_params);
     }
 
     return response()->json(['status'=>'success']);
@@ -386,7 +377,7 @@ class ClaimController extends Controller
       $params['th_comments'] = $th_comments;
       $view = View::make('mic.patient.claim.partials.comment_thread', $params);
       
-      $comments .= $view;
+      $comments.= $view->render();
     }
 
     return response()->json(['status'=>'success', 'comments_html'=>$comments]);

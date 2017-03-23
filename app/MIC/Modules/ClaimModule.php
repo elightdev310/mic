@@ -477,4 +477,11 @@ class ClaimModule {
     }    
   }
 
+  public function addClaimActivity($claim_id, $user_id, $ca_type, $ca_params) {
+    $ca_content = $this->getCAContent($ca_type, $ca_params);
+    $ca = $this->insertClaimActivity($claim_id, $ca_content, $user_id, $ca_type);
+    $ca_feeders = $this->getCAFeeders($ca_type, $ca_params);
+    $this->insertCAFeeds($claim_id, $ca->id, $ca_feeders);
+  }
+
 }

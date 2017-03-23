@@ -134,4 +134,8 @@ Route::group(['as' => $as, 'middleware' => ['auth', 'permission:ADMIN_PANEL']], 
 	/* ================== VideoAccesses ================== */
 	Route::resource(config('laraadmin.adminRoute') . '/videoaccesses', 'LA\VideoAccessesController');
 	Route::get(config('laraadmin.adminRoute') . '/videoaccess_dt_ajax', 'LA\VideoAccessesController@dtajax');
+
+	/* ================== Notifications ================== */
+	Route::resource(config('laraadmin.adminRoute') . '/notifications', 'LA\NotificationsController');
+	Route::get(config('laraadmin.adminRoute') . '/notification_dt_ajax', 'LA\NotificationsController@dtajax');
 });
