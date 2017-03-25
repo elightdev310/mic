@@ -82,7 +82,6 @@
 @endsection
 
 @push('scripts')
-
 <script>
 (function ($) {
   $(document).ready(function() {

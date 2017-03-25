@@ -5,7 +5,7 @@
 
 @section('content')
 <!-- Main content -->
-<section class="content no-padding">
+
   <div id="page-content" class="profile2">
     <ul data-toggle="ajax-tab" class="nav nav-tabs profile" role="tablist">
       <li class="@if (!session('_action') || strpos(session('_action'), 'saveGeneralSettings')===0) active @endif">
@@ -97,7 +97,6 @@
 
     </div>
   </div>
-</section><!-- /.content -->
 @endsection
 
 @push('scripts')

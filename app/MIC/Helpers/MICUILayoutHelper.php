@@ -104,6 +104,19 @@ class MICUILayoutHelper
     return $str;
   }
 
+  public static function strDTime($dateTime) {
+    $date = date_create($dateTime);
+    if (date_format($date, 'M d, Y') == date('M d, Y')) {
+      $str = date_format($date, 'H:i');
+    } else if (date_format($date, 'Y') == date('Y')) {
+      $str = date_format($date, 'M d');
+    } else {
+      $str = date_format($date, 'm/d/Y');
+    }
+
+    return $str;
+  }
+
   public static function strTime($dateTime, $format="M d, Y") {
     $date = date_create($dateTime);
 
@@ -135,7 +148,7 @@ class MICUILayoutHelper
     return $interval->s.' '.str_plural('second', $interval->s).$suffix;
   }
 
-  public static function avatarImage($user, $size=120) {
+  public static function avatarImage($user, $size=120, $classes="") {
     if (is_numeric($user)) {
       $user = User::find($user);
     }
@@ -145,8 +158,8 @@ class MICUILayoutHelper
 
     $avatar_url = url(config('mic.avatar_path') . $user->avatar);
 
-    $html = sprintf('<img src="%s" class="user-avatar img-circle" width="%d" height="%d" alt="User Image">', 
-                     $avatar_url, $size, $size);
+    $html = sprintf('<img src="%s" class="%s user-avatar img-circle" width="%d" height="%d" alt="User Image">', 
+                     $avatar_url, $classes, $size, $size);
     return $html;
   }
 }

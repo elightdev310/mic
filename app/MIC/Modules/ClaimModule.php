@@ -18,7 +18,7 @@ use App\MIC\Models\ClaimActivity;
 use App\MIC\Models\ClaimActivityFeed;
 use App\User as UserModel;
 
-use App\MIC\Helpers\MICHelper;
+use MICHelper;
 
 class ClaimModule {
   /**
@@ -345,12 +345,12 @@ class ClaimModule {
     switch ($type) {
       case 'create_claim':
         // use $claim, $user
-        $msg = '%s submitted claim #%d';
+        $msg = 'Submitted claim #%d';
         $content = sprintf($msg, $claim->id);
         break;
       case 'update_ioi': 
-        // use $claim
-        $msg = 'Updated Incident of Injury Information of claim #%d';
+        // use $user, $claim
+        $msg = 'Updated Incident of Injury Information in claim #%d';
         $content = sprintf($msg, $claim->id);
         break;
       case 'upload_photo':
@@ -428,10 +428,10 @@ class ClaimModule {
       case 'update_ioi': 
       case 'upload_photo':
       case 'delete_photo':
-        // use $claim, $user, $photo
-        $p2cs = Partner2Claim::where('claim_id', $claim->id)->get();
-        foreach ($p2cs as $p2c) {
-          $feeders[$p2c->partner_uid] = $p2c->partner_uid;
+        // use $claim
+        $partners = $this->getPartnersByClaim($claim->id);
+        foreach ($partners as $partner) {
+          $feeders[$partner->id] = $partner->id;
         }
         break;
       case 'upload_doc': 
@@ -477,9 +477,9 @@ class ClaimModule {
     }    
   }
 
-  public function addClaimActivity($claim_id, $user_id, $ca_type, $ca_params) {
+  public function addClaimActivity($claim_id, $user_id, $ca_type, $ca_params, $public_patient=1) {
     $ca_content = $this->getCAContent($ca_type, $ca_params);
-    $ca = $this->insertClaimActivity($claim_id, $ca_content, $user_id, $ca_type);
+    $ca = $this->insertClaimActivity($claim_id, $ca_content, $user_id, $ca_type, $public_patient);
     $ca_feeders = $this->getCAFeeders($ca_type, $ca_params);
     $this->insertCAFeeds($claim_id, $ca->id, $ca_feeders);
   }

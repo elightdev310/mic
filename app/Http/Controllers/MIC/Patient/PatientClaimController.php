@@ -11,8 +11,10 @@ use Auth;
 
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\View;
-use App\MIC\Facades\ClaimFacade as ClaimModule;
-use App\MIC\Helpers\MICHelper;
+
+use MICHelper;
+use MICClaim;
+use MICNotification;
 
 use App\MIC\Models\User;
 use App\MIC\Models\Claim;
@@ -50,24 +52,24 @@ trait PatientClaimController
 
     // IOI
     // $answers = $claim->getAnswers();
-    // $questions = ClaimModule::getIQuestionsByAnswers($answers);
-    $questions = ClaimModule::getIQuestions(1);
-    $answers   = ClaimModule::getAnwsersByQuestions($claim_id, $questions);
-    $addi_questions = ClaimModule::getIQuestions(0);
-    $addi_answers   = ClaimModule::getAnwsersByQuestions($claim_id, $addi_questions);
+    // $questions = MICClaim::getIQuestionsByAnswers($answers);
+    $questions = MICClaim::getIQuestions(1);
+    $answers   = MICClaim::getAnwsersByQuestions($claim_id, $questions);
+    $addi_questions = MICClaim::getIQuestions(0);
+    $addi_answers   = MICClaim::getAnwsersByQuestions($claim_id, $addi_questions);
     
     // Activity Feeds
-    $ca_feeds = ClaimModule::getCAFeeds($claim_id, 'patient');
+    $ca_feeds = MICClaim::getCAFeeds($claim_id, 'patient');
 
     // Photo
-    $photos = ClaimModule::getClaimPhotos($claim_id);
+    $photos = MICClaim::getClaimPhotos($claim_id);
 
     // Doc
-    $docs = ClaimModule::getClaimDocs($claim_id, $user->id);
+    $docs = MICClaim::getClaimDocs($claim_id, $user->id);
 
     // Partners
-    $assign_requests = ClaimModule::getCARsByClaim($claim_id, 'patient');
-    $assigned_partners = ClaimModule::getPartnersByClaim($claim_id);
+    $assign_requests = MICClaim::getCARsByClaim($claim_id, 'patient');
+    $assigned_partners = MICClaim::getPartnersByClaim($claim_id);
     
     $params = array();
     $params['user']       = $user;
@@ -93,14 +95,12 @@ trait PatientClaimController
     $claim->save();
 
     // Activity Feed
-    $ca_type = 'update_ioi';
     $ca_params = array(
+        'user'  => $user, 
         'claim' => $claim, 
       );
-    $ca_content = ClaimModule::getCAContent($ca_type, $ca_params);
-    $ca = ClaimModule::insertClaimActivity($claim->id, $ca_content, $user->id, $ca_type);
-    $ca_feeders = ClaimModule::getCAFeeders($ca_type, $ca_params);
-    ClaimModule::insertCAFeeds($claim->id, $ca->id, $ca_feeders);
+    MICClaim::addClaimActivity($claim->id, $user->id, 'update_ioi', $ca_params);
+    MICNotification::sendNotification('claim.update_ioi', $ca_params);
 
     return redirect()->back()
             ->with('status', 'Updated answers, successfully.');
@@ -128,17 +128,13 @@ trait PatientClaimController
 
         $claim = Claim::find($claim_id);
         // Activity Feed
-        $ca_type = 'upload_photo';
         $ca_params = array(
             'claim' => $claim, 
             'user'  => $user, 
             'photo' => $photo, 
           );
-        $ca_content = ClaimModule::getCAContent($ca_type, $ca_params);
-        $ca = ClaimModule::insertClaimActivity($claim->id, $ca_content, $user->id, $ca_type);
-        $ca_feeders = ClaimModule::getCAFeeders($ca_type, $ca_params);
-        ClaimModule::insertCAFeeds($claim->id, $ca->id, $ca_feeders);
-        // TO DO: Notify to Upload Photo
+        MICClaim::addClaimActivity($claim->id, $user->id, 'upload_photo', $ca_params);
+        MICNotification::sendNotification('claim.upload_photo', $ca_params);
 
         return response()->json([
           "status" => "success",
@@ -162,17 +158,13 @@ trait PatientClaimController
     if ($photo) {
       $claim = Claim::find($claim_id);
       // Activity Feed
-      $ca_type = 'delete_photo';
       $ca_params = array(
           'claim' => $claim, 
           'user'  => $user, 
           'photo' => $photo, 
         );
-      $ca_content = ClaimModule::getCAContent($ca_type, $ca_params);
-      $ca = ClaimModule::insertClaimActivity($claim->id, $ca_content, $user->id, $ca_type);
-      $ca_feeders = ClaimModule::getCAFeeders($ca_type, $ca_params);
-      ClaimModule::insertCAFeeds($claim->id, $ca->id, $ca_feeders);
-      // TO DO: Notify to Delete Photo
+      MICClaim::addClaimActivity($claim->id, $user->id, 'delete_photo', $ca_params);
+      MICNotification::sendNotification('claim.delete_photo', $ca_params);
       
       $upload = Upload::find($photo->file_id);
       if ($upload) {
@@ -189,7 +181,7 @@ trait PatientClaimController
   public function claimPhotoList(Request $request, $claim_id)
   {
     $claim = Claim::find($claim_id);
-    $photos = ClaimModule::getClaimPhotos($claim_id);
+    $photos = MICClaim::getClaimPhotos($claim_id);
     $view = View::make('mic.patient.claim.partials.photo_list', ['claim'=>$claim, 'photos'=>$photos]);
     $photo_list = $view->render();
 
@@ -211,16 +203,13 @@ trait PatientClaimController
       $car->save();
       
       // Activity Feed
-      $ca_type = 'patient_approve_request';
       $ca_params = array(
           'partner' => $car->partnerUser, 
           'claim'   => $claim
         );
-      $ca_content = ClaimModule::getCAContent($ca_type, $ca_params);
-      $ca = ClaimModule::insertClaimActivity($claim_id, $ca_content, $currentUser->id, $ca_type);
-      $ca_feeders = ClaimModule::getCAFeeders($ca_type, $ca_params);
-      ClaimModule::insertCAFeeds($claim_id, $ca->id, $ca_feeders);
-      
+      MICClaim::addClaimActivity($claim->id, $currentUser->id, 'patient_approve_request', $ca_params);
+      MICNotification::sendNotification('claim.patient_approve_request', $ca_params);
+
       // Assign Partner to Claim
       $this->claimAssignPartner($claim_id, $car->partner_uid);
 
@@ -233,15 +222,12 @@ trait PatientClaimController
       $car->save();
 
       // Activity Feed
-      $ca_type = 'patient_reject_request';
       $ca_params = array(
           'partner' => $car->partnerUser, 
           'claim'   => $claim
         );
-      $ca_content = ClaimModule::getCAContent($ca_type, $ca_params);
-      $ca = ClaimModule::insertClaimActivity($claim_id, $ca_content, $currentUser->id, $ca_type);
-      $ca_feeders = ClaimModule::getCAFeeders($ca_type, $ca_params);
-      ClaimModule::insertCAFeeds($claim_id, $ca->id, $ca_feeders);
+      MICClaim::addClaimActivity($claim->id, $currentUser->id, 'patient_reject_request', $ca_params);
+      MICNotification::sendNotification('claim.patient_reject_request', $ca_params);
 
       return redirect()->back()
               ->with('status', "Rejected {$car->partnerUser->name} for claim #$claim_id")
@@ -253,23 +239,19 @@ trait PatientClaimController
     $currentUser = MICHelper::currentUser();
 
     $user = User::find($partner_uid);
-    if (ClaimModule::checkP2C($partner_uid, $claim_id)) {
+    if (MICClaim::checkP2C($partner_uid, $claim_id)) {
       return false;
     } else {
-      ClaimModule::insertP2C($partner_uid, $claim_id);
+      MICClaim::insertP2C($partner_uid, $claim_id);
 
       $claim = Claim::find($claim_id);
       // Activity Feed
-      $ca_type = 'assign_partner';
       $ca_params = array(
           'partner' => $user, 
           'claim'   => $claim
         );
-      $ca_content = ClaimModule::getCAContent($ca_type, $ca_params);
-      $ca = ClaimModule::insertClaimActivity($claim_id, $ca_content, $currentUser->id, $ca_type);
-      $ca_feeders = ClaimModule::getCAFeeders($ca_type, $ca_params);
-      ClaimModule::insertCAFeeds($claim_id, $ca->id, $ca_feeders);
-      // TO DO: Notify to assign partner
+      MICClaim::addClaimActivity($claim->id, $currentUser->id, 'assign_partner', $ca_params);
+      MICNotification::sendNotification('claim.assign_partner', $ca_params);
       
     }
   }

@@ -20,7 +20,7 @@ use Dwij\Laraadmin\Models\ModuleFields;
 use App\MIC\Models\YoutubeVideo;
 use App\MIC\Models\VideoAccess;
 
-use App\MIC\Facades\VideoFacade as VideoModule;
+use MICVideo;
 
 /**
  * Class IQuestionController
@@ -53,7 +53,7 @@ class VideoController extends Controller
 
     $group_videos = array();
     foreach ($groups as $group=>$title) {
-      $group_videos[$group] = VideoModule::getVideoList($group);
+      $group_videos[$group] = MICVideo::getVideoList($group);
     }
     
     $params = array();
@@ -95,7 +95,7 @@ class VideoController extends Controller
     $vid = $request->input('vid');
     $group = $request->input('group');
 
-    if (!VideoModule::addYoutubeVideo($vid, $group)) {
+    if (!MICVideo::addYoutubeVideo($vid, $group)) {
       return redirect()->back()
                 ->withErrors('Failed to add youtube video')
                 ->withInput();
@@ -105,7 +105,7 @@ class VideoController extends Controller
   }
 
   public function videoDelete(Request $request, $va_id) {
-    VideoModule::removeYoutubeVideo($va_id);
+    MICVideo::removeYoutubeVideo($va_id);
     return redirect()->back()->with('status', 'Success to delete video.');
   }
 
@@ -130,7 +130,7 @@ class VideoController extends Controller
     $vid = $request->input('vid');
     $group = 'user';
 
-    if (!VideoModule::addYoutubeVideo($vid, $group, $uid)) {
+    if (!MICVideo::addYoutubeVideo($vid, $group, $uid)) {
       return redirect()->back()
                 ->withErrors('Failed to add youtube video')
                 ->withInput()
@@ -142,7 +142,7 @@ class VideoController extends Controller
   }
 
   public function userVideoDelete(Request $request, $uid, $va_id) {
-    VideoModule::removeYoutubeVideo($va_id);
+    MICVideo::removeYoutubeVideo($va_id);
     return redirect()->back()->with('status', 'Success to delete video.')
             ->with('_action', 'saveLearningCenter');
   }

@@ -22,8 +22,11 @@ use Dwij\Laraadmin\Models\Module;
 use Dwij\Laraadmin\Models\ModuleFields;
 
 use Illuminate\Support\Facades\View;
-use App\MIC\Facades\ClaimFacade as ClaimModule;
-use App\MIC\Helpers\MICHelper;
+
+use MICHelper;
+use MICClaim;
+use MICNotification;
+
 
 class ClaimController extends Controller
 {
@@ -58,24 +61,24 @@ class ClaimController extends Controller
 
     // IOI
     // $answers = $claim->getAnswers();
-    // $questions = ClaimModule::getIQuestionsByAnswers($answers);
-    $questions = ClaimModule::getIQuestions(1);
-    $answers   = ClaimModule::getAnwsersByQuestions($claim_id, $questions);
-    $addi_questions = ClaimModule::getIQuestions(0);
-    $addi_answers   = ClaimModule::getAnwsersByQuestions($claim_id, $addi_questions);
+    // $questions = MICClaim::getIQuestionsByAnswers($answers);
+    $questions = MICClaim::getIQuestions(1);
+    $answers   = MICClaim::getAnwsersByQuestions($claim_id, $questions);
+    $addi_questions = MICClaim::getIQuestions(0);
+    $addi_answers   = MICClaim::getAnwsersByQuestions($claim_id, $addi_questions);
 
     // Activity Feeds
-    $ca_feeds = ClaimModule::getCAFeeds($claim_id, 'employee');
+    $ca_feeds = MICClaim::getCAFeeds($claim_id, 'employee');
 
     // Photo
-    $photos = ClaimModule::getClaimPhotos($claim_id);
+    $photos = MICClaim::getClaimPhotos($claim_id);
 
     // Doc
-    $docs = ClaimModule::getClaimDocs($claim_id, $user->id);
+    $docs = MICClaim::getClaimDocs($claim_id, $user->id);
 
     //Assign Partner
-    $assigned_partners = ClaimModule::getPartnersByClaim($claim_id);
-    $assign_requests = ClaimModule::getCARsByClaim($claim_id, 'employee');
+    $assigned_partners = MICClaim::getPartnersByClaim($claim_id);
+    $assign_requests = MICClaim::getCARsByClaim($claim_id, 'employee');
     $partner_list = User::where('type', 'partner')
                         ->where('status', 'active')
                         ->get();
@@ -104,31 +107,27 @@ class ClaimController extends Controller
 
     $user = User::find($partner_uid);
     // Check Valid Reuqest
-    if (ClaimModule::checkP2C($partner_uid, $claim_id)) {
+    if (MICClaim::checkP2C($partner_uid, $claim_id)) {
       return redirect()->back()
                 ->with('_panel', 'assign-partner')
                 ->withErrors($user->name." already assigned to claim #".$claim_id);
-    } else if (ClaimModule::checkCAR($partner_uid, $claim_id)) {
+    } else if (MICClaim::checkCAR($partner_uid, $claim_id)) {
       return redirect()->back()
                 ->with('_panel', 'assign-partner')
                 ->withErrors("We already sent a request to ".$user->name." (claim #".$claim_id.")");
     }
 
-    ClaimModule::insertAssignRequest($partner_uid, $claim_id);
+    MICClaim::insertAssignRequest($partner_uid, $claim_id);
 
     $claim = Claim::find($claim_id);
     // Activity Feed
-    $ca_type = 'assign_request';
     $ca_params = array(
         'partner' => $user, 
         'claim'   => $claim
       );
-    $ca_content = ClaimModule::getCAContent($ca_type, $ca_params);
-    $ca = ClaimModule::insertClaimActivity($claim_id, $ca_content, $currentUser->id, $ca_type, 0);
-    $ca_feeders = ClaimModule::getCAFeeders($ca_type, $ca_params);
-    ClaimModule::insertCAFeeds($claim_id, $ca->id, $ca_feeders);
-    // TO DO: Notify partner to send request
-      
+    MICClaim::addClaimActivity($claim->id, $currentUser->id, 'assign_request', $ca_params, 0);
+    MICNotification::sendNotification('claim.assign_request', $ca_params);
+
     return redirect()->back()
                 ->with('_panel', 'assign-partner')
                 ->with('status', "Sent request to ".$user->name." (claim #".$claim_id.")" );
@@ -141,12 +140,12 @@ class ClaimController extends Controller
   //   $currentUser = MICHelper::currentUser();
 
   //   $user = User::find($partner_uid);
-  //   if (ClaimModule::checkP2C($partner_uid, $claim_id)) {
+  //   if (MICClaim::checkP2C($partner_uid, $claim_id)) {
   //     return redirect()->back()
   //               ->with('_panel', 'assign-partner')
   //               ->withErrors($user->name." already assigned to claim #".$claim_id);
   //   } else {
-  //     ClaimModule::insertP2C($partner_uid, $claim_id);
+  //     MICClaim::insertP2C($partner_uid, $claim_id);
 
   //     $claim = Claim::find($claim_id);
   //     // Activity Feed
@@ -155,10 +154,10 @@ class ClaimController extends Controller
   //         'partner' => $user, 
   //         'claim'   => $claim
   //       );
-  //     $ca_content = ClaimModule::getCAContent($ca_type, $ca_params);
-  //     $ca = ClaimModule::insertClaimActivity($claim_id, $ca_content, $currentUser->id, $ca_type);
-  //     $ca_feeders = ClaimModule::getCAFeeders($ca_type, $ca_params);
-  //     ClaimModule::insertCAFeeds($claim_id, $ca->id, $ca_feeders);
+  //     $ca_content = MICClaim::getCAContent($ca_type, $ca_params);
+  //     $ca = MICClaim::insertClaimActivity($claim_id, $ca_content, $currentUser->id, $ca_type);
+  //     $ca_feeders = MICClaim::getCAFeeders($ca_type, $ca_params);
+  //     MICClaim::insertCAFeeds($claim_id, $ca->id, $ca_feeders);
   //     // TO DO: Notify to assign partner
   //   }
   //   return redirect()->back()
@@ -175,18 +174,14 @@ class ClaimController extends Controller
     
     $claim = Claim::find($claim_id);
     // Activity Feed
-    $ca_type = 'unassign_partner';
     $ca_params = array(
         'partner' => $user, 
         'claim'   => $claim
       );
-    $ca_content = ClaimModule::getCAContent($ca_type, $ca_params);
-    $ca = ClaimModule::insertClaimActivity($claim_id, $ca_content, $currentUser->id, $ca_type);
-    $ca_feeders = ClaimModule::getCAFeeders($ca_type, $ca_params);
-    ClaimModule::insertCAFeeds($claim_id, $ca->id, $ca_feeders);
-    // TO DO: Notify to unassign partner
+    MICClaim::addClaimActivity($claim->id, $currentUser->id, 'unassign_partner', $ca_params);
+    MICNotification::sendNotification('claim.unassign_partner', $ca_params);
       
-    ClaimModule::removeP2C($partner_uid, $claim_id);
+    MICClaim::removeP2C($partner_uid, $claim_id);
     
     return redirect()->back()
                 ->with('_panel', 'assign-partner')
@@ -199,7 +194,7 @@ class ClaimController extends Controller
   public function claimDocAccessPanel(Request $request, $claim_id, $doc_id) {
     $claim = Claim::find($claim_id);
     $doc = ClaimDoc::find($doc_id);
-    $cda = ClaimModule::getClaimDocAccessData($claim, $doc);
+    $cda = MICClaim::getClaimDocAccessData($claim, $doc);
 
     $params = array();
     $params['claim'] = $claim;

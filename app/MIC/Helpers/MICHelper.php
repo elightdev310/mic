@@ -3,8 +3,8 @@
 namespace App\MIC\Helpers;
 
 use Auth;
+use MICClaim;
 use App\MIC\Models\User;
-use App\MIC\Facades\ClaimFacade as ClaimModule;
 
 class MICHelper
 {
@@ -33,11 +33,11 @@ class MICHelper
   }
 
   public static function checkIfCAR($partner_uid, $claim_id) {
-    return CLaimModule::checkCAR($partner_uid, $claim_id);
+    return MICClaim::checkCAR($partner_uid, $claim_id);
   }
 
   public static function checkIfP2C($partner_uid, $claim_id) {
-    return CLaimModule::checkP2C($partner_uid, $claim_id);
+    return MICClaim::checkP2C($partner_uid, $claim_id);
   }
 
   public static function getUserTitle($user_id, $partner_title=true) {

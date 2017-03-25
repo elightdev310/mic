@@ -51,9 +51,19 @@ Route::group(['middleware' => ['auth']],
   // Learning Center
   Route::get('learning-center', [
     'as'=>'learning_center', 'uses'=>'MIC\VideoController@learningCenter' 
-  ]);  
+  ]);
 
+  // Notification
+  Route::get('notifications', [
+    'as'=>'notification', 'uses'=>'MIC\NotificationController@listPage' 
+  ]);
+  Route::get('notification/{noti_id}/delete', [
+    'as'=>'notification.delete', 'uses'=>'MIC\NotificationController@deleteNotification' 
+  ]);
 });
+
+
+
 
 Route::group(['middleware' => ['auth', 'permission:PATIENT_PANEL']], 
               function () {

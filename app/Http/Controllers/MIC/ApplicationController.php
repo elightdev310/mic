@@ -21,8 +21,8 @@ use App\MIC\Models\Application;
 use Dwij\Laraadmin\Models\Module;
 use Dwij\Laraadmin\Models\ModuleFields;
 
-use App\MIC\Facades\PartnerAppFacade as PartnerApp;
-use App\MIC\Helpers\MICHelper;
+use PartnerApp;
+use MICHelper;
 
 /**
  * Class ApplicationController

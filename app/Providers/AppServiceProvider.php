@@ -48,5 +48,10 @@ class AppServiceProvider extends ServiceProvider
 
     $loader->alias('MICUILayoutHelper', \App\MIC\Helpers\MICUILayoutHelper::class);
     $loader->alias('MICHelper', \App\MIC\Helpers\MICHelper::class);
+
+    $loader->alias('PartnerApp', \App\MIC\Facades\PartnerAppFacade::class);
+    $loader->alias('MICClaim', \App\MIC\Facades\ClaimFacade::class);
+    $loader->alias('MICVideo', \App\MIC\Facades\VideoFacade::class);
+    $loader->alias('MICNotification', \App\MIC\Facades\NotificationFacade::class);
   }
 }

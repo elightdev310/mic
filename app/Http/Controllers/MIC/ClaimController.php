@@ -23,9 +23,10 @@ use Dwij\Laraadmin\Models\ModuleFields;
 
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\View;
-use App\MIC\Facades\ClaimFacade as ClaimModule;
-use App\MIC\Facades\NotificationFacade as NotificationModule;
-use App\MIC\Helpers\MICHelper;
+
+use MICClaim;
+use MICNotification;
+use MICHelper;
 
 use App\Http\Controllers\MIC\Patient\PatientClaimController;
 use App\Http\Controllers\MIC\Partner\PartnerClaimController;
@@ -63,7 +64,7 @@ class ClaimController extends Controller
    * GET: claim/create/injury-questions
    */
   public function ccInjuryQuestion(Request $request) {
-    $questions = ClaimModule::getIQuestions(1);
+    $questions = MICClaim::getIQuestions(1);
     $answers = session('i_answers');
 
     $params = array();
@@ -89,7 +90,7 @@ class ClaimController extends Controller
   public function ccReviewAnswer(Request $request) {
     $answers = session('i_answers');
 
-    $questions = ClaimModule::getIQuestionsByAnswers($answers);
+    $questions = MICClaim::getIQuestionsByAnswers($answers);
     
     $params = array();
     $params['answers'] = $answers;
@@ -131,8 +132,8 @@ class ClaimController extends Controller
         'claim' => $claim, 
         'user'  => $user, 
       );
-    ClaimModule::addClaimActivity($claim->id, $user->id, 'create_claim', $ca_params);
-    NotificationModule::addNotification('claim.create_claim', $ca_params);
+    MICClaim::addClaimActivity($claim->id, $user->id, 'create_claim', $ca_params);
+    MICNotification::sendNotification('claim.create_claim', $ca_params);
 
     return redirect()->route('patient.claim.create.upload_photo', $claim->id);
   }
@@ -219,17 +220,13 @@ class ClaimController extends Controller
 
         $claim = Claim::find($claim_id);
         // Activity Feed
-        $ca_type = 'upload_doc';
         $ca_params = array(
             'claim' => $claim, 
             'user'  => $user, 
             'doc'   => $doc, 
-          );
-        $ca_content = ClaimModule::getCAContent($ca_type, $ca_params);
-        $ca = ClaimModule::insertClaimActivity($claim->id, $ca_content, $user->id, $ca_type);
-        $ca_feeders = ClaimModule::getCAFeeders($ca_type, $ca_params);
-        ClaimModule::insertCAFeeds($claim->id, $ca->id, $ca_feeders);
-        // TO DO: Notify to Upload Doc
+          );        
+        MICClaim::addClaimActivity($claim->id, $user->id, 'upload_doc', $ca_params);
+        MICNotification::sendNotification('claim.doc.upload_doc', $ca_params);
 
         return response()->json([
           "status" => "success",
@@ -261,13 +258,10 @@ class ClaimController extends Controller
           'user'  => $user, 
           'doc'   => $doc, 
         );
-      $ca_content = ClaimModule::getCAContent($ca_type, $ca_params);
-      $ca = ClaimModule::insertClaimActivity($claim->id, $ca_content, $user->id, $ca_type);
-      $ca_feeders = ClaimModule::getCAFeeders($ca_type, $ca_params);
-      ClaimModule::insertCAFeeds($claim->id, $ca->id, $ca_feeders);
-      // TO DO: Notify to Delete Doc
+      MICClaim::addClaimActivity($claim->id, $user->id, 'delete_doc', $ca_params);
+      MICNotification::sendNotification('claim.doc.delete_doc', $ca_params);
 
-      ClaimModule::deleteClaimDoc($doc);
+      MICClaim::deleteClaimDoc($doc);
 
       return response()->json([
         "status" => "success",
@@ -282,7 +276,7 @@ class ClaimController extends Controller
     $user = MICHelper::currentUser();
     
     $claim = Claim::find($claim_id);
-    $docs = ClaimModule::getClaimDocs($claim_id, $user->id);
+    $docs = MICClaim::getClaimDocs($claim_id, $user->id);
     $params = array();
     $params['user']   = $user;
     $params['claim']  = $claim;
@@ -320,7 +314,7 @@ class ClaimController extends Controller
 
     $doc = ClaimDoc::find($doc_id);
     // Check if user has access to claim doc
-    if (!ClaimModule::checkCDA($user->id, $doc_id)) {
+    if (!MICClaim::checkCDA($user->id, $doc_id)) {
       return response()->json(['status'=>'error',
                                'error' =>'You can\'t post comment.' ]);
     }
@@ -347,8 +341,8 @@ class ClaimController extends Controller
           'doc'     => $doc, 
           'comment' => $comment, 
         );
-      ClaimModule::addClaimActivity($doc->claim_id, $user->id, 'post_comment', $ca_params);
-      NotificationModule::addNotification('claim.doc.post_comment', $ca_params);
+      MICClaim::addClaimActivity($doc->claim_id, $user->id, 'post_comment', $ca_params);
+      MICNotification::sendNotification('claim.doc.post_comment', $ca_params);
     }
 
     return response()->json(['status'=>'success']);
@@ -389,7 +383,7 @@ class ClaimController extends Controller
     $claim = Claim::find($claim_id);
 
     $user_type = $user->type;
-    $ca_feeds = ClaimModule::getCAFeeds($claim_id, $user_type);
+    $ca_feeds = MICClaim::getCAFeeds($claim_id, $user_type);
     $params = array();
     $params['user']   = $user;
     $params['claim']  = $claim;

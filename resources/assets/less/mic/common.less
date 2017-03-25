@@ -482,3 +482,36 @@ ul.claim-doc-section {
     }
   }
 }
+
+.notification-list {
+  .noti-item {
+    display: table;
+    width: 100%;
+    padding: 7px 10px;
+    margin: 1px 0px;
+    background: @gray-lighter;
+    .noti-remove-icon {
+      display: table-cell;
+      vertical-align: middle;
+    }
+    a.noti-remove {
+      font-size: 16px;
+      font-weight: normal;
+      color: @gray-light;
+      display: block;
+      margin-right: 10px;
+    }
+    .noti-message {
+      display: table-cell;
+      vertical-align: middle;
+      width: 100%;
+    }
+    .noti-time {
+      display: table-cell;
+      vertical-align: middle;
+      text-align: right;
+      min-width: 60px;
+      color: @gray-light;
+    }
+  }
+}

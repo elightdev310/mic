@@ -619,11 +619,40 @@ ul.claim-doc-section {
   opacity: 0.7;
   font-weight: bold;
 }
+.notification-list .noti-item {
+  display: table;
+  width: 100%;
+  padding: 7px 10px;
+  margin: 1px 0px;
+  background: #eeeeee;
+}
+.notification-list .noti-item .noti-remove-icon {
+  display: table-cell;
+  vertical-align: middle;
+}
+.notification-list .noti-item a.noti-remove {
+  font-size: 16px;
+  font-weight: normal;
+  color: #777777;
+  display: block;
+  margin-right: 10px;
+}
+.notification-list .noti-item .noti-message {
+  display: table-cell;
+  vertical-align: middle;
+  width: 100%;
+}
+.notification-list .noti-item .noti-time {
+  display: table-cell;
+  vertical-align: middle;
+  text-align: right;
+  min-width: 60px;
+  color: #777777;
+}
 .main-header {
   background: #fff;
 }
 .main-header .logo {
-  width: auto;
   height: auto;
   padding: 0px 10px;
 }

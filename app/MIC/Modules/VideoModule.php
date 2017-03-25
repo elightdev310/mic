@@ -12,7 +12,7 @@ use App\MIC\Models\VideoAccess;
 use App\MIC\Models\User;
 use App\User as UserModel;
 
-use App\MIC\Helpers\MICHelper;
+use MICHelper;
 
 class VideoModule {
   /**

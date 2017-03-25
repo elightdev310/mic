@@ -25,8 +25,9 @@ use App\MIC\Models\PaymentInfo;
 use App\User as AuthUser;
 
 use Illuminate\Support\Facades\Hash;
-use App\MIC\Facades\PartnerAppFacade as PartnerApp;
-use App\MIC\Facades\VideoFacade as VideoModule;
+
+use PartnerApp;
+use MICVideo;
 
 /**
  * Class UserController
@@ -111,7 +112,7 @@ class UserController extends Controller
     }
 
     //Learning Center
-    $user_videos = VideoModule::getVideoList('user', $user->id);
+    $user_videos = MICVideo::getVideoList('user', $user->id);
     $params['user_videos'] = $user_videos;
 
     $params['no_header'] = true;

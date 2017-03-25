@@ -14,8 +14,8 @@ use Dwij\Laraadmin\Models\ModuleFields;
 use App\MIC\Models\YoutubeVideo;
 use App\MIC\Models\VideoAccess;
 
-use App\MIC\Facades\VideoFacade as VideoModule;
-use App\MIC\Helpers\MICHelper;
+use MICVideo;
+use MICHelper;
 
 /**
  * Class IQuestionController
@@ -36,7 +36,7 @@ class VideoController extends Controller
   public function learningCenter(Request $request)
   {
     $user = MICHelper::currentUser();
-    $video_all = VideoModule::getVideoList('all');
+    $video_all = MICVideo::getVideoList('all');
 
     $group = '';
     if (MICHelper::isPatient($user)) {
@@ -46,12 +46,12 @@ class VideoController extends Controller
       $group = MICHelper::getPartnerType($user->id);
     }
     if ($group) {
-      $video_group = VideoModule::getVideoList($group);
+      $video_group = MICVideo::getVideoList($group);
     } else {
       $video_group = array();
     }
 
-    $video_user = VideoModule::getVideoList('user', $user->id);
+    $video_user = MICVideo::getVideoList('user', $user->id);
 
     $videos = array_merge($video_user, $video_group, $video_all);
 

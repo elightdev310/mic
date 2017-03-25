@@ -17,7 +17,7 @@ use Dwij\Laraadmin\Models\ModuleFields;
 
 use App\MIC\Models\Application;
 
-use App\MIC\Facades\PartnerAppFacade as PartnerApp;
+use PartnerApp;
 
 /**
  * Class DashboardController

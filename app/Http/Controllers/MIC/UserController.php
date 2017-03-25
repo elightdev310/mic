@@ -27,9 +27,9 @@ use App\MIC\Models\PaymentInfo;
 use App\User as AuthUser;
 
 use Illuminate\Support\Facades\Hash;
-use App\MIC\Facades\PartnerAppFacade as PartnerApp;
 
-use App\MIC\Helpers\MICHelper;
+use PartnerApp;
+use MICHelper;
 
 /**
  * Class UserController
