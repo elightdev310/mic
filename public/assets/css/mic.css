@@ -649,6 +649,14 @@ ul.claim-doc-section {
   min-width: 60px;
   color: #777777;
 }
+.user-nav .notifications-menu .user-noti-list > ul.menu {
+  max-height: 500px;
+}
+.user-nav .notifications-menu .user-noti-list > ul.menu > li > a {
+  overflow: initial;
+  text-overflow: unset;
+  white-space: normal;
+}
 html,
 body {
   height: 100%;

@@ -55,10 +55,13 @@ Route::group(['middleware' => ['auth']],
 
   // Notification
   Route::get('notifications', [
-    'as'=>'notification', 'uses'=>'MIC\NotificationController@listPage' 
+    'as'=>'notification.list', 'uses'=>'MIC\NotificationController@listPage' 
   ]);
   Route::get('notification/{noti_id}/delete', [
     'as'=>'notification.delete', 'uses'=>'MIC\NotificationController@deleteNotification' 
+  ]);
+  Route::get('notifications/user-notify', [
+    'as'=>'notification.user_notify', 'uses'=>'MIC\NotificationController@userNotifyList' 
   ]);
 });
 

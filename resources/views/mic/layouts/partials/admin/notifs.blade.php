@@ -1,6 +1,6 @@
 		<!-- Navbar Right Menu -->
 		<div class="navbar-custom-menu">
-			<ul class="nav navbar-nav">
+			<ul class="nav navbar-nav user-nav">
 				<!-- Messages: style can be found in dropdown.less-->
 				@if(LAConfigs::getByKey('show_messages'))
 				<li class="dropdown messages-menu">
@@ -38,26 +38,27 @@
 				@if(LAConfigs::getByKey('show_notifications'))
 				<!-- Notifications Menu -->
 				<li class="dropdown notifications-menu">
-					<!-- Menu toggle button -->
-					<a href="#" class="dropdown-toggle" data-toggle="dropdown">
-						<i class="fa fa-bell-o"></i>
-						<span class="label label-warning">10</span>
-					</a>
-					<ul class="dropdown-menu">
-						<li class="header">You have 10 notifications</li>
-						<li>
-							<!-- Inner Menu: contains the notifications -->
-							<ul class="menu">
-								<li><!-- start notification -->
-									<a href="#">
-										<i class="fa fa-users text-aqua"></i> 5 new members joined today
-									</a>
-								</li><!-- end notification -->
-							</ul>
-						</li>
-						<li class="footer"><a href="#">View all</a></li>
-					</ul>
-				</li>
+          <!-- Menu toggle button -->
+          <a href="#" class="user-notify-link dropdown-toggle" data-toggle="dropdown">
+            <i class="fa fa-bell-o"></i>
+            <span class="label label-warning @if (MICNotification::getUnreadCount($currentUser->id)==0) hidden @endif">
+              {{ MICNotification::getUnreadCount($currentUser->id) }}
+            </span>
+          </a>
+          <ul class="dropdown-menu">
+            <li class="user-noti-list">
+              <!-- Inner Menu: contains the notifications -->
+              <ul class="menu">
+                <li><!-- start notification -->
+                  <a href="#">
+                    ...
+                  </a>
+                </li><!-- end notification -->
+              </ul>
+            </li>
+            <li class="footer"><a href="{{ route('notification.list') }}">View all</a></li>
+          </ul>
+        </li>
 				@endif
 				@if(LAConfigs::getByKey('show_tasks'))
 				<!-- Tasks Menu -->
@@ -144,7 +145,7 @@
 							<!-- Menu Footer-->
 							<li class="user-footer">
 								<div class="pull-left">
-									<a href="{{ url(config('laraadmin.adminRoute') . '/users/') .'/'. Auth::user()->id }}" class="btn btn-default btn-flat">Profile</a>
+									<a href="{{ route('user.settings') }}" class="btn btn-default btn-flat">Profile</a>
 								</div>
 								<div class="pull-right">
 									<a href="{{ url('/logout') }}" class="btn btn-default btn-flat">Sign out</a>
@@ -162,3 +163,31 @@
 				@endif
 			</ul>
 		</div>
+
+
+@push('scripts')
+<script>
+$(function () {
+  $('.user-nav').on('click', 'a.user-notify-link', function() {
+    var load_url = '{{ route('notification.user_notify') }}';
+    loadUserNotify(load_url);
+  });
+});
+
+function loadUserNotify(load_url) {
+  $.ajax({
+      dataType: 'json',
+      url: load_url,
+      success: function ( json ) {
+        $(".user-noti-list").empty();
+        $(".user-noti-list").html(json.notify_html);
+      }
+  });
+}
+
+function loadUserNotifyCount() {
+  
+}
+
+</script>
+@endpush

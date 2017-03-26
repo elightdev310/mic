@@ -31,6 +31,13 @@ class NotificationModule {
       $this->app = $app;
   }
 
+  public function getUnreadCount($user_id) {
+    $list = Notification::where('user_id', $user_id)
+              ->where('read', 0)
+              ->get();
+    return $list->count();
+  }
+
   public function sendNotification($type, $params=array()) {
     try {
       //* To You

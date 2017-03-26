@@ -33,7 +33,31 @@
               </ul>
            </li>              
        </ul> --}}
+
       <ul class="nav navbar-nav user-nav navbar-right">
+        <li class="dropdown notifications-menu mt10">
+          <!-- Menu toggle button -->
+          <a href="#" class="user-notify-link dropdown-toggle" data-toggle="dropdown">
+            <i class="fa fa-bell-o"></i>
+            <span class="label label-warning @if (MICNotification::getUnreadCount($currentUser->id)==0) hidden @endif">
+              {{ MICNotification::getUnreadCount($currentUser->id) }}
+            </span>
+          </a>
+          <ul class="dropdown-menu">
+            <li class="user-noti-list">
+              <!-- Inner Menu: contains the notifications -->
+              <ul class="menu">
+                <li><!-- start notification -->
+                  <a href="#">
+                    ...
+                  </a>
+                </li><!-- end notification -->
+              </ul>
+            </li>
+            <li class="footer"><a href="{{ route('notification.list') }}">View all</a></li>
+          </ul>
+        </li>
+
         <li class="dropdown">
           <a href="#" class="dropdown-toggle user-nav-link" data-toggle="dropdown">
               {!! MICUILayoutHelper::avatarImage($currentUser, 40) !!}
@@ -56,12 +80,12 @@
                     </div>
                 </div>
             </li>
-            <li class="user-menu-item"><a href="{{ route('user.settings') }}">Edit Profile <span class="glyphicon glyphicon-user pull-right"></span></a></li>
-            <li class="user-menu-item"><a href="{{ route('user.settings') }}?panel=AccountSettings">Change Password <span class="glyphicon glyphicon-cog pull-right"></span></a></li>
+            <li class="user-menu-item"><a href="{{ route('user.settings') }}" class="clearfix"><span class="pull-left">Edit Profile</span> <span class="glyphicon glyphicon-user pull-right"></span></a></li>
+            <li class="user-menu-item"><a href="{{ route('user.settings') }}?panel=AccountSettings" class="clearfix"><span class="pull-left">Change Password</span> <span class="glyphicon glyphicon-cog pull-right"></span></a></li>
             @if ($currentUser->type == 'partner')
-            <li class="user-menu-item"><a href="{{ route('user.settings') }}?panel=PaymentSettings">Payment Information <span class="glyphicon glyphicon-credit-card pull-right"></span></a></li>
+            <li class="user-menu-item"><a href="{{ route('user.settings') }}?panel=PaymentSettings" class="clearfix"><span class="pull-left">Payment Information</span> <span class="glyphicon glyphicon-credit-card pull-right"></span></a></li>
             @endif
-            <li class="user-menu-item"><a href="{{ url('/logout') }}">Log Out <span class="glyphicon glyphicon-log-out pull-right"></span></a></li>
+            <li class="user-menu-item"><a href="{{ url('/logout') }}" class="clearfix"><span class="pull-left">Log Out</span> <span class="glyphicon glyphicon-log-out pull-right"></span></a></li>
           </ul>
         </li>
       </ul>
@@ -72,3 +96,30 @@
 </div>
 
 </header>
+
+@push('scripts')
+<script>
+$(function () {
+  $('.user-nav').on('click', 'a.user-notify-link', function() {
+    var load_url = '{{ route('notification.user_notify') }}';
+    loadUserNotify(load_url);
+  });
+});
+
+function loadUserNotify(load_url) {
+  $.ajax({
+      dataType: 'json',
+      url: load_url,
+      success: function ( json ) {
+        $(".user-noti-list").empty();
+        $(".user-noti-list").html(json.notify_html);
+      }
+  });
+}
+
+function loadUserNotifyCount() {
+
+}
+
+</script>
+@endpush
