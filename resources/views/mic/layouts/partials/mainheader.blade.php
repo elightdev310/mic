@@ -113,12 +113,9 @@ function loadUserNotify(load_url) {
       success: function ( json ) {
         $(".user-noti-list").empty();
         $(".user-noti-list").html(json.notify_html);
+        MICApp.UI.refreshUserNotifyCount(json.count);
       }
   });
-}
-
-function loadUserNotifyCount() {
-
 }
 
 </script>

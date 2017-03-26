@@ -26,4 +26,6 @@
 <script src="{{ asset('assets/plugins/bootbox/bootbox.min.js') }}" type="text/javascript"></script>
 <script src="{{ asset('la-assets/plugins/iCheck/icheck.min.js') }}" type="text/javascript"></script>
 
+<script src="{{ asset('assets/js/micapp.js') }}" type="text/javascript"></script>
+
 @stack('scripts')

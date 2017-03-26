@@ -82,8 +82,10 @@ class NotificationController extends Controller
         );
       $view = View::make('mic.commons.notification.partials.notify_list', $params);
       $noti_html = $view->render();
+
+      $count = MICNotification::getUnreadCount($user->id);
     }
 
-    return response()->json(['notify_html' => $noti_html]);
+    return response()->json(['notify_html' => $noti_html, 'count'=>$count]);
   }
 }

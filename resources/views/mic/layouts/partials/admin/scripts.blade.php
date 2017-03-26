@@ -29,17 +29,7 @@
 <script src="https://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
 <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
 
+<script src="{{ asset('assets/js/micapp.js') }}" type="text/javascript"></script>
 <script src="{{ asset('assets/js/admin.js') }}" type="text/javascript"></script>
-
-<script>
-$(function () {
-  $(window).load(function() {
-    $('#loading').fadeOut('slow', function() {
-      $(this).remove();
-    });
-  })
-});
-
-</script>
 
 @stack('scripts')

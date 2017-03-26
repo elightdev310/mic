@@ -1,14 +1,12 @@
-/*
- * Author: Abdullah A Almsaeed
- * Date: 4 Jan 2014
- * Description:
- *      This is a demo file used only for the main dashboard (index.html)
- **/
-
 $(function () {
 
   "use strict";
-
+  $(window).load(function() {
+    $('#loading').fadeOut('slow', function() {
+      $(this).remove();
+    });
+  })
+  
   $('input.checkbox').iCheck({
     checkboxClass: 'icheckbox_minimal-blue'
   });
