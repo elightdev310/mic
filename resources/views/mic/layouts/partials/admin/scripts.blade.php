@@ -17,13 +17,16 @@
 <script src="{{ asset('la-assets/plugins/stickytabs/jquery.stickytabs.js') }}" type="text/javascript"></script>
 <script src="{{ asset('la-assets/plugins/slimScroll/jquery.slimscroll.min.js') }}" type="text/javascript"></script>
 
+<script src="{{ asset('la-assets/plugins/iCheck/icheck.min.js') }}" type="text/javascript"></script>
 
 <!-- Optionally, you can add Slimscroll and FastClick plugins.
       Both of these plugins are recommended to enhance the
       user experience. Slimscroll is required when using the
       fixed layout. -->
 <script src="{{ asset('assets/plugins/bootbox/bootbox.min.js') }}" type="text/javascript"></script>
-<script src="{{ asset('la-assets/plugins/iCheck/icheck.min.js') }}" type="text/javascript"></script>
+<script src="{{ asset('assets/plugins/jquery-loading-overlay/loading-overlay.js') }}" type="text/javascript"></script>
+
+
 
 <!-- jQuery UI 1.11.4 -->
 <script src="https://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>

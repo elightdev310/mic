@@ -48,13 +48,7 @@
           <ul class="dropdown-menu">
             <li class="user-noti-list">
               <!-- Inner Menu: contains the notifications -->
-              <ul class="menu">
-                <li><!-- start notification -->
-                  <a href="#">
-                    ...
-                  </a>
-                </li><!-- end notification -->
-              </ul>
+              
             </li>
             <li class="footer"><a href="{{ route('notification.list') }}">View all</a></li>
           </ul>
@@ -175,10 +169,12 @@ $(function () {
 });
 
 function loadUserNotify(load_url) {
+  $(".user-noti-list").loadingOverlay();
   $.ajax({
       dataType: 'json',
       url: load_url,
       success: function ( json ) {
+        $(".user-noti-list").loadingOverlay('remove');
         $(".user-noti-list").empty();
         $(".user-noti-list").html(json.notify_html);
         MICApp.UI.refreshUserNotifyCount(json.count);
