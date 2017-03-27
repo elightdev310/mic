@@ -255,6 +255,8 @@ function loadClaimDocs() {
 }
 
 function loadClaimDocComments(reload_url, thread_id) {
+  var $focus_thread = $('#'+thread_id);
+
   $.ajax({
       dataType: 'json',
       url: reload_url,
@@ -262,7 +264,6 @@ function loadClaimDocComments(reload_url, thread_id) {
         $(".doc-comment-section .comment-list-section").empty();
         $(".doc-comment-section .comment-list-section").html(json.comments_html);
         if (thread_id) {
-          var $focus_thread = $('#'+thread_id);
           $focus_thread.addClass('focus-thread');
           $focus_thread.find('.comment-input-text').focus();
         }
