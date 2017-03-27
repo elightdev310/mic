@@ -53,10 +53,10 @@ class NotificationModule {
         $this->addNotification($you, $messageToYou);
       }
 
-      $mailToYou = $this->getMailToYou($type, $params);
+      $mailSubjectToYou = $this->getMailSubjectToYou($type, $params);
       $you = $this->getYouUser($type, $params, 'mail');
-      if ($you && $mailToYou) {
-        
+      if ($you && $mailSubjectToYou) {
+        $this->sendMail($you, $type, $mailSubjectToYou, $params,'_you');
       }
 
       // To Others, including admin
@@ -64,16 +64,16 @@ class NotificationModule {
       $users = $this->getOtherUsers($type, $params, 'database');
       if ($messageToOthers) {
         foreach ($users as $user_id) {
-
           $this->addNotification($user_id, $messageToOthers);
         }
       }
 
-      $mailToOthers = $this->getMailToOthers($type, $params);
+      $mailSubjectToOthers = $this->getMailSubjectToOthers($type, $params);
       $users = $this->getOtherUsers($type, $params, 'mail');
-      if ($mailToOthers) {
-        foreach ($users as $user_id) {
 
+      if ($mailSubjectToOthers) {
+        foreach ($users as $user_id) {
+          $this->sendMail($user_id, $type, $mailSubjectToOthers, $params);
         }
       }
     }
@@ -90,8 +90,17 @@ class NotificationModule {
     $noti->save();
   }
 
-  public function sendMail($user_id, $content) {
-    
+  public function sendMail($user_id, $type, $subject, $params, $type_suffix='') {
+    $sendTo = UserModel::find($user_id);
+    $params['sendTo'] = $sendTo;
+    $this->additionalParams($user_id, $type, $params);
+
+    $response = Mail::send('emails.'.$type.$type_suffix, $params, 
+                  function ($m) use($sendTo, $subject) {
+                    $m->to($sendTo->email)
+                      ->subject($subject);
+                  }
+                );
   }
 
   public function getYouUser($type, $params, $via='') {
@@ -110,7 +119,7 @@ class NotificationModule {
         $you = $claim->patient_uid;
         break;
       case 'claim.assign_request':
-      case 'claim.patient_reject_partner': 
+      case 'claim.patient_reject_request': 
       case 'claim.assign_partner': 
       case 'claim.unassign_partner': 
         // use $partner, $claim
@@ -151,11 +160,10 @@ class NotificationModule {
         // use $partner, $claim
         break;
       case 'claim.partner_approve_request': 
-        break;
       case 'claim.partner_reject_request': 
         break;
       case 'claim.patient_approve_request':
-      case 'claim.patient_reject_partner': 
+      case 'claim.patient_reject_request': 
         break;
       case 'claim.assign_partner': 
       case 'claim.unassign_partner': 

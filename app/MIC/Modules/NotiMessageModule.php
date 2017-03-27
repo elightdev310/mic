@@ -25,7 +25,7 @@ trait NotiMessageModule
         $msg = '%s approved to be assigned to claim #%d. Please review and accept.';
         $message = sprintf($msg, $partner->name, $claim->id);
         break;
-      case 'claim.patient_reject_partner': // to partner
+      case 'claim.patient_reject_request': // to partner
         // use $partner, $claim
         $msg = 'Sorry, you are not allowed to claim #%d';
         $message = sprintf($msg, $claim->id);
@@ -101,7 +101,7 @@ trait NotiMessageModule
         $msg = '%s rejected claim #%d';
         $message = sprintf($msg, $partner->name, $claim->id);
         break;
-      case 'claim.patient_reject_partner': 
+      case 'claim.patient_reject_request': 
         // use $partner, $claim
         $msg = '%s rejected %s from claim #%d';
         $message = sprintf($msg, $claim->patientUser->name, $partner->name, $claim->id);

@@ -338,6 +338,7 @@ class ClaimController extends Controller
       // Activity Feed
       $ca_params = array(
           'user'    => $user, 
+          'claim'   => $doc->claim, 
           'doc'     => $doc, 
           'comment' => $comment, 
         );
