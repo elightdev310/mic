@@ -783,9 +783,6 @@ body {
   padding: 10px;
   padding-bottom: 0px;
 }
-.main-header .user-nav {
-  margin-top: 15px;
-}
 .main-header .user-nav .user-nav-link img {
   width: 40px;
   height: 40px;
@@ -839,6 +836,32 @@ body {
   }
   .main-header .logo img.site-logo {
     height: 60px;
+  }
+}
+@media (min-width: 768px) {
+  .main-header .navbar .top-navbar .navbar-nav {
+    float: right;
+  }
+  .main-header .navbar .top-navbar .nav > li > a {
+    padding-top: 5px;
+    padding-bottom: 5px;
+  }
+  .main-header .navbar .top-navbar .nav > li > a:hover {
+    background: inherit;
+    color: #ccc;
+  }
+  .main-header .navbar .top-navbar .top-menu-nav {
+    margin: 20px 0px 10px;
+  }
+  .main-header .navbar .top-navbar .top-menu-nav > ul > li {
+    border-right: solid 1px #fff;
+  }
+  .main-header .navbar .top-navbar .top-menu-nav > ul > li > a {
+    padding-top: 0px;
+    padding-bottom: 0px;
+  }
+  .main-header .navbar .top-navbar .top-menu-nav > ul > li:last-child {
+    border-right: none;
   }
 }
 .dashboard-page .dashboard-section {

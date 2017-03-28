@@ -61,7 +61,6 @@ html, body {
   }
 
   .user-nav {
-    margin-top: 15px;
     .user-nav-link {
       img { 
         width: 40px; 
@@ -128,6 +127,39 @@ html, body {
     padding: 5px 10px;
     img.site-logo {
       height: 60px;
+    }
+  }
+}
+
+@media (min-width: 768px) {
+  .main-header .navbar .top-navbar {
+    .navbar-nav {
+      float: right;
+    }
+
+    .nav > li > a {
+      padding-top: 5px;
+      padding-bottom: 5px;
+
+      &:hover {
+        background: inherit;
+        color: #ccc;
+      }
+    }
+
+    .top-menu-nav {
+      margin: 20px 0px 10px;
+      > ul > li {
+        border-right: solid 1px #fff;
+        > a {
+          padding-top: 0px;
+          padding-bottom: 0px;
+        }
+
+        &:last-child {
+          border-right: none;
+        }
+      }
     }
   }
 }

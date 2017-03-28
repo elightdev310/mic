@@ -58,5 +58,46 @@ return [
       'url'   => 'admin/users', 
       'icon'  => 'fa-users', 
     ], 
-  ]
+  ], 
+
+  'patient' => [
+    'new_claim' => [
+      'title' => 'Create Claim', 
+      'url'   => 'claim/create', 
+    ], 
+    'claims' => [
+      'title' => 'My Claims', 
+      'url'   => 'my-claims', 
+    ], 
+    'videos' => [
+      'title' => 'Learning Center', 
+      'url'   => 'learning-center', 
+    ], 
+    'more' => [
+      'title' => 'More', 
+      'url'   => '#', 
+    ], 
+  ], 
+
+  'partner' => [
+    'claims' => [
+      'title' => 'Claims', 
+      'url'   => 'partner/claims', 
+    ], 
+    'videos' => [
+      'title' => 'Learning Center', 
+      'url'   => 'learning-center', 
+    ], 
+    'more' => [
+      'title' => 'More', 
+      'url'   => '#', 
+    ], 
+  ], 
+
+  'micadmin' => [
+    'admin_panel' => [
+      'title' => 'Admin Panel', 
+      'url'   => 'admin', 
+    ], 
+  ], 
 ];

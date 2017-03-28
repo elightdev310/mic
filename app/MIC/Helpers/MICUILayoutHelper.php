@@ -37,11 +37,13 @@ class MICUILayoutHelper
 
     if ($menu == 'admin' && $user->can('MICADMIN_PANEL')) {
       $data = config('menu.admin');
+    } else {
+      $data = config('menu.'.$menu);
     }
 
     return $data;
   }
-
+  
   public static function printMenu($menu) {
     $childrens = array();
     if (isset($menu['#child'])) {

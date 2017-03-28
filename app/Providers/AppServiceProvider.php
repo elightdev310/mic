@@ -10,6 +10,8 @@ use App\MIC\Modules\ClaimModule;
 use App\MIC\Modules\VideoModule;
 use App\MIC\Modules\NotificationModule;
 
+use MICUILayoutHelper;
+
 class AppServiceProvider extends ServiceProvider
 {
   /**
@@ -19,8 +21,11 @@ class AppServiceProvider extends ServiceProvider
    */
   public function boot()
   {
+
     \View::composer('*', function($view){
-        $view->with('currentUser', \Auth::user());
+        $currentUser = \Auth::user();
+
+        $view->with('currentUser', $currentUser);
     });
   }
 
