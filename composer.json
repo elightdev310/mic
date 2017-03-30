@@ -8,7 +8,8 @@
         "php": ">=5.5.9",
         "laravel/framework": "5.2.*",
         "dwij/laraadmin": "1.0.40",
-        "alaouy/youtube": "dev-master"
+        "alaouy/youtube": "dev-master",
+        "consolibyte/quickbooks": "v3.2"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

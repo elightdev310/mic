@@ -138,4 +138,8 @@ Route::group(['as' => $as, 'middleware' => ['auth', 'permission:ADMIN_PANEL']], 
 	/* ================== Notifications ================== */
 	Route::resource(config('laraadmin.adminRoute') . '/notifications', 'LA\NotificationsController');
 	Route::get(config('laraadmin.adminRoute') . '/notification_dt_ajax', 'LA\NotificationsController@dtajax');
+
+	/* ================== Subscriptions ================== */
+	Route::resource(config('laraadmin.adminRoute') . '/subscriptions', 'LA\SubscriptionsController');
+	Route::get(config('laraadmin.adminRoute') . '/subscription_dt_ajax', 'LA\SubscriptionsController@dtajax');
 });

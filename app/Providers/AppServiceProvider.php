@@ -9,6 +9,8 @@ use App\MIC\Modules\PartnerApp;
 use App\MIC\Modules\ClaimModule;
 use App\MIC\Modules\VideoModule;
 use App\MIC\Modules\NotificationModule;
+use App\MIC\Modules\SubscriberModule;
+use App\MIC\MICPay\MICPay;
 
 use MICUILayoutHelper;
 
@@ -48,7 +50,15 @@ class AppServiceProvider extends ServiceProvider
     $this->app->bind('micnotification', function ($app) {
       return new NotificationModule($app);
     });
+    $this->app->bind('micsubscriber', function ($app) {
+      return new SubscriberModule($app);
+    });
 
+    $this->app->bind('micpay', function ($app) {
+      return new MICPay($app);
+    });
+
+    //
     $loader = AliasLoader::getInstance();
 
     $loader->alias('MICUILayoutHelper', \App\MIC\Helpers\MICUILayoutHelper::class);
@@ -58,5 +68,8 @@ class AppServiceProvider extends ServiceProvider
     $loader->alias('MICClaim', \App\MIC\Facades\ClaimFacade::class);
     $loader->alias('MICVideo', \App\MIC\Facades\VideoFacade::class);
     $loader->alias('MICNotification', \App\MIC\Facades\NotificationFacade::class);
+    $loader->alias('MICSubscriber', \App\MIC\Facades\SubscriberFacade::class);
+    
+    $loader->alias('MICPay', \App\MIC\MICPay\MICPayFacade::class);
   }
 }

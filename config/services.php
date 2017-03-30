@@ -35,4 +35,9 @@ return [
         'secret' => env('STRIPE_SECRET'),
     ],
 
+    'qbms'  => [
+        'application_login' => 'test.foxycart.com', 
+        'connection_ticket' => 'TGT-157-p3PyZPoH3DtieLSh4ykp6Q', 
+    ], 
+
 ];
