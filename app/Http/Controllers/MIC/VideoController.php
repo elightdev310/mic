@@ -11,6 +11,7 @@ use App\Http\Controllers\Controller as Controller;
 use Dwij\Laraadmin\Models\Module;
 use Dwij\Laraadmin\Models\ModuleFields;
 
+use App\MIC\Models\PaymentInfo;
 use App\MIC\Models\YoutubeVideo;
 use App\MIC\Models\VideoAccess;
 
@@ -64,9 +65,15 @@ class VideoController extends Controller
 
   public function purchaseVideoPage(Request $request, $va_id) {
     $va = VideoAccess::find($va_id);
+    $video = $va->video;
+    $video->getVideoData();
 
+    $_user = MICHelper::currentUser();
     $params = array();
     $params['va'] = $va;
+    $params['video'] = $video;
+
+    $params['payment_info'] = $_user->paymentInfo? $_user->paymentInfo : new PaymentInfo;
     if (MICVideo::checkVideoPurchase($va)) {
       
     } else {
@@ -74,5 +81,9 @@ class VideoController extends Controller
     }
 
     return view('mic.commons.video.purchase', $params);
+  }
+
+  public function purchaseVideo(Request $request, $va_id) {
+    return redirect()->route('learning_center.video.purchase', ['va_id'=>$va_id]);
   }
 }
