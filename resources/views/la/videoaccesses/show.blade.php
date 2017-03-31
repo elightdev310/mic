@@ -111,6 +111,7 @@
 						@la_display($module, 'group')
 						@la_display($module, 'user_id')
 						@la_display($module, 'weight')
+						@la_display($module, 'price')
 					</div>
 				</div>
 			</div>

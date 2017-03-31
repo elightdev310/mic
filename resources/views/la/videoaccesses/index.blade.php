@@ -63,6 +63,7 @@
 					@la_input($module, 'group')
 					@la_input($module, 'user_id')
 					@la_input($module, 'weight')
+					@la_input($module, 'price')
 					--}}
 				</div>
 			</div>

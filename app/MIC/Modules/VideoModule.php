@@ -50,7 +50,7 @@ class VideoModule {
     return FALSE;
   }
 
-  public function addYoutubeVideo($vid, $group, $user_id=0) {
+  public function addYoutubeVideo($vid, $group, $user_id=0, $non_free=false) {
     $video = $this->getVideoModel($vid);
     $vdata = $this->getYoutubeVideoData($vid);
     if (!$video) {
@@ -70,6 +70,13 @@ class VideoModule {
     $va->video_id = $video->id;
     $va->group = $group;
     $va->user_id = $user_id;
+
+    if ($non_free) {
+      $va->price = config('mic.video_price');
+    } else {
+      $va->price = 0;
+    }
+
     $va->save();
 
     return true;
@@ -80,9 +87,9 @@ class VideoModule {
     if ($va) {
       $video = $va->video;
       $va->forceDelete();
-      if (!$this->checkVideoAccess($video->id)) {
-        $video->forceDelete();
-      }
+      // if (!$this->checkVideoAccess($video->id)) {
+      //   $video->forceDelete();
+      // }
     }
   }
 
@@ -101,5 +108,18 @@ class VideoModule {
     }
 
     return $videos;
+  }
+
+  public function checkVideoPurchase($va) {
+    if (is_numeric($va)) {
+      $va = VideoAccess::find($va);
+    }
+
+    if ($va) {
+      if (!$va->price) {
+        return true;
+      }
+    }
+    return false;
   }
 }

@@ -22,6 +22,7 @@ class CreateVideoaccessesTable extends Migration
             ["group", "Group", "String", false, "patient", 1, 50, false],
             ["user_id", "User", "Integer", false, "0", 1, 4294967295, false],
             ["weight", "Weight", "Integer", false, "999999", 0, 4294967295, false],
+            ["price", "Price", "Float", false, "0", 0, 1000, false],
         ]);
 		
 		/*

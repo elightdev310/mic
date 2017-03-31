@@ -7,7 +7,6 @@
 
 @section('content')
 <!-- Main content -->
-<section class="content no-padding">
   <div class="content-box p30">
     <div class="row pl30 pr30">
       <div class="col-sm-5">
@@ -30,7 +29,13 @@
 
         @foreach ($videos as $video)
         <div class="col-md-3 col-sm-6 video-item">
-          <a href="//www.youtube.com/embed/{{ $video->video->id }}" data-lity>
+
+          @if ($video->va->price)
+          <a href="{{ route('learning_center.video.purchase', [$video->va->id] )}}" data-lity>
+          @else
+          <a href="https//www.youtube.com/embed/{{ $video->video->id }}" data-lity>
+          @endif
+
             <div class="video-thumbnail">
               <img src="{{ $video->video->snippet->thumbnails->high->url }}" />
               <div class="video-duration">{{ MICUILayoutHelper::duration($video->video->contentDetails->duration) }}</div>
@@ -38,7 +43,11 @@
           </a>
           <div class="video-info">
             <div class="video-title">
-              <a href="//www.youtube.com/embed/{{ $video->video->id }}" data-lity>
+              @if ($video->va->price)
+              <a href="{{ route('learning_center.video.purchase', [$video->va->id] )}}" data-lity>
+              @else
+              <a href="https//www.youtube.com/embed/{{ $video->video->id }}" data-lity>
+              @endif
               {{ $video->video->snippet->title }}
               </a>
             </div>
@@ -49,6 +58,19 @@
               <span>{{ $video->video->statistics->viewCount }} views</span> - 
               <span>{{ MICUILayoutHelper::agoTime($video->video->snippet->publishedAt, ' ago') }}</span>
             </div>
+
+            @if ($video->va->price)
+            <div class="video-purchase">
+              <span class="video-price">
+                Price: ${{ number_format($video->va->price, 2) }}
+              </span>
+              &nbsp;
+              <a href="{{ route('learning_center.video.purchase', [$video->va->id] )}}" class="btn btn-primary btn-sm" data-lity>
+                Purchase
+              </a>
+            </div>
+            @endif
+
           </div>
         </div>
         @endforeach

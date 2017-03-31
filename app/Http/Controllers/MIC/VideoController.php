@@ -61,4 +61,18 @@ class VideoController extends Controller
 
     return view('mic.commons.video.learning_center', $params);
   }
+
+  public function purchaseVideoPage(Request $request, $va_id) {
+    $va = VideoAccess::find($va_id);
+
+    $params = array();
+    $params['va'] = $va;
+    if (MICVideo::checkVideoPurchase($va)) {
+      
+    } else {
+      $params['redirect'] = '_parent';
+    }
+
+    return view('mic.commons.video.purchase', $params);
+  }
 }

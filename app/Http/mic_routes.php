@@ -53,6 +53,10 @@ Route::group(['middleware' => ['auth']],
     'as'=>'learning_center', 'uses'=>'MIC\VideoController@learningCenter' 
   ]);
 
+  Route::get('learning-center/{va_id}/purchase', [
+    'as'=>'learning_center.video.purchase', 'uses'=>'MIC\VideoController@purchaseVideoPage' 
+  ]);
+
   // Notification
   Route::get('notifications', [
     'as'=>'notification.list', 'uses'=>'MIC\NotificationController@listPage' 

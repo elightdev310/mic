@@ -39,6 +39,11 @@
                       <div class="video-title">
                         <a href="//www.youtube.com/embed/{{ $video->video->id }}" data-lity>
                         {{ $video->video->snippet->title }}
+                        @if ($video->va->price)
+                        <span class="video-price">
+                          (${{ number_format($video->va->price, 2) }})
+                        </span>
+                        @endif 
                         </a>
                       </div>
                       <div class="video-channel">

@@ -683,6 +683,9 @@ ul.claim-doc-section {
   color: #48B0F7;
   font-weight: 700;
 }
+.video-list .video-price {
+  color: red;
+}
 .video-list .video-thumbnail {
   position: relative;
 }
@@ -695,6 +698,17 @@ ul.claim-doc-section {
   background: #000;
   opacity: 0.7;
   font-weight: bold;
+}
+.video-list .video-thumbnail .video-price {
+  text-align: center;
+  background-color: rgba(200, 200, 200, 0.5);
+  padding: 5px 10px;
+  color: red;
+  font-size: 30px;
+  font-weight: 700;
+  position: absolute;
+  left: 10px;
+  top: 10px;
 }
 .notification-list .noti-item {
   display: table;

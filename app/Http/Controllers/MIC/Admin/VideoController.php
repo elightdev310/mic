@@ -94,8 +94,11 @@ class VideoController extends Controller
 
     $vid = $request->input('vid');
     $group = $request->input('group');
-
-    if (!MICVideo::addYoutubeVideo($vid, $group)) {
+    $non_free = false;
+    if ($request->has('non_free')) {
+      $non_free = true;
+    }
+    if (!MICVideo::addYoutubeVideo($vid, $group, 0, $non_free)) {
       return redirect()->back()
                 ->withErrors('Failed to add youtube video')
                 ->withInput();
@@ -129,8 +132,11 @@ class VideoController extends Controller
 
     $vid = $request->input('vid');
     $group = 'user';
+    if ($request->has('non_free')) {
+      $non_free = true;
+    }
 
-    if (!MICVideo::addYoutubeVideo($vid, $group, $uid)) {
+    if (!MICVideo::addYoutubeVideo($vid, $group, $uid, $non_free)) {
       return redirect()->back()
                 ->withErrors('Failed to add youtube video')
                 ->withInput()

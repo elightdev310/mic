@@ -84,4 +84,7 @@ return [
       '1'    => 'approved', 
       '2'    => 'rejected', 
     ), 
+
+  // Video Price
+  'video_price' => 5.00, 
 ];

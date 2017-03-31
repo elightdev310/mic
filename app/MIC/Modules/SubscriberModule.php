@@ -4,6 +4,8 @@ namespace App\MIC\Modules;
 
 use DB;
 
+use App\MIC\Models\Subscription;
+
 use MICHelper;
 
 class SubscriberModule {
@@ -24,5 +26,14 @@ class SubscriberModule {
   public function __construct($app)
   {
       $this->app = $app;
+  }
+
+  public function newSubscription($user_id, $name, $plan, $skip_trial=0) {
+    $subscription = new Subscription;
+    $subscription->user_id = $user_id;
+    $subscription->name = $name;
+    $subscription->plan = $plan;
+    
+    $subscription->save();
   }
 }

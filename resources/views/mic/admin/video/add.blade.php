@@ -34,6 +34,15 @@
                             ['class' => 'form-control']) 
             !!}
           </div>
+
+          <div class="form-group">
+            <label>
+            {!! 
+              Form::checkbox('non_free', 'yes');
+            !!}
+            Is this non-free video (${{ number_format(config('mic.video_price'), 2) }})?
+            </label>
+          </div>
         </div><!-- /.box-body -->
         <div class="box-footer clearfix no-border">
           <div class="paginator pull-right">

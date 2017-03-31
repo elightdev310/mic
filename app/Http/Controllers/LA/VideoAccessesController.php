@@ -23,7 +23,7 @@ class VideoAccessesController extends Controller
 {
 	public $show_action = true;
 	public $view_col = 'video_id';
-	public $listing_cols = ['id', 'video_id', 'group', 'user_id', 'weight'];
+	public $listing_cols = ['id', 'video_id', 'group', 'user_id', 'weight', 'price'];
 	
 	public function __construct() {
 		// Field Access of Listing Columns
