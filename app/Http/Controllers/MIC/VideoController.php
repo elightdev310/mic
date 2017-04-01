@@ -132,7 +132,10 @@ class VideoController extends Controller
     $payment_info->save();
 
     // Purchase Video
+    // TO DO: Charge 
     
+    
+
     return redirect()->route('learning_center.video.purchase', ['va_id'=>$va_id]);
   }
 }

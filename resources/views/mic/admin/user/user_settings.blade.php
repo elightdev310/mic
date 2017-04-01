@@ -52,6 +52,9 @@
           <i class="fa fa-diamond"></i> Membership Settings
         </a>
       </li>
+      @endif
+
+      @if (isset($payment_info))
       <li class="@if (session('_action')=='savePaymentSettings') active @endif">
         <a role="tab" data-toggle="tab" class="@if (session('_action')=='savePaymentSettings') active @endif" 
             href="#tab-payment" data-target="#tab-payment" aria-expanded="false">
@@ -59,6 +62,7 @@
         </a>
       </li>
       @endif
+
       <li class="@if (session('_action')=='saveAccountSettings') active @endif">
         <a role="tab" data-toggle="tab" class="@if (session('_action')=='saveAccountSettings') active @endif" 
             href="#tab-account" data-target="#tab-account" aria-expanded="false">
@@ -89,8 +93,8 @@
         </div>
       </div>
 
-      <!-- Membership Settings -->
       @if (isset($partner))
+      <!-- Membership Settings -->
       <div role="tabpanel" class="tab-pane fade @if (session('_action')=='saveMembershipSettings') active in @endif" id="tab-membership">
         <div class="tab-content">
           <div class="panel infolist">
@@ -103,7 +107,9 @@
           </div>
         </div>
       </div>
+      @endif
 
+      @if (isset($payment_info))
       <!-- Payment Settings -->
       <div role="tabpanel" class="tab-pane fade @if (session('_action')=='savePaymentSettings') active in @endif" id="tab-payment">
         <div class="tab-content">

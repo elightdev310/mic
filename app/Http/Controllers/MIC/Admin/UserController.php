@@ -99,6 +99,7 @@ class UserController extends Controller
     $params['user'] = $user;
     if ($user->type == 'patient') {
       $params['patient'] = $user->patient? $user->patient : new Patient ;
+      $params['payment_info'] = $user->paymentInfo? $user->paymentInfo : new PaymentInfo;
     } 
     else if ($user->type == 'partner') {
       $params['partner'] = $user->partner? $user->partner : new Partner;

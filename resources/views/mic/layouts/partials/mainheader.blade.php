@@ -65,7 +65,7 @@
               </li>
               <li class="user-menu-item"><a href="{{ route('user.settings') }}" class="clearfix"><span class="pull-left">Edit Profile</span> <span class="glyphicon glyphicon-user pull-right"></span></a></li>
               <li class="user-menu-item"><a href="{{ route('user.settings') }}?panel=AccountSettings" class="clearfix"><span class="pull-left">Change Password</span> <span class="glyphicon glyphicon-cog pull-right"></span></a></li>
-              @if ($currentUser->type == 'partner')
+              @if ($currentUser->type == 'patient' || $currentUser->type == 'partner')
               <li class="user-menu-item"><a href="{{ route('user.settings') }}?panel=PaymentSettings" class="clearfix"><span class="pull-left">Payment Information</span> <span class="glyphicon glyphicon-credit-card pull-right"></span></a></li>
               @endif
               <li class="user-menu-item"><a href="{{ url('/logout') }}" class="clearfix"><span class="pull-left">Log Out</span> <span class="glyphicon glyphicon-log-out pull-right"></span></a></li>
