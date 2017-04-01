@@ -8,7 +8,6 @@
 @section('page_classes')my-claims @endsection
 
 @section('content')
-  @include('mic.admin.partials.success_error')
   <div class="row">
     <section class="col-md-12">
       <div class="my-claims-list box box-primary">

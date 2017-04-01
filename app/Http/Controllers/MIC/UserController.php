@@ -76,6 +76,8 @@ class UserController extends Controller
 
     $params['no_header'] = true;
     $params['no_padding'] = 'no-padding';
+    $params['no_message'] = 'partial';
+    
     $params['layout'] = MICHelper::layoutType($user);
 
     return view('mic.commons.user.user_settings', $params);
@@ -316,7 +318,6 @@ class UserController extends Controller
     {
       $payment_info = new PaymentInfo;
       $payment_info->user_id = $user->id;
-      $payment_info->save();
     }
     
     $payment_info->name_card   = $request->input('name_card');

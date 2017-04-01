@@ -99,6 +99,8 @@ class ClaimController extends Controller
 
     $params['no_header'] = true;
     $params['no_padding'] = 'no-padding';
+    $params['no_message'] = 'partial';
+
     return view('mic.admin.claim.page', $params);
   }
 

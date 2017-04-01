@@ -42,7 +42,6 @@ class IQuestionController extends Controller
 
     $params = array();
     $params['questions'] = $questions;
-    $params['no_padding'] = 'no-padding';
 
     return view('mic.admin.iquestions', $params);
   }
@@ -59,7 +58,6 @@ class IQuestionController extends Controller
 
   public function quizAddForm(Request $request) {
     $params = array();
-    $params['no_padding'] = 'no-padding';
     return view('mic.admin.iquestion.add', $params);
   }
 
@@ -95,7 +93,6 @@ class IQuestionController extends Controller
 
     $params = array();
     $params['quiz'] = $quiz;
-    $params['no_padding'] = 'no-padding';    
     return view('mic.admin.iquestion.edit', $params);
   }
 

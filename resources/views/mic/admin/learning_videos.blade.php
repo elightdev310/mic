@@ -5,11 +5,8 @@
 
 @section('main-content')
 <!-- Main content -->
-<section class="content">
   <div class="row">
     <section class="col-md-12">
-
-      @include('mic.admin.partials.success_error')
 
       <div class="users-box box box-success">
         {!! Form::open(['route'=>'micadmin.learning_video.sort.post', 'method'=>'post']) !!}
@@ -83,7 +80,6 @@
 
     </section>
   </div>
-</section><!-- /.content -->
 @endsection
 
 @push('scripts')

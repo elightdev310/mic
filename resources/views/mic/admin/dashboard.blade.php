@@ -5,13 +5,11 @@
 
 @section('main-content')
 <!-- Main content -->
-<section class="content">
   <div class="row">
     <section class="col-md-6">
       @include('mic.admin.partials.dashboard_apps')
     </section>
   </div>
-</section><!-- /.content -->
 @endsection
 
 @push('styles')

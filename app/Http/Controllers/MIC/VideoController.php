@@ -11,6 +11,7 @@ use App\Http\Controllers\Controller as Controller;
 use Dwij\Laraadmin\Models\Module;
 use Dwij\Laraadmin\Models\ModuleFields;
 
+use App\MIC\Models\User;
 use App\MIC\Models\PaymentInfo;
 use App\MIC\Models\YoutubeVideo;
 use App\MIC\Models\VideoAccess;
@@ -68,12 +69,14 @@ class VideoController extends Controller
     $video = $va->video;
     $video->getVideoData();
 
-    $_user = MICHelper::currentUser();
+    $currentUser = MICHelper::currentUser();
+    $_user = User::find($currentUser->id);
+
     $params = array();
     $params['va'] = $va;
     $params['video'] = $video;
 
-    $params['payment_info'] = $_user->paymentInfo? $_user->paymentInfo : new PaymentInfo;
+    $params['payment_info'] = ($_user->paymentInfo)? $_user->paymentInfo : new PaymentInfo;
     if (MICVideo::checkVideoPurchase($va)) {
       
     } else {
@@ -84,6 +87,52 @@ class VideoController extends Controller
   }
 
   public function purchaseVideo(Request $request, $va_id) {
+    $user = MICHelper::currentUser();
+
+    // Save Payment Information
+    $validator = Validator::make($request->all(), [
+      'payment_type'  => 'required', 
+      'name_card'     => 'required', 
+      'cc_number'     => 'required', 
+      'exp'           => 'required', 
+      'cid'           => 'required', 
+
+      'address'       => 'required', 
+      'city'          => 'required', 
+      'state'         => 'required', 
+      'zip'           => 'required'
+    ]);
+
+    if ($validator->fails()) {
+      return redirect()->back()
+                ->withErrors($validator)
+                ->withInput();
+    }
+    
+    $payment_info = $user->paymentInfo;
+    if (!$payment_info ) 
+    {
+      $payment_info = new PaymentInfo;
+      $payment_info->user_id = $user->id;
+    }
+    
+    $payment_info->name_card   = $request->input('name_card');
+    $payment_info->cc_number   = $request->input('cc_number');
+    $payment_info->exp         = $request->input('exp');
+    $payment_info->cid         = $request->input('cid');
+
+    $payment_info->address     = $request->input('address');
+    $payment_info->address2    = $request->input('address2');
+    $payment_info->city        = $request->input('city');
+    $payment_info->state       = $request->input('state');
+    $payment_info->zip         = $request->input('zip');
+
+    $payment_info->payment_type= $request->input('payment_type');
+
+    $payment_info->save();
+
+    // Purchase Video
+    
     return redirect()->route('learning_center.video.purchase', ['va_id'=>$va_id]);
   }
 }

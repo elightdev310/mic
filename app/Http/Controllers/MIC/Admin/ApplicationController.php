@@ -50,7 +50,6 @@ class ApplicationController extends Controller
 
     $params = array();
     $params['apps'] = $apps;
-    $params['no_padding'] = 'no-padding';
 
     return view("mic.admin.{$status}_apps", $params);
   }

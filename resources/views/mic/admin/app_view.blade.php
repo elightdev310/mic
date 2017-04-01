@@ -5,7 +5,6 @@
 
 @section('main-content')
 <!-- Main content -->
-<section class="content no-padding">
   <div id="page-content" class="profile2">
     <div class="bg-primary clearfix">
       <div class="col-md-4">
@@ -81,7 +80,6 @@
               <h4>General Info</h4>
             </div>
             <div class="panel-body">
-              @include('mic.admin.partials.success_error')
               <div class="form-group">
                 <label for="first_name" class="col-md-2">First Name :</label>
                 <div class="col-md-10 fvalue">{{ $app->first_name }}</div>
@@ -211,7 +209,7 @@
       </div>
     </div>
   </div>
-</section><!-- /.content -->
+
 @endsection
 
 @push('scripts')

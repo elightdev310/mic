@@ -102,9 +102,6 @@
             <h4>Action</h4>
           </div>
           <div class="panel-body">
-            @if (session('_panel')=='action')
-              @include('mic.admin.partials.success_error')
-            @endif
             @include('mic.patient.claim.partials.action')
           </div>
         </div>

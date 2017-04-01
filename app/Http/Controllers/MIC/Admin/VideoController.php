@@ -59,7 +59,6 @@ class VideoController extends Controller
     $params = array();
     $params['groups'] = $groups;
     $params['group_videos'] = $group_videos;
-    $params['no_padding'] = 'no-padding';
 
     return view('mic.admin.learning_videos', $params);
   }
@@ -76,7 +75,6 @@ class VideoController extends Controller
 
   public function videoAddForm(Request $request) {
     $params = array();
-    $params['no_padding'] = 'no-padding';
     return view('mic.admin.video.add', $params);
   }
 
@@ -115,7 +113,6 @@ class VideoController extends Controller
   public function userVideoAddForm(Request $request, $uid) {
     $params = array();
     $params['user_id'] = $uid;
-    $params['no_padding'] = 'no-padding';
     return view('mic.admin.video.user_add', $params);
   }
 

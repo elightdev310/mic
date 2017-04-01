@@ -26,15 +26,14 @@
           <span>{{ $video->video->statistics->viewCount }} views</span> - 
           <span>{{ MICUILayoutHelper::agoTime($video->video->snippet->publishedAt, ' ago') }}</span>
         </div>
-      </div>
-
-      @if ($va->price)
-      <div class="video-purchase">
-        <span class="video-price">
-          Price: ${{ number_format($va->price, 2) }}
-        </span>
-      </div>
-      @endif
+        @if ($va->price)
+        <div class="video-purchase">
+          <h3 class="video-price">
+            Price: ${{ number_format($va->price, 2) }}
+          </h3>
+        </div>
+        @endif
+      </div><!-- /.video-info -->
     </div><!-- /.video-item -->
     </div>
   </div>

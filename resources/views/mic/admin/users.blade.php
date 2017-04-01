@@ -5,7 +5,6 @@
 
 @section('main-content')
 <!-- Main content -->
-<section class="content">
   <div class="row">
     <section class="col-md-12">
 
@@ -57,5 +56,4 @@
 
     </section>
   </div>
-</section><!-- /.content -->
 @endsection

@@ -71,6 +71,8 @@ trait PartnerClaimController
     $params['photos']     = $photos;
     $params['docs']       = $docs;
     
+    $params['no_message'] = 'partial';
+    
     return view('mic.partner.claim.page', $params);
   }
 

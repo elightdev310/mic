@@ -18,10 +18,14 @@
     @if(!isset($no_header))
       @include('mic.layouts.partials.contentheader')
     @endif
-
+    
     <!-- Main content -->
     <section class="content {{ $no_padding or '' }}">
       <!-- Your Page Content Here -->
+      @if(!isset($no_message))
+      @include('mic.commons.success_error')
+      @endif
+    
       @yield('content')
     </section><!-- /.content -->
     

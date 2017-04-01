@@ -49,9 +49,6 @@
             </div>
           </div>
           <div class="panel-body">
-            @if (!session('_panel') || session('_panel')=='ioi')
-              @include('mic.admin.partials.success_error')
-            @endif
             @include('mic.patient.claim.partials.ioi')
           </div>
         </div>
@@ -122,9 +119,6 @@
             <h4>Action</h4>
           </div>
           <div class="panel-body">
-            @if (session('_panel')=='action')
-              @include('mic.admin.partials.success_error')
-            @endif
             @include('mic.patient.claim.partials.action')
           </div>
         </div>
@@ -139,9 +133,6 @@
             <h4>Partners</h4>
           </div>
           <div class="panel-body">
-            @if (session('_panel')=='partners')
-              @include('mic.admin.partials.success_error')
-            @endif
             @include('mic.patient.claim.partials.partners')
           </div>
         </div>

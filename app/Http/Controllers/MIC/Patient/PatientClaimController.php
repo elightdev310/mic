@@ -84,6 +84,8 @@ trait PatientClaimController
     $params['assign_requests'] = $assign_requests;
     $params['partners'] = $assigned_partners;
 
+    $params['no_message'] = 'partial';
+
     return view('mic.patient.claim.page', $params);
   }
 

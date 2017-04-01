@@ -56,7 +56,6 @@ class UserController extends Controller
 
     $params = array();
     $params['users'] = $users;
-    $params['no_padding'] = 'no-padding';
     
     return view('mic.admin.users', $params);
   }
@@ -68,7 +67,6 @@ class UserController extends Controller
 
     $params = array();
     $params['patients'] = $patients;
-    $params['no_padding'] = 'no-padding';
 
     return view('mic.admin.patients', $params);
   }
@@ -81,7 +79,6 @@ class UserController extends Controller
 
     $params = array();
     $params['partners'] = $partners;
-    $params['no_padding'] = 'no-padding';
 
     return view('mic.admin.partners', $params);
   }
@@ -117,6 +114,8 @@ class UserController extends Controller
 
     $params['no_header'] = true;
     $params['no_padding'] = 'no-padding';
+    $params['no_message'] = 'partial';
+
 
     return view('mic.admin.user.user_settings', $params);
   }
@@ -336,7 +335,6 @@ class UserController extends Controller
     {
       $payment_info = new PaymentInfo;
       $payment_info->user_id = $user->id;
-      $payment_info->save();
     }
     
     $payment_info->name_card   = $request->input('name_card');
