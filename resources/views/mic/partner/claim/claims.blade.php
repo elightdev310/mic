@@ -31,7 +31,7 @@
             @foreach ($claims as $claim)
             <tr data-claim-id="{{ $claim->id }}">
               <td class="claim-id">
-                <a href="{{ route('partner.claim.page', [$claim->id]) }}" class="">
+                <a href="{{ route('claim.view', [$claim->id]) }}" class="">
                   Claim #{{ $claim->id }}
                 </a>
               </td>

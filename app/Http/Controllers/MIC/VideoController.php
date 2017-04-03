@@ -56,6 +56,15 @@ class VideoController extends Controller
     $video_user = MICVideo::getVideoList('user', $user->id);
 
     $videos = array_merge($video_user, $video_group, $video_all);
+    foreach ($videos as &$video) {
+      if ($video->va->price) {
+        if (MICVideo::checkPurchasedVideo($user->id, $video->id)) {
+          $video->purchased = 1;
+        } else {
+          $video->purchased = 0;
+        }
+      }
+    }
 
     $params = array();
     $params['videos'] = $videos;
@@ -134,7 +143,8 @@ class VideoController extends Controller
     // Purchase Video
     // TO DO: Charge 
     
-    
+    // TO DO : Uncomment after implementing of charge
+    // MICVideo::insertPurchaseVideo($user->id, $va_id);
 
     return redirect()->route('learning_center.video.purchase', ['va_id'=>$va_id]);
   }

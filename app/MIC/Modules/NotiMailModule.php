@@ -134,7 +134,7 @@ trait NotiMailModule
     if ($sendTo->type == 'employee') {
       $params['url_as_prefix'] = 'micadmin.';
     } else {
-      $params['url_as_prefix'] = $sendTo->type.".";
+      $params['url_as_prefix'] = '';
     }
   }
 

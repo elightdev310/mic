@@ -75,8 +75,29 @@ Route::group(['prefix'=>config('mic.adminRoute'),
     'as'=>$as.'claim.list', 'uses'=>'MIC\Admin\ClaimController@claimsList' 
   ]);
 
+  // Route::get('claim/{claim_id}', [
+  //   'as'=>$as.'claim.page', 'uses'=>'MIC\Admin\ClaimController@claimPage' 
+  // ]);
   Route::get('claim/{claim_id}', [
-    'as'=>$as.'claim.page', 'uses'=>'MIC\Admin\ClaimController@claimPage' 
+    'as'=>$as.'claim.view', 'uses'=>'MIC\Admin\ClaimController@claimIOIPage' 
+  ]);
+  Route::get('claim/{claim_id}/ioi', [
+    'as'=>$as.'claim.view.ioi', 'uses'=>'MIC\Admin\ClaimController@claimIOIPage' 
+  ]);
+  Route::get('claim/{claim_id}/activity', [
+    'as'=>$as.'claim.view.activity', 'uses'=>'MIC\Admin\ClaimController@claimActivityPage' 
+  ]);
+  Route::get('claim/{claim_id}/docs', [
+    'as'=>$as.'claim.view.docs', 'uses'=>'MIC\Admin\ClaimController@claimDocsPage' 
+  ]);
+  Route::get('claim/{claim_id}/photos', [
+    'as'=>$as.'claim.view.photos', 'uses'=>'MIC\Admin\ClaimController@claimPhotosPage' 
+  ]);
+  Route::get('claim/{claim_id}/action', [
+    'as'=>$as.'claim.view.action', 'uses'=>'MIC\Admin\ClaimController@claimActionPage' 
+  ]);
+  Route::get('claim/{claim_id}/partners', [
+    'as'=>$as.'claim.view.partners', 'uses'=>'MIC\Admin\ClaimController@claimPartnersPage' 
   ]);
 
   // Route::get('claim/{claim_id}/assign/{partner_uid}', [

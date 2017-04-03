@@ -1,7 +1,3 @@
-@if (session('_panel')=='partners')
-  @include('mic.admin.partials.success_error')
-@endif
-
 @if (isset($assign_requests) && $assign_requests->count() > 0 )
 <div class="box box-success">
   <div class="box-header">

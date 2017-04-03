@@ -1,7 +1,3 @@
-@if (!session('_panel') || session('_panel')=='ioi')
-  @include('mic.commons.success_error')
-@endif
-
 {!! Form::open(['route' => ['patient.claim.update.ioi', $claim->id], 
                   'method'=>'post', 
                   'class' =>'injury-quiz-form materials-form']) !!}

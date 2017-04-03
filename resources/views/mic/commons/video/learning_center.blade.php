@@ -30,7 +30,7 @@
         @foreach ($videos as $video)
         <div class="col-md-3 col-sm-6 video-item">
 
-          @if ($video->va->price)
+          @if ($video->va->price && !$video->purchased)
           <a href="{{ route('learning_center.video.purchase', [$video->va->id] )}}" data-lity>
           @else
           <a href="https//www.youtube.com/embed/{{ $video->video->id }}" data-lity>
@@ -43,12 +43,18 @@
           </a>
           <div class="video-info">
             <div class="video-title">
-              @if ($video->va->price)
+              @if ($video->va->price && !$video->purchased)
               <a href="{{ route('learning_center.video.purchase', [$video->va->id] )}}" data-lity>
               @else
               <a href="https//www.youtube.com/embed/{{ $video->video->id }}" data-lity>
               @endif
+              
               {{ $video->video->snippet->title }}
+
+              @if ($video->va->price && $video->purchased)
+              &nbsp;<span class="text-primary purchased-mark">(PURCHASED)</span>
+              @endif
+
               </a>
             </div>
             <div class="video-channel">
@@ -59,7 +65,7 @@
               <span>{{ MICUILayoutHelper::agoTime($video->video->snippet->publishedAt, ' ago') }}</span>
             </div>
 
-            @if ($video->va->price)
+            @if ($video->va->price && !$video->purchased)
             <div class="video-purchase">
               <span class="video-price">
                 Price: ${{ number_format($video->va->price, 2) }}

@@ -138,6 +138,89 @@ class ClaimController extends Controller
     return redirect()->route('patient.claim.create.upload_photo', $claim->id);
   }
 
+
+  /**
+   * Get: claim/{claim_id}/ioi
+   */
+  public function claimIOIPage(Request $request, $claim_id) {
+    $user = MICHelper::currentUser();
+    if ($user->type == 'patient') {
+      return $this->patientClaimIOIPage($request, $claim_id);
+    } else if ($user->type == 'partner') {
+      return $this->partnerClaimIOIPage($request, $claim_id);
+    } else {
+      return view('errors.404');
+    }
+  }
+
+  /**
+   * Get: claim/{claim_id}/activity
+   */
+  public function claimActivityPage(Request $request, $claim_id) {
+    $user = MICHelper::currentUser();
+    if ($user->type == 'patient') {
+      return $this->patientClaimActivityPage($request, $claim_id);
+    } else if ($user->type == 'partner') {
+      return $this->partnerClaimActivityPage($request, $claim_id);
+    } else {
+      return view('errors.404');
+    }
+  }
+
+  /**
+   * Get: claim/{claim_id}/docs
+   */
+  public function claimDocsPage(Request $request, $claim_id) {
+    $user = MICHelper::currentUser();
+    if ($user->type == 'patient') {
+      return $this->patientClaimDocsPage($request, $claim_id);
+    } else if ($user->type == 'partner') {
+      return $this->partnerClaimDocsPage($request, $claim_id);
+    } else {
+      return view('errors.404');
+    }
+  }
+
+  /**
+   * Get: claim/{claim_id}/photos
+   */
+  public function claimPhotosPage(Request $request, $claim_id) {
+    $user = MICHelper::currentUser();
+    if ($user->type == 'patient') {
+      return $this->patientClaimPhotosPage($request, $claim_id);
+    } else if ($user->type == 'partner') {
+      return $this->partnerClaimPhotosPage($request, $claim_id);
+    } else {
+      return view('errors.404');
+    }
+  }
+
+  /**
+   * Get: claim/{claim_id}/action
+   */
+  public function claimActionPage(Request $request, $claim_id) {
+    $user = MICHelper::currentUser();
+    if ($user->type == 'patient') {
+      return $this->patientClaimActionPage($request, $claim_id);
+    } else if ($user->type == 'partner') {
+      return $this->partnerClaimActionPage($request, $claim_id);
+    } else {
+      return view('errors.404');
+    }
+  }
+
+  /**
+   * Get: claim/{claim_id}/partners
+   */
+  public function claimPartnersPage(Request $request, $claim_id) {
+    $user = MICHelper::currentUser();
+    if ($user->type == 'patient') {
+      return $this->patientClaimPartnersPage($request, $claim_id);
+    } else {
+      return view('errors.404');
+    }
+  }
+
   /**
    * GET: claim/create/{claim_id}/upload-photo
    */

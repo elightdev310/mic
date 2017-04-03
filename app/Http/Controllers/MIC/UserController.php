@@ -104,7 +104,7 @@ class UserController extends Controller
 
     $old_password           = $request->input('old_password');
     $password               = $request->input('password');
-    $password_comfirmation  = $request->input('password_comfirmation');    
+    $password_comfirmation  = $request->input('password_comfirmation');
 
     if (empty($old_password) && empty($password) && empty($password_comfirmation)) {
       

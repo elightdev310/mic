@@ -5,10 +5,10 @@
 @push('scripts')
 <script>
 $(function () {
-  $('li.tab-activity a').on('click', function() {
-    var load_url = '{{ route('claim.activity_list', [$claim->id]) }}';
-    loadClaimActivity(load_url);
-  });
+  // $('li.tab-activity a').on('click', function() {
+  //   var load_url = '{{ route('claim.activity_list', [$claim->id]) }}';
+  //   loadClaimActivity(load_url);
+  // });
 });
 
 function loadClaimActivity(load_url) {

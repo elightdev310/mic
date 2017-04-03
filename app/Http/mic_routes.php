@@ -18,6 +18,29 @@ Route::group(['middleware' => ['auth']],
     'as'=>'user.save_settings.post', 'uses'=>'MIC\UserController@saveUserSettings' 
   ]);
 
+
+  Route::get('claim/{claim_id}', [
+    'as'=>'claim.view', 'uses'=>'MIC\ClaimController@claimIOIPage' 
+  ]);
+  Route::get('claim/{claim_id}/ioi', [
+    'as'=>'claim.view.ioi', 'uses'=>'MIC\ClaimController@claimIOIPage' 
+  ]);
+  Route::get('claim/{claim_id}/activity', [
+    'as'=>'claim.view.activity', 'uses'=>'MIC\ClaimController@claimActivityPage' 
+  ]);
+  Route::get('claim/{claim_id}/docs', [
+    'as'=>'claim.view.docs', 'uses'=>'MIC\ClaimController@claimDocsPage' 
+  ]);
+  Route::get('claim/{claim_id}/photos', [
+    'as'=>'claim.view.photos', 'uses'=>'MIC\ClaimController@claimPhotosPage' 
+  ]);
+  Route::get('claim/{claim_id}/action', [
+    'as'=>'claim.view.action', 'uses'=>'MIC\ClaimController@claimActionPage' 
+  ]);
+  Route::get('claim/{claim_id}/partners', [
+    'as'=>'claim.view.partners', 'uses'=>'MIC\ClaimController@claimPartnersPage' 
+  ]);
+
   // Claim Doc 
   Route::post('claim/{claim_id}/upload-doc', [
     'as'=>'claim.upload.doc', 'uses'=>'MIC\ClaimController@uploadClaimDoc' 
@@ -113,8 +136,12 @@ Route::group(['middleware' => ['auth', 'permission:PATIENT_PANEL']],
     'as'=>$as1.'myclaims', 'uses'=>'MIC\ClaimController@myClaimsPage' 
   ]);
 
-  Route::get('patient/claim/{claim_id}', [
-    'as'=>$as1.'claim.page', 'uses'=>'MIC\ClaimController@patientClaimPage' 
+  // Route::get('patient/claim/{claim_id}', [
+  //   'as'=>$as1.'claim.page', 'uses'=>'MIC\ClaimController@patientClaimPage' 
+  // ]);
+
+  Route::post('claim/{claim_id}/update-ioi', [
+    'as'=>$as1.'claim.update.ioi', 'uses'=>'MIC\ClaimController@updateIOI' 
   ]);
 
   Route::post('patient/claim/{claim_id}/upload-photo', [
@@ -144,9 +171,9 @@ Route::group(['middleware' => ['auth', 'permission:PARTNER_PANEL']],
     'as'=>$as2.'claims', 'uses'=>'MIC\ClaimController@partnerClaims' 
   ]);
 
-  Route::get('partner/claim/{claim_id}', [
-    'as'=>$as2.'claim.page', 'uses'=>'MIC\ClaimController@partnerClaimPage' 
-  ]);
+  // Route::get('partner/claim/{claim_id}', [
+  //   'as'=>$as2.'claim.page', 'uses'=>'MIC\ClaimController@partnerClaimPage' 
+  // ]);
   Route::get('partner/claim/{claim_id}/assign-request/{car_id}/{action}', [
     'as'=>$as2.'claim.assign-request.action', 'uses'=>'MIC\ClaimController@partnerCARAction' 
   ]);

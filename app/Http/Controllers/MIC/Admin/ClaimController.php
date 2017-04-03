@@ -52,6 +52,175 @@ class ClaimController extends Controller
   /**
    * Get: admin/claim/{claim_id}
    */
+  public function claimIOIPage(Request $request, $claim_id) {
+    $user = MICHelper::currentUser();
+    $claim = Claim::find($claim_id);
+    if (!$claim) {
+      return view('errors.404');
+    }
+
+    // IOI
+    // $answers = $claim->getAnswers();
+    // $questions = MICClaim::getIQuestionsByAnswers($answers);
+    $questions = MICClaim::getIQuestions(1);
+    $answers   = MICClaim::getAnwsersByQuestions($claim_id, $questions);
+    $addi_questions = MICClaim::getIQuestions(0);
+    $addi_answers   = MICClaim::getAnwsersByQuestions($claim_id, $addi_questions);
+
+    $params = array();
+    $params['user']       = $user;
+    $params['claim']      = $claim;
+    $params['questions']  = $questions;
+    $params['answers']    = $answers;
+    $params['addi_questions']  = $addi_questions;
+    $params['addi_answers']    = $addi_answers;
+
+    $params['tab'] = 'ioi';
+    $params['no_header'] = true;
+    $params['no_padding'] = 'no-padding';
+    $params['no_message'] = 'partial';
+
+    return view('mic.admin.claim.claim_ioi', $params);
+  }
+
+  /**
+   * Get: claim/{claim_id}/activity
+   */
+  public function claimActivityPage(Request $request, $claim_id) {
+    $user = MICHelper::currentUser();
+    $claim = Claim::find($claim_id);
+    if (!$claim) {
+      return view('errors.404');
+    }
+
+    // Activity Feeds
+    $ca_feeds = MICClaim::getCAFeeds($claim_id, 'employee');
+
+    $params = array();
+    $params['user']       = $user;
+    $params['claim']      = $claim;
+    $params['ca_feeds']   = $ca_feeds;
+
+    $params['tab'] = 'activity';
+    $params['no_header'] = true;
+    $params['no_padding'] = 'no-padding';
+    $params['no_message'] = 'partial';
+
+    return view('mic.admin.claim.claim_activity', $params);
+  }
+
+  /**
+   * Get: claim/{claim_id}/docs
+   */
+  public function claimDocsPage(Request $request, $claim_id) {
+    $user = MICHelper::currentUser();
+    $claim = Claim::find($claim_id);
+    if (!$claim) {
+      return view('errors.404');
+    }
+
+    // Doc
+    $docs = MICClaim::getClaimDocs($claim_id, $user->id);
+
+    $params = array();
+    $params['user']       = $user;
+    $params['claim']      = $claim;
+    $params['docs']       = $docs;
+
+    $params['tab'] = 'docs';
+    $params['no_header'] = true;
+    $params['no_padding'] = 'no-padding';
+    $params['no_message'] = 'partial';
+
+    return view('mic.admin.claim.claim_docs', $params);
+  }
+
+  /**
+   * Get: claim/{claim_id}/photos
+   */
+  public function claimPhotosPage(Request $request, $claim_id) {
+    $user = MICHelper::currentUser();
+    $claim = Claim::find($claim_id);
+    if (!$claim) {
+      return view('errors.404');
+    }
+
+    // Photo
+    $photos = MICClaim::getClaimPhotos($claim_id);
+
+    $params = array();
+    $params['user']       = $user;
+    $params['claim']      = $claim;
+    $params['photos']     = $photos;
+
+    $params['tab'] = 'photos';
+    $params['no_header'] = true;
+    $params['no_padding'] = 'no-padding';
+    $params['no_message'] = 'partial';
+
+    return view('mic.admin.claim.claim_photos', $params);
+  }
+
+  /**
+   * Get: claim/{claim_id}/action
+   */
+  public function claimActionPage(Request $request, $claim_id) {
+    $user = MICHelper::currentUser();
+    $claim = Claim::find($claim_id);
+    if (!$claim) {
+      return view('errors.404');
+    }
+
+    // Action
+
+    $params = array();
+    $params['user']       = $user;
+    $params['claim']      = $claim;
+
+    $params['tab'] = 'action';
+    $params['no_header'] = true;
+    $params['no_padding'] = 'no-padding';
+    $params['no_message'] = 'partial';
+
+    return view('mic.admin.claim.claim_action', $params);
+  }
+
+  /**
+   * Get: claim/{claim_id}/partners
+   */
+  public function claimPartnersPage(Request $request, $claim_id) {
+    $user = MICHelper::currentUser();
+    $claim = Claim::find($claim_id);
+    if (!$claim) {
+      return view('errors.404');
+    }
+
+    //Assign Partner
+    $assigned_partners = MICClaim::getPartnersByClaim($claim_id);
+    $assign_requests = MICClaim::getCARsByClaim($claim_id, 'employee');
+    $partner_list = User::where('type', 'partner')
+                        ->where('status', 'active')
+                        ->get();
+
+    $params = array();
+    $params['user']       = $user;
+    $params['claim']      = $claim;
+    $params['partners']   = $assigned_partners;
+    $params['partner_list'] = $partner_list;
+    $params['assign_requests'] = $assign_requests;
+
+    $params['tab'] = 'partners';
+    $params['no_header'] = true;
+    $params['no_padding'] = 'no-padding';
+    $params['no_message'] = 'partial';
+
+    return view('mic.admin.claim.claim_partners', $params);
+  }
+
+
+  /**
+   * Get: admin/claim/{claim_id}
+   */
   public function claimPage(Request $request, $claim_id) {
     $user = MICHelper::currentUser();
     $claim = Claim::find($claim_id);

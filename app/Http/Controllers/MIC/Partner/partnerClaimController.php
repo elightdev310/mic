@@ -33,6 +33,145 @@ trait PartnerClaimController
     return view('mic.partner.claim.claims', $params);
   }
 
+
+  protected function getPartnerClaim($claim_id, $user) {
+    $claim = Claim::where('id', $claim_id)
+                  ->first();
+    if (!$claim) {
+      return false;
+    }
+
+    return $claim;
+  }
+
+  /**
+   * Get: claim/{claim_id}/ioi
+   */
+  public function partnerClaimIOIPage(Request $request, $claim_id) {
+    $user = MICHelper::currentUser();
+    $claim = $this->getPartnerClaim($claim_id, $user);
+    if (!$claim) {
+      return view('errors.404');
+    }
+
+    // IOI
+    // $answers = $claim->getAnswers();
+    // $questions = MICClaim::getIQuestionsByAnswers($answers);
+    $questions = MICClaim::getIQuestions(1);
+    $answers   = MICClaim::getAnwsersByQuestions($claim_id, $questions);
+    $addi_questions = MICClaim::getIQuestions(0);
+    $addi_answers   = MICClaim::getAnwsersByQuestions($claim_id, $addi_questions);
+
+    $params = array();
+    $params['user']       = $user;
+    $params['claim']      = $claim;
+    $params['questions']  = $questions;
+    $params['answers']    = $answers;
+    $params['addi_questions']  = $addi_questions;
+    $params['addi_answers']    = $addi_answers;
+
+    $params['tab'] = 'ioi';
+    $params['no_message'] = 'partial';
+
+    return view('mic.partner.claim.claim_ioi', $params);
+  }
+
+  /**
+   * Get: claim/{claim_id}/activity
+   */
+  public function partnerClaimActivityPage(Request $request, $claim_id) {
+    $user = MICHelper::currentUser();
+    $claim = $this->getPartnerClaim($claim_id, $user);
+    if (!$claim) {
+      return view('errors.404');
+    }
+
+    // Activity Feeds
+    $ca_feeds = MICClaim::getCAFeeds($claim_id, 'partner');
+
+    $params = array();
+    $params['user']       = $user;
+    $params['claim']      = $claim;
+    $params['ca_feeds']   = $ca_feeds;
+
+    $params['tab'] = 'activity';
+    $params['no_message'] = 'partial';
+
+    return view('mic.partner.claim.claim_activity', $params);
+  }
+
+  /**
+   * Get: claim/{claim_id}/docs
+   */
+  public function partnerClaimDocsPage(Request $request, $claim_id) {
+    $user = MICHelper::currentUser();
+    $claim = $this->getPartnerClaim($claim_id, $user);
+    if (!$claim) {
+      return view('errors.404');
+    }
+
+    // Doc
+    $docs = MICClaim::getClaimDocs($claim_id, $user->id);
+
+    $params = array();
+    $params['user']       = $user;
+    $params['claim']      = $claim;
+    $params['docs']       = $docs;
+
+    $params['tab'] = 'docs';
+    $params['no_message'] = 'partial';
+
+    return view('mic.partner.claim.claim_docs', $params);
+  }
+
+  /**
+   * Get: claim/{claim_id}/photos
+   */
+  public function partnerClaimPhotosPage(Request $request, $claim_id) {
+    $user = MICHelper::currentUser();
+    $claim = $this->getPartnerClaim($claim_id, $user);
+    if (!$claim) {
+      return view('errors.404');
+    }
+
+    // Photo
+    $photos = MICClaim::getClaimPhotos($claim_id);
+
+    $params = array();
+    $params['user']       = $user;
+    $params['claim']      = $claim;
+    $params['photos']     = $photos;
+
+    $params['tab'] = 'photos';
+    $params['no_message'] = 'partial';
+
+    return view('mic.partner.claim.claim_photos', $params);
+  }
+
+  /**
+   * Get: claim/{claim_id}/action
+   */
+  public function partnerClaimActionPage(Request $request, $claim_id) {
+    $user = MICHelper::currentUser();
+    $claim = $this->getPartnerClaim($claim_id, $user);
+    if (!$claim) {
+      return view('errors.404');
+    }
+
+    // Action
+
+    $params = array();
+    $params['user']       = $user;
+    $params['claim']      = $claim;
+
+
+    $params['tab'] = 'action';
+    $params['no_message'] = 'partial';
+
+    return view('mic.partner.claim.claim_action', $params);
+  }
+
+
   /**
    * Get: partner/claim/{claim_id}
    */

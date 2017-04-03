@@ -142,4 +142,8 @@ Route::group(['as' => $as, 'middleware' => ['auth', 'permission:ADMIN_PANEL']], 
 	/* ================== Subscriptions ================== */
 	Route::resource(config('laraadmin.adminRoute') . '/subscriptions', 'LA\SubscriptionsController');
 	Route::get(config('laraadmin.adminRoute') . '/subscription_dt_ajax', 'LA\SubscriptionsController@dtajax');
+
+	/* ================== PurchaseVideos ================== */
+	Route::resource(config('laraadmin.adminRoute') . '/purchasevideos', 'LA\PurchaseVideosController');
+	Route::get(config('laraadmin.adminRoute') . '/purchasevideo_dt_ajax', 'LA\PurchaseVideosController@dtajax');
 });

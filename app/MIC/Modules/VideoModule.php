@@ -9,6 +9,7 @@ use Youtube;
 use App\Models\Upload;
 use App\MIC\Models\YoutubeVideo;
 use App\MIC\Models\VideoAccess;
+use App\MIC\Models\PurchaseVideo;
 use App\MIC\Models\User;
 use App\User as UserModel;
 
@@ -119,6 +120,29 @@ class VideoModule {
       if (!$va->price) {
         return true;
       }
+    }
+    return false;
+  }
+
+  public function insertPurchaseVideo($user_id, $va_id) {
+    $va = VideoAccess::find($va_id);
+    $video = $va->video;
+
+    $pv = new PurchaseVideo;
+    $pv->user_id    = $user_id;
+    $pv->va_id      = $va_id;
+    $pv->video_id   = $video->id;
+    $pv->youtube_id = $video->vid;
+    $pv->save();
+  }
+
+  public function checkPurchasedVideo($user_id, $video_id) {
+
+    $result = PurchaseVideo::where('user_id', $user_id)
+                           ->where('video_id', $video_id)
+                           ->first();
+    if ($result) {
+      return true;
     }
     return false;
   }
