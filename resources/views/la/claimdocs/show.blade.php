@@ -110,6 +110,7 @@
 						@la_display($module, 'claim_id')
 						@la_display($module, 'file_id')
 						@la_display($module, 'type')
+						@la_display($module, 'show_to_patient')
 						@la_display($module, 'creator_uid')
 					</div>
 				</div>

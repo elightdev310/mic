@@ -244,10 +244,12 @@ $(function () {
 });
 
 function loadClaimDocs() {
+  $(".claim-doc-section").loadingOverlay();
   $.ajax({
       dataType: 'json',
       url: "{{ route('claim.doc_list', [$claim->id]) }}",
       success: function ( json ) {
+        $(".claim-doc-section").loadingOverlay('remove');
         $(".claim-doc-section").empty();
         $(".claim-doc-section").html(json.doc_html);
       }

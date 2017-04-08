@@ -17,10 +17,11 @@ class CreateClaimdocsTable extends Migration
      */
     public function up()
     {
-        Module::generate("Claimdocs", 'claimdocs', 'file_id', 'fa-cube', [
-            ["claim_id", "Claim", "Integer", false, "0", 0, 4294967295, false],
+        Module::generate("Claimdocs", 'claimdocs', 'claim_id', 'fa-cube', [
+            ["claim_id", "Claim", "Integer", false, "", 0, 4294967295, false],
             ["file_id", "File", "Integer", false, "", 0, 4294967295, false],
             ["type", "Type", "TextField", false, "", 0, 20, false],
+            ["show_to_patient", "Show to Patient", "Integer", false, "1", 0, 7, false],
             ["creator_uid", "Creator", "Dropdown", false, "", 0, 0, false, "@users"],
         ]);
 		

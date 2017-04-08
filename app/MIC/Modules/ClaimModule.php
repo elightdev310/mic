@@ -239,12 +239,14 @@ class ClaimModule {
 
     if ($user->type == 'employee') {
       $docs = ClaimDoc::where('claim_id', $claim_id)
+                    ->where('type', '')
                     ->orderBy('id', 'DESC')
                     ->get();
     }
     else if ($user->type == 'patient') {
       $docs = ClaimDoc::where('claim_id', $claim_id)
                     ->where('type', '')
+                    ->where('show_to_patient', 1)
                     ->orderBy('id', 'DESC')
                     ->get();
     }
@@ -255,7 +257,7 @@ class ClaimModule {
         $ids = join(", ",$cda_docs);
         $sub_query .= " OR id IN($ids) ";
       }
-      $sub_query = "claim_id = $claim_id AND ($sub_query)";
+      $sub_query = "claim_id = $claim_id AND type = '' AND ($sub_query)";
       $docs = ClaimDoc::whereRaw($sub_query)
                     ->orderBy('id', 'DESC')
                     ->get(); 
@@ -379,6 +381,12 @@ class ClaimModule {
         $msg = 'Posted comment to document (%s) <br/><div class="comment-text">%s</div>';
         $content = sprintf($msg, $doc->file->name, nl2br($comment->comment));
         break;
+
+      case 'upload_billing_doc': 
+        $msg = 'Uploaded billing document (%s) for claim #%d';
+        $content = sprintf($msg, $doc->file->name, $claim->id);
+        break;
+        
       case 'assign_request':
         // use $partner, $claim
         $msg = 'Sent a request to %s for claim #%d';
@@ -435,6 +443,7 @@ class ClaimModule {
         }
         break;
       case 'upload_doc': 
+      case 'upload_billing_doc': 
         // use $claim, $user, $doc
         if (MICHelper::isPartner($doc->creator_uid)) {
           $feeders[$doc->creator_uid] = $doc->creator_uid;   // Partner Author
@@ -484,4 +493,36 @@ class ClaimModule {
     $this->insertCAFeeds($claim_id, $ca->id, $ca_feeders);
   }
 
+
+  public function getClaimBillingDocs($claim_id, $uid) {
+    $user = UserModel::find($uid);
+    $docs = array();
+
+    $doc_type = 'bill';
+
+    if ($user->type == 'employee') {
+      $docs = ClaimDoc::where('claim_id', $claim_id)
+                    ->where('type', $doc_type)
+                    ->where('creator_uid', '<>', $uid)
+                    ->orderBy('created_at', 'DESC')
+                    ->get();
+    } else if ($user->type == 'partner') {
+      $docs = ClaimDoc::where('claim_id', $claim_id)
+                    ->where('type', $doc_type)
+                    ->where('creator_uid', '=', $uid)
+                    ->orderBy('created_at', 'DESC')
+                    ->get();
+    }
+
+    // Rearrange docs as tree
+    $data = array();
+    foreach ($docs as $doc) {
+      $data[] = array(
+          'doc' => $doc, 
+          'replies' => array(), 
+        );
+    }
+
+    return $data;
+  }
 }

@@ -22,8 +22,8 @@ use App\Models\ClaimDoc;
 class ClaimDocsController extends Controller
 {
 	public $show_action = true;
-	public $view_col = 'file_id';
-	public $listing_cols = ['id', 'claim_id', 'file_id', 'type', 'creator_uid'];
+	public $view_col = 'claim_id';
+	public $listing_cols = ['id', 'claim_id', 'file_id', 'type', 'show_to_patient', 'creator_uid'];
 	
 	public function __construct() {
 		// Field Access of Listing Columns

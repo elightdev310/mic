@@ -62,6 +62,7 @@
 					@la_input($module, 'claim_id')
 					@la_input($module, 'file_id')
 					@la_input($module, 'type')
+					@la_input($module, 'show_to_patient')
 					@la_input($module, 'creator_uid')
 					--}}
 				</div>

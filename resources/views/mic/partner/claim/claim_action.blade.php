@@ -21,7 +21,7 @@
           <h4>Action</h4>
         </div>
         <div class="panel-body">
-          @include('mic.patient.claim.partials.action')
+          @include('mic.partner.claim.partials.action')
         </div>
       </div>
     </div>

@@ -280,7 +280,9 @@ class ClaimController extends Controller
   }
 
   /**
-   * Upload Photos
+   * Upload Doc
+   *
+   * This uploaded document would be public to patient (claim owner)
    */
   public function uploadClaimDoc(Request $request, $claim_id) {
     $user = MICHelper::currentUser();
@@ -297,6 +299,7 @@ class ClaimController extends Controller
         $doc = ClaimDoc::create([
           'claim_id' => $claim_id,
           'file_id'  => $upload->id, 
+          'show_to_patient' => 1, 
           'creator_uid' =>$user->id, 
         ]);
         $doc->save();
@@ -477,5 +480,5 @@ class ClaimController extends Controller
 
     return response()->json(['activity_html' => $activity_list]);
   }
-
+  
 }

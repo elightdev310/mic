@@ -172,10 +172,12 @@ class ClaimController extends Controller
     }
 
     // Action
+    $billing_docs = MICClaim::getClaimBillingDocs($claim_id, $user->id);
 
     $params = array();
     $params['user']       = $user;
     $params['claim']      = $claim;
+    $params['billing_docs'] = $billing_docs;
 
     $params['tab'] = 'action';
     $params['no_header'] = true;

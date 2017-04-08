@@ -86,6 +86,12 @@ trait NotiMessageModule
         $message = sprintf($msg, $user->name, $doc->file->name, $doc->claim_id);
         break;
 
+      case 'claim.doc.upload_billing_doc':
+        // use $claim, $user, $doc
+        $msg = '%s uploaded billing document (%s) for claim #%d';
+        $message = sprintf($msg, $user->name, $doc->file->name, $claim->id);
+        break;
+
       case 'claim.assign_request':
         // use $partner, $claim
         $msg = '%s received a request of claim #%d';

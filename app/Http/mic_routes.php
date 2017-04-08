@@ -177,4 +177,12 @@ Route::group(['middleware' => ['auth', 'permission:PARTNER_PANEL']],
   Route::get('partner/claim/{claim_id}/assign-request/{car_id}/{action}', [
     'as'=>$as2.'claim.assign-request.action', 'uses'=>'MIC\ClaimController@partnerCARAction' 
   ]);
+
+  // Claim Billing Doc 
+  Route::post('claim/{claim_id}/upload-billing-doc', [
+    'as'=>'claim.upload.billing_doc', 'uses'=>'MIC\ClaimController@uploadClaimBillingDoc' 
+  ]);
+  Route::get('claim/{claim_id}/billing-doc-list', [
+    'as'=>'claim.billing_doc_list', 'uses'=>'MIC\ClaimController@claimBillingDocList' 
+  ]);
 });

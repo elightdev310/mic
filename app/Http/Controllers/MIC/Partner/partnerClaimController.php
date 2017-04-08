@@ -9,12 +9,17 @@ namespace App\Http\Controllers\MIC\Partner;
 use Illuminate\Http\Request;
 use Auth;
 
+use Illuminate\Support\Facades\Input;
+use Illuminate\Support\Facades\View;
+
+
 use MICHelper;
 use MICClaim;
 use MICNotification;
 
 use App\User;
 use App\MIC\Models\Claim;
+use App\MIC\Models\ClaimDoc;
 use App\MIC\Models\ClaimAssignRequest;
 
 trait PartnerClaimController
@@ -159,11 +164,12 @@ trait PartnerClaimController
     }
 
     // Action
+    $billing_docs = MICClaim::getClaimBillingDocs($claim_id, $user->id);
 
     $params = array();
     $params['user']       = $user;
     $params['claim']      = $claim;
-
+    $params['billing_docs'] = $billing_docs;
 
     $params['tab'] = 'action';
     $params['no_message'] = 'partial';
@@ -254,5 +260,77 @@ trait PartnerClaimController
     }
   }
 
+  /**
+   * Upload Billing Doc
+   * Partner would upload billing doc.
+   * This document would be shared between partner & admin
+   */
+  public function uploadClaimBillingDoc(Request $request, $claim_id) {
+    $user = MICHelper::currentUser();
 
+    if($user && Input::hasFile('file')) {
+
+      $file = Input::file('file');
+      
+      // print_r($file);
+      $folder = storage_path("claims/docs/".$claim_id."/bill");
+      $upload = $this->uploadClaimFile($file, $folder);
+
+      if( $upload ) {
+        $doc = ClaimDoc::create([
+          'claim_id' => $claim_id,
+          'file_id'  => $upload->id, 
+          'type'     => 'bill', 
+          'show_to_patient' => 0, 
+          'creator_uid' =>$user->id, 
+        ]);
+        $doc->save();
+
+        $claim = Claim::find($claim_id);
+        // Activity Feed
+        $ca_params = array(
+            'claim' => $claim, 
+            'user'  => $user, 
+            'doc'   => $doc, 
+          );        
+        MICClaim::addClaimActivity($claim->id, $user->id, 'upload_billing_doc', $ca_params, 0);
+        MICNotification::sendNotification('claim.doc.upload_billing_doc', $ca_params);
+
+        return response()->json([
+          "status" => "success",
+          "upload" => $upload
+        ], 200);
+      } else {
+        return response()->json([
+          "status" => "error"
+        ], 400);
+      }
+    } else {
+      return response()->json('error: upload file not found.', 400);
+    }
+  }
+  public function claimBillingDocList(Request $request, $claim_id)
+  {
+    $user = MICHelper::currentUser();
+    
+    $claim = $this->getPartnerClaim($claim_id, $user);
+    if (!$claim) {
+      return response()->json(['doc_html' => '']);
+    }
+
+    $billing_docs = MICClaim::getClaimBillingDocs($claim_id, $user->id);
+
+    $params = array();
+    $params['user']       = $user;
+    $params['claim']      = $claim;
+    $params['billing_docs'] = $billing_docs;
+
+    $params['tab'] = 'action';
+    $params['no_message'] = 'partial';
+
+    $view = View::make('mic.partner.claim.partials.billing_doc_list', $params);
+    $doc_list = $view->render();
+
+    return response()->json(['doc_html' => $doc_list]);
+  }
 }

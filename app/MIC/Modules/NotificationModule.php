@@ -91,6 +91,8 @@ class NotificationModule {
   }
 
   public function sendMail($user_id, $type, $subject, $params, $type_suffix='') {
+    return;
+    
     $sendTo = UserModel::find($user_id);
     $params['sendTo'] = $sendTo;
     $this->additionalParams($user_id, $type, $params);

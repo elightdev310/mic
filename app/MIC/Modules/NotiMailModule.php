@@ -88,6 +88,12 @@ trait NotiMailModule
         $subject = sprintf($subject, $user->name, $doc->file->name, $doc->claim_id);
         break;
 
+      case 'claim.doc.upload_billing_doc':
+        // use $claim, $user, $doc
+        $subject = '%s uploaded billing document (%s) for claim #%d';
+        $subject = sprintf($subject, $user->name, $doc->file->name, $claim->id);
+        break;
+
       case 'claim.assign_request':
         // use $partner, $claim
         $subject = '%s received a request of claim #%d';
