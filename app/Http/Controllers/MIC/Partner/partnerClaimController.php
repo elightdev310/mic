@@ -274,7 +274,7 @@ trait PartnerClaimController
       
       // print_r($file);
       $folder = storage_path("claims/docs/".$claim_id."/bill");
-      $upload = $this->uploadClaimFile($file, $folder);
+      $upload = MICClaim::uploadClaimFile($file, $folder);
 
       if( $upload ) {
         $doc = ClaimDoc::create([

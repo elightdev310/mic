@@ -247,38 +247,6 @@ class ClaimController extends Controller
 
   }
 
-  protected function uploadClaimFile($file, $folder) {
-    $filename = $file->getClientOriginalName();
-    $date_append = date("Y-m-d-His-");
-    $upload_success = Input::file('file')->move($folder, $date_append.$filename);
-
-    if( $upload_success ) {
-      $public = true;
-      $upload = Upload::create([
-        "name" => $filename,
-        "path" => $folder.DIRECTORY_SEPARATOR.$date_append.$filename,
-        "extension" => pathinfo($filename, PATHINFO_EXTENSION),
-        "caption" => "",
-        "hash" => "",
-        "public" => $public,
-        "user_id" => Auth::user()->id
-      ]);
-      // apply unique random hash to file
-      while(true) {
-        $hash = strtolower(str_random(20));
-        if(!Upload::where("hash", $hash)->count()) {
-          $upload->hash = $hash;
-          break;
-        }
-      }
-      $upload->save();
-
-      return $upload;
-    } else {
-      return false;
-    }
-  }
-
   /**
    * Upload Doc
    *
@@ -293,7 +261,7 @@ class ClaimController extends Controller
       
       // print_r($file);
       $folder = storage_path("claims/docs/".$claim_id);
-      $upload = $this->uploadClaimFile($file, $folder);
+      $upload = MICClaim::uploadClaimFile($file, $folder);
 
       if( $upload ) {
         $doc = ClaimDoc::create([

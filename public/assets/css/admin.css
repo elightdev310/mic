@@ -291,6 +291,36 @@
     padding-top: 7px;
   }
 }
+/* =================== Upload using DZ =================== */
+.dropzone-form {
+  border: 1px dashed #0087F7;
+  border-radius: 5px;
+  background: white;
+  text-align: center;
+  margin-top: 15px;
+  margin-bottom: 15px;
+  /*min-height: 100px;*/
+  padding: 8px;
+  vertical-align: middle;
+  cursor: pointer;
+}
+.dropzone-form div.dz-message {
+  display: block;
+  padding: 20px 0px;
+  color: #999;
+}
+.dropzone-form div.dz-message i.fa {
+  font-size: 40px;
+}
+.dropzone-form .closeDZ {
+  display: block;
+  position: relative;
+  width: 10px;
+  float: right;
+  margin-top: -2px;
+  margin-right: 2px;
+}
+/* ===================================================== */
 .text-color-primary {
   color: #0A4390;
 }
@@ -747,6 +777,10 @@ ul.claim-doc-section {
   overflow: initial;
   text-overflow: unset;
   white-space: normal;
+  word-wrap: break-word;
+}
+.claim-billing-doc-section .billing-reply-doc td:first-child {
+  padding-left: 30px;
 }
 .main-header {
   background: #fff;

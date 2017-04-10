@@ -283,7 +283,7 @@ trait PatientClaimController
       $file = Input::file('file');
       
       $folder = storage_path("claims/photos/".$claim_id);
-      $upload = $this->uploadClaimFile($file, $folder);
+      $upload = MICClaim::uploadClaimFile($file, $folder);
 
       if( $upload ) {
         $photo = ClaimPhoto::create([

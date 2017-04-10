@@ -5,6 +5,8 @@ namespace App\MIC\Modules;
 use DB;
 use Auth;
 
+use Illuminate\Support\Facades\Input;
+
 use App\Models\Upload;
 use App\MIC\Models\IQuestion;
 use App\MIC\Models\Claim;
@@ -16,6 +18,7 @@ use App\MIC\Models\ClaimDoc;
 use App\MIC\Models\ClaimDocAccess;
 use App\MIC\Models\ClaimActivity;
 use App\MIC\Models\ClaimActivityFeed;
+use App\MIC\Models\BillingDocReply;
 use App\User as UserModel;
 
 use MICHelper;
@@ -233,6 +236,38 @@ class ClaimModule {
     return $data;
   }
 
+  public function uploadClaimFile($file, $folder) {
+    $filename = $file->getClientOriginalName();
+    $date_append = date("Y-m-d-His-");
+    $upload_success = Input::file('file')->move($folder, $date_append.$filename);
+
+    if( $upload_success ) {
+      $public = true;
+      $upload = Upload::create([
+        "name" => $filename,
+        "path" => $folder.DIRECTORY_SEPARATOR.$date_append.$filename,
+        "extension" => pathinfo($filename, PATHINFO_EXTENSION),
+        "caption" => "",
+        "hash" => "",
+        "public" => $public,
+        "user_id" => Auth::user()->id
+      ]);
+      // apply unique random hash to file
+      while(true) {
+        $hash = strtolower(str_random(20));
+        if(!Upload::where("hash", $hash)->count()) {
+          $upload->hash = $hash;
+          break;
+        }
+      }
+      $upload->save();
+
+      return $upload;
+    } else {
+      return false;
+    }
+  }
+
   public function getClaimDocs($claim_id, $uid) {
     $user = UserModel::find($uid);
     $docs = array();
@@ -371,6 +406,7 @@ class ClaimModule {
         $msg = 'Uploaded document (%s) to claim #%d';
         $content = sprintf($msg, $doc->file->name, $claim->id);
         break;
+
       case 'delete_doc':
         // use $claim, $user, $doc
         $msg = 'Deleted document (%s) from claim #%d';
@@ -386,7 +422,12 @@ class ClaimModule {
         $msg = 'Uploaded billing document (%s) for claim #%d';
         $content = sprintf($msg, $doc->file->name, $claim->id);
         break;
-        
+
+      case 'admin_upload_billing_doc': 
+        $msg = 'Uploaded billing document (%s) that is replied to %s in claim #%d';
+        $content = sprintf($msg, $doc->file->name, $reply_to_doc->file->name, $claim->id);
+        break;
+
       case 'assign_request':
         // use $partner, $claim
         $msg = 'Sent a request to %s for claim #%d';
@@ -460,6 +501,11 @@ class ClaimModule {
           $feeders[$doc->creator_uid] = $doc->creator_uid;   // Partner Author
         }
         break;
+      case 'admin_upload_billing_doc': 
+        // use $claim, $user, $doc, $reply_to_doc
+        $feeders[$reply_to_doc->creator_uid] = $reply_to_doc->creator_uid;
+        break;
+
       case 'patient_approve_request': 
       case 'patient_reject_request': 
         break;
@@ -493,7 +539,13 @@ class ClaimModule {
     $this->insertCAFeeds($claim_id, $ca->id, $ca_feeders);
   }
 
-
+  public function getBillingDocReplyTo($doc_id) {
+    $bdr = BillingDocReply::where('replied_doc_id', $doc_id)->first();
+    if ($bdr) {
+      return $bdr->billing_doc_id;
+    }
+    return false;
+  }
   public function getClaimBillingDocs($claim_id, $uid) {
     $user = UserModel::find($uid);
     $docs = array();
@@ -503,7 +555,6 @@ class ClaimModule {
     if ($user->type == 'employee') {
       $docs = ClaimDoc::where('claim_id', $claim_id)
                     ->where('type', $doc_type)
-                    ->where('creator_uid', '<>', $uid)
                     ->orderBy('created_at', 'DESC')
                     ->get();
     } else if ($user->type == 'partner') {
@@ -514,15 +565,34 @@ class ClaimModule {
                     ->get();
     }
 
+    $reply_docs = ClaimDoc::where('claim_id', $claim_id)
+                    ->where('type', 'bill_reply')
+                    ->orderBy('created_at', 'DESC')
+                    ->get();
+
     // Rearrange docs as tree
     $data = array();
     foreach ($docs as $doc) {
-      $data[] = array(
+      $data[$doc->id] = array(
           'doc' => $doc, 
           'replies' => array(), 
         );
     }
 
+    foreach ($reply_docs as $doc) {
+      $reply_to_id = $this->getBillingDocReplyTo($doc->id);
+      if (isset($data[$reply_to_id])) {
+        $data[$reply_to_id]['replies'][$doc->id] = $doc;
+      }
+    }
+
     return $data;
+  }
+
+  public function insertBillingDocReply($admin_doc_id, $partner_doc_id) {
+    $bdr = new BillingDocReply;
+    $bdr->replied_doc_id = $admin_doc_id;
+    $bdr->billing_doc_id = $partner_doc_id;
+    $bdr->save();
   }
 }

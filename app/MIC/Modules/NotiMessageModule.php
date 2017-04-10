@@ -15,6 +15,11 @@ trait NotiMessageModule
         $msg = 'You created claim #%d';
         $message = sprintf($msg, $claim->id);
         break;
+      case 'claim.doc.admin_upload_billing_doc':
+        $msg = "%s sent you document(%s) as reply to document(%s) in claim #%d";
+        $message = sprintf($msg, $user->name, $doc->file->name, $reply_to_doc->file->name, $claim->id);
+        break;
+        
       case 'claim.assign_request':    // to partner
         // use $partner, $claim
         $msg = 'You received a request of claim #%d. Please review and accept.';
@@ -90,6 +95,11 @@ trait NotiMessageModule
         // use $claim, $user, $doc
         $msg = '%s uploaded billing document (%s) for claim #%d';
         $message = sprintf($msg, $user->name, $doc->file->name, $claim->id);
+        break;
+      case 'claim.doc.admin_upload_billing_doc':
+        $msg = "%s sent %s document(%s) as reply to document(%s) in claim #%d";
+        $message = sprintf($msg, $user->name, $reply_to_doc->creator->name, 
+                                 $doc->file->name, $reply_to_doc->file->name, $claim->id);
         break;
 
       case 'claim.assign_request':

@@ -91,7 +91,7 @@ class NotificationModule {
   }
 
   public function sendMail($user_id, $type, $subject, $params, $type_suffix='') {
-    return;
+    //return;
     
     $sendTo = UserModel::find($user_id);
     $params['sendTo'] = $sendTo;
@@ -115,6 +115,10 @@ class NotificationModule {
       case 'claim.doc.delete_doc':
       case 'claim.doc.post_comment':
         $you = $user->id;
+        break;
+
+      case 'claim.doc.admin_upload_billing_doc': 
+        $you = $reply_to_doc->creator_uid;
         break;
 
       case 'claim.partner_approve_request': 

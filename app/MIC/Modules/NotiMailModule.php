@@ -16,6 +16,11 @@ trait NotiMailModule
         $subject = 'You created claim #%d';
         $subject = sprintf($subject, $claim->id);
         break;
+      case 'claim.doc.admin_upload_billing_doc':
+        $subject = "%s sent you document(%s) in claim #%d";
+        $subject = sprintf($subject, $user->name, $doc->file->name, $claim->id);
+        break;
+
       case 'claim.assign_request':    // to partner
         // use $partner, $claim
         $subject = 'You received a request of claim #%d. Please review and accept.';
@@ -93,7 +98,11 @@ trait NotiMailModule
         $subject = '%s uploaded billing document (%s) for claim #%d';
         $subject = sprintf($subject, $user->name, $doc->file->name, $claim->id);
         break;
-
+      case 'claim.doc.admin_upload_billing_doc':
+        $subject = "%s sent %s document(%s) in claim #%d";
+        $subject = sprintf($subject, $user->name, $reply_to_doc->creator->name, 
+                           $doc->file->name, $claim->id);
+        break;
       case 'claim.assign_request':
         // use $partner, $claim
         $subject = '%s received a request of claim #%d';

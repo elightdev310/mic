@@ -21,6 +21,7 @@ use App\MIC\Models\ClaimDocAccess;
 use Dwij\Laraadmin\Models\Module;
 use Dwij\Laraadmin\Models\ModuleFields;
 
+use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\View;
 
 use MICHelper;
@@ -178,6 +179,7 @@ class ClaimController extends Controller
     $params['user']       = $user;
     $params['claim']      = $claim;
     $params['billing_docs'] = $billing_docs;
+    $params['reply_docs_action'] = true;
 
     $params['tab'] = 'action';
     $params['no_header'] = true;
@@ -407,5 +409,71 @@ class ClaimController extends Controller
     }
 
     return response()->json(['status'=>'success']);
+  }
+
+  /**
+   * Upload Billing Doc
+   * Admin would upload billing doc to partner.
+   * This document would be shared between partner & admin
+   *
+   * $reply_to_doc_id : partner_doc_id
+   */
+  public function uploadClaimBillingDoc(Request $request, $claim_id, $reply_to_doc_id) {
+    $user = MICHelper::currentUser();
+
+    if($user && Input::hasFile('file')) {
+
+      $file = Input::file('file');
+      
+      // print_r($file);
+      $folder = storage_path("claims/docs/".$claim_id."/bill");
+      $upload = MICClaim::uploadClaimFile($file, $folder);
+
+      if( $upload ) {
+        $doc = ClaimDoc::create([
+          'claim_id' => $claim_id,
+          'file_id'  => $upload->id, 
+          'type'     => 'bill_reply', 
+          'show_to_patient' => 0, 
+          'creator_uid' =>$user->id, 
+        ]);
+        $doc->save();
+
+        // Partner have access to this doc
+        $partner_doc = ClaimDoc::find($reply_to_doc_id);
+        if ($partner_doc) {
+          $n_cda = new ClaimDocAccess;
+          $n_cda->doc_id = $doc->id;
+          $n_cda->partner_uid = $partner_doc->creator->id;
+          $n_cda->save();
+        }
+
+        // Reply Relationship
+        MICClaim::insertBillingDocReply($doc->id, $reply_to_doc_id);
+
+        $claim = Claim::find($claim_id);
+        // Activity Feed
+        $ca_params = array(
+            'claim' => $claim, 
+            'user'  => $user, 
+            'doc'   => $doc, 
+            'reply_to_doc' => $partner_doc, 
+          );
+        
+        MICClaim::addClaimActivity($claim->id, $user->id, 'admin_upload_billing_doc', $ca_params, 0);
+        MICNotification::sendNotification('claim.doc.admin_upload_billing_doc', $ca_params);
+
+        return response()->json([
+          "status" => "success",
+          "upload" => $upload
+        ], 200);
+      } else {
+        return response()->json([
+          "status" => "error"
+        ], 400);
+      }
+    } else {
+      return response()->json('error: upload file not found.', 400);
+    }
   }
 }

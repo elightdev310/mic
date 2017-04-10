@@ -100,6 +100,11 @@ Route::group(['prefix'=>config('mic.adminRoute'),
     'as'=>$as.'claim.view.partners', 'uses'=>'MIC\Admin\ClaimController@claimPartnersPage' 
   ]);
 
+  // Claim Billing Doc 
+  Route::post('claim/{claim_id}/upload-billing-doc/{reply_to_doc_id}', [
+    'as'=>$as.'claim.upload.billing_doc', 'uses'=>'MIC\Admin\ClaimController@uploadClaimBillingDoc' 
+  ]);
+
   // Route::get('claim/{claim_id}/assign/{partner_uid}', [
   //   'as'=>$as.'claim.assign.partner', 'uses'=>'MIC\Admin\ClaimController@claimAssignPartner' 
   // ]);
