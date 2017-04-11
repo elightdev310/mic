@@ -83,6 +83,12 @@ Route::group(['middleware' => ['auth']],
     'as'=>'learning_center.video.purchase', 'uses'=>'MIC\VideoController@purchaseVideo' 
   ]);
 
+  // Video Tracking
+  Route::get('learning-center/video/track', [
+    'as'=>'learning_center.video.track', 'uses'=>'MIC\VideoController@trackVideo'
+  ]);
+
+  
   // Notification
   Route::get('notifications', [
     'as'=>'notification.list', 'uses'=>'MIC\NotificationController@listPage' 
@@ -93,6 +99,7 @@ Route::group(['middleware' => ['auth']],
   Route::get('notifications/user-notify', [
     'as'=>'notification.user_notify', 'uses'=>'MIC\NotificationController@userNotifyList' 
   ]);
+  
 });
 
 

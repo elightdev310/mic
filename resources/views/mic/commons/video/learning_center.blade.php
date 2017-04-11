@@ -33,7 +33,7 @@
           @if ($video->va->price && !$video->purchased)
           <a href="{{ route('learning_center.video.purchase', [$video->va->id] )}}" data-lity>
           @else
-          <a href="https//www.youtube.com/embed/{{ $video->video->id }}" data-lity>
+          <a href="#" data-video ="{{ $video->video->id }}" class="youtube-link">
           @endif
 
             <div class="video-thumbnail">
@@ -46,7 +46,7 @@
               @if ($video->va->price && !$video->purchased)
               <a href="{{ route('learning_center.video.purchase', [$video->va->id] )}}" data-lity>
               @else
-              <a href="https//www.youtube.com/embed/{{ $video->video->id }}" data-lity>
+              <a href="#" data-video ="{{ $video->video->id }}" class="youtube-link">
               @endif
               
               {{ $video->video->snippet->title }}
@@ -84,6 +84,21 @@
       </div>
     </div>
   </div>
+
+  <div class="youtube-video-player">
+  <div class="lity lity-youtube lity-opened" role="dialog" aria-label="Dialog Window (Press escape to close)" tabindex="-1">
+    <div class="lity-wrap" data-lity-close role="document">
+      <div class="lity-container">
+        <div class="lity-content">
+          <div class="lity-iframe-container">
+            <div id='videoPlayer'></div>
+          </div>
+        </div>
+        <button class="lity-close" type="button" aria-label="Close (Press escape to close)" data-lity-close>&times;</button>
+      </div>
+    </div>
+  </div>
+  </div>
 @endsection
 
 
@@ -92,5 +107,105 @@
 @endpush
 
 @push('scripts')
+{{-- Youtube Video Tracking --}}
+<script>
+var tag = document.createElement('script');
+
+tag.src = 'https://www.youtube.com/iframe_api';
+var firstScriptTag = document.getElementsByTagName('script')[0];
+firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+var videoPlayer;
+// function onYouTubeIframeAPIReady() {
+function loadYoutubeVideo(videoId) {
+  videoPlayer = new YT.Player('videoPlayer', {
+    videoId: videoId,
+    playerVars: {
+      controls: 1, 
+      showinfo: 1, 
+      rel: 0, 
+    }, 
+    events: {
+      'onStateChange': onPlayerStateChange,
+      'onError': onPlayerError
+    }
+  });
+  videoPlayer.video_id = videoId;
+  
+  $('.youtube-video-player').addClass('opened');
+};
+
+function onPlayerStateChange(event) {
+  switch (event.data) {
+    case YT.PlayerState.PLAYING:
+      if (cleanTime() == 0) {
+          // console.log('started ' + cleanTime());
+          // ga('send', 'event', 'video', 'started', video);
+          trackVideo(videoPlayer.video_id, 'end');
+      } else {
+          // console.log('playing ' + cleanTime())
+          // ga('send', 'event', 'video', 'played', 'v: ' + video + ' | t: ' + cleanTime());
+      };
+      break;
+  case YT.PlayerState.PAUSED:
+      if (videoPlayer.getDuration() - videoPlayer.getCurrentTime() != 0) {
+          // console.log('paused' + ' @ ' + cleanTime());
+          // ga('send', 'event', 'video', 'paused', 'v: ' + video + ' | t: ' + cleanTime());
+      };
+      break;
+  case YT.PlayerState.ENDED:
+      // console.log('ended ');
+      // ga('send', 'event', 'video', 'ended', video);
+      break;
+  };
+};
+//utility
+function cleanTime(){
+    return Math.round(videoPlayer.getCurrentTime())
+};
+
+function onPlayerError (event) {
+  switch(event.data) {
+      case 2:
+          //console.log('' + video.id)
+          // ga('send', 'event', 'video', 'invalid id',video);
+          break;
+      case 100:
+          // ga('send', 'event', 'video', 'not found',video);
+          break;
+      case 101 || 150:
+          // ga('send', 'event', 'video', 'not allowed',video);
+          break;
+      };
+};
+
+function trackVideo(vid, state) {
+  var trackUrl = '{{ route('learning_center.video.track') }}';
+  $.ajax({
+      url: trackUrl,
+      data: {
+        vid: vid, 
+        state: state
+      }, 
+      success: function ( json ) {
+        // Reload Page
+      }
+  });
+}
+
+$(function () {
+  $("a.youtube-link").on('click', function() {
+    var videoId = $(this).data('video');
+    loadYoutubeVideo(videoId);
+    return false;
+  });
+  $('.youtube-video-player .lity-close').on('click', function() {
+    $('.youtube-video-player').removeClass('opened');
+    $('.youtube-video-player .lity-iframe-container').html("<div id='videoPlayer'></div>");
+  });
+});
+</script>
+
 <script src="{{ asset('assets/plugins/lity/lity.min.js') }}"></script>
 @endpush
+

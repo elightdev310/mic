@@ -950,5 +950,11 @@ body {
 .learning-center-videos.video-list .video-thumbnail img {
   width: 100%;
 }
+.youtube-video-player {
+  display: none;
+}
+.youtube-video-player.opened {
+  display: block;
+}
 
 /*# sourceMappingURL=mic.css.map */

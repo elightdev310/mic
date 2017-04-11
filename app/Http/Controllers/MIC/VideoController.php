@@ -142,10 +142,20 @@ class VideoController extends Controller
 
     // Purchase Video
     // TO DO: Charge 
+    //MICPay::charge();
     
     // TO DO : Uncomment after implementing of charge
     // MICVideo::insertPurchaseVideo($user->id, $va_id);
 
     return redirect()->route('learning_center.video.purchase', ['va_id'=>$va_id]);
+  }
+
+  public function trackVideo(Request $request) {
+    $vid    = $request['vid'];
+    $state  = $request['state'];
+
+    
+    
+    return response()->json(['status' => 'success']);
   }
 }
