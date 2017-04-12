@@ -150,4 +150,8 @@ Route::group(['as' => $as, 'middleware' => ['auth', 'permission:ADMIN_PANEL']], 
 	/* ================== BillingDocReplies ================== */
 	Route::resource(config('laraadmin.adminRoute') . '/billingdocreplies', 'LA\BillingDocRepliesController');
 	Route::get(config('laraadmin.adminRoute') . '/billingdocreply_dt_ajax', 'LA\BillingDocRepliesController@dtajax');
+
+	/* ================== VideoTrackings ================== */
+	Route::resource(config('laraadmin.adminRoute') . '/videotrackings', 'LA\VideoTrackingsController');
+	Route::get(config('laraadmin.adminRoute') . '/videotracking_dt_ajax', 'LA\VideoTrackingsController@dtajax');
 });

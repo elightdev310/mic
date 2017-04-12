@@ -15,6 +15,7 @@ use App\MIC\Models\User;
 use App\MIC\Models\PaymentInfo;
 use App\MIC\Models\YoutubeVideo;
 use App\MIC\Models\VideoAccess;
+use App\MIC\Models\VideoTracking;
 
 use MICVideo;
 use MICHelper;
@@ -63,6 +64,12 @@ class VideoController extends Controller
         } else {
           $video->purchased = 0;
         }
+      }
+      
+      if ($vt = MICVideo::checkVideoWatched($user->id, $video->vid)) {
+        $video->watched = $vt->updated_at;
+      } else {
+        $video->watched = 0;
       }
     }
 
@@ -151,11 +158,20 @@ class VideoController extends Controller
   }
 
   public function trackVideo(Request $request) {
+    $user = MICHelper::currentUser();
+
     $vid    = $request['vid'];
     $state  = $request['state'];
 
-    
-    
+    $vt = MICVideo::getVideoTracking($user->id, $vid);
+    if (!$vt) {
+      $vt = new VideoTracking;
+      $vt->user_id  = $user->id;
+      $vt->vid = $vid;
+    }
+    $vt->state   = $state;
+    $vt->save();
+
     return response()->json(['status' => 'success']);
   }
 }

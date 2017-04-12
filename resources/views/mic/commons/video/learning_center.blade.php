@@ -28,15 +28,17 @@
       <div class="row pl30 pr30 pb30">
 
         @foreach ($videos as $video)
-        <div class="col-md-3 col-sm-6 video-item">
-
+        <div class="col-md-3 col-sm-6 video-item @if ($video->watched) watched-video @endif">
           @if ($video->va->price && !$video->purchased)
           <a href="{{ route('learning_center.video.purchase', [$video->va->id] )}}" data-lity>
           @else
           <a href="#" data-video ="{{ $video->video->id }}" class="youtube-link">
           @endif
-
             <div class="video-thumbnail">
+              @if ($video->watched)
+              <div class="mark-watched-bg"></div>
+              <div class="mark-watched"><i class="fa fa-eye" aria-hidden="true"></i></div>
+              @endif
               <img src="{{ $video->video->snippet->thumbnails->high->url }}" />
               <div class="video-duration">{{ MICUILayoutHelper::duration($video->video->contentDetails->duration) }}</div>
             </div>
@@ -141,7 +143,6 @@ function onPlayerStateChange(event) {
       if (cleanTime() == 0) {
           // console.log('started ' + cleanTime());
           // ga('send', 'event', 'video', 'started', video);
-          trackVideo(videoPlayer.video_id, 'end');
       } else {
           // console.log('playing ' + cleanTime())
           // ga('send', 'event', 'video', 'played', 'v: ' + video + ' | t: ' + cleanTime());
@@ -156,6 +157,7 @@ function onPlayerStateChange(event) {
   case YT.PlayerState.ENDED:
       // console.log('ended ');
       // ga('send', 'event', 'video', 'ended', video);
+      trackVideo(videoPlayer.video_id, 'ended');
       break;
   };
 };
@@ -188,7 +190,7 @@ function trackVideo(vid, state) {
         state: state
       }, 
       success: function ( json ) {
-        // Reload Page
+        window.location.reload(false); 
       }
   });
 }

@@ -705,6 +705,28 @@ ul.claim-doc-section {
 .user-avatar-settings-wrapper .user-avatar-update {
   display: table-cell;
 }
+.video-list .mark-watched-bg {
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 60px 60px 0 0;
+  border-color: #a3a3a3 transparent transparent transparent;
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  z-index: 1000;
+  opacity: 0.8;
+}
+.video-list .mark-watched {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  z-index: 1001;
+  font-size: 24px;
+  top: 3px;
+  left: 5px;
+  color: #0A4390;
+}
 .video-list .video-info {
   color: #888;
 }

@@ -9,6 +9,7 @@ use Youtube;
 use App\Models\Upload;
 use App\MIC\Models\YoutubeVideo;
 use App\MIC\Models\VideoAccess;
+use App\MIC\Models\VideoTracking;
 use App\MIC\Models\PurchaseVideo;
 use App\MIC\Models\User;
 use App\User as UserModel;
@@ -145,5 +146,19 @@ class VideoModule {
       return true;
     }
     return false;
+  }
+
+  public function getVideoTracking($user_id, $vid) {
+    $vt = VideoTracking::where('user_id', $user_id)
+                       ->where('vid', $vid)
+                       ->first();
+    return $vt;
+  }
+  public function checkVideoWatched($user_id, $vid) {
+    $vt = VideoTracking::where('user_id', $user_id)
+                       ->where('vid', $vid)
+                       ->where('state', 'ended')
+                       ->first();
+    return $vt;
   }
 }
