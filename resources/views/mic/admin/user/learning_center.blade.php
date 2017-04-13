@@ -16,10 +16,16 @@
   <div class="box-body table-responsive">
 
       @if (!empty($user_videos))
-        <ul class="video-list todo-list">
+        <ul class="user-video-list video-list todo-list">
           @foreach ($user_videos as $video)
-          <li id="va-{{$video->va->id}}">
+          <li id="va-{{$video->va->id}}" class="video-item @if ($video->watched) watched-video @endif">
             <div class="handle video-thumbnail">
+
+              @if ($video->watched)
+              <div class="mark-watched-bg"></div>
+              <div class="mark-watched"><i class="fa fa-eye" aria-hidden="true"></i></div>
+              @endif
+
               <img src="{{ $video->video->snippet->thumbnails->default->url }}" />
               <div class="video-duration">{{ MICUILayoutHelper::duration($video->video->contentDetails->duration) }}</div>
             </div>
@@ -28,10 +34,19 @@
                 <a href="//www.youtube.com/embed/{{ $video->video->id }}" data-lity>
                 {{ $video->video->snippet->title }}
                 @if ($video->va->price)
-                <span class="video-price">
-                  (${{ number_format($video->va->price, 2) }})
-                </span>
+                  @if ($video->purchased)
+                  &nbsp;<span class="text-primary purchased-mark">(PURCHASED)</span>
+                  @else
+                  <span class="video-price">
+                    (${{ number_format($video->va->price, 2) }})
+                  </span>
+                  @endif
                 @endif 
+
+                @if ($video->watched) 
+                  &nbsp;<span>[Watched {{ MICUILayoutHelper::strTime($video->watched) }}]</span>
+                @endif
+
                 </a>
               </div>
               <div class="video-channel">
@@ -54,7 +69,7 @@
           @endforeach
         </ul>
       @else
-      <p class="text-center p10">No Videos</p>
+      <p class="text-center p10">No User-Specific Videos</p>
       @endif
   </div><!-- /.box-body -->
   <div class="box-footer clearfix no-border">
@@ -69,12 +84,71 @@
 </div><!-- /.box -->
 
 
+<div class="users-box box box-primary">
+  <div class="box-header">
+    <h3>Group Videos</h3>
+  </div><!-- /.box-header -->
+  <div class="box-body">
+    @if (!empty($group_videos))
+        <ul class="video-list todo-list">
+          @foreach ($group_videos as $video)
+          <li id="va-{{$video->va->id}}" class="video-item @if ($video->watched) watched-video @endif">
+            <div class="handle video-thumbnail">
+
+              @if ($video->watched)
+              <div class="mark-watched-bg"></div>
+              <div class="mark-watched"><i class="fa fa-eye" aria-hidden="true"></i></div>
+              @endif
+
+              <img src="{{ $video->video->snippet->thumbnails->default->url }}" />
+              <div class="video-duration">{{ MICUILayoutHelper::duration($video->video->contentDetails->duration) }}</div>
+            </div>
+            <div class="video-info">
+              <div class="video-title">
+                <a href="//www.youtube.com/embed/{{ $video->video->id }}" data-lity>
+                {{ $video->video->snippet->title }}
+                @if ($video->va->price)
+                  @if ($video->purchased)
+                  &nbsp;<span class="text-primary purchased-mark">(PURCHASED)</span>
+                  @else
+                  <span class="video-price">
+                    (${{ number_format($video->va->price, 2) }})
+                  </span>
+                  @endif
+                @endif 
+
+                @if ($video->watched) 
+                  &nbsp;<span>[Watched {{ MICUILayoutHelper::strTime($video->watched) }}]</span>
+                @endif
+
+                </a>
+              </div>
+              <div class="video-channel">
+                {{ $video->video->snippet->channelTitle }}
+              </div>
+              <div class="video-review">
+                <span>{{ $video->video->statistics->viewCount }} views</span> - 
+                <span>{{ MICUILayoutHelper::agoTime($video->video->snippet->publishedAt, ' ago') }}</span>
+              </div>
+            </div>
+            
+          </li>
+          @endforeach
+        </ul>
+      @else
+      <p class="text-center p10">No Group Videos</p>
+      @endif
+  </div>
+</div>
+
+
+
 @push('scripts')
 
 <script>
 (function ($) {
   $(document).ready(function() {
-    $('.video-list').sortable({
+    $('.user-video-list').sortable({
       placeholder: "sort-highlight",
       handle: ".handle",
       forcePlaceholderSize: true,

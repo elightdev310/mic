@@ -22,6 +22,7 @@ use App\MIC\Models\Partner;
 use App\MIC\Models\Employee;
 use App\MIC\Models\PaymentInfo;
 
+use MICHelper;
 use App\User as AuthUser;
 
 use Illuminate\Support\Facades\Hash;
@@ -111,7 +112,57 @@ class UserController extends Controller
 
     //Learning Center
     $user_videos = MICVideo::getVideoList('user', $user->id);
-    $params['user_videos'] = $user_videos;
+    foreach ($user_videos as &$video) {
+      if ($video->va->price) {
+        if (MICVideo::checkPurchasedVideo($user->id, $video->id)) {
+          $video->purchased = 1;
+        } else {
+          $video->purchased = 0;
+        }
+      }
+      
+      if ($vt = MICVideo::checkVideoWatched($user->id, $video->vid)) {
+        $video->watched = $vt->updated_at;
+      } else {
+        $video->watched = 0;
+      }
+    }
+
+    $video_all = MICVideo::getVideoList('all');
+
+    $group = '';
+    if (MICHelper::isPatient($user)) {
+      $group = 'patient';
+    }
+    else if(MICHelper::isPartner($user)) {
+      $group = MICHelper::getPartnerType($user->id);
+    }
+    if ($group) {
+      $video_group = MICVideo::getVideoList($group);
+    } else {
+      $video_group = array();
+    }
+
+
+    $group_videos = array_merge($video_group, $video_all);
+    foreach ($group_videos as &$video) {
+      if ($video->va->price) {
+        if (MICVideo::checkPurchasedVideo($user->id, $video->id)) {
+          $video->purchased = 1;
+        } else {
+          $video->purchased = 0;
+        }
+      }
+      
+      if ($vt = MICVideo::checkVideoWatched($user->id, $video->vid)) {
+        $video->watched = $vt->updated_at;
+      } else {
+        $video->watched = 0;
+      }
+    }
+
+    $params['user_videos']  = $user_videos;
+    $params['group_videos'] = $group_videos;
 
     $params['no_header'] = true;
     $params['no_padding'] = 'no-padding';
