@@ -118,6 +118,9 @@ class MICAuthController extends Controller
           // return $this->postLogin($request);
         }
         return redirect()->back()->withErrors($error);
+      } else if ($user->status != config('mic.user_status.active')) {
+        $error = "Your account is canceled.";
+        return redirect()->back()->withErrors($error);
       }
     } 
     return $this->postLogin($request);

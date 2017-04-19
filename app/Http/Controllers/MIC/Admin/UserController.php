@@ -23,6 +23,7 @@ use App\MIC\Models\Employee;
 use App\MIC\Models\PaymentInfo;
 
 use MICHelper;
+use MICClaim;
 use App\User as AuthUser;
 
 use Illuminate\Support\Facades\Hash;
@@ -405,6 +406,23 @@ class UserController extends Controller
     $payment_info->save();
 
     return redirect()->back()->with('status', 'Payment settings saved, successfully.');
+  }
+
+  public function deleteUserAction(Request $request, $uid) {
+    $user = User::find($uid);
+
+    $user->status = config('mic.user_status.cancel');
+    $user->save();
+    
+    // Unassigned Partner from claims
+    if (MICHelper::isPartner($user)) {
+      $claims = MICClaim::getClaimsByPartner($uid);
+      foreach ($claims as $claim) {
+        MICClaim::unassignPartner($claim->id, $uid);
+      }
+    }
+
+    return redirect()->back()->with('status', 'User canceled successfully.');
   }
 
   protected function saveLearningCenter(Request $request, $user) {

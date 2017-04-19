@@ -6,7 +6,7 @@
   </thead>
   <tbody>
     @foreach ($cda as $uid=>$item)
-    <tr class="cda-item">
+    <tr class="cda-item @if (!MICHelper::isActiveUser($uid)) disabled @endif">
       <td>
         {!! MICUILayoutHelper::avatarImage($uid, 24) !!}
         {{ MICHelper::getUserTitle($uid) }}

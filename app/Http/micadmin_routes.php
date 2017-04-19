@@ -45,7 +45,10 @@ Route::group(['prefix'=>config('mic.adminRoute'),
   Route::post('user/{uid}', [
     'as'=>$as.'user.save_settings.post', 'uses'=>'MIC\Admin\UserController@saveUserSettings' 
   ]);
-  
+  Route::post('user/{uid}/delete', [
+    'as'=>$as.'user.delete_user.post', 'uses'=>'MIC\Admin\UserController@deleteUserAction' 
+  ]);
+
   Route::get('i-questions', [
     'as'=>$as.'iquiz.list', 'uses'=>'MIC\Admin\IQuestionController@quizList' 
   ]);  
@@ -153,4 +156,5 @@ Route::group(['prefix'=>config('mic.adminRoute'),
   Route::post('user/{uid}/learning-videos/sort', [
     'as'=>$as.'user.learning_video.sort.post', 'uses'=>'MIC\Admin\VideoController@userVideoSortPost' 
   ]);  
+
 });

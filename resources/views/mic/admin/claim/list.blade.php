@@ -34,6 +34,9 @@
               <td class="patient-user">
                 {!! MICUILayoutHelper::avatarImage($claim->patientUser, 24) !!}
                 {{ $claim->patientUser->name }}
+                @if (!MICHelper::isActiveUser($claim->patientUser))
+                 ({{ ucwords($claim->patientUser->status) }})
+                @endif
               </td>
               <td class="claim-submit-date">{{ MICUILayoutHelper::strTime($claim->created_at, "M d, Y H:i") }}</td>
               <td class="row-action">

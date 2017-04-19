@@ -85,4 +85,14 @@ class MICHelper
     
     return 'app';
   }
+
+  public static function isActiveUser($user) {
+    if (is_numeric($user)) {
+      $user = User::find($user);
+    }
+    if ($user && $user->status == config('mic.user_status.active')) {
+      return true;
+    }
+    return false;
+  }
 }

@@ -83,6 +83,10 @@ class NotificationModule {
   }
 
   public function addNotification($user_id, $message) {
+    if (!MICHelper::isActiveUser($user_id)) {
+      return;
+    }
+
     $noti = new Notification;
     $noti->message = $message;
     $noti->user_id = $user_id;
@@ -91,8 +95,12 @@ class NotificationModule {
   }
 
   public function sendMail($user_id, $type, $subject, $params, $type_suffix='') {
-    //return;
+    return;
     
+    if (!MICHelper::isActiveUser($user_id)) {
+      return;
+    }
+
     $sendTo = UserModel::find($user_id);
     $params['sendTo'] = $sendTo;
     $this->additionalParams($user_id, $type, $params);

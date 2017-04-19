@@ -105,6 +105,9 @@ class VideoController extends Controller
   public function purchaseVideo(Request $request, $va_id) {
     $user = MICHelper::currentUser();
 
+    $va = VideoAccess::find($va_id);
+    $price = $va->price;
+
     // Save Payment Information
     $validator = Validator::make($request->all(), [
       'payment_type'  => 'required', 
@@ -149,7 +152,8 @@ class VideoController extends Controller
 
     // Purchase Video
     // TO DO: Charge 
-    //MICPay::charge();
+    $comment = sprintf("Purchase youtube video(%s)", $va->video->vid);
+    // MICPay::charge($user->id, $price, $comment);
     
     // TO DO : Uncomment after implementing of charge
     // MICVideo::insertPurchaseVideo($user->id, $va_id);

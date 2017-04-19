@@ -22,6 +22,7 @@ use App\MIC\Models\BillingDocReply;
 use App\User as UserModel;
 
 use MICHelper;
+use MICNotification;
 
 class ClaimModule {
   /**
@@ -519,6 +520,12 @@ class ClaimModule {
         break;
     }
 
+    foreach ($feeders as $uid => $user_id) {
+      if (!MICHelper::isActiveUser($uid)) {
+        unset($feeders[$uid]);
+      }
+    }
+
     return $feeders;
   }
 
@@ -594,5 +601,21 @@ class ClaimModule {
     $bdr->replied_doc_id = $admin_doc_id;
     $bdr->billing_doc_id = $partner_doc_id;
     $bdr->save();
+  }
+
+  public function unassignPartner($claim_id, $partner_uid) {
+    $currentUser = MICHelper::currentUser();
+    $user = User::find($partner_uid);
+    
+    $claim = Claim::find($claim_id);
+    // Activity Feed
+    $ca_params = array(
+        'partner' => $user, 
+        'claim'   => $claim
+      );
+    $this->addClaimActivity($claim->id, $currentUser->id, 'unassign_partner', $ca_params);
+    MICNotification::sendNotification('claim.unassign_partner', $ca_params);
+      
+    $this->removeP2C($partner_uid, $claim_id);
   }
 }

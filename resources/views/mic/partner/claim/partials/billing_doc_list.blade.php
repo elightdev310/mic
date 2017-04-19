@@ -10,7 +10,7 @@
       </td>
       <td class="doc-uploaded-at text-right">{{ MICUILayoutHelper::strTime($doc['doc']->created_at, "M d, Y H:i") }}</td>
       <td class="row-action text-right">
-        @if (isset($reply_docs_action))
+        @if (isset($reply_docs_action) && MICHelper::isActiveUser($doc['doc']->creator))
         <a href="#" class="action-link reply-doc-link" data-url="{{ route('micadmin.claim.upload.billing_doc', [$claim->id, $doc['doc']->id]) }}">Send file to</a> | 
         @endif
         <a href="{{ $doc['doc']->file->path() }}?download" class="action-link download-doc-link"><i class="fa fa-download"></i></a>

@@ -347,16 +347,7 @@ class ClaimController extends Controller
     $currentUser = MICHelper::currentUser();
     $user = User::find($partner_uid);
     
-    $claim = Claim::find($claim_id);
-    // Activity Feed
-    $ca_params = array(
-        'partner' => $user, 
-        'claim'   => $claim
-      );
-    MICClaim::addClaimActivity($claim->id, $currentUser->id, 'unassign_partner', $ca_params);
-    MICNotification::sendNotification('claim.unassign_partner', $ca_params);
-      
-    MICClaim::removeP2C($partner_uid, $claim_id);
+    MICClaim::unassignPartner($claim_id, $partner_uid);
     
     return redirect()->back()
                 ->with('_panel', 'assign-partner')

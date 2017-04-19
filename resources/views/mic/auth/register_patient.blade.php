@@ -19,16 +19,7 @@
     </div><!--/.nav-collapse -->
   </div>
   
-  @if (count($errors) > 0)
-    <div class="alert alert-danger">
-      <strong>Whoops!</strong> There were some problems with your input.<br><br>
-      <ul>
-        @foreach ($errors->all() as $error)
-          <li>{{ $error }}</li>
-        @endforeach
-      </ul>
-    </div>
-  @endif
+  @include('mic.commons.success_error')
 
   <div class="register-box-body">
   <form action="{{ route('register.patient') }}" method="post">

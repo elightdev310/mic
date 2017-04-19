@@ -35,6 +35,22 @@
           Member from: {{ MICUILayoutHelper::strTime($user->created_at) }}
         </div>
       </div>
+
+      <div class="col-md-4">
+        <div class="dats1">
+          &nbsp;
+        </div>
+        <div class="dats1 text-right">
+          @if ($user->status != 'cancel')
+          {!! Form::open(['route' => ['micadmin.user.delete_user.post', $user->id], 
+                'method'=>'post', 
+                'class' =>'frm-delete-user']) !!}
+            <a href="#" class="btn btn-sm btn-warning delete-user-action" data-url="">Cancel User</a>
+          {!! Form::close() !!}
+          @endif
+        </div>
+      </div>
+
     </div>
 
     <ul data-toggle="ajax-tab" class="nav nav-tabs profile" role="tablist">
@@ -164,6 +180,17 @@
   $(function () {
       $('.date').datetimepicker({
         format: 'YYYY-MM-DD'
+      });
+      $('a.delete-user-action').click(function() {
+        var $_this = $(this);
+        bootbox.confirm({
+          message: "<p>Are you sure to cancel this user?</p>", 
+          callback: function (result) {
+            if (result) {
+              $_this.closest('form').submit();
+            }
+          }
+        });
       });
   });
 </script>
