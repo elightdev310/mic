@@ -18,8 +18,8 @@
         </td>
         <td class="partner-email">{{ $user->email }}</td>
         <td class="partner-role">{{ MICHelper::getPartnerTypeTitle($user->partner) }}</td>
-        <td class="partner-company">{{ $user->partner->company }}</td>
-        <td class="partner-phone">{{ $user->partner->phone}}</td>
+        <td class="partner-company">{{ $user->partner->company or ""}}</td>
+        <td class="partner-phone">{{ $user->partner->phone or ""}}</td>
         <td class="action">
           @if (MICHelper::checkIfP2C($user->id, $claim->id))
           <span class="text-green">Assigned</span>

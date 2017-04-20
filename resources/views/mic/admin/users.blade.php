@@ -10,12 +10,41 @@
 
       <div class="users-box box box-primary">
         <div class="box-header">
-          <div class="add-link pull-left">
-            <a href="{{ route('micadmin.user.add') }}" class="btn btn-success">+ Add User</a>
+          <div class="row">
+            <div class="form-group col-sm-6 add-link pt20 pb20">
+              <a href="{{ route('micadmin.user.add') }}" class="btn btn-success">+ Add User</a>
+            </div>
           </div>
-          <div class="paginator pull-right">
-            {{ $users->links() }}
+
+          <div class='row'>
+            {!! Form::open(['route' => ['micadmin.users.list'], 
+                'method'=>'get', 
+                'class' =>'frm-search-user']) !!}
+
+              <div class='form-group col-sm-4'>
+                  {!! Form::select('user_type', 
+                                  [ strtolower(config('mic.user_type.patient')) => ucfirst(config('mic.user_type.patient')), 
+                                    strtolower(config('mic.user_type.partner')) => ucfirst(config('mic.user_type.partner')), 
+                                    strtolower(config('mic.user_type.employee')) => ucfirst(config('mic.user_type.employee')) ],
+                                  Request::get('user_type'), 
+                                  ['class' => 'form-control', 'placeholder' => '- All User Type -']); 
+                    !!}
+              </div>
+              <div class='form-group col-sm-4'>
+                  {!! Form::select('status', 
+                                  [ config('mic.user_status.active') => ucfirst(config('mic.user_status.active')), 
+                                    config('mic.user_status.pending') => ucfirst(config('mic.user_status.pending')), 
+                                    config('mic.user_status.cancel') => ucfirst(config('mic.user_status.cancel')) ],
+                                  Request::get('status'), 
+                                  ['class' => 'form-control', 'placeholder' => '- All Status -']); 
+                  !!}
+              </div>
+              <div class='form-group col-sm-4'>
+                  {!! Form::submit('Filter', ['class'=>'btn btn-primary']) !!}
+              </div>
+            {!! Form::close() !!}
           </div>
+
         </div><!-- /.box-header -->
         <div class="box-body table-responsive">
 
@@ -52,7 +81,7 @@
         </div><!-- /.box-body -->
         <div class="box-footer clearfix no-border">
           <div class="paginator pull-right">
-            {{ $users->links() }}
+            {{ $users->appends(Request::except('page'))->links() }}
           </div>
         </div>
       </div><!-- /.box -->

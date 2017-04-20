@@ -29,7 +29,11 @@ class MICHelper
   }
 
   public static function getPartnerTypeTitle($partner) {
-    return config('mic.partner_type.'.$partner->membership_role);
+    if (isset($partner->membership_role)) {
+      return config('mic.partner_type.'.$partner->membership_role);
+    } else {
+      return '';
+    }
   }
 
   public static function checkIfCAR($partner_uid, $claim_id) {

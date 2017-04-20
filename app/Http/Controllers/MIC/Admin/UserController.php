@@ -8,6 +8,8 @@ namespace App\Http\Controllers\MIC\Admin;
 use Auth;
 use Validator;
 use Mail;
+use Input;
+use DB;
 use App\Http\Requests;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
@@ -53,9 +55,16 @@ class UserController extends Controller
 
   public function index(Request $request)
   {
-    $users = User::where('id', '<>', 2)
-              ->orderBy('created_at', 'DESC')
-              ->paginate(self::PAGE_LIMIT);
+    $q = User::where('id', '<>', 2);
+
+    if ($request->has('user_type')) {
+      $q->where('type', $request->input('user_type'));
+    }
+    if ($request->has('status')) {
+      $q->where('status', $request->input('status'));
+    }
+    $users = $q->orderBy('created_at', 'DESC')
+               ->paginate(self::PAGE_LIMIT);
 
     $params = array();
     $params['users'] = $users;
@@ -65,23 +74,55 @@ class UserController extends Controller
 
   public function patientList(Request $request)
   {
-    $patients = Patient::orderBy('created_at', 'DESC')
-                  ->paginate(self::PAGE_LIMIT);
+    $q = DB::table('patients')
+           ->select('patients.*')
+           ->leftJoin('users', 'patients.user_id', '=', 'users.id')
+           ->where('user_id', '<>', 2);
 
+    if ($request->has('status')) {
+      $q->where('users.status', $request->input('status'));
+    }
+    $paginate = $q->orderBy('patients.created_at', 'DESC')
+               ->paginate(self::PAGE_LIMIT);
+
+    $patients = array();
+
+    foreach ($paginate as $record) {
+      $patients[] = Patient::find($record->id);
+    }
     $params = array();
+
     $params['patients'] = $patients;
+    $params['paginate'] = $paginate;
 
     return view('mic.admin.patients', $params);
   }
 
   public function partnerList(Request $request)
   {
-    $partners = Partner::where('user_id', '<>', 2)
-                  ->orderBy('created_at', 'DESC')
-                  ->paginate(self::PAGE_LIMIT);
+    $q = DB::table('partners')
+           ->select('partners.*')
+           ->leftJoin('users', 'partners.user_id', '=', 'users.id')
+           ->where('user_id', '<>', 2);
 
+    if ($request->has('partner_type')) {
+      $q->where('partners.membership_role', $request->input('partner_type'));
+    }
+    if ($request->has('status')) {
+      $q->where('users.status', $request->input('status'));
+    }
+    $paginate = $q->orderBy('partners.created_at', 'DESC')
+               ->paginate(self::PAGE_LIMIT);
+
+    $partners = array();
+
+    foreach ($paginate as $record) {
+      $partners[] = Partner::find($record->id);
+    }
     $params = array();
+
     $params['partners'] = $partners;
+    $params['paginate'] = $paginate;
 
     return view('mic.admin.partners', $params);
   }

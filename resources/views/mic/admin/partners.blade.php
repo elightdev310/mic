@@ -10,9 +10,34 @@
 
       <div class="partners-box box box-primary">
         <div class="box-header">
-          <div class="paginator pull-right">
-            {{ $partners->links() }}
+          <div class='row'>
+            {!! Form::open(['route' => ['micadmin.partners.list'], 
+                'method'=>'get', 
+                'class' =>'frm-search-user']) !!}
+
+              <div class='form-group col-sm-4'>
+                  {!! 
+                    Form::select('partner_type', 
+                                  config('mic.partner_type'),
+                                  Request::get('partner_type'), 
+                                  ['class' => 'form-control', 'placeholder' => '- All Partners -']) 
+                  !!}
+              </div>
+              <div class='form-group col-sm-4'>
+                  {!! Form::select('status', 
+                                  [ config('mic.user_status.active') => ucfirst(config('mic.user_status.active')), 
+                                    config('mic.user_status.pending') => ucfirst(config('mic.user_status.pending')), 
+                                    config('mic.user_status.cancel') => ucfirst(config('mic.user_status.cancel')) ],
+                                  Request::get('status'), 
+                                  ['class' => 'form-control', 'placeholder' => '- All Status -']); 
+                  !!}
+              </div>
+              <div class='form-group col-sm-4'>
+                  {!! Form::submit('Filter', ['class'=>'btn btn-primary']) !!}
+              </div>
+            {!! Form::close() !!}
           </div>
+
         </div><!-- /.box-header -->
         <div class="box-body table-responsive">
 
@@ -53,7 +78,7 @@
         </div><!-- /.box-body -->
         <div class="box-footer clearfix no-border">
           <div class="paginator pull-right">
-            {{ $partners->links() }}
+            {{ $paginate->links() }}
           </div>
         </div>
       </div><!-- /.box -->
