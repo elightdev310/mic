@@ -25,6 +25,7 @@ use App\MIC\Models\PaymentInfo;
 use MICHelper;
 use MICClaim;
 use App\User as AuthUser;
+use App\Role;
 
 use Illuminate\Support\Facades\Hash;
 
@@ -171,6 +172,109 @@ class UserController extends Controller
 
 
     return view('mic.admin.user.user_settings', $params);
+  }
+
+  public function addUserPage(Request $request) {
+    $params = array();
+
+    return view('mic.admin.user.add', $params);
+  }
+
+  public function addUserAction(Request $request) {
+    $rules = array(
+        'user_type'   => 'required', 
+        'first_name'  => 'required|max:50', 
+        'last_name'   => 'required|max:50', 
+        'email'       => 'required|email', 
+        'password'    => 'required|min:6|confirmed',
+        'status'      => 'required', 
+      );
+
+    if ($request->input('user_type') == strtolower(config('mic.user_type.partner'))) {
+      $rules['membership_role'] = 'required';
+    }
+
+    $validator = Validator::make($request->all(), $rules);
+
+    if ($validator->fails()) {
+      return redirect()->back()
+                ->withErrors($validator)
+                ->withInput();
+    }
+
+    ///////////////////////////
+    if (MICHelper::getUserByEmail($request->input('email'))) {
+      return redirect()->back()
+                ->withErrors("Email has been registered, already.")
+                ->withInput(); 
+    } 
+
+    try {
+      // User Model
+      $ud = array();
+      $ud['name']     = $request->input('first_name').' '.$request->input('last_name');
+      $ud['email']    = $request->input('email');
+      $ud['password'] = $request->input('password');
+      $ud['type']     = $request->input('user_type');
+      $ud['status']   = $request->input('status');
+
+      $uid = Module::insert("Users", (object)$ud);
+      if (!$uid) {
+        return redirect()->back()
+                ->withErrors("Error occurs when creating User.")
+                ->withInput(); 
+      }
+
+      if ($request->input('user_type') == strtolower(config('mic.user_type.patient'))) {
+        // Patient Model
+        $data = array();
+        $data['first_name'] = $request->input('first_name');
+        $data['last_name']  = $request->input('last_name');
+        $data['user_id']    = $uid;
+
+        $patient_id = Module::insert("Patients", (object)$data);
+        if (!$patient_id) {
+          return redirect()->back()
+                  ->withErrors("Error occurs when creating Patient with User({$uid}).")
+                  ->withInput(); 
+        }
+
+        // User Role (PATIENT)
+        $user = AuthUser::find($uid);
+        $user->detachRoles();
+        $role = Role::where('name', config('mic.user_role.patient'))->first();
+        $user->attachRole($role);
+
+      } else if ($request->input('user_type') == strtolower(config('mic.user_type.partner'))) {
+        // Partner Model
+        $data = array();
+        $data['first_name'] = $request->input('first_name');
+        $data['last_name']  = $request->input('last_name');
+        $data['membership_role']  = $request->input('membership_role');
+        $data['user_id']    = $uid;
+
+        $partner_id = Module::insert("Partners", (object)$data);
+        if (!$partner_id) {
+          return redirect()->back()
+                  ->withErrors("Error occurs when creating Patient with User({$uid}).")
+                  ->withInput(); 
+        }
+
+        // User Role (PARTNER)
+        $user = AuthUser::find($uid);
+        $user->detachRoles();
+        $role = Role::where('name', config('mic.user_role.partner'))->first();
+        $user->attachRole($role);
+      }
+
+    }
+    catch(Exception $e) {
+      return redirect()->route('register.patient')
+                ->withErrors($e->getMessage()."in ".$e->getFile()."[Line: ".$e->getLine."]")
+                ->withInput(); 
+    }
+
+    return redirect()->route('micadmin.user.settings', [$uid]);
   }
 
   public function saveUserSettings(Request $request, $uid) {
@@ -413,7 +517,7 @@ class UserController extends Controller
 
     $user->status = config('mic.user_status.cancel');
     $user->save();
-    
+
     // Unassigned Partner from claims
     if (MICHelper::isPartner($user)) {
       $claims = MICClaim::getClaimsByPartner($uid);

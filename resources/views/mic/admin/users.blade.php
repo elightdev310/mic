@@ -10,6 +10,9 @@
 
       <div class="users-box box box-primary">
         <div class="box-header">
+          <div class="add-link pull-left">
+            <a href="{{ route('micadmin.user.add') }}" class="btn btn-success">+ Add User</a>
+          </div>
           <div class="paginator pull-right">
             {{ $users->links() }}
           </div>

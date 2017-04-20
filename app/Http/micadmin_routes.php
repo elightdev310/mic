@@ -39,6 +39,15 @@ Route::group(['prefix'=>config('mic.adminRoute'),
   Route::get('users', [
     'as'=>$as.'users.list', 'uses'=>'MIC\Admin\UserController@index' 
   ]);
+
+  Route::get('user/add', [
+    'as'=>$as.'user.add', 'uses'=>'MIC\Admin\UserController@addUserPage' 
+  ]);
+  Route::post('user/add', [
+    'as'=>$as.'user.add.post', 'uses'=>'MIC\Admin\UserController@addUserAction' 
+  ]);
+
+
   Route::get('user/{uid}', [
     'as'=>$as.'user.settings', 'uses'=>'MIC\Admin\UserController@userSettings' 
   ]);

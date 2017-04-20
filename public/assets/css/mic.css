@@ -835,7 +835,7 @@ body {
   padding: 10px;
 }
 .main-header {
-  background: #fff;
+  background: #3c8dbc;
 }
 .main-header > .navbar {
   margin-left: 0px;
@@ -844,6 +844,7 @@ body {
   width: auto;
   height: auto;
   padding: 10px;
+  background-color: transparent !important;
 }
 .main-header .logo .logo-lg {
   display: inline-block;
