@@ -27,13 +27,3 @@
   </table>
 
 </div><!-- /.box-body -->
-
-@push('scripts')
-<script>
-(function ($) {
-
-});
-}(jQuery));
-</script>
-
-@endpush

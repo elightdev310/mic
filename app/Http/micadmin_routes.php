@@ -111,6 +111,9 @@ Route::group(['prefix'=>config('mic.adminRoute'),
   Route::get('claim/{claim_id}/partners', [
     'as'=>$as.'claim.view.partners', 'uses'=>'MIC\Admin\ClaimController@claimPartnersPage' 
   ]);
+  Route::get('claim/{claim_id}/invite-partner', [
+    'as'=>$as.'claim.view.invite_partner', 'uses'=>'MIC\Admin\ClaimController@claimInvitePartnerPage' 
+  ]);
 
   // Claim Billing Doc 
   Route::post('claim/{claim_id}/upload-billing-doc/{reply_to_doc_id}', [

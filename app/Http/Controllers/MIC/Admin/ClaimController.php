@@ -5,6 +5,7 @@ namespace App\Http\Controllers\MIC\Admin;
 use Auth;
 use Validator;
 use Mail;
+use DB;
 
 use App\Role;
 
@@ -202,15 +203,12 @@ class ClaimController extends Controller
     //Assign Partner
     $assigned_partners = MICClaim::getPartnersByClaim($claim_id);
     $assign_requests = MICClaim::getCARsByClaim($claim_id, 'employee');
-    $partner_list = User::where('type', 'partner')
-                        ->where('status', 'active')
-                        ->get();
+    
 
     $params = array();
     $params['user']       = $user;
     $params['claim']      = $claim;
     $params['partners']   = $assigned_partners;
-    $params['partner_list'] = $partner_list;
     $params['assign_requests'] = $assign_requests;
 
     $params['tab'] = 'partners';
@@ -221,6 +219,37 @@ class ClaimController extends Controller
     return view('mic.admin.claim.claim_partners', $params);
   }
 
+  public function claimInvitePartnerPage(Request $request, $claim_id) {
+    $claim = Claim::find($claim_id);
+    if (!$claim) {
+      return view('errors.404');
+    }
+
+    $q = DB::table('users')
+           ->select('users.*')
+           ->leftJoin('partners', 'partners.user_id', '=', 'users.id')
+           ->where('users.type', 'partner')
+           ->where('users.status', 'active');
+
+    if ($request->has('partner_type')) {
+      $q->where('partners.membership_role', $request->input('partner_type'));
+    }
+    
+    $paginate = $q->orderBy('users.created_at', 'DESC')
+               ->get();
+
+    $partner_list = array();
+
+    foreach ($paginate as $record) {
+      $partner_list[] = User::find($record->id);
+    }
+
+
+    $params = array();
+    $params['claim']      = $claim;
+    $params['partner_list'] = $partner_list;
+    return view('mic.admin.claim.claim_invite_partner', $params);
+  }
 
   /**
    * Get: admin/claim/{claim_id}
@@ -304,7 +333,7 @@ class ClaimController extends Controller
     MICNotification::sendNotification('claim.assign_request', $ca_params);
 
     return redirect()->back()
-                ->with('_panel', 'assign-partner')
+                ->with('redirect', '_parent')
                 ->with('status', "Sent request to ".$user->name." (claim #".$claim_id.")" );
   }
 

@@ -30,4 +30,16 @@
 
 <script src="{{ asset('assets/js/micapp.js') }}" type="text/javascript"></script>
 
+@if (session('redirect'))
+<script>
+(function ($) {
+  $(document).ready(function() {
+    @if (session('redirect') == '_parent')
+      parent.location.reload(false);
+    @endif
+  });
+}(jQuery));
+</script>
+@endif
+
 @stack('scripts')

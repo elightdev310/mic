@@ -42,21 +42,21 @@
 @push('scripts')
 <script>
 (function ($) {
-$(document).ready(function() {
-  $('a.assign-request-link').click(function() {
-    var assign_url = $(this).data('url');
-    var $partner_item = $(this).closest('.partner-item');
-    var partner = $partner_item.find('.partner-name').html();
-    bootbox.confirm({
-      message: "<p>Are you sure to send a request to "+partner+"?</p>", 
-      callback: function (result) {
-        if (result) {
-          window.location.href = assign_url;
+  $(document).ready(function() {
+    $('a.assign-request-link').click(function() {
+      var assign_url = $(this).data('url');
+      var $partner_item = $(this).closest('.partner-item');
+      var partner = $partner_item.find('.partner-name').html();
+      bootbox.confirm({
+        message: "<p>Are you sure to send a request to "+partner+"?</p>", 
+        callback: function (result) {
+          if (result) {
+            window.location.href = assign_url;
+          }
         }
-      }
+      });
     });
   });
-});
 }(jQuery));
 </script>
 
