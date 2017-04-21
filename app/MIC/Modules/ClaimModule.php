@@ -114,7 +114,8 @@ class ClaimModule {
     switch ($user_type) {
       case 'patient':
         $car->where('partner_approve', 1)
-            ->where('patient_approve', 0);
+            ->where('patient_approve', 0)
+            ->where('status', 'pending');
         break;
       case 'emplyee':
         break;
@@ -128,6 +129,7 @@ class ClaimModule {
   public function getCARsByPartner($partner_uid) {
     $car = ClaimAssignRequest::where('partner_uid', $partner_uid)
                 ->where('partner_approve', 0)
+                ->where('status', 'pending')
                 ->orderBy('id', 'ASC')
                 ->get();
     return $car;

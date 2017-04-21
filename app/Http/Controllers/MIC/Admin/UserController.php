@@ -23,6 +23,7 @@ use App\MIC\Models\Patient;
 use App\MIC\Models\Partner;
 use App\MIC\Models\Employee;
 use App\MIC\Models\PaymentInfo;
+use App\MIC\Models\ClaimAssignRequest;
 
 use MICHelper;
 use MICClaim;
@@ -210,7 +211,6 @@ class UserController extends Controller
     $params['no_header'] = true;
     $params['no_padding'] = 'no-padding';
     $params['no_message'] = 'partial';
-
 
     return view('mic.admin.user.user_settings', $params);
   }
@@ -567,10 +567,24 @@ class UserController extends Controller
       }
     }
 
+    // Cancel ClaimAssignRequest
+    $cars = DB::table("claimassignrequests AS car")
+                ->select("car.*")
+                ->leftJoin("claims", "car.claim_id", "=", "claims.id")
+                ->where("car.status", "pending")
+                ->where(function($query) use($user) {
+                  $query->where('car.partner_uid', $user->id)
+                        ->orWhere('claims.patient_uid', $user->id);
+                })
+                ->get();
+    foreach ($cars as $record) {
+      $affectedRows = ClaimAssignRequest::where('id', $record->id)->update(array('status' => 'cancel'));
+    }
+
     return redirect()->back()->with('status', 'User canceled successfully.');
   }
 
   protected function saveLearningCenter(Request $request, $user) {
-
+    
   }
 }
