@@ -1,4 +1,6 @@
 /_backup
+/config
+/database
 /vendor
 /node_modules
 /storage
