@@ -159,6 +159,10 @@ class ClaimModule {
     }
     return false;
   }
+  public function isAssignedToClaim($partner_uid, $claim_id) {
+    return $this->checkP2C($partner_uid, $claim_id);
+  }
+
   public function getPartnersByClaim($claim_id) {
     $p2cs = Partner2Claim::where('claim_id', $claim_id)->get();
     $uids = array();
@@ -340,7 +344,7 @@ class ClaimModule {
   public function getCDA($doc_id) {
     $cdas = ClaimDocAccess::where('doc_id', $doc_id)
                          ->get();
-    if (!$cdas) { return arrau(); }
+    if (!$cdas) { return arra(); }
     return $cdas;
   }
 
@@ -619,5 +623,54 @@ class ClaimModule {
     MICNotification::sendNotification('claim.unassign_partner', $ca_params);
       
     $this->removeP2C($partner_uid, $claim_id);
+  }
+
+  public function accessibleClaimFile($upload) {
+    $user = MICHelper::currentUser();
+
+    //Check Claim Doc
+    if ($claim_doc = $this->isClaimDoc($upload->id)) {
+      $claim = $claim_doc->claim;
+      if ($claim) {
+        if ($claim->patient_uid == $user->id) {
+          // Patient
+          if ($claim_doc->type == '') {
+            return true;
+          }
+        } else if ($this->isAssignedToClaim($user->id, $claim->id)) {
+          // Assigned Partner
+          if ($this->checkCDA($user->id, $claim_doc->id)) {
+            return true;
+          }
+        }
+      }
+    }
+    //Check Claim Photo
+    else if ($claim_photo = $this->isClaimPhoto($upload->id)) {
+      $claim = $claim_photo->claim;
+      if ($claim) {
+        if ($claim->patient_uid == $user->id) {
+          // Patient
+          return true;
+        } else if ($this->isAssignedToClaim($user->id, $claim->id)) {
+          // Assigned Partner
+          return true;
+        }
+      }
+    }
+
+    return false;
+  }
+
+  public function isClaimPhoto($fid) {
+    $result = ClaimPhoto::where('file_id', $fid)->first();
+    if ($result) { return $result; }
+    return false;
+  }
+
+  public function isClaimDoc($fid) {
+    $result = ClaimDoc::where('file_id', $fid)->first();
+    if ($result) { return $result; }
+    return false;
   }
 }

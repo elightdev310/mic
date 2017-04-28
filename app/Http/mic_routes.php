@@ -100,6 +100,9 @@ Route::group(['middleware' => ['auth']],
     'as'=>'notification.user_notify', 'uses'=>'MIC\NotificationController@userNotifyList' 
   ]);
   
+
+  /* ================== Access Uploaded Files ================== */
+  Route::get('files/{hash}/{name}', 'MIC\FileController@get_file');
 });
 
 
