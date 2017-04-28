@@ -77,6 +77,8 @@ $(function () {
           this.on("success", function(file) {
               loadClaimDocs();
           });
+          this.on("error", function(file) {
+          });
       }
   });
   $("#fm_dz_doc").slideUp();
@@ -148,6 +150,11 @@ $(function () {
               success: function ( json ) {
                 if (json.status=='success') {
                   $doc_item.remove();
+                } else if (json.status=='error') {
+                  console.log(json.message);
+                  if (json.action == 'reload') {
+                    MICApp.UI.reloadPage();
+                  }
                 }
               }
           });

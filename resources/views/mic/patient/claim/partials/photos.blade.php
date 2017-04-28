@@ -61,6 +61,11 @@ $(function () {
               success: function ( json ) {
                 if (json.status=='success') {
                   $photo_item.remove();
+                } else if (json.status=='error') {
+                  //console.log(json.message);
+                  if (json.action == 'reload') {
+                    MICApp.UI.reloadPage();
+                  }
                 }
               }
           });

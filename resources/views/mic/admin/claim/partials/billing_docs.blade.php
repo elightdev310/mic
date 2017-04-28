@@ -49,7 +49,7 @@ $(function () {
                 this.removeFile(file);
             });
             this.on("success", function(file) {
-                window.location.reload(false); 
+                MICApp.UI.reloadPage();
             });
         }
     });

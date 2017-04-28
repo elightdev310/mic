@@ -287,12 +287,10 @@ class ClaimController extends Controller
           "upload" => $upload
         ], 200);
       } else {
-        return response()->json([
-          "status" => "error"
-        ], 400);
+        return response()->json('error: upload file not found.', 404);
       }
     } else {
-      return response()->json('error: upload file not found.', 400);
+      return response()->json('error: upload failed.', 500);
     }
   }
 
@@ -321,7 +319,11 @@ class ClaimController extends Controller
         "status" => "success",
       ], 200);
     } else {
-      return response()->json('error: file cannot be deleted.', 400);
+      return response()->json([
+        "status" => "error",
+        "message"=> "file cannot be deleted.", 
+        "action" => "reload", 
+      ]);
     }
   }
 

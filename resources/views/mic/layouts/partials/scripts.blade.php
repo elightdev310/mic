@@ -35,7 +35,7 @@
 (function ($) {
   $(document).ready(function() {
     @if (session('redirect') == '_parent')
-      parent.location.reload(false);
+      MICApp.UI.reloadPage('_parent');
     @endif
   });
 }(jQuery));

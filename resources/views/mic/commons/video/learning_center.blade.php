@@ -190,7 +190,7 @@ function trackVideo(vid, state) {
         state: state
       }, 
       success: function ( json ) {
-        window.location.reload(false); 
+        MICApp.UI.reloadPage();
       }
   });
 }

@@ -356,7 +356,8 @@ trait PatientClaimController
     } else {
       return response()->json([
           "status" => "error",
-        ], 404);
+          "action" => "reload"
+        ]);
     }
   }
   public function claimPhotoList(Request $request, $claim_id)
