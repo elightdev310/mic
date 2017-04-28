@@ -255,21 +255,27 @@ trait PatientClaimController
 
   public function updateIOI(Request $request, $claim_id) {
     $user = MICHelper::currentUser();
-    $claim = Claim::find($claim_id);
-    $answers = $request->input('answer');
-    $claim->setAnswers($answers);
-    $claim->save();
+    $claim = MICClaim::accessibleClaim($user, $claim_id);
 
-    // Activity Feed
-    $ca_params = array(
-        'user'  => $user, 
-        'claim' => $claim, 
-      );
-    MICClaim::addClaimActivity($claim->id, $user->id, 'update_ioi', $ca_params);
-    MICNotification::sendNotification('claim.update_ioi', $ca_params);
+    if ($claim) {
+      $answers = $request->input('answer');
+      $claim->setAnswers($answers);
+      $claim->save();
 
-    return redirect()->back()
-            ->with('status', 'Updated answers, successfully.');
+      // Activity Feed
+      $ca_params = array(
+          'user'  => $user, 
+          'claim' => $claim, 
+        );
+      MICClaim::addClaimActivity($claim->id, $user->id, 'update_ioi', $ca_params);
+      MICNotification::sendNotification('claim.update_ioi', $ca_params);
+
+      return redirect()->back()
+              ->with('status', 'Updated answers, successfully.');
+    } else {
+      return redirect()->back()
+              ->withErrors('Failed to update answers.');
+    }
   }
 
   /**
@@ -277,8 +283,9 @@ trait PatientClaimController
    */
   public function patientUploadPhoto(Request $request, $claim_id) {
     $user = MICHelper::currentUser();
+    $claim = MICClaim::accessibleClaim($user, $claim_id);
 
-    if(Input::hasFile('file')) {
+    if($claim && Input::hasFile('file')) {
 
       $file = Input::file('file');
       
@@ -318,38 +325,51 @@ trait PatientClaimController
 
   public function patientDeletePhoto(Request $request, $claim_id, $photo_id) {
     $user = MICHelper::currentUser();
-    $photo = ClaimPhoto::where('id', $photo_id)
-                       ->where('claim_id', $claim_id)
-                       ->first();
-    if ($photo) {
-      $claim = Claim::find($claim_id);
-      // Activity Feed
-      $ca_params = array(
-          'claim' => $claim, 
-          'user'  => $user, 
-          'photo' => $photo, 
-        );
-      MICClaim::addClaimActivity($claim->id, $user->id, 'delete_photo', $ca_params);
-      MICNotification::sendNotification('claim.delete_photo', $ca_params);
-      
-      $upload = Upload::find($photo->file_id);
-      if ($upload) {
-        unlink($upload->path);
-        $upload->forceDelete();
-      }
-      $photo->forceDelete();
-    }
+    $claim = MICClaim::accessibleClaim($user, $claim_id);
 
-    return response()->json([
-        "status" => "success",
-      ], 200);
+    if ($claim) {
+      $photo = ClaimPhoto::where('id', $photo_id)
+                         ->where('claim_id', $claim_id)
+                         ->first();
+      if ($photo) {
+        $claim = Claim::find($claim_id);
+        // Activity Feed
+        $ca_params = array(
+            'claim' => $claim, 
+            'user'  => $user, 
+            'photo' => $photo, 
+          );
+        MICClaim::addClaimActivity($claim->id, $user->id, 'delete_photo', $ca_params);
+        MICNotification::sendNotification('claim.delete_photo', $ca_params);
+        
+        $upload = Upload::find($photo->file_id);
+        if ($upload) {
+          unlink($upload->path);
+          $upload->forceDelete();
+        }
+        $photo->forceDelete();
+      }
+
+      return response()->json([
+          "status" => "success",
+        ], 200);
+    } else {
+      return response()->json([
+          "status" => "error",
+        ], 404);
+    }
   }
   public function claimPhotoList(Request $request, $claim_id)
   {
-    $claim = Claim::find($claim_id);
-    $photos = MICClaim::getClaimPhotos($claim_id);
-    $view = View::make('mic.patient.claim.partials.photo_list', ['claim'=>$claim, 'photos'=>$photos]);
-    $photo_list = $view->render();
+    $user = MICHelper::currentUser();
+    $claim = MICClaim::accessibleClaim($user, $claim_id);
+
+    $photo_list = '';
+    if ($claim) {
+      $photos = MICClaim::getClaimPhotos($claim_id);
+      $view = View::make('mic.patient.claim.partials.photo_list', ['claim'=>$claim, 'photos'=>$photos]);
+      $photo_list = $view->render();
+    }
 
     return response()->json(['photo_html' => $photo_list]);
   }
@@ -361,43 +381,47 @@ trait PatientClaimController
       return redirect()->back()->withErrors("Failed to handle a request.");
     }
 
-    $claim = Claim::find($claim_id);
+    $claim = MICClaim::accessibleClaim($user, $claim_id);
 
-    if ($action == 'approve') {
-      $car->patient_approve = 1;
-      $car->status = 'approved';
-      $car->save();
-      
-      // Activity Feed
-      $ca_params = array(
-          'partner' => $car->partnerUser, 
-          'claim'   => $claim
-        );
-      MICClaim::addClaimActivity($claim->id, $currentUser->id, 'patient_approve_request', $ca_params);
-      MICNotification::sendNotification('claim.patient_approve_request', $ca_params);
+    if ($claim) {
+      if ($action == 'approve') {
+        $car->patient_approve = 1;
+        $car->status = 'approved';
+        $car->save();
+        
+        // Activity Feed
+        $ca_params = array(
+            'partner' => $car->partnerUser, 
+            'claim'   => $claim
+          );
+        MICClaim::addClaimActivity($claim->id, $currentUser->id, 'patient_approve_request', $ca_params);
+        MICNotification::sendNotification('claim.patient_approve_request', $ca_params);
 
-      // Assign Partner to Claim
-      $this->claimAssignPartner($claim_id, $car->partner_uid);
+        // Assign Partner to Claim
+        $this->claimAssignPartner($claim_id, $car->partner_uid);
 
-      return redirect()->back()
-                ->with('status', "Approved {$car->partnerUser->name} for claim #$claim_id")
-                ->with('_panel', 'partners');;
-    } else if ($action == 'reject') {
-      $car->patient_approve = 2;
-      $car->status = 'rejected';
-      $car->save();
+        return redirect()->back()
+                  ->with('status', "Approved {$car->partnerUser->name} for claim #$claim_id")
+                  ->with('_panel', 'partners');;
+      } else if ($action == 'reject') {
+        $car->patient_approve = 2;
+        $car->status = 'rejected';
+        $car->save();
 
-      // Activity Feed
-      $ca_params = array(
-          'partner' => $car->partnerUser, 
-          'claim'   => $claim
-        );
-      MICClaim::addClaimActivity($claim->id, $currentUser->id, 'patient_reject_request', $ca_params);
-      MICNotification::sendNotification('claim.patient_reject_request', $ca_params);
+        // Activity Feed
+        $ca_params = array(
+            'partner' => $car->partnerUser, 
+            'claim'   => $claim
+          );
+        MICClaim::addClaimActivity($claim->id, $currentUser->id, 'patient_reject_request', $ca_params);
+        MICNotification::sendNotification('claim.patient_reject_request', $ca_params);
 
-      return redirect()->back()
-              ->with('status', "Rejected {$car->partnerUser->name} for claim #$claim_id")
-              ->with('_panel', 'partners');
+        return redirect()->back()
+                ->with('status', "Rejected {$car->partnerUser->name} for claim #$claim_id")
+                ->with('_panel', 'partners');
+      }
+    } else {
+      return view('errors.404');
     }
   }
 
@@ -421,6 +445,5 @@ trait PatientClaimController
       
     }
   }
-
 
 }

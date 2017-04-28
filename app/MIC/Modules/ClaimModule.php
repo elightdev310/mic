@@ -162,6 +162,28 @@ class ClaimModule {
   public function isAssignedToClaim($partner_uid, $claim_id) {
     return $this->checkP2C($partner_uid, $claim_id);
   }
+  public function accessibleClaim($user, $claim) {
+    if (is_numeric($user)) {
+      $user = User::find($user);
+    }
+    if (is_numeric($claim)) {
+      $claim = Claim::find($claim);
+    }
+
+    if (MICHelper::isPatient($user)) {
+      if ($claim->patient_uid == $user->id) {
+        return $claim;
+      }
+    } else if (MICHelper::isPartner($user)) {
+      if ($this->checkP2C($user->id, $claim->id)) {
+        return $claim;
+      }
+    } else if (Entrust::hasRole('SUPER_ADMIN') || Entrust::hasRole(config('mic.user_role.admin'))) {
+      return $claim;
+    }
+
+    return false;
+  }
 
   public function getPartnersByClaim($claim_id) {
     $p2cs = Partner2Claim::where('claim_id', $claim_id)->get();

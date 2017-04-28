@@ -38,23 +38,12 @@ trait PartnerClaimController
     return view('mic.partner.claim.claims', $params);
   }
 
-
-  protected function getPartnerClaim($claim_id, $user) {
-    $claim = Claim::where('id', $claim_id)
-                  ->first();
-    if (!$claim) {
-      return false;
-    }
-
-    return $claim;
-  }
-
   /**
    * Get: claim/{claim_id}/ioi
    */
   public function partnerClaimIOIPage(Request $request, $claim_id) {
     $user = MICHelper::currentUser();
-    $claim = $this->getPartnerClaim($claim_id, $user);
+    $claim = MICClaim::accessibleClaim($user, $claim_id);
     if (!$claim) {
       return view('errors.404');
     }
@@ -86,7 +75,7 @@ trait PartnerClaimController
    */
   public function partnerClaimActivityPage(Request $request, $claim_id) {
     $user = MICHelper::currentUser();
-    $claim = $this->getPartnerClaim($claim_id, $user);
+    $claim = MICClaim::accessibleClaim($user, $claim_id);
     if (!$claim) {
       return view('errors.404');
     }
@@ -110,7 +99,7 @@ trait PartnerClaimController
    */
   public function partnerClaimDocsPage(Request $request, $claim_id) {
     $user = MICHelper::currentUser();
-    $claim = $this->getPartnerClaim($claim_id, $user);
+    $claim = MICClaim::accessibleClaim($user, $claim_id);
     if (!$claim) {
       return view('errors.404');
     }
@@ -134,7 +123,7 @@ trait PartnerClaimController
    */
   public function partnerClaimPhotosPage(Request $request, $claim_id) {
     $user = MICHelper::currentUser();
-    $claim = $this->getPartnerClaim($claim_id, $user);
+    $claim = MICClaim::accessibleClaim($user, $claim_id);
     if (!$claim) {
       return view('errors.404');
     }
@@ -158,7 +147,7 @@ trait PartnerClaimController
    */
   public function partnerClaimActionPage(Request $request, $claim_id) {
     $user = MICHelper::currentUser();
-    $claim = $this->getPartnerClaim($claim_id, $user);
+    $claim = MICClaim::accessibleClaim($user, $claim_id);
     if (!$claim) {
       return view('errors.404');
     }
@@ -183,8 +172,8 @@ trait PartnerClaimController
    */
   public function partnerClaimPage(Request $request, $claim_id) {
     $user = MICHelper::currentUser();
-    $claim = Claim::find($claim_id);
-    if (!$claim || !MICClaim::checkP2C($user->id, $claim_id)) {
+    $claim = MICClaim::accessibleClaim($user, $claim_id);
+    if (!$claim) {
       return view('errors.404');
     }
 
@@ -223,12 +212,17 @@ trait PartnerClaimController
 
   public function partnerCARAction(Request $request, $claim_id, $car_id, $action) {
     $currentUser = MICHelper::currentUser();
+    $claim = MICClaim::accessibleClaim($user, $claim_id);
+    if (!$claim) {
+      return redirect()->back()->withErrors("Failed to handle a request.");
+    }
+
     $car = ClaimAssignRequest::find($car_id);
     if (!$car) {
       return redirect()->back()->withErrors("Failed to handle a request.");
     }
 
-    $claim = Claim::find($claim_id);
+    
 
     if ($action == 'approve') {
       $car->partner_approve = 1;
@@ -267,8 +261,9 @@ trait PartnerClaimController
    */
   public function uploadClaimBillingDoc(Request $request, $claim_id) {
     $user = MICHelper::currentUser();
+    $claim = MICClaim::accessibleClaim($user, $claim_id);
 
-    if($user && Input::hasFile('file')) {
+    if($user && $claim && Input::hasFile('file')) {
 
       $file = Input::file('file');
       
@@ -312,8 +307,8 @@ trait PartnerClaimController
   public function claimBillingDocList(Request $request, $claim_id)
   {
     $user = MICHelper::currentUser();
-    
-    $claim = $this->getPartnerClaim($claim_id, $user);
+    $claim = MICClaim::accessibleClaim($user, $claim_id);
+
     if (!$claim) {
       return response()->json(['doc_html' => '']);
     }

@@ -254,8 +254,9 @@ class ClaimController extends Controller
    */
   public function uploadClaimDoc(Request $request, $claim_id) {
     $user = MICHelper::currentUser();
+    $claim = MICClaim::accessibleClaim($user, $claim_id);
 
-    if($user && Input::hasFile('file')) {
+    if($user && $claim && Input::hasFile('file')) {
 
       $file = Input::file('file');
       
@@ -272,7 +273,6 @@ class ClaimController extends Controller
         ]);
         $doc->save();
 
-        $claim = Claim::find($claim_id);
         // Activity Feed
         $ca_params = array(
             'claim' => $claim, 
@@ -298,12 +298,12 @@ class ClaimController extends Controller
 
   public function deleteClaimDoc(Request $request, $claim_id, $doc_id) {
     $user = MICHelper::currentUser();
+    $claim = MICClaim::accessibleClaim($user, $claim_id);
 
     $doc = ClaimDoc::where('id', $doc_id)
                    ->where('claim_id', $claim_id)
                    ->first();
-    if ($doc && $doc->creator_uid==$user->id) {
-      $claim = Claim::find($claim_id);
+    if ($claim && $doc && $doc->creator_uid==$user->id) {
       
       // Activity Feed
       $ca_type = 'delete_doc';
@@ -328,8 +328,8 @@ class ClaimController extends Controller
   public function claimDocList(Request $request, $claim_id)
   {
     $user = MICHelper::currentUser();
-    
-    $claim = Claim::find($claim_id);
+    $claim = MICClaim::accessibleClaim($user, $claim_id);
+
     $docs = MICClaim::getClaimDocs($claim_id, $user->id);
     $params = array();
     $params['user']   = $user;
@@ -345,7 +345,8 @@ class ClaimController extends Controller
    * JSON-GET: Doc View Panel
    */
   public function claimDocViewPanel(Request $request, $claim_id, $doc_id) {
-    $claim = Claim::find($claim_id);
+    $user = MICHelper::currentUser();
+    $claim = MICClaim::accessibleClaim($user, $claim_id);
     $doc = ClaimDoc::find($doc_id);
     $file = $doc->file;
 
@@ -365,6 +366,7 @@ class ClaimController extends Controller
    */
   public function postClaimDocComment(Request $request, $doc_id, $comment_id) {
     $user = MICHelper::currentUser();
+    $claim = MICClaim::accessibleClaim($user, $claim_id);
 
     $doc = ClaimDoc::find($doc_id);
     // Check if user has access to claim doc
@@ -434,8 +436,7 @@ class ClaimController extends Controller
 
   public function claimAcitivityList(Request $request, $claim_id) {
     $user = MICHelper::currentUser();
-    
-    $claim = Claim::find($claim_id);
+    $claim = MICClaim::accessibleClaim($user, $claim_id);
 
     $user_type = $user->type;
     $ca_feeds = MICClaim::getCAFeeds($claim_id, $user_type);
