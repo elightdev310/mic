@@ -78,6 +78,7 @@ $(function () {
               loadClaimDocs();
           });
           this.on("error", function(file) {
+              
           });
       }
   });
