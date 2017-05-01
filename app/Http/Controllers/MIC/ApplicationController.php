@@ -122,7 +122,7 @@ class ApplicationController extends Controller
     if ($request->input('_action') && $request->input('_action')=='apply') {
       $validator = Validator::make($request->all(), [
         'membership_role'   => 'required', 
-        'membership_level'  => 'required', 
+        //'membership_level'  => 'required', 
         'payment_type'      => 'required', 
         // 'name_card'         => 'required', 
         // 'cc_number'         => 'required', 
@@ -191,6 +191,8 @@ class ApplicationController extends Controller
                 ->withErrors("You're registerd as user, already.")
                 ->withInput(); 
     }
+
+    $data['membership_level'] = '';
 
     try {
       // Create User Model

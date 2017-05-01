@@ -77,7 +77,7 @@
       !!}
     </div>
 
-    <div class="form-group has-feedback">
+    {{-- <div class="form-group has-feedback">
       {!! Form::label('membership_level', 'Membership Level :') !!}
       {!! 
         Form::select('membership_level', 
@@ -85,10 +85,10 @@
                       old('membership_level'), 
                       ['class' => 'form-control', 'placeholder' => '- Please Select -']) 
       !!}
-    </div>
+    </div> --}}
 
     <div class="form-group has-feedback">
-      {!! Form::label('payment_type', 'Membership Level :') !!}
+      {!! Form::label('payment_type', 'Payment Type :') !!}
       {!! 
         Form::select('payment_type', 
                       config('mic.payment_type'),
