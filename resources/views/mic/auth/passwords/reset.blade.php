@@ -4,9 +4,18 @@
   Password reset
 @endsection
 
-@section('content')
+@section('left_siebar')
+  @include('mic.auth.partials.login_sidebar')
+@endsection
 
-  <body class="login-page">
+@section('content')
+  
+  <div class="clearfix">
+    <div class="pull-right top-auth-section">
+      <a href='/login' class="btn btn-primary">Back</a>
+    </div>
+  </div>
+  
   <div class="login-box">
     @include('mic.commons.success_error')
 
@@ -47,18 +56,4 @@
     </div><!-- /.login-box-body -->
 
   </div><!-- /.login-box -->
-
-  @include('la.layouts.partials.scripts_auth')
-
-  <script>
-    $(function () {
-      $('input').iCheck({
-        checkboxClass: 'icheckbox_square-blue',
-        radioClass: 'iradio_square-blue',
-        increaseArea: '20%' // optional
-      });
-    });
-  </script>
-  </body>
-
 @endsection

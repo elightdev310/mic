@@ -129,6 +129,13 @@ class MICAuthController extends Controller
   /**
    * GET : register
    */
+  public function signUp() {
+    return view('mic.auth.signup');
+  }
+
+  /**
+   * GET : register
+   */
   public function register() {
     return redirect()->route('register.patient');
   }

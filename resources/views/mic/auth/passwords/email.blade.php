@@ -4,9 +4,18 @@
   Password recovery
 @endsection
 
-@section('content')
+@section('left_siebar')
+  @include('mic.auth.partials.login_sidebar')
+@endsection
 
-<body class="login-page">
+@section('content')
+  
+  <div class="clearfix">
+    <div class="pull-right top-auth-section">
+      <a href='/login' class="btn btn-primary">Back</a>
+    </div>
+  </div>
+
   <div class="login-box">
 
     @include('mic.commons.success_error')
@@ -26,7 +35,7 @@
           <div class="col-xs-2">
           </div><!-- /.col -->
           <div class="col-xs-8">
-            <button type="submit" class="btn btn-primary btn-block btn-flat">Reset My Password</button>
+            <button type="submit" class="btn btn-primary btn-block">Reset My Password</button>
           </div><!-- /.col -->
           <div class="col-xs-2">
           </div><!-- /.col -->
@@ -39,18 +48,5 @@
     </div><!-- /.login-box-body -->
 
   </div><!-- /.login-box -->
-
-  @include('la.layouts.partials.scripts_auth')
-
-  <script>
-    $(function () {
-      $('input').iCheck({
-        checkboxClass: 'icheckbox_square-blue',
-        radioClass: 'iradio_square-blue',
-        increaseArea: '20%' // optional
-      });
-    });
-  </script>
-</body>
 
 @endsection

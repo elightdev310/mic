@@ -4,11 +4,20 @@
   Register as Patient
 @endsection
 
+@section('left_siebar')
+  @include('mic.auth.partials.signup_sidebar')
+@endsection
+
 @section('content')
-<body class="hold-transition login-page">
+  <div class="clearfix">
+    <div class="pull-right top-auth-section">
+      <a href='{{ route('signup') }}' class="btn btn-primary">Go Back</a>
+    </div>
+  </div>
+
   <div class="register-box">
 
-  <div id="navigation" class="navbar navbar-default">
+  {{-- <div id="navigation" class="navbar navbar-default">
     <div class="navbar-collapse">
 
       <ul class="nav navbar-nav">
@@ -17,11 +26,15 @@
       </ul>
 
     </div><!--/.nav-collapse -->
-  </div>
+  </div> --}}
   
+  <h2 class="text-color-primary">
+    <strong>Registration</strong>
+  </h2>  
+
   @include('mic.commons.success_error')
 
-  <div class="register-box-body">
+
   <form action="{{ route('register.patient') }}" method="post">
     <input type="hidden" name="_token" value="{{ csrf_token() }}">
     <input type="hidden" name="_action" value="register">
@@ -46,37 +59,24 @@
       <span class="glyphicon glyphicon-lock form-control-feedback"></span>
     </div>
 
-    <div class="row">
+    <div class="form-group">
       <div class="checkbox icheck">
-        <label>
+        <label style="margin-left: 0px;">
           <input type="checkbox" name="terms">&nbsp;&nbsp;I understand and agree to the&nbsp;
             <a href="#" data-toggle="modal" data-target=".modal-mic-terms">Terms and Conditions</a>
         </label>
       </div>
     </div>
+
     <div class="row">
-      <div class="col-xs-12">
-        <button type="submit" class="btn btn-primary btn-block btn-flat">Register</button>
+      <div class="col-xs-12 text-center">
+        <button type="submit" class="btn btn-primary btn-lg">Register</button>
       </div><!-- /.col -->
     </div>
   </form>
-  </div><!-- /.login-box-body -->
-
-  </div><!-- /.login-box -->
 
   @include('mic.commons.terms_modal')
 
-  @include('la.layouts.partials.scripts_auth')
-
-  <script>
-    $(function () {
-      $('input').iCheck({
-        checkboxClass: 'icheckbox_square-blue',
-        radioClass: 'iradio_square-blue',
-        increaseArea: '20%' // optional
-      });
-    });
-  </script>
-</body>
+  </div>
 
 @endsection

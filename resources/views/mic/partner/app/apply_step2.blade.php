@@ -8,11 +8,21 @@
   Apply - Step 2
 @endsection
 
+@section('left_siebar')
+  @include('mic.auth.partials.signup_sidebar')
+@endsection
+
 @section('content')
-<div class="hold-transition apply-page-2 apply-page">
+<div class="apply-page-2 apply-page">
+  <div class="clearfix">
+    <div class="pull-right top-auth-section">
+      <a href='{{ route('apply.step1') }}' class="btn btn-primary">Go Back</a>
+    </div>
+  </div>
+  
   <div class="register-box">
 
-  <div id="navigation" class="navbar navbar-default">
+  {{-- <div id="navigation" class="navbar navbar-default">
     <div class="navbar-collapse">
 
       <ul class="nav navbar-nav">
@@ -21,48 +31,41 @@
       </ul>
 
     </div><!--/.nav-collapse -->
-  </div>
+  </div> --}}
+
+  <h2 class="text-color-primary">
+    <strong>Apply</strong>
+  </h2>  
 
   <div class="progress-container">
     <div class="row bs-wizard" style="border-bottom:0;">
-        
-        <div class="col-xs-4 bs-wizard-step passed">
+        <div class="col-xs-4 bs-wizard-step complete">
           <div class="text-center bs-wizard-stepnum">Step 1</div>
           <div class="progress"><div class="progress-bar"></div></div>
-          <span class="bs-wizard-dot first-dot"></span>
-          <span class="bs-wizard-dot"></span>
-         
+          <a href="#" class="bs-wizard-dot"></a>
         </div>
         
         <div class="col-xs-4 bs-wizard-step active"><!-- complete -->
           <div class="text-center bs-wizard-stepnum">Step 2</div>
           <div class="progress"><div class="progress-bar"></div></div>
-          <span class="bs-wizard-dot"></span>
-          
+          <a href="#" class="bs-wizard-dot"></a>
+
         </div>
         
-        <div class="col-xs-4 bs-wizard-step "><!-- complete -->
+        <div class="col-xs-4 bs-wizard-step disabled"><!-- complete -->
           <div class="text-center bs-wizard-stepnum">Step 3</div>
           <div class="progress"><div class="progress-bar"></div></div>
-          <span class="bs-wizard-dot"></span>
+          <a href="#" class="bs-wizard-dot"></a>
         </div>
-         
+
     </div>
   </div>
 
-  @if (count($errors) > 0)
-    <div class="alert alert-danger">
-      <strong>Whoops!</strong> There were some problems with your input.<br><br>
-      <ul>
-        @foreach ($errors->all() as $error)
-          <li>{{ $error }}</li>
-        @endforeach
-      </ul>
-    </div>
-  @endif
+  @include('mic.commons.success_error')
 
-  <div class="register-box-body">
-  <form action="{{ route('apply.step2.post') }}" method="post">
+  {!! Form::open(['route' => 'apply.step2.post', 
+                'method'=>'post', 
+                'class' =>'materials-form']) !!}
     <input type="hidden" name="_token" value="{{ csrf_token() }}">
     <input type="hidden" name="_action" value="apply">
 
@@ -93,26 +96,14 @@
 
     
     <div class="row">
-      <div class="col-xs-12">
-        <button type="submit" class="btn btn-primary btn-block btn-flat">Next</button>
+      <div class="col-xs-12 text-center">
+        <button type="submit" class="btn btn-primary btn-lg">Next</button>
       </div><!-- /.col -->
     </div>
-  </form>
-  </div><!-- /.login-box-body -->
+  {!! Form::close() !!}
 
   </div><!-- /.login-box -->
 
-  @include('mic.layouts.partials.scripts_auth')
-
-  <script>
-    $(function () {
-      $('input').iCheck({
-        checkboxClass: 'icheckbox_square-blue',
-        radioClass: 'iradio_square-blue',
-        increaseArea: '20%' // optional
-      });
-    });
-  </script>
 </div>
 
 @endsection

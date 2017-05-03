@@ -4,10 +4,12 @@
   Send Comfirmation Email
 @endsection
 
-@section('content')
+@section('left_siebar')
+  @include('mic.auth.partials.signup_sidebar')
+@endsection
 
-<body class="login-page">
-  <div class="login-box">
+@section('content')
+  <div class="login-box register-complete">
 
     @include('mic.commons.success_error')
 
@@ -15,21 +17,14 @@
       <p class="login-box-msg">
         Thanks. We sent a confirmation email to:
       </p>
-      <p class="login-box-msg">
+      <p class="login-box-msg text-color-primary">
         <strong>{{ $email }}</strong>
       </p>
       <p class="login-box-msg">
         Click the reset link to get started with MIC
       </p>
 
-      <!--<a href="{{ url('/login') }}">Log in</a><br>-->
-      <!--<a href="{{ url('/register') }}" class="text-center">Register a new membership</a>-->
-
     </div><!-- /.login-box-body -->
-
-  </div><!-- /.login-box -->
-
-  @include('mic.layouts.partials.scripts_auth')
 </body>
 
 @endsection

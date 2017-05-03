@@ -1,7 +1,29 @@
-/* Loading-overlay styles */
 @font-face {
   font-family: "loadingOverlay";
   src: url('../fonts/icons.woff') format("woff"), url('../fonts/icons.ttf') format("truetype");
+}
+@font-face {
+  font-family: 'Raleway';
+  src: url('../fonts/Raleway-Regular.ttf');
+}
+/* Loading-overlay styles */
+body {
+  font-family: 'Raleway';
+  font-size: 12px;
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+.h1,
+.h2,
+.h3,
+.h4,
+.h5,
+.h6 {
+  font-family: 'Raleway';
 }
 @keyframes loadingStart {
   0% {
@@ -321,8 +343,34 @@
   margin-right: 2px;
 }
 /* ===================================================== */
+.btn-lg,
+.btn-group-lg > .btn {
+  padding: 8px 30px;
+  line-height: 1.1;
+  border-radius: 10px;
+}
+.btn-primary {
+  background-color: #0a4391;
+  border-color: #083879;
+}
+.btn-primary:hover,
+.btn-primary:active,
+.btn-primary.hover {
+  background-color: #083879;
+}
+.btn-primary:focus {
+  border-color: #072d61;
+  background-color: #0a4391;
+}
+.btn-primary.disabled {
+  background-color: #0a4391;
+  border-color: #083879;
+}
+.form-control {
+  font-size: 12px;
+}
 .text-color-primary {
-  color: #0A4390;
+  color: #0a4391;
 }
 ul.claim-photo-section {
   overflow: auto;

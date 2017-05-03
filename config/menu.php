@@ -63,7 +63,7 @@ return [
   'patient' => [
     'new_claim' => [
       'title' => 'Create Claim', 
-      'url'   => 'claim/create', 
+      'url'   => 'claim/create/start', 
     ], 
     'claims' => [
       'title' => 'My Claims', 

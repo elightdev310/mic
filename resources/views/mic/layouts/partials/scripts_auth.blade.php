@@ -7,3 +7,5 @@
 <!-- datetime -->
 <script src="{{ asset('la-assets/plugins/bootstrap-datetimepicker/moment.min.js') }}" type="text/javascript"></script>
 <script src="{{ asset('la-assets/plugins/bootstrap-datetimepicker/bootstrap-datetimepicker.js') }}" type="text/javascript"></script>
+
+<script src="{{ asset('assets/js/micauth.js') }}" type="text/javascript"></script>

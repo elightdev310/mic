@@ -47,8 +47,8 @@ class HomeController extends Controller
 
     $user = Auth::user();
     if (!$user) {
-      return view('home');
-      //return redirect(config('mic.front_url'));
+      //return view('home');
+      return redirect('/login');
     } 
 
     if ($user->hasRole(config('mic.user_role.admin'))) {

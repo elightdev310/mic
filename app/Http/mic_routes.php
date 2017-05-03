@@ -112,7 +112,7 @@ Route::group(['middleware' => ['auth', 'permission:PATIENT_PANEL']],
               function () {
   $as1 = 'patient.';
 
-  Route::get('claim/create', [
+  Route::get('claim/create/start', [
     'as'=>$as1.'claim.create', 'uses'=>'MIC\ClaimController@createClaimPage' 
   ]);
   Route::get('claim/create/call-911', [

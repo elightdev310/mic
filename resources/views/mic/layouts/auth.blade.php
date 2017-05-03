@@ -4,27 +4,26 @@
 @section('htmlheader')
   @include('mic.layouts.partials.auth.htmlheader')
 @show
-<body class="{{ LAConfigs::getByKey('skin') }} {{ LAConfigs::getByKey('layout') }} sidebar-collapse auth-page">
+<body class="sidebar-collapse auth-page">
 <div class="wrapper">
-
-  @include('mic.layouts.partials.auth.mainheader')
 
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
-    @if(LAConfigs::getByKey('layout') == 'layout-top-nav') <div class="container"> @endif
-
-    <!-- Main content -->
-    <section class="content {{ $no_padding or '' }}">
-      <!-- Your Page Content Here -->
-      @yield('content')
-    </section><!-- /.content -->
-
-    @if(LAConfigs::getByKey('layout') == 'layout-top-nav') </div> @endif
+    <div class="row">
+      <div class="col-sm-4 left-sidebar">
+        @yield('left_siebar')
+      </div>
+      <div class="col-sm-8 content">
+          @yield('content')
+      </div>
+    </div>
   </div><!-- /.content-wrapper -->
 
 </div><!-- ./wrapper -->
 
-@include('mic.layouts.partials.footer')
+@section('scripts')
+  @include('mic.layouts.partials.scripts_auth')
+@show
 
 </body>
 </html>

@@ -1,11 +1,19 @@
 @img_path: '../img';
 
+
 /* Loading-overlay styles */
 
-@font-face {
-  font-family: "loadingOverlay";
-  src: url('../fonts/icons.woff') format("woff"), url('../fonts/icons.ttf') format("truetype");
+body {
+  font-family: 'Raleway';
+  font-size: 12px;
 }
+
+h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
+  font-family: 'Raleway';
+}
+
+
+
 
 @-moz-keyframes loadingStart {
   0% {
@@ -445,3 +453,35 @@
   }
 }
 /* ===================================================== */
+
+
+.btn-lg, .btn-group-lg > .btn {
+  padding: 8px 30px;
+  line-height: 1.1;
+  border-radius: 10px;
+}
+
+.btn-primary {
+  background-color: @color-primary;
+  border-color: darken(@color-primary, 5%);
+  &:hover, &:active, &.hover {
+    background-color: darken(@color-primary, 5%);
+  }
+  &:focus {
+    border-color: darken(@color-primary, 10%);
+    background-color: @color-primary;
+  }
+  &.disabled {
+    background-color: (@color-primary);
+    border-color: darken(@color-primary, 5%);
+  }
+}
+
+.form-control {
+  font-size: 12px;
+}
+
+.text-color-primary {
+  color: @color-primary;
+}
+

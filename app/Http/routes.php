@@ -28,6 +28,10 @@ Route::get('password/reset/{token?}', 'Auth\MICPasswordController@showResetForm'
 Route::post('password/email', 'Auth\MICPasswordController@sendResetLinkEmail');
 
 // Register
+Route::get('sign-up', [
+  'as' => 'signup', 'uses' => 'Auth\MICAuthController@signUp'
+]);
+
 Route::get('register', 'Auth\MICAuthController@register');
 Route::get('register/patient', [
   'as' => 'register.patient', 'uses' => 'Auth\MICAuthController@showRegisterPatientForm'
