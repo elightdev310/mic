@@ -343,6 +343,10 @@ h6,
   margin-right: 2px;
 }
 /* ===================================================== */
+.container {
+  padding-left: 0px;
+  padding-right: 0px;
+}
 .btn-lg,
 .btn-group-lg > .btn {
   padding: 8px 30px;
@@ -366,7 +370,8 @@ h6,
   background-color: #0a4391;
   border-color: #083879;
 }
-.form-control {
+.form-control,
+.dropdown-menu {
   font-size: 12px;
 }
 .text-color-primary {

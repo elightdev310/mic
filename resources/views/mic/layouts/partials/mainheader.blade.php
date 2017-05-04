@@ -9,14 +9,10 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span> 
         </button>
-        <a href="{{ url(config('mic.front_url')) }}" class="logo navbar-brand">
+        <a href="{{ url(config('mic.front_url')) }}" class="logo">
           <img class="site-logo" typeof="foaf:Image" src="{{ config('mic.logo_url') }}" alt="{{ LAConfigs::getByKey('sitename') }}">
-          <!-- mini logo for sidebar mini 50x50 pixels -->
-          <span class="logo-mini"><b>{{ LAConfigs::getByKey('sitename_short') }}</b></span>
-          <!-- logo for regular state and mobile devices -->
-          <span class="logo-lg"><b>{{ LAConfigs::getByKey('sitename_part1') }}</b>
-          {{ LAConfigs::getByKey('sitename_part2') }}</span>
         </a>
+        <div class="logo-slogan hidden-xs">Medical Injury Care Provider Network</div>
     </div>
 
     <div class="collapse navbar-collapse">
@@ -24,11 +20,11 @@
         @if (isset($currentUser))
         <div class="clearfix">
         <ul class="nav navbar-nav user-nav">
-          <li class="dropdown notifications-menu mt10">
+          <li class="dropdown notifications-menu">
             <!-- Menu toggle button -->
             <a href="#" class="user-notify-link dropdown-toggle" data-toggle="dropdown">
               <i class="fa fa-bell-o"></i>
-              <span class="label label-warning @if (MICNotification::getUnreadCount($currentUser->id)==0) hidden @endif">
+              <span class="msg-count @if (MICNotification::getUnreadCount($currentUser->id)==0) hidden @endif">
                 {{ MICNotification::getUnreadCount($currentUser->id) }}
               </span>
             </a>
@@ -43,8 +39,8 @@
 
           <li class="dropdown">
             <a href="#" class="dropdown-toggle user-nav-link" data-toggle="dropdown">
-                {!! MICUILayoutHelper::avatarImage($currentUser, 40) !!}
                 <strong>{{ $currentUser->name }}</strong>
+                <div class="caret">&nbsp;</div>
             </a>
             <ul class="dropdown-menu">
               <li>

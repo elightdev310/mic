@@ -18,7 +18,7 @@ return [
   
   'front_url' => '/',
 
-  'logo_url'  => '/assets/img/logo.png', 
+  'logo_url'  => '/assets/img/logo-big.png', 
   
   'avatar_path' => 'uploads/avatar/', 
   'pending_user' => 2, 

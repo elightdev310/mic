@@ -9,6 +9,6 @@
   </div>
 
   <div class="text-center pt30">
-    <a href="{{ route('signup') }}" class="btn btn-primary btn-sign-up btn-lg">Free Sign Up</a>
+    <a href="{{ $sign_up_url or route('signup') }}" class="btn btn-primary btn-sign-up btn-lg">Free Sign Up</a>
   </div>
 </div>

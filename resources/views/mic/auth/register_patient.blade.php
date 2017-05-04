@@ -11,7 +11,7 @@
 @section('content')
   <div class="clearfix">
     <div class="pull-right top-auth-section">
-      <a href='{{ route('signup') }}' class="btn btn-primary">Go Back</a>
+      <a href='{{ route('login.patient') }}' class="btn btn-primary">Go Back</a>
     </div>
   </div>
 

@@ -1,7 +1,7 @@
 @extends('mic.layouts.auth')
 
 @section('htmlheader_title')
-  Login as Patient
+  Login
 @endsection
 
 @section('left_siebar')
@@ -9,16 +9,15 @@
 @endsection
 
 @section('content')
-    <div class="clearfix">
-      <div class="pull-right top-auth-section">
-        <span>Don't have an account?</span>&nbsp;
-        <a href='{{ route('signup') }}' class="btn btn-primary">Sign Up</a>
-      </div>
-    </div>
+<div class="clearfix">
+  <div class="pull-right top-auth-section">
+    <span>Don't have an account?</span>&nbsp;
+    <a href='{{ route('signup') }}' class="btn btn-primary">Sign Up</a>
+  </div>
+</div>
 
-    <div class="login-box">
-
-    <div class="login-box-body">
+<div class="login-box">
+  <div class="login-box-body">
 
     <h2 class="text-color-primary">
       <strong>Sign in to MIC</strong>
@@ -58,8 +57,7 @@
     <br>
     <!--<a href="{{ url('/register') }}" class="text-center">Register a new membership</a>-->
 
-</div><!-- /.login-box-body -->
-
+  </div><!-- /.login-box-body -->
 </div><!-- /.login-box -->
 
 @endsection

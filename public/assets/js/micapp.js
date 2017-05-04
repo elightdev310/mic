@@ -3,11 +3,11 @@ var MICApp = {};
 
 MICApp.UI = {
   refreshUserNotifyCount: function ($count) {
-    $('.notifications-menu a.user-notify-link span.label').html($count);
+    $('.notifications-menu a.user-notify-link span.msg-count').html($count);
     if ($count) {
-      $('.notifications-menu a.user-notify-link span.label').removeClass('hidden');
+      $('.notifications-menu a.user-notify-link span.msg-count').removeClass('hidden');
     } else {
-      $('.notifications-menu a.user-notify-link span.label').addClass('hidden');
+      $('.notifications-menu a.user-notify-link span.msg-count').addClass('hidden');
     }
   }, 
   reloadPage: function(target) {

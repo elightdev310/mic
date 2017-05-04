@@ -4,7 +4,7 @@
 @section('htmlheader')
   @include('mic.layouts.partials.htmlheader')
 @show
-<body class="{{ LAConfigs::getByKey('skin') }} {{ LAConfigs::getByKey('layout') }} sidebar-collapse @hasSection('page_id')@yield('page_id')@endif @hasSection('page_classes')@yield('page_classes')@endif">
+<body class="sidebar-collapse @hasSection('page_id')@yield('page_id')@endif @hasSection('page_classes')@yield('page_classes')@endif">
 <div class="wrapper">
 
   @include('mic.layouts.partials.mainheader')

@@ -343,6 +343,10 @@ h6,
   margin-right: 2px;
 }
 /* ===================================================== */
+.container {
+  padding-left: 0px;
+  padding-right: 0px;
+}
 .btn-lg,
 .btn-group-lg > .btn {
   padding: 8px 30px;
@@ -366,7 +370,8 @@ h6,
   background-color: #0a4391;
   border-color: #083879;
 }
-.form-control {
+.form-control,
+.dropdown-menu {
   font-size: 12px;
 }
 .text-color-primary {
@@ -856,7 +861,7 @@ html,
 body {
   height: 100%;
   margin: 0;
-  background: #ecf0f5;
+  background: #f5f5f5;
 }
 .wrapper {
   min-height: 100%;
@@ -866,6 +871,7 @@ body {
 }
 .content-wrapper {
   background: inherit;
+  margin-top: 110px;
 }
 .content-box {
   position: relative;
@@ -883,24 +889,85 @@ body {
   padding: 10px;
 }
 .main-header {
-  background: #3c8dbc;
+  background: #f5f5f5;
+  width: 100%;
+  max-height: 110px;
+  height: 110px;
+  position: fixed;
+  top: 0px;
+  overflow: hidden;
 }
 .main-header > .navbar {
   margin-left: 0px;
+  margin-top: 30px;
+  background: #4e433d;
+  height: 80px;
+}
+.main-header .navbar-header {
+  position: relative;
+  padding: 0px 0px 0px 60px;
+}
+.main-header .navbar-nav > li > a {
+  color: white;
+  font-size: 14px;
+}
+.main-header .navbar-toggle {
+  padding: 5px;
+  margin: 7px;
 }
 .main-header .logo {
   width: auto;
   height: auto;
-  padding: 10px;
   background-color: transparent !important;
 }
-.main-header .logo .logo-lg {
+.main-header .logo img.site-logo {
+  position: absolute;
+  left: 60px;
+  top: -24px;
+  z-index: 9999;
+  height: 100px;
+}
+.main-header .logo-slogan {
+  margin-left: 110px;
+  margin-top: 10px;
+  width: 120px;
   display: inline-block;
+  color: white;
+  font-size: 14px;
 }
 .main-header .navbar-login {
   width: 305px;
   padding: 10px;
   padding-bottom: 0px;
+}
+.main-header .notifications-menu .user-notify-link i.fa {
+  font-size: 20px;
+}
+.main-header .notifications-menu .user-notify-link span.msg-count {
+  position: absolute;
+  font-size: 11px;
+  line-height: .9;
+  top: -2px;
+  right: 5px;
+  background: red;
+  border: solid 2px #4e433d;
+  width: 20px;
+  height: 20px;
+  line-height: 16px;
+  text-align: center;
+  border-radius: 10px;
+  padding: 0px;
+}
+.main-header .user-nav .user-nav-link {
+  font-size: 18px;
+}
+.main-header .user-nav .user-nav-link .caret {
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 12px 8px 0 8px;
+  border-color: #f7951d transparent transparent transparent;
+  margin-left: 5px;
 }
 .main-header .user-nav .user-nav-link img {
   width: 40px;
@@ -934,6 +1001,7 @@ body {
   font-size: 1.2em;
   margin: 2px 5px;
 }
+/* smaller than Extra small screen */
 @media (max-width: 767px) {
   .fixed .content-wrapper,
   .fixed .right-side,
@@ -941,14 +1009,18 @@ body {
   .left-side {
     padding-top: 70px;
   }
-}
-/* smaller than Extra small screen */
-@media (max-width: 767px) {
   .navbar-brand {
     padding: 5px 10px;
   }
   .navbar-brand img.site-logo {
     height: 60px;
+  }
+  .main-header {
+    height: 70px;
+  }
+  .main-header > .navbar {
+    height: 40px;
+    min-height: 40px;
   }
   .main-header .logo {
     padding: 5px 10px;
@@ -956,10 +1028,26 @@ body {
   .main-header .logo img.site-logo {
     height: 60px;
   }
+  .main-header .container > .navbar-header,
+  .main-header .container > .navbar-collapse {
+    margin: 0px;
+  }
+  .main-header .navbar-collapse {
+    background: #4e433d;
+  }
+  .main-header .navbar-collapse .navbar-nav > li > a {
+    padding: 10px 20px;
+  }
+  .content-wrapper {
+    margin-top: 60px;
+  }
 }
 @media (min-width: 768px) {
   .main-header .navbar .top-navbar .navbar-nav {
     float: right;
+  }
+  .main-header .navbar .top-navbar .user-nav {
+    margin-top: 5px;
   }
   .main-header .navbar .top-navbar .nav > li > a {
     padding-top: 5px;
@@ -970,7 +1058,7 @@ body {
     color: #ccc;
   }
   .main-header .navbar .top-navbar .top-menu-nav {
-    margin: 20px 0px 10px;
+    margin: 15px 0px 0px;
   }
   .main-header .navbar .top-navbar .top-menu-nav > ul > li {
     border-right: solid 1px #fff;
@@ -981,6 +1069,10 @@ body {
   }
   .main-header .navbar .top-navbar .top-menu-nav > ul > li:last-child {
     border-right: none;
+  }
+  .content {
+    padding-left: 0px;
+    padding-right: 0px;
   }
 }
 .dashboard-page .dashboard-section {

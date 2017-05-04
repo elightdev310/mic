@@ -129,6 +129,7 @@ class VideoController extends Controller
 
     $vid = $request->input('vid');
     $group = 'user';
+    $non_free = false;
     if ($request->has('non_free')) {
       $non_free = true;
     }

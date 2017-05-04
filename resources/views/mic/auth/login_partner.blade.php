@@ -4,69 +4,62 @@
   Login as Partner
 @endsection
 
+{{--*/ $sign_up_url = route('apply.step1') /*--}}
+
+@section('left_siebar')
+  @include('mic.auth.partials.login_sidebar')
+@endsection
+
 @section('content')
-<body class="hold-transition login-page">
-  <div class="login-box">
-
-  <div id="navigation" class="navbar navbar-default">
-    <div class="navbar-collapse">
-
-      <ul class="nav navbar-nav">
-        <li class="active"><a href="#home" class="smoothScroll">Login</a></li>
-        <li><a href="{{ url('/apply') }}" class="smoothScroll">Apply</a></li>
-      </ul>
-
-    </div><!--/.nav-collapse -->
+<div class="clearfix">
+  <div class="pull-right top-auth-section">
+    <span>Don't have an account?</span>&nbsp;
+    <a href='{{ $sign_up_url }}' class="btn btn-primary">Sign Up</a>
   </div>
-  
-  @include('mic.commons.success_error')
+</div>
 
+<div class="login-box">
   <div class="login-box-body">
-  <p class="login-box-msg">Sign in to start your session</p>
-  <form action="{{ url('/login') }}" method="post">
-    <input type="hidden" name="_token" value="{{ csrf_token() }}">
-    <div class="form-group has-feedback">
-      <input type="email" class="form-control" placeholder="Email" name="email"/>
-      <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
-    </div>
-    <div class="form-group has-feedback">
-      <input type="password" class="form-control" placeholder="Password" name="password"/>
-      <span class="glyphicon glyphicon-lock form-control-feedback"></span>
-    </div>
-    <div class="row">
-      <div class="col-xs-8">
-        <div class="checkbox icheck">
-          <label>
-            <input type="checkbox" name="remember"> Remember Me
-          </label>
+
+    <h2 class="text-color-primary">
+      <strong>Sign in to MIC</strong>
+    </h2>  
+    <div class="description">Enter your details below.</div>
+    
+    @include('mic.commons.success_error')
+
+    <form id="login-form" action="{{ url('/login') }}" method="post">
+        <input type="hidden" name="_token" value="{{ csrf_token() }}">
+        <div class="form-group has-feedback">
+            <label class="control-label">EMAIL ADDRESS</label>
+            <input type="email" class="form-control" placeholder="Enter Email Address" name="email"/>
+            <!-- <span class="glyphicon glyphicon-envelope form-control-feedback"></span> -->
         </div>
-      </div><!-- /.col -->
-      <div class="col-xs-4">
-        <button type="submit" class="btn btn-primary btn-block btn-flat">Sign In</button>
-      </div><!-- /.col -->
-    </div>
-  </form>
+        <div class="form-group has-feedback">
+            <label class="control-label">PASSWORD</label>
+            <a href="{{ url('/password/reset') }}" class="pull-right">Forgot password?</a>
+            <input type="password" class="form-control" placeholder="Password" name="password"/>
+            <!-- <span class="glyphicon glyphicon-lock form-control-feedback"></span> -->
+        </div>
+        <div class="form-group">
+          <div class="checkbox icheck">
+              <label style="margin-left: 0px;">
+                  <input type="checkbox" name="remember"> Remember Me
+              </label>
+          </div>
+        </div>
 
-  @include('auth.partials.social_login')
+        <div class="text-center p20">
+          <button type="submit" class="btn btn-primary btn-lg">Sign In</button>
+        </div>
+    </form>
 
-  <a href="{{ url('/password/reset') }}">I forgot my password</a><br>
-  <!--<a href="{{ url('/register') }}" class="text-center">Register a new membership</a>-->
+    @include('auth.partials.social_login')
 
-</div><!-- /.login-box-body -->
+    <br>
+    <!--<a href="{{ url('/register') }}" class="text-center">Register a new membership</a>-->
 
+  </div><!-- /.login-box-body -->
 </div><!-- /.login-box -->
-
-  @include('mic.layouts.partials.scripts_auth')
-
-  <script>
-    $(function () {
-      $('input').iCheck({
-        checkboxClass: 'icheckbox_square-blue',
-        radioClass: 'iradio_square-blue',
-        increaseArea: '20%' // optional
-      });
-    });
-  </script>
-</body>
 
 @endsection

@@ -8,7 +8,7 @@
 html, body {
   height: 100%;
   margin: 0;
-  background: #ecf0f5;
+  background: #f5f5f5;
 }
 
 .wrapper {
@@ -21,6 +21,7 @@ html, body {
 
 .content-wrapper {
   background: inherit;
+  margin-top: 110px;
 }
 
 .content-box {
@@ -41,18 +42,56 @@ html, body {
 }
 
 .main-header {
-  background: #3c8dbc;
+  background: #f5f5f5;
+  width: 100%;
+  max-height: 110px;
+  height: 110px;
+
+  position: fixed;
+  top: 0px;
+  overflow: hidden;
   & > .navbar {
     margin-left: 0px;
+    margin-top: 30px;
+    background: #4e433d;
+    height: 80px;
   }
+
+  .navbar-header {
+    position: relative;
+    padding: 0px 0px 0px 60px;
+  }
+
+  .navbar-nav > li > a {
+    color: white;
+    font-size: 14px;
+  }
+
+  .navbar-toggle {
+    padding: 5px;
+    margin: 7px;
+  }
+
   .logo {
     width: auto;
     height: auto;
-    padding: 10px;
+    
     background-color: transparent !important;
-    .logo-lg {
-      display: inline-block; 
+    img.site-logo {
+      position: absolute;
+      left: 60px;
+      top: -24px;
+      z-index: 9999;
+      height: 100px;
     }
+  }
+  .logo-slogan {
+    margin-left: 110px;
+    margin-top: 10px;
+    width: 120px;
+    display: inline-block; 
+    color: white;
+    font-size: 14px;
   }
 
   .navbar-login
@@ -62,8 +101,41 @@ html, body {
       padding-bottom: 0px;
   }
 
+  .notifications-menu {
+    .user-notify-link {
+      i.fa {
+        font-size: 20px;
+      }
+      span.msg-count {
+        position: absolute;
+        font-size: 11px;
+        line-height: .9;
+        top: -2px;
+        right: 5px;
+        background: red;
+        border: solid 2px #4e433d;
+        width: 20px;
+        height: 20px;
+        line-height: 16px;
+        text-align: center;
+        border-radius: 10px;
+        padding: 0px;
+      }
+    }
+  }
+
   .user-nav {
     .user-nav-link {
+      font-size: 18px;
+      .caret {
+        width: 0;
+        height: 0;
+        border-style: solid;
+        border-width: 12px 8px 0 8px;
+        border-color: #f7951d transparent transparent transparent;
+        margin-left: 5px;
+      }
+
       img { 
         width: 40px; 
         height: 40px;
@@ -109,15 +181,13 @@ html, body {
   }
 }
 
+/* smaller than Extra small screen */
 @media (max-width: (@screen-xs-max)) {
   .fixed .content-wrapper, .fixed .right-side, 
   .main-sidebar, .left-side {
     padding-top: 70px;
   }
-}
 
-/* smaller than Extra small screen */
-@media (max-width: (@screen-xs-max)) {
   .navbar-brand {
     padding: 5px 10px;
     img.site-logo {
@@ -125,11 +195,37 @@ html, body {
     }
   }
 
-  .main-header .logo {
-    padding: 5px 10px;
-    img.site-logo {
-      height: 60px;
+  .main-header {
+    height: 70px;
+    & > .navbar {
+      height: 40px;
+      min-height: 40px;
     }
+
+    .logo {
+      padding: 5px 10px;
+      img.site-logo {
+        height: 60px;
+      }
+    }
+
+    .container {
+      & > .navbar-header, 
+      & > .navbar-collapse {
+        margin: 0px;
+      }
+    }
+
+    .navbar-collapse {
+      background: #4e433d;
+      .navbar-nav > li > a {
+        padding: 10px 20px;
+      }
+    }
+  }
+
+  .content-wrapper {
+    margin-top: 60px;
   }
 }
 
@@ -137,6 +233,9 @@ html, body {
   .main-header .navbar .top-navbar {
     .navbar-nav {
       float: right;
+    }
+    .user-nav {
+      margin-top: 5px;
     }
 
     .nav > li > a {
@@ -150,7 +249,7 @@ html, body {
     }
 
     .top-menu-nav {
-      margin: 20px 0px 10px;
+      margin: 15px 0px 0px;
       > ul > li {
         border-right: solid 1px #fff;
         > a {
@@ -163,6 +262,11 @@ html, body {
         }
       }
     }
+  }
+
+  .content {
+    padding-left: 0px;
+    padding-right: 0px;
   }
 }
 
