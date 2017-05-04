@@ -23,6 +23,9 @@ html, body {
   background: inherit;
   margin-top: 110px;
 }
+.no-main-header .content-wrapper {
+  margin-top: 0px;
+}
 
 .content-box {
   position: relative;
@@ -169,7 +172,7 @@ html, body {
   }
 }
 
-.fixed .content-wrapper, .fixed .right-side, 
+.fixed .right-side, 
 .main-sidebar, .left-side {
   padding-top: 100px;
 }
@@ -183,7 +186,7 @@ html, body {
 
 /* smaller than Extra small screen */
 @media (max-width: (@screen-xs-max)) {
-  .fixed .content-wrapper, .fixed .right-side, 
+  .fixed .right-side, 
   .main-sidebar, .left-side {
     padding-top: 70px;
   }
@@ -226,6 +229,9 @@ html, body {
 
   .content-wrapper {
     margin-top: 60px;
+  }
+  .no-main-header .content-wrapper {
+    margin-top: 0px;
   }
 }
 

@@ -4,7 +4,7 @@
 @section('htmlheader')
   @include('mic.layouts.partials.auth.htmlheader')
 @show
-<body class="sidebar-collapse auth-page">
+<body class="sidebar-collapse auth-page no-main-header">
 <div class="wrapper">
 
   <!-- Content Wrapper. Contains page content -->

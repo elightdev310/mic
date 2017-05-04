@@ -873,6 +873,9 @@ body {
   background: inherit;
   margin-top: 110px;
 }
+.no-main-header .content-wrapper {
+  margin-top: 0px;
+}
 .content-box {
   position: relative;
   border: solid 1px #cacaca;
@@ -991,7 +994,6 @@ body {
 .main-header .icon-size {
   font-size: 48px;
 }
-.fixed .content-wrapper,
 .fixed .right-side,
 .main-sidebar,
 .left-side {
@@ -1003,7 +1005,6 @@ body {
 }
 /* smaller than Extra small screen */
 @media (max-width: 767px) {
-  .fixed .content-wrapper,
   .fixed .right-side,
   .main-sidebar,
   .left-side {
@@ -1040,6 +1041,9 @@ body {
   }
   .content-wrapper {
     margin-top: 60px;
+  }
+  .no-main-header .content-wrapper {
+    margin-top: 0px;
   }
 }
 @media (min-width: 768px) {

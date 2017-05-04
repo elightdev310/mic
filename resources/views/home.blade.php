@@ -21,7 +21,7 @@
           <a href="{{ url(config('mic.front_url')) }}" class="logo">
             <img class="site-logo" typeof="foaf:Image" src="{{ config('mic.logo_url') }}" alt="{{ LAConfigs::getByKey('sitename') }}">
           </a>
-          <div class="logo-slogan">Medical Injury Care Provider Network</div>
+          <div class="logo-slogan hidden-xs">Medical Injury Care Provider Network</div>
       </div>
     </div>
   </div>
