@@ -33,7 +33,11 @@ html, body {
   background: #fafafa;
   width: 100%;
   box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+  &.white {
+    background: white;
+  }
 }
+
 
 .main-footer {
   height: 50px;
@@ -184,6 +188,162 @@ html, body {
   }
 }
 
+.dashboard-page {
+  .dashboard-section {
+    width: 350px;
+    margin: 0 auto;
+    
+    .btn-link {
+      display: block;
+      margin: 10px 0px;
+    }
+  }
+}
+
+.doctor-page.partner-page {
+  background: #50a0a2;
+}
+.pcp-page.partner-page {
+  background: #90b312;
+}
+
+.specialist-page.partner-page{
+  background: #605ca8;
+}
+.therapist-page.partner-page{
+  background: #ff851b;
+}
+
+.attorney-page.partner-page{
+  background: #6a6300;
+}
+.insurer-page.partner-page{
+  background: #d81b60;
+}
+
+.cc-injury-quiz {
+  .injury-quiz-form {
+    .form-material {
+      margin-left: 17px;
+    }
+  }
+}
+
+.patient-claim-page .panel.infolist .form-group:last-child {
+  padding-bottom: 10px;
+}
+
+.learning-center-videos.video-list {
+  .video-item {
+    
+  }
+  .video-info {
+    min-height: 120px;
+  }
+  .video-thumbnail {
+    img {
+      width: 100%;
+    }
+  }
+}
+
+.youtube-video-player {
+  display: none;
+}
+
+.youtube-video-player.opened {
+  display: block;
+}
+
+.claim-view-header {
+  margin: 10px 0px;
+  .claim-info {
+    padding-left: 35px;
+    padding-right: 35px;
+    margin: 5px 0px;
+
+    .claim-doi {
+      margin: 5px 0px;
+      font-size: 1.2em;
+    }
+    
+    ul.user-info {
+      list-style-type: none;
+      margin-top: 10px;
+      padding: 0px;
+
+      li {
+        display: block;
+        overflow: hidden;
+        i.fa {
+          font-size: 14px;
+          line-height: 32px;
+          width: 16px;
+          text-align: center;
+          color: #c1c1c1;
+          &.fa-mobile-phone {
+            font-size: 20px;
+          }
+          &.fa-map-marker {
+            font-size:18px;
+          }
+          float:left;
+        }
+        span {
+          margin-left: 10px;
+          line-height: 32px;
+          float:left;
+          display: inline-block;
+        }
+      }
+    }
+  }
+
+  .claim-tabs {
+    border-top: solid 1px #c1c1c1;
+    > a {
+      padding: 0px 30px;
+      border-right: solid 1px #c1c1c1;
+      display: block;
+      float: left;
+      color: #464646;
+      font-weight: bold;
+      margin: 10px 0px;
+
+      &:last-child {
+        border-right: none;
+      }
+
+      &.claim-activity span {
+        background-image: url('../img/claim/activity-feed.png');
+      }
+      &.claim-docs span {
+        background-image: url('../img/claim/docs.png');
+      }
+      &.claim-photos span {
+        background-image: url('../img/claim/photos.png');
+      }
+      &.claim-others span {
+        background-image: url('../img/claim/gear-icon.png');
+      }
+      span {
+        padding-left: 35px;
+        display: block;
+        line-height: 20px;
+        background-position: 0px center;
+        background-repeat: no-repeat;
+        background-size: contain;
+      }
+    }
+  }  
+}
+
+.claim-page {
+  .claim-view-title {
+    padding-left: 50px;
+  }
+}
+
 /* smaller than Extra small screen */
 @media (max-width: (@screen-xs-max)) {
   .fixed .right-side, 
@@ -274,71 +434,17 @@ html, body {
     padding-left: 0px;
     padding-right: 0px;
   }
-}
 
-.dashboard-page {
-  .dashboard-section {
-    width: 350px;
-    margin: 0 auto;
-    
-    .btn-link {
-      display: block;
-      margin: 10px 0px;
+  .claim-view-header {
+    .claim-info {
+      .section-1 {
+        min-height: 150px;
+        border-right: solid 1px #c1c1c1;
+      }
+
+      .claim-description {
+        width: 80%;
+      }
     }
   }
-}
-
-.doctor-page.partner-page {
-  background: #50a0a2;
-}
-.pcp-page.partner-page {
-  background: #90b312;
-}
-
-.specialist-page.partner-page{
-  background: #605ca8;
-}
-.therapist-page.partner-page{
-  background: #ff851b;
-}
-
-.attorney-page.partner-page{
-  background: #6a6300;
-}
-.insurer-page.partner-page{
-  background: #d81b60;
-}
-
-.cc-injury-quiz {
-  .injury-quiz-form {
-    .form-material {
-      margin-left: 17px;
-    }
-  }
-}
-
-.patient-claim-page .panel.infolist .form-group:last-child {
-  padding-bottom: 10px;
-}
-
-.learning-center-videos.video-list {
-  .video-item {
-    
-  }
-  .video-info {
-    min-height: 120px;
-  }
-  .video-thumbnail {
-    img {
-      width: 100%;
-    }
-  }
-}
-
-.youtube-video-player {
-  display: none;
-}
-
-.youtube-video-player.opened {
-  display: block;
 }

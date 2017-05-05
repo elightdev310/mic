@@ -11,18 +11,14 @@
     
   </div>
 
-  @include('mic.partner.claim.partials.claim_view_tab')
+  @include('mic.partner.claim.partials.claim_view_header')
 
   <!-- Photos -->
   <div id="tab-photos">
     <div class="tab-content">
-      <div class="panel infolist">
-        <div class="panel-default panel-heading">
-          <h4>Photos</h4>
-        </div>
-        <div class="panel-body">
-          @include('mic.partner.claim.partials.photos')
-        </div>
+      <h3 class="text-color-primary claim-view-title"><strong>Photos</strong></h3>
+      <div class="content-box white infolist p10">
+        @include('mic.partner.claim.partials.photos')
       </div>
     </div>
   </div>

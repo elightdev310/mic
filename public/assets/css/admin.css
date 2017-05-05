@@ -343,6 +343,9 @@ h6,
   margin-right: 2px;
 }
 /* ===================================================== */
+a {
+  color: #0a4391;
+}
 .container {
   padding-left: 0px;
   padding-right: 0px;
@@ -700,11 +703,6 @@ ul.claim-doc-section {
 }
 .doc-comment-section .threaded-comment-list.focus-thread .comment-reply-section {
   display: none;
-}
-.activity-list-section {
-  border: solid 1px #cacaca;
-  border-radius: 3px;
-  background: #fafafa;
 }
 .activity-list-section .ca-feed-item {
   border-bottom: solid 1px #e8e8e8;

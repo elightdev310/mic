@@ -1,4 +1,4 @@
-<div class="activity-list-section box">
+<div class="activity-list-section">
   @include('mic.patient.claim.partials.activity_list')
 </div>
 

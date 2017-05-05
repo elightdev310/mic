@@ -1,4 +1,4 @@
-<div class="billing-docs-panel box box-success">
+<div class="billing-docs-panel">
   <div class="box-header">
     <div class="row">
       <div class="col-sm-8"><h4>Billing Documents</h4></div>

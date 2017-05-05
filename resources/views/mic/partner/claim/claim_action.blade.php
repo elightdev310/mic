@@ -11,18 +11,14 @@
     
   </div>
 
-  @include('mic.partner.claim.partials.claim_view_tab')
+  @include('mic.partner.claim.partials.claim_view_header')
 
   <!-- Action -->
   <div id="tab-action">
     <div class="tab-content">
-      <div class="panel infolist">
-        <div class="panel-default panel-heading">
-          <h4>Action</h4>
-        </div>
-        <div class="panel-body">
-          @include('mic.partner.claim.partials.action')
-        </div>
+      <h3 class="text-color-primary claim-view-title"><strong>Actions</strong></h3>
+      <div class="content-box white infolist p10">
+        @include('mic.partner.claim.partials.action')
       </div>
     </div>
   </div>

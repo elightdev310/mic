@@ -11,23 +11,22 @@
     
   </div>
 
-  @include('mic.partner.claim.partials.claim_view_tab')
+  @include('mic.partner.claim.partials.claim_view_header')
 
   <!-- Docs -->
   <div id="tab-docs">
     <div class="tab-content">
-      <div class="panel infolist">
-        <div class="panel-default panel-heading">
-          <div class="row">
-            <div class="col-sm-6">
-              <h4>Docs</h4>
-            </div>
-            <div class="col-sm-6">
-              <button id="AddNewDoc" class="btn btn-success btn-sm pull-right mt5">Add New Document</button>
-            </div>
+
+        <div class="row">
+          <div class="col-sm-6">
+            <h3 class="text-color-primary claim-view-title"><strong>Docs</strong></h3>
+          </div>
+          <div class="col-sm-6">
+            <button id="AddNewDoc" class="btn btn-primary pull-right mt15">Add New Document</button>
           </div>
         </div>
-        <div class="panel-body">
+
+        <div class="content-box white infolist p10">
           @include('mic.patient.claim.partials.docs')
         </div>
       </div>
