@@ -212,7 +212,7 @@ trait PartnerClaimController
 
   public function partnerCARAction(Request $request, $claim_id, $car_id, $action) {
     $currentUser = MICHelper::currentUser();
-    $claim = MICClaim::accessibleClaim($user, $claim_id);
+    $claim = Claim::find($claim_id);
     if (!$claim) {
       return redirect()->back()->withErrors("Failed to handle a request.");
     }

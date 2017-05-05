@@ -382,7 +382,7 @@ trait PatientClaimController
       return redirect()->back()->withErrors("Failed to handle a request.");
     }
 
-    $claim = MICClaim::accessibleClaim($user, $claim_id);
+    $claim = MICClaim::accessibleClaim($currentUser, $claim_id);
 
     if ($claim) {
       if ($action == 'approve') {

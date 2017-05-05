@@ -368,14 +368,16 @@ class ClaimController extends Controller
    */
   public function postClaimDocComment(Request $request, $doc_id, $comment_id) {
     $user = MICHelper::currentUser();
-    $claim = MICClaim::accessibleClaim($user, $claim_id);
 
     $doc = ClaimDoc::find($doc_id);
+    $claim = MICClaim::accessibleClaim($user, $doc->claim_id);
     // Check if user has access to claim doc
-    if (!MICClaim::checkCDA($user->id, $doc_id)) {
+    if (!MICClaim::checkCDA($user->id, $doc_id) || !$claim) {
       return response()->json(['status'=>'error',
                                'error' =>'You can\'t post comment.' ]);
     }
+
+
     
     $comment_text = $request->input('comment');
     if (!empty($comment_text)) {
