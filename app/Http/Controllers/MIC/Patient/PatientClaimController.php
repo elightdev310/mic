@@ -50,6 +50,49 @@ trait PatientClaimController
   }
 
   /**
+   * Get: claim/{claim_id}
+   */
+  public function patientClaimViewPage(Request $request, $claim_id) {
+    $user = MICHelper::currentUser();
+    $claim = MICClaim::accessibleClaim($user, $claim_id);
+    if (!$claim) {
+      return view('errors.404');
+    }
+
+    // Activity Feeds
+    $ca_feeds = MICClaim::getCAFeeds($claim_id, 'patient');
+    if ($ca_feeds) {
+      $ca_feeds = $ca_feeds->splice(0, 5);
+    }
+
+    // Photo
+    $photos = MICClaim::getClaimPhotos($claim_id);
+    $photo_count = $photos->count();
+
+    if ($photos) {
+      $photos = $photos->splice(0, 6);
+    }
+
+    // Doc
+    $docs = MICClaim::getClaimDocs($claim_id, $user->id);
+    if ($docs) {
+      $docs = $docs->splice(0, 3);
+    }
+
+    $params = array();
+    $params['user']       = $user;
+    $params['claim']      = $claim;
+    $params['ca_feeds']   = $ca_feeds;
+    $params['photos']     = $photos;
+    $params['docs']       = $docs;
+    $params['photo_count']= $photo_count;
+    
+    $params['no_message'] = 'partial';
+
+    return view('mic.patient.claim.claim_view', $params);
+  }
+
+  /**
    * Get: claim/{claim_id}/ioi
    */
   public function patientClaimIOIPage(Request $request, $claim_id) {

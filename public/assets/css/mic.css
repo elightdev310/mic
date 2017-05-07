@@ -402,7 +402,6 @@ a {
   vertical-align: middle;
 }
 ul.claim-photo-section {
-  padding: 10px 50px;
   overflow: auto;
 }
 ul.claim-photo-section li {
@@ -1167,6 +1166,44 @@ body {
 .claim-page .claim-view-title {
   padding-left: 50px;
 }
+ul.claim-photo-section {
+  padding: 10px 50px;
+}
+.my-claims-list .claim-item-box {
+  margin: 10px 0px 10px 0px;
+  padding: 10px 0px 20px;
+  width: auto;
+}
+.my-claims-list .claim-description {
+  padding: 10px 40px;
+}
+.my-claims-list .claim-submit-date {
+  font-size: 1.3em;
+}
+.claim-right-panel {
+  margin-bottom: 20px;
+  font-size: 14px;
+}
+.claim-right-panel .panel-header {
+  padding: 10px 30px;
+  background: #0a4391;
+  color: white;
+}
+.claim-right-panel .panel-body {
+  padding: 10px 20px 20px;
+}
+.claim-right-panel.claim-docs-panel ul {
+  list-style-type: none;
+  padding-left: 0px;
+}
+.claim-right-panel.claim-docs-panel .claim-doc-item {
+  padding: 10px 10px 10px 20px;
+  border-bottom: solid 1px #e1e1e1;
+  word-break: break-all;
+}
+.claim-right-panel.claim-photos-panel .claim-photo-item {
+  margin: 0px 15px 15px 0px;
+}
 /* smaller than Extra small screen */
 @media (max-width: 767px) {
   .fixed .right-side,
@@ -1248,6 +1285,12 @@ body {
   }
   .claim-view-header .claim-info .claim-description {
     width: 80%;
+  }
+  .my-claims-list .claim-item-box {
+    margin-left: 20px;
+  }
+  .my-claims-list .claim-description {
+    min-height: 150px;
   }
 }
 

@@ -140,6 +140,20 @@ class ClaimController extends Controller
 
 
   /**
+   * Get: claim/{claim_id}
+   */
+  public function claimViewPage(Request $request, $claim_id) {
+    $user = MICHelper::currentUser();
+    if ($user->type == 'patient') {
+      return $this->patientClaimViewPage($request, $claim_id);
+    } else if ($user->type == 'partner') {
+      return $this->partnerClaimViewPage($request, $claim_id);
+    } else {
+      return view('errors.404');
+    }
+  }
+
+  /**
    * Get: claim/{claim_id}/ioi
    */
   public function claimIOIPage(Request $request, $claim_id) {

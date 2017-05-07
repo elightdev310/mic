@@ -20,7 +20,7 @@ Route::group(['middleware' => ['auth']],
 
 
   Route::get('claim/{claim_id}', [
-    'as'=>'claim.view', 'uses'=>'MIC\ClaimController@claimIOIPage' 
+    'as'=>'claim.view', 'uses'=>'MIC\ClaimController@claimViewPage' 
   ]);
   Route::get('claim/{claim_id}/ioi', [
     'as'=>'claim.view.ioi', 'uses'=>'MIC\ClaimController@claimIOIPage' 

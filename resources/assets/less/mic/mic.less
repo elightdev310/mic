@@ -343,6 +343,53 @@ html, body {
     padding-left: 50px;
   }
 }
+ul.claim-photo-section {
+  padding: 10px 50px;
+}
+
+.my-claims-list {
+  .claim-item-box {
+    margin: 10px 0px 10px 0px;
+    padding: 10px 0px 20px;
+    width: auto;
+  }
+  .claim-description {
+    padding: 10px 40px;
+  }
+  .claim-submit-date {
+    font-size: 1.3em;
+  }
+}
+
+.claim-right-panel {
+  margin-bottom: 20px;
+  font-size: 14px;
+  .panel-header {
+    padding: 10px 30px;
+    background: @color-primary;
+    color: white;
+  }
+  .panel-body {
+    padding: 10px 20px 20px;
+  }
+  &.claim-docs-panel {
+    ul {
+      list-style-type: none;
+      padding-left: 0px;
+    }
+    .claim-doc-item {
+      padding: 10px 10px 10px 20px;
+      border-bottom: solid 1px #e1e1e1;
+      word-break: break-all;
+    }
+  }
+  &.claim-photos-panel {
+    .claim-photo-item {
+      margin: 0px 15px 15px 0px;
+    }
+  }
+}
+
 
 /* smaller than Extra small screen */
 @media (max-width: (@screen-xs-max)) {
@@ -445,6 +492,15 @@ html, body {
       .claim-description {
         width: 80%;
       }
+    }
+  }
+
+  .my-claims-list {
+    .claim-item-box {
+      margin-left: 20px;
+    }
+    .claim-description {
+      min-height: 150px;
     }
   }
 }
