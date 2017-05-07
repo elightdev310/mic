@@ -16,7 +16,7 @@
   <!-- Action -->
   <div id="tab-action">
     <div class="tab-content">
-      <h3 class="text-color-primary claim-view-title"><strong>Actions</strong></h3>
+      <h2 class="text-color-primary claim-view-title"><strong>Actions</strong></h2>
       <div class="content-box white infolist p10">
         @include('mic.partner.claim.partials.action')
       </div>

@@ -1,9 +1,9 @@
 <div class="billing-docs-panel">
   <div class="box-header">
     <div class="row">
-      <div class="col-sm-8"><h4>Billing Documents</h4></div>
+      <div class="col-sm-8"><h3>Billing Documents</h3></div>
       <div class="col-sm-4">
-        <button id="AddNewDoc" class="btn btn-success btn-sm pull-right mt5">Add New Document</button>
+        <button id="AddNewDoc" class="btn btn-primary pull-right mt15">Add New Document</button>
       </div>
     </div>
   </div>

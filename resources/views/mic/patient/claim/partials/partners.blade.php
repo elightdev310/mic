@@ -1,10 +1,10 @@
 @if (isset($assign_requests) && $assign_requests->count() > 0 )
-<div class="box box-success">
+<div class="">
   <div class="box-header">
     <h4>Assign Requests</h4>
   </div>
   <div class="box-body table-responsive">
-    <table class="table table-striped table-hover">
+    <table class="table table-hover mic-table">
       <thead>
         <th class="partner-name">Partner</th>
         <th class="partner-role">Membership Role</th>
@@ -37,12 +37,12 @@
 </div>
 @endif
 
-<div class="box box-primary mt30">
+<div class="mt30">
   <div class="box-header">
     <h4>Assigned Partners</h4>
   </div>
   <div class="box-body table-responsive">
-    <table class="table table-striped table-hover">
+    <table class="table table-hover mic-table">
       <thead>
         <th class="partner-name">Full Name</th>
         <th class="partner-email">Email</th>
@@ -55,7 +55,7 @@
         @foreach ($partners as $user)
         <tr class="partner-item" data-partner-uid="{{ $user->id }}">
           <td class="partner-name">
-            {!! MICUILayoutHelper::avatarImage($user, 24) !!}
+            {!! MICUILayoutHelper::avatarImage($user, 48) !!} &nbsp;&nbsp;
             {{ $user->name }}
           </td>
           <td class="partner-email">{{ $user->email }}</td>

@@ -6,6 +6,14 @@
   font-family: 'Raleway';
   src: url('../fonts/Raleway-Regular.ttf');
 }
+@font-face {
+  font-family: 'RalewayBold';
+  src: url('../fonts/Raleway-Bold.ttf');
+}
+@font-face {
+  font-family: 'RalewayExtraBold';
+  src: url('../fonts/Raleway-ExtraBold.ttf');
+}
 /* Loading-overlay styles */
 body {
   font-family: 'Raleway';
@@ -380,8 +388,32 @@ a {
 .text-color-primary {
   color: #0a4391;
 }
+.text-bold {
+  font-family: RalewayBold;
+}
+.text-extra-bold {
+  font-family: RalewayExtraBold;
+}
+.mic-table thead > tr > th {
+  border-bottom: solid 2px #e1e1e1;
+}
+.mic-table tbody > tr > td {
+  border-top: solid 1px #e1e1e1;
+  vertical-align: middle;
+}
 ul.claim-photo-section {
+  padding: 10px 50px;
   overflow: auto;
+}
+ul.claim-photo-section li {
+  margin-right: 20px;
+  margin-bottom: 20px;
+  max-width: 180px;
+  width: 180px;
+  height: 180px;
+}
+ul.claim-photo-section li a img {
+  height: auto;
 }
 ul.claim-photo-section .blueimp-gallery > .indicator > li {
   width: 30px;
@@ -532,8 +564,17 @@ ul.claim-photo-section li.claim-photo-item .hovereffect:hover a.info {
 #view_doc_modal .modal-body {
   background: #f6f9fc;
 }
-ul.claim-doc-section {
+.claim-doc-section {
   overflow: auto;
+}
+.claim-doc-section table tr th {
+  font-family: RalewayBold;
+}
+.claim-doc-section .mic-table {
+  font-size: 14px;
+}
+.claim-doc-section .mic-table td.doc-name {
+  font-family: RalewayBold;
 }
 .doc-comment-section {
   overflow-y: auto;
@@ -718,8 +759,8 @@ ul.claim-doc-section {
   margin-bottom: 10px;
 }
 .activity-list-section .ca-feed-item .user-avatar img {
-  width: 48px;
-  height: 48px;
+  width: 60px;
+  height: 60px;
 }
 .activity-list-section .ca-feed-item .feed-body {
   display: table-cell;
@@ -730,9 +771,8 @@ ul.claim-doc-section {
   margin-bottom: 10px;
 }
 .activity-list-section .ca-feed-item .user-name {
-  font-size: 1.1em;
-  font-weight: 700;
-  color: #2196F3;
+  font-size: 1.25em;
+  margin-top: 5px;
 }
 .activity-list-section .ca-feed-item .comment-text {
   padding: 5px 10px;

@@ -4,7 +4,7 @@
   <div class="dz-message"><i class="fa fa-cloud-upload"></i><br>Drop photos here to upload</div>
 </form>
 
-<div class="box box-success">
+<div class="">
   <!--<div class="box-header"></div>-->
   <div class="box-body">
     <ul class="files_container claim-photo-section">

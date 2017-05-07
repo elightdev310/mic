@@ -16,7 +16,7 @@
   <!-- Activity -->
   <div id="tab-activity">
     <div class="tab-content">
-      <h3 class="text-color-primary claim-view-title"><strong>Activity</strong></h3>
+      <h2 class="text-color-primary claim-view-title"><strong>Activity</strong></h2>
       <div class="content-box white infolist p10">
         @include('mic.patient.claim.partials.activity')
       </div>

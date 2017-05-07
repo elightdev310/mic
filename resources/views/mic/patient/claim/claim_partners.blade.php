@@ -11,20 +11,15 @@
     
   </div>
 
-  @include('mic.patient.claim.partials.claim_view_tab')
+  @include('mic.patient.claim.partials.claim_view_header')
 
   <!-- Partners -->
   <div id="tab-partners">
     <div class="tab-content">
-      <div class="panel infolist">
-        <div class="panel-default panel-heading">
-          <h4>Partners</h4>
-        </div>
-        <div class="panel-body">
+      <h2 class="text-color-primary claim-view-title"><strong>Partners</strong></h2>
+      <div class="content-box white infolist p10">
           @include('mic.admin.partials.success_error')
-
           @include('mic.patient.claim.partials.partners')
-        </div>
       </div>
     </div>
   </div>

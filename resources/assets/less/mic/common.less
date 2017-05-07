@@ -1,4 +1,16 @@
 ul.claim-photo-section {
+  padding: 10px 50px;
+  li {
+    margin-right: 20px;
+    margin-bottom: 20px;
+    max-width: 180px;
+    width: 180px;
+    height: 180px;
+    a img {
+      height: auto;
+    }
+  }
+
   overflow: auto;
   .blueimp-gallery > .indicator > li {
     width: 30px;
@@ -180,11 +192,16 @@ ul.claim-photo-section {
     background: #f6f9fc;
   }
 }
-ul.claim-doc-section {
+.claim-doc-section {
   overflow: auto;
-
-  li.claim-doc-item {
-    
+  table tr th{
+    .text-bold;
+  }
+  .mic-table {
+    font-size: 14px;
+    td.doc-name {
+      .text-bold;
+    }
   }
 }
 
@@ -406,8 +423,8 @@ ul.claim-doc-section {
       margin-right: 10px;
       margin-bottom: 10px;
       img {
-        width: 48px;
-        height: 48px;
+        width: 60px;
+        height: 60px;
       }
     }
     .feed-body {
@@ -420,9 +437,8 @@ ul.claim-doc-section {
       margin-bottom: 10px;
     }
     .user-name {
-      font-size: 1.1em;
-      font-weight: 700;
-      color: #2196F3;
+      font-size: 1.25em;
+      margin-top: 5px;
     }
     .comment-text {
       padding: 5px 10px;

@@ -2,12 +2,12 @@
 @foreach ($photos as $photo)
 <li class="claim-photo-item">
   <div class="hovereffect">
-    <img src="{{ $photo->file->path() }}?s=130">
+    <img src="{{ $photo->file->path() }}?s=180">
     <div class="overlay-pane">
       <a class="fm_file_sel info" href="{{ $photo->file->path() }}" title="{{ $photo->file->name }}" data-gallery="#claim-photo" 
         data-toggle="tooltip" data-placement="top" title="" upload="" data-original-title="{{ $photo->file->name }}">
         <i class="fa fa-eye"></i>
-        <img src="{{ $photo->file->path() }}?s=130" class="hidden">
+        <img src="{{ $photo->file->path() }}?s=180" class="hidden">
       </a>
       <a class="delete-photo-link info" href="#tab-photos", 
           data-url="{{ route('patient.claim.delete.photo', [$claim->id, $photo->id]) }}" title="Delete">

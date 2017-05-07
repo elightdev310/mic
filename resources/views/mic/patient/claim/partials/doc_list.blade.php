@@ -1,5 +1,5 @@
 @if (isset($docs) && count($docs))
-<table class="table table-striped table-hover table-border">
+<table class="table table-hover table-border mic-table">
   <thead>
     <th class="doc-name">Document</th>
     <th class="doc-creator">Author</th>
@@ -15,8 +15,8 @@
         </a>
       </td>
       <td class="doc-creator">
-        {!! MICUILayoutHelper::avatarImage($doc->creator, 24) !!}
-        {{ MICHelper::getUserTitle($doc->creator_uid) }}
+        {!! MICUILayoutHelper::avatarImage($doc->creator, 48) !!}&nbsp;&nbsp;
+        {{ MICHelper::getUserTitle($doc->creator_uid, false) }}
       </td>
       <td class="doc-uploaded-at">{{ MICUILayoutHelper::strTime($doc->created_at, "M d, Y H:i") }}</td>
       <td class="row-action">

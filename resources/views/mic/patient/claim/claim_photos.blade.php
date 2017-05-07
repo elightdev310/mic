@@ -11,25 +11,22 @@
     
   </div>
 
-  @include('mic.patient.claim.partials.claim_view_tab')
+  @include('mic.patient.claim.partials.claim_view_header')
 
   <!-- Photos -->
   <div id="tab-photos">
     <div class="tab-content">
-      <div class="panel infolist">
-        <div class="panel-default panel-heading">
-          <div class="row">
-            <div class="col-sm-6">
-              <h4>Photos</h4>
-            </div>
-            <div class="col-sm-6">
-              <button id="AddNewPhotos" class="btn btn-success btn-sm pull-right mt5">Add New Photos</button>
-            </div>
-          </div>
+      <div class="row">
+        <div class="col-sm-6">
+          <h2 class="text-color-primary claim-view-title"><strong>Photos</strong></h2>
         </div>
-        <div class="panel-body">
-          @include('mic.patient.claim.partials.photos')
+        <div class="col-sm-6">
+          <button id="AddNewPhotos" class="btn btn-primary pull-right mt20">Add New Photos</button>
         </div>
+      </div>
+
+      <div class="content-box white infolist p10">
+        @include('mic.patient.claim.partials.photos')
       </div>
     </div>
   </div>

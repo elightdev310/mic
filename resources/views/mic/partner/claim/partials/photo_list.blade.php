@@ -3,7 +3,7 @@
 <li>
   <a class="fm_file_sel" href="{{ $photo->file->path() }}" title="{{ $photo->file->name }}" data-gallery="#claim-photo" 
       data-toggle="tooltip" data-placement="top" title="" upload="" data-original-title="{{ $photo->file->name }}">
-    <img src="{{ $photo->file->path() }}?s=130">
+    <img src="{{ $photo->file->path() }}?s=180">
   </a>
 </li>
 @endforeach

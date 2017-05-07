@@ -36,8 +36,6 @@
 
 </div><!-- ./wrapper -->
 
-@include('mic.layouts.partials.footer')
-
 @section('scripts')
   @include('mic.layouts.partials.scripts')
 @show
