@@ -7,7 +7,7 @@
 
 @section('content')
 <div id="page-content" class="profile2">
-  @include('mic.partner.claim.partials.claim_view_header')
+  @include('mic.patient.claim.partials.claim_view_header')
 
   <div class="row mt20">
     <div class="col-sm-8">
@@ -28,6 +28,10 @@
             <li class="claim-doc-item text-color-primary text-bold">{{ $doc->file->name }}</li>
             @endforeach
           </ul>
+          @else
+          <div class="text-center p10">
+            No Document
+          </div>
           @endif
 
         </div>
@@ -59,6 +63,11 @@
             <a class="close">×</a>
             <a class="play-pause"></a>
             <ol class="indicator"></ol>
+          </div>
+
+          @else
+          <div class="text-center p10">
+            No Photo
           </div>
           @endif
         </div>

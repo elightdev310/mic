@@ -484,6 +484,17 @@ a {
   }
 }
 
+.navbar-nav {
+  // Remove background color from open dropdown
+  > .open > a {
+    &,
+    &:hover,
+    &:focus {
+      background-color: transparent;
+    }
+  }
+}
+
 .form-control, .dropdown-menu {
   font-size: 12px;
 }

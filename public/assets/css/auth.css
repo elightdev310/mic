@@ -381,6 +381,11 @@ a {
   background-color: #0a4391;
   border-color: #083879;
 }
+.navbar-nav > .open > a,
+.navbar-nav > .open > a:hover,
+.navbar-nav > .open > a:focus {
+  background-color: transparent;
+}
 .form-control,
 .dropdown-menu {
   font-size: 12px;
