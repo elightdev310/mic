@@ -1,7 +1,7 @@
 <div class="row">
   <div class="col-sm-8">
     <div class="doc-view-section" style="line-height: 0px; height:600px;">
-      <iframe src="http://docs.google.com/gview?url={{ $file->path() }}&embedded=true" style="width:100%; height:100%;" frameborder="0"></iframe>
+      <iframe src="http://docs.google.com/gview?url={{ url("view-files/$file->hash/$file->name") }}&embedded=true" style="width:100%; height:100%;" frameborder="0"></iframe>
     </div>
   </div>
   <div class="col-sm-4">

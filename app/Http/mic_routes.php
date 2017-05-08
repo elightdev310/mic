@@ -103,6 +103,7 @@ Route::group(['middleware' => ['auth']],
 
   /* ================== Access Uploaded Files ================== */
   Route::get('files/{hash}/{name}', 'MIC\FileController@get_file');
+  Route::get('view-files/{hash}/{name}', 'LA\UploadsController@get_file');
 });
 
 
