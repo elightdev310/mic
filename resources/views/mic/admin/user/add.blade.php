@@ -20,8 +20,9 @@
         <div class="col-md-8 col-lg-4"><div class="form-material">
           {!! 
             Form::select('user_type', 
-                          [ strtolower(config('mic.user_type.patient')) => ucfirst(config('mic.user_type.patient')), 
-                            strtolower(config('mic.user_type.partner')) => ucfirst(config('mic.user_type.partner')) ],
+                          [ snake_case(config('mic.user_type.patient')) => ucfirst(config('mic.user_type.patient')), 
+                            snake_case(config('mic.user_type.partner')) => ucfirst(config('mic.user_type.partner')), 
+                            snake_case(config('mic.user_type.case_manager')) => ucfirst(config('mic.user_type.case_manager')) ],
                           NULL, 
                           ['class' => 'form-control']); 
           !!}

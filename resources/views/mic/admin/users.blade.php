@@ -23,8 +23,9 @@
 
               <div class='form-group col-sm-4'>
                   {!! Form::select('user_type', 
-                                  [ strtolower(config('mic.user_type.patient')) => ucfirst(config('mic.user_type.patient')), 
-                                    strtolower(config('mic.user_type.partner')) => ucfirst(config('mic.user_type.partner')), 
+                                  [ snake_case(config('mic.user_type.patient')) => ucfirst(config('mic.user_type.patient')), 
+                                    snake_case(config('mic.user_type.partner')) => ucfirst(config('mic.user_type.partner')), 
+                                    snake_case(config('mic.user_type.case_manager')) => ucfirst(config('mic.user_type.case_manager')), 
                                     strtolower(config('mic.user_type.employee')) => ucfirst(config('mic.user_type.employee')) ],
                                   Request::get('user_type'), 
                                   ['class' => 'form-control', 'placeholder' => '- All User Type -']); 
@@ -69,7 +70,7 @@
                 </a>
               </td>
               <td class="user-email">{{ $user->email}}</td>
-              <td class="user-type">{{ ucfirst($user->type) }}</td>
+              <td class="user-type">{{ ucfirst(config('mic.user_type.'.$user->type)) }}</td>
               <td class="user-status">{{ ucfirst($user->status) }}</td>
               <td class="user-from">{{ MICUILayoutHelper::strTime($user->created_at) }}</td>
 

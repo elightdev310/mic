@@ -26,7 +26,7 @@
       </div>
       <div class="col-md-4">
         <div class="dats1">
-          {{ ucfirst($user->type) }}
+          {{ ucfirst(config('mic.user_type.'.$user->type)) }}
           @if ($user->type == 'partner')
           - {{ ucwords(MICUILayoutHelper::getPartnerTypeTitle($user->id, '')) }}
           @endif
@@ -86,12 +86,15 @@
         </a>
       </li>
 
+      @if (isset($user_videos) || isset($group_videos))
       <li class="@if (session('_action')=='saveLearningCenter') active @endif">
         <a role="tab" data-toggle="tab" class="@if (session('_action')=='saveLearningCenter') active @endif" 
             href="#tab-learning-center" data-target="#tab-learning-center" aria-expanded="false">
           <i class="fa fa-file-video-o"></i> Learning Center
         </a>
       </li>
+      @endif
+      
     </ul>
 
     <div class="tab-content">
@@ -155,6 +158,7 @@
         </div>
       </div>
 
+      @if (isset($user_videos) || isset($group_videos))
       <!-- Learning Center -->
       <div role="tabpanel" class="tab-pane fade @if (session('_action')=='saveLearningCenter') active in @endif" id="tab-learning-center">
         <div class="tab-content">
@@ -168,6 +172,7 @@
           </div>
         </div>
       </div>
+      @endif
 
     </div>
   </div>

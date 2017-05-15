@@ -381,10 +381,11 @@ a {
   background-color: #0a4391;
   border-color: #083879;
 }
-.navbar-nav > .open > a,
-.navbar-nav > .open > a:hover,
-.navbar-nav > .open > a:focus {
+.navbar-default .navbar-nav > .open > a,
+.navbar-default .navbar-nav > .open > a:hover,
+.navbar-default .navbar-nav > .open > a:focus {
   background-color: transparent;
+  color: white;
 }
 .form-control,
 .dropdown-menu {

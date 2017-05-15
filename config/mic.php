@@ -36,6 +36,7 @@ return [
       'micadmin_panel' => 'MICADMIN_PANEL', 
       'patient_panel' => 'PATIENT_PANEL', 
       'partner_panel' => 'PARTNER_PANEL',
+      'case_manager_panel' => 'CASE_MANAGER_PANEL', 
   ), 
   // User Role
   'user_role' => array(
@@ -43,19 +44,14 @@ return [
       'admin'         => 'ADMIN', 
       'patient'       => 'PATIENT', 
       'partner'       => 'PARTNER', 
-
-      // 'doctor'        => 'DOCTOR', 
-      // 'pcp'           => 'PCP', 
-      // 'specialist'    => 'SPECIALIST', 
-      // 'therapist'     => 'THERAPIST', 
-      // 'attorney'      => 'ATTORNEY', 
-      // 'insurer'       => 'INSURER', 
+      'case_manager'  => 'CASE_MANAGER', 
     ), 
 
   'user_type' => array(
       'patient'   => 'Patient', 
       'partner'   => 'Partner', 
       'employee'  => 'Employee', 
+      'case_manager' => 'Case Manager', 
     ), 
 
   'partner_type' => array(

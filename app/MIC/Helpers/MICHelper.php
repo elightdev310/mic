@@ -28,6 +28,15 @@ class MICHelper
     return $user->partner->membership_role;
   }
 
+  public static function isPendingVerification($user) {
+    if ($user->status == config('mic.user_status.pending') &&
+        $user->confirm_code != '') 
+    {
+      return true;
+    }
+    return false;
+  }
+
   public static function getPartnerTypeTitle($partner) {
     if (isset($partner->membership_role)) {
       return config('mic.partner_type.'.$partner->membership_role);

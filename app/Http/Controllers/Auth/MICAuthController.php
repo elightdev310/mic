@@ -20,6 +20,8 @@ use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
 use Dwij\Laraadmin\Models\Module;
 use Dwij\Laraadmin\Models\ModuleFields;
 
+use MICHelper;
+
 class MICAuthController extends Controller
 {
 
@@ -111,9 +113,9 @@ class MICAuthController extends Controller
     $user = User::where('email', $email)->first();
     if ($user) {
       if ($user->status == config('mic.user_status.pending')) {
-        if ($user->hasRole(config('mic.user_role.patient'))) {
+        if (MICHelper::isPendingVerification($user)) {
           $error = 'We sent verification email. Please check email to verfiy your email account.';
-        } else if ($user->hasRole(config('mic.user_role.partner'))) {
+        } else {
           $error = "Your account is pending. We're reviewing your account.";
           // return $this->postLogin($request);
         }
@@ -245,6 +247,7 @@ class MICAuthController extends Controller
       if ($user) {
         if ($user->status == config('mic.user_status.pending')) {
           $user->status = config('mic.user_status.active');
+          $user->confirm_code = '';
           $user->save();
           // Handle Login Action
           $user = Auth::loginUsingId($user->id);
@@ -264,7 +267,12 @@ class MICAuthController extends Controller
    */
   public function resendActivation(Request $request) 
   {
-    $email = "johndoe@example.com";
+    //$email = "johndoe@example.com";
+    if ($request->has('email')) {
+      $email = $request->input('email');
+    } else {
+      return "Error";
+    }
 
     $code = str_random(30);
     $user = $this->getUserByEmail($email);

@@ -23,7 +23,7 @@ class CreateUsersTable extends Migration
             ["email", "Email", "Email", true, "", 0, 250, false],
             ["password", "Password", "Password", false, "", 6, 250, true],
             ["avatar", "Avatar", "String", false, "default.jpg", 0, 255, false],
-            ["type", "User Type", "Dropdown", false, "employee", 0, 0, false, ["employee","partner","patient"]],
+            ["type", "User Type", "Dropdown", false, "employee", 0, 0, false, ["employee","partner","patient","case_manager"]],
             ["status", "Status", "Dropdown", false, "", 0, 0, false, ["active","pending","cancel"]],
             ["confirm_code", "Confirm Code", "String", false, "", 0, 50, false],
         ]);

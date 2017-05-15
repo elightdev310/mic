@@ -154,59 +154,61 @@ class UserController extends Controller
       $params['employee'] = $user->employee? $user->employee : new Employee;
     }
 
-    //Learning Center
-    $user_videos = MICVideo::getVideoList('user', $user->id);
-    foreach ($user_videos as &$video) {
-      if ($video->va->price) {
-        if (MICVideo::checkPurchasedVideo($user->id, $video->id)) {
-          $video->purchased = 1;
+    if (MICHelper::isPatient($user) || MICHelper::isPartner($user)) {
+      //Learning Center
+      $user_videos = MICVideo::getVideoList('user', $user->id);
+      foreach ($user_videos as &$video) {
+        if ($video->va->price) {
+          if (MICVideo::checkPurchasedVideo($user->id, $video->id)) {
+            $video->purchased = 1;
+          } else {
+            $video->purchased = 0;
+          }
+        }
+        
+        if ($vt = MICVideo::checkVideoWatched($user->id, $video->vid)) {
+          $video->watched = $vt->updated_at;
         } else {
-          $video->purchased = 0;
+          $video->watched = 0;
         }
       }
-      
-      if ($vt = MICVideo::checkVideoWatched($user->id, $video->vid)) {
-        $video->watched = $vt->updated_at;
-      } else {
-        $video->watched = 0;
+
+      $video_all = MICVideo::getVideoList('all');
+
+      $group = '';
+      if (MICHelper::isPatient($user)) {
+        $group = 'patient';
       }
-    }
-
-    $video_all = MICVideo::getVideoList('all');
-
-    $group = '';
-    if (MICHelper::isPatient($user)) {
-      $group = 'patient';
-    }
-    else if(MICHelper::isPartner($user)) {
-      $group = MICHelper::getPartnerType($user->id);
-    }
-    if ($group) {
-      $video_group = MICVideo::getVideoList($group);
-    } else {
-      $video_group = array();
-    }
+      else if(MICHelper::isPartner($user)) {
+        $group = MICHelper::getPartnerType($user->id);
+      }
+      if ($group) {
+        $video_group = MICVideo::getVideoList($group);
+      } else {
+        $video_group = array();
+      }
 
 
-    $group_videos = array_merge($video_group, $video_all);
-    foreach ($group_videos as &$video) {
-      if ($video->va->price) {
-        if (MICVideo::checkPurchasedVideo($user->id, $video->id)) {
-          $video->purchased = 1;
+      $group_videos = array_merge($video_group, $video_all);
+      foreach ($group_videos as &$video) {
+        if ($video->va->price) {
+          if (MICVideo::checkPurchasedVideo($user->id, $video->id)) {
+            $video->purchased = 1;
+          } else {
+            $video->purchased = 0;
+          }
+        }
+        
+        if ($vt = MICVideo::checkVideoWatched($user->id, $video->vid)) {
+          $video->watched = $vt->updated_at;
         } else {
-          $video->purchased = 0;
+          $video->watched = 0;
         }
       }
-      
-      if ($vt = MICVideo::checkVideoWatched($user->id, $video->vid)) {
-        $video->watched = $vt->updated_at;
-      } else {
-        $video->watched = 0;
-      }
-    }
 
-    $params['user_videos']  = $user_videos;
-    $params['group_videos'] = $group_videos;
+      $params['user_videos']  = $user_videos;
+      $params['group_videos'] = $group_videos;
+    }
 
     $params['no_header'] = true;
     $params['no_padding'] = 'no-padding';
@@ -266,7 +268,7 @@ class UserController extends Controller
                 ->withInput(); 
       }
 
-      if ($request->input('user_type') == strtolower(config('mic.user_type.patient'))) {
+      if ($request->input('user_type') == snake_case(config('mic.user_type.patient'))) {
         // Patient Model
         $data = array();
         $data['first_name'] = $request->input('first_name');
@@ -286,7 +288,7 @@ class UserController extends Controller
         $role = Role::where('name', config('mic.user_role.patient'))->first();
         $user->attachRole($role);
 
-      } else if ($request->input('user_type') == strtolower(config('mic.user_type.partner'))) {
+      } else if ($request->input('user_type') == snake_case(config('mic.user_type.partner'))) {
         // Partner Model
         $data = array();
         $data['first_name'] = $request->input('first_name');
@@ -305,6 +307,12 @@ class UserController extends Controller
         $user = AuthUser::find($uid);
         $user->detachRoles();
         $role = Role::where('name', config('mic.user_role.partner'))->first();
+        $user->attachRole($role);
+      } else if ($request->input('user_type') == snake_case(config('mic.user_type.case_manager'))) {
+        // User Role (Case Manager)
+        $user = AuthUser::find($uid);
+        $user->detachRoles();
+        $role = Role::where('name', config('mic.user_role.case_manager'))->first();
         $user->attachRole($role);
       }
 
@@ -397,6 +405,10 @@ class UserController extends Controller
     $user->save();
 
     return redirect()->back()->with('status', 'General settings saved, successfully.');
+  }
+
+  protected function saveGeneralSettingsCaseManager(Request $request, $user) {
+    return $this->saveGeneralSettingsEmployee($request, $user);
   }
 
   protected function saveGeneralSettingsPatient(Request $request, $user) {
