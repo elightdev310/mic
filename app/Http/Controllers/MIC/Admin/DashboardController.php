@@ -18,6 +18,7 @@ use Dwij\Laraadmin\Models\ModuleFields;
 use App\MIC\Models\Application;
 
 use PartnerApp;
+use MICHelper;
 
 /**
  * Class DashboardController
@@ -37,6 +38,11 @@ class DashboardController extends Controller
 
   public function index(Request $request)
   {
+    $user = MICHelper::currentUser();
+    if (MICHelper::isCaseManager($user)) {
+      return redirect()->route('micadmin.claim.list');
+    }
+
     $apps = PartnerApp::getApplicationDashboard();
 
     $params = array();

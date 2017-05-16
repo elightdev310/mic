@@ -12,6 +12,10 @@ Route::group(['prefix'=>config('mic.adminRoute'),
               function () {
   $as = 'micadmin.';
 
+  Route::get('/', [
+    'as'=>$as.'dashboard', 'uses'=>'MIC\Admin\DashboardController@index' 
+  ]);
+  
   Route::get('claims', [
     'as'=>$as.'claim.list', 'uses'=>'MIC\Admin\ClaimController@claimsList' 
   ]);
@@ -65,17 +69,13 @@ Route::group(['prefix'=>config('mic.adminRoute'),
   Route::get('claim/{claim_id}/set-doc-access/{doc_id}', [
     'as'=>$as.'claim.doc.set_access', 'uses'=>'MIC\Admin\ClaimController@setClaimDocAccess' 
   ]);
-  
+
 });
 
 Route::group(['prefix'=>config('mic.adminRoute'), 
               'middleware' => ['auth', 'permission:ADMIN_PANEL']], 
               function () {
   $as = 'micadmin.';
-
-  Route::get('/', [
-    'as'=>$as.'dashboard', 'uses'=>'MIC\Admin\DashboardController@index' 
-  ]);
 
   Route::get('applications/{status}', [
     'as'=>$as.'apps.list', 'uses'=>'MIC\Admin\ApplicationController@appList' 
