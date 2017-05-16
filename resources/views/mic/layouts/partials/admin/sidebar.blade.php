@@ -18,6 +18,17 @@
       </div>
     @endif
 
+    @if (MICHelper::isCaseManager($currentUser))
+    <!-- CM Sidebar Menu -->
+    <ul class="sidebar-menu">
+      <?php
+      $menuItems = MICUILayoutHelper::getMenuData('case_manager');
+      ?>
+      @foreach ($menuItems as $menu)
+        <?php echo MICUILayoutHelper::printMenu($menu); ?>
+      @endforeach
+    </ul><!-- /.sidebar-menu -->
+    @else
     <!-- Sidebar Menu -->
     <ul class="sidebar-menu">
       <!-- Optionally, you can add icons to the links -->
@@ -31,6 +42,7 @@
       <!-- LAMenus -->
       
     </ul><!-- /.sidebar-menu -->
+    @endif
   </section>
   <!-- /.sidebar -->
 </aside>

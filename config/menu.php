@@ -5,6 +5,7 @@
  */
 
 return [
+  // Admin Menu
   'admin' => [
     'claims' => [
       'title' => 'Claims', 
@@ -60,6 +61,16 @@ return [
     ], 
   ], 
 
+  // Case Manager Menu
+  'case_manager' => [
+    'claims' => [
+      'title' => 'Claims', 
+      'url'   => 'admin/claims', 
+      'icon'  => 'fa-tasks', 
+    ], 
+  ], 
+
+  // Patient Menu
   'patient' => [
     'new_claim' => [
       'title' => 'Create Claim', 
@@ -79,6 +90,7 @@ return [
     ], 
   ], 
 
+  // Partner Menu
   'partner' => [
     'claims' => [
       'title' => 'Claims', 

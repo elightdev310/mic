@@ -301,20 +301,20 @@ class ClaimModule {
     $user = UserModel::find($uid);
     $docs = array();
 
-    if ($user->type == 'employee') {
+    if ($user->type == 'employee' || MICHelper::isCaseManager($user) ) {
       $docs = ClaimDoc::where('claim_id', $claim_id)
                     ->where('type', '')
                     ->orderBy('id', 'DESC')
                     ->get();
     }
-    else if ($user->type == 'patient') {
+    else if (MICHelper::isPatient($user)) {
       $docs = ClaimDoc::where('claim_id', $claim_id)
                     ->where('type', '')
                     ->where('show_to_patient', 1)
                     ->orderBy('id', 'DESC')
                     ->get();
     }
-    else if ($user->type == 'partner') {
+    else if (MICHelper::isPartner($user)) {
       $cda_docs = $this->getCDAdocs($uid);
       $sub_query = "creator_uid = $uid";
       if (!empty($cda_docs)) {
@@ -587,12 +587,12 @@ class ClaimModule {
 
     $doc_type = 'bill';
 
-    if ($user->type == 'employee') {
+    if ($user->type == 'employee' || MICHelper::isCaseManager($user)) {
       $docs = ClaimDoc::where('claim_id', $claim_id)
                     ->where('type', $doc_type)
                     ->orderBy('created_at', 'DESC')
                     ->get();
-    } else if ($user->type == 'partner') {
+    } else if (MICHelper::isPartner($user)) {
       $docs = ClaimDoc::where('claim_id', $claim_id)
                     ->where('type', $doc_type)
                     ->where('creator_uid', '=', $uid)

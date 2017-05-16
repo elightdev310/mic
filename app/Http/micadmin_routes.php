@@ -8,6 +8,67 @@
 */
 
 Route::group(['prefix'=>config('mic.adminRoute'), 
+              'middleware' => ['auth', 'permission:CASE_MANAGER_PANEL']], 
+              function () {
+  $as = 'micadmin.';
+
+  Route::get('claims', [
+    'as'=>$as.'claim.list', 'uses'=>'MIC\Admin\ClaimController@claimsList' 
+  ]);
+
+  // Route::get('claim/{claim_id}', [
+  //   'as'=>$as.'claim.page', 'uses'=>'MIC\Admin\ClaimController@claimPage' 
+  // ]);
+  Route::get('claim/{claim_id}', [
+    'as'=>$as.'claim.view', 'uses'=>'MIC\Admin\ClaimController@claimIOIPage' 
+  ]);
+  Route::get('claim/{claim_id}/ioi', [
+    'as'=>$as.'claim.view.ioi', 'uses'=>'MIC\Admin\ClaimController@claimIOIPage' 
+  ]);
+  Route::get('claim/{claim_id}/activity', [
+    'as'=>$as.'claim.view.activity', 'uses'=>'MIC\Admin\ClaimController@claimActivityPage' 
+  ]);
+  Route::get('claim/{claim_id}/docs', [
+    'as'=>$as.'claim.view.docs', 'uses'=>'MIC\Admin\ClaimController@claimDocsPage' 
+  ]);
+  Route::get('claim/{claim_id}/photos', [
+    'as'=>$as.'claim.view.photos', 'uses'=>'MIC\Admin\ClaimController@claimPhotosPage' 
+  ]);
+  Route::get('claim/{claim_id}/action', [
+    'as'=>$as.'claim.view.action', 'uses'=>'MIC\Admin\ClaimController@claimActionPage' 
+  ]);
+  Route::get('claim/{claim_id}/partners', [
+    'as'=>$as.'claim.view.partners', 'uses'=>'MIC\Admin\ClaimController@claimPartnersPage' 
+  ]);
+  Route::get('claim/{claim_id}/invite-partner', [
+    'as'=>$as.'claim.view.invite_partner', 'uses'=>'MIC\Admin\ClaimController@claimInvitePartnerPage' 
+  ]);
+
+  // Claim Billing Doc 
+  Route::post('claim/{claim_id}/upload-billing-doc/{reply_to_doc_id}', [
+    'as'=>$as.'claim.upload.billing_doc', 'uses'=>'MIC\Admin\ClaimController@uploadClaimBillingDoc' 
+  ]);
+
+  // Route::get('claim/{claim_id}/assign/{partner_uid}', [
+  //   'as'=>$as.'claim.assign.partner', 'uses'=>'MIC\Admin\ClaimController@claimAssignPartner' 
+  // ]);
+  Route::get('claim/{claim_id}/assign-request/{partner_uid}', [
+    'as'=>$as.'claim.assign_request.partner', 'uses'=>'MIC\Admin\ClaimController@claimAssignRequest' 
+  ]);
+  Route::get('claim/{claim_id}/unassign/{partner_uid}', [
+    'as'=>$as.'claim.unassign.partner', 'uses'=>'MIC\Admin\ClaimController@claimUnassignPartner' 
+  ]);
+
+  Route::get('claim/{claim_id}/doc-access-panel/{doc_id}', [
+    'as'=>$as.'claim.doc.access_panel', 'uses'=>'MIC\Admin\ClaimController@claimDocAccessPanel' 
+  ]);
+  Route::get('claim/{claim_id}/set-doc-access/{doc_id}', [
+    'as'=>$as.'claim.doc.set_access', 'uses'=>'MIC\Admin\ClaimController@setClaimDocAccess' 
+  ]);
+  
+});
+
+Route::group(['prefix'=>config('mic.adminRoute'), 
               'middleware' => ['auth', 'permission:ADMIN_PANEL']], 
               function () {
   $as = 'micadmin.';
@@ -83,59 +144,7 @@ Route::group(['prefix'=>config('mic.adminRoute'),
     'as'=>$as.'iquiz.delete', 'uses'=>'MIC\Admin\IQuestionController@quizDelete' 
   ]);  
 
-  Route::get('claims', [
-    'as'=>$as.'claim.list', 'uses'=>'MIC\Admin\ClaimController@claimsList' 
-  ]);
-
-  // Route::get('claim/{claim_id}', [
-  //   'as'=>$as.'claim.page', 'uses'=>'MIC\Admin\ClaimController@claimPage' 
-  // ]);
-  Route::get('claim/{claim_id}', [
-    'as'=>$as.'claim.view', 'uses'=>'MIC\Admin\ClaimController@claimIOIPage' 
-  ]);
-  Route::get('claim/{claim_id}/ioi', [
-    'as'=>$as.'claim.view.ioi', 'uses'=>'MIC\Admin\ClaimController@claimIOIPage' 
-  ]);
-  Route::get('claim/{claim_id}/activity', [
-    'as'=>$as.'claim.view.activity', 'uses'=>'MIC\Admin\ClaimController@claimActivityPage' 
-  ]);
-  Route::get('claim/{claim_id}/docs', [
-    'as'=>$as.'claim.view.docs', 'uses'=>'MIC\Admin\ClaimController@claimDocsPage' 
-  ]);
-  Route::get('claim/{claim_id}/photos', [
-    'as'=>$as.'claim.view.photos', 'uses'=>'MIC\Admin\ClaimController@claimPhotosPage' 
-  ]);
-  Route::get('claim/{claim_id}/action', [
-    'as'=>$as.'claim.view.action', 'uses'=>'MIC\Admin\ClaimController@claimActionPage' 
-  ]);
-  Route::get('claim/{claim_id}/partners', [
-    'as'=>$as.'claim.view.partners', 'uses'=>'MIC\Admin\ClaimController@claimPartnersPage' 
-  ]);
-  Route::get('claim/{claim_id}/invite-partner', [
-    'as'=>$as.'claim.view.invite_partner', 'uses'=>'MIC\Admin\ClaimController@claimInvitePartnerPage' 
-  ]);
-
-  // Claim Billing Doc 
-  Route::post('claim/{claim_id}/upload-billing-doc/{reply_to_doc_id}', [
-    'as'=>$as.'claim.upload.billing_doc', 'uses'=>'MIC\Admin\ClaimController@uploadClaimBillingDoc' 
-  ]);
-
-  // Route::get('claim/{claim_id}/assign/{partner_uid}', [
-  //   'as'=>$as.'claim.assign.partner', 'uses'=>'MIC\Admin\ClaimController@claimAssignPartner' 
-  // ]);
-  Route::get('claim/{claim_id}/assign-request/{partner_uid}', [
-    'as'=>$as.'claim.assign_request.partner', 'uses'=>'MIC\Admin\ClaimController@claimAssignRequest' 
-  ]);
-  Route::get('claim/{claim_id}/unassign/{partner_uid}', [
-    'as'=>$as.'claim.unassign.partner', 'uses'=>'MIC\Admin\ClaimController@claimUnassignPartner' 
-  ]);
-
-  Route::get('claim/{claim_id}/doc-access-panel/{doc_id}', [
-    'as'=>$as.'claim.doc.access_panel', 'uses'=>'MIC\Admin\ClaimController@claimDocAccessPanel' 
-  ]);
-  Route::get('claim/{claim_id}/set-doc-access/{doc_id}', [
-    'as'=>$as.'claim.doc.set_access', 'uses'=>'MIC\Admin\ClaimController@setClaimDocAccess' 
-  ]);
+  // Claims
 
   Route::get('learning-videos', [
     'as'=>$as.'learning_video.list', 'uses'=>'MIC\Admin\VideoController@videoList' 

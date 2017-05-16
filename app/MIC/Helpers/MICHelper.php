@@ -67,6 +67,18 @@ class MICHelper
     return $user;
   }
 
+  public static function isCaseManager($user) {
+    if (is_numeric($user)) {
+      $user = User::find($user);
+    }
+
+    if ($user->type == 'case_manager') {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
   public static function isPartner($user) {
     if (is_numeric($user)) {
       $user = User::find($user);

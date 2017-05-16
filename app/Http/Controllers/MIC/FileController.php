@@ -67,6 +67,7 @@ class FileController extends Controller
 
       if( Entrust::hasRole('SUPER_ADMIN') || 
           Entrust::hasRole(config('mic.user_role.admin')) ||
+          Entrust::hasRole(config('mic.user_role.case_manager')) ||
           Auth::user()->id == $upload->user_id || 
           MICClaim::accessibleClaimFile($upload) ) 
       {
