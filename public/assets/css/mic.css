@@ -1171,6 +1171,13 @@ body {
   background-size: contain;
   font-family: RalewayBold;
 }
+.claim-view-header .claim-tabs > a.claim-fa-tab span {
+  padding-left: 0px;
+}
+.claim-view-header .claim-tabs > a.claim-fa-tab span i.fa {
+  margin-right: 20px;
+  color: #bbb;
+}
 .claim-page .claim-view-title {
   padding-left: 50px;
 }

@@ -11,19 +11,17 @@
     
   </div>
 
-  @include('mic.partner.claim.partials.claim_view_tab')
+  @include('mic.partner.claim.partials.claim_view_header')
 
   <!-- IOI -->
   <div id="tab-ioi">
     <div class="tab-content">
-      <div class="panel infolist">
-        <div class="panel-default panel-heading">
-          <h4>Incident of Injury Information</h4>
-        </div>
-        <div class="panel-body">
-          @include('mic.partner.claim.partials.ioi')
-        </div>
+
+      <h2 class="text-color-primary claim-view-title"><strong>Incident of Injury Information</strong></h2>
+      <div class="content-box white infolist p20">
+        @include('mic.partner.claim.partials.ioi')
       </div>
+
     </div>
   </div>
 

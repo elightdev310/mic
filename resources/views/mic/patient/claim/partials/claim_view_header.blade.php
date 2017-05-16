@@ -14,8 +14,11 @@
     <a href="{{ route('claim.view.action', [$claim->id]) }}" class="claim-others">
       <span>Actions</span>
     </a>
-    <a href="{{ route('claim.view.partners', [$claim->id]) }}" class="">
-      <span>Partners</span>
+    <a href="{{ route('claim.view.ioi', [$claim->id]) }}" class="claim-fa-tab">
+      <span><i class="fa fa-bars"></i> IOI</span>
+    </a>
+    <a href="{{ route('claim.view.partners', [$claim->id]) }}" class="claim-fa-tab">
+      <span><i class="fa fa-users"></i> Partners</span>
     </a>
   </div>
 </div>

@@ -11,28 +11,27 @@
     
   </div>
 
-  @include('mic.patient.claim.partials.claim_view_tab')
+  @include('mic.patient.claim.partials.claim_view_header')
 
   <!-- IOI -->
   <div id="tab-ioi">
     <div class="tab-content">
-      <div class="panel infolist">
-        <div class="panel-default panel-heading">
-          <div class="row">
-            <div class="col-sm-6">
-              <h4>Incident of Injury Information</h4>
-            </div>
-            <div class="col-sm-6">
-              <button id="UpdateIOI" class="btn btn-success btn-sm pull-right mt5">Save Changes</button>
-            </div>
+
+        <div class="row">
+          <div class="col-sm-6">
+            <h2 class="text-color-primary claim-view-title"><strong>Incident Of Injury Information</strong></h2>
+          </div>
+          <div class="col-sm-6">
+            <button id="UpdateIOI" class="btn btn-primary pull-right mt15">Save Changes</button>
           </div>
         </div>
-        <div class="panel-body">
+
+        <div class="content-box white infolist p20">
           @include('mic.commons.success_error')
 
           @include('mic.patient.claim.partials.ioi')
         </div>
-      </div>
+
     </div>
   </div>
 
