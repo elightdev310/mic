@@ -1057,24 +1057,26 @@ body {
   display: block;
   margin: 10px 0px;
 }
-.doctor-page.partner-page {
+/*.doctor-page.partner-page {
   background: #50a0a2;
 }
 .pcp-page.partner-page {
   background: #90b312;
 }
-.specialist-page.partner-page {
+
+.specialist-page.partner-page{
   background: #605ca8;
 }
-.therapist-page.partner-page {
+.therapist-page.partner-page{
   background: #ff851b;
 }
-.attorney-page.partner-page {
+
+.attorney-page.partner-page{
   background: #6a6300;
 }
-.insurer-page.partner-page {
+.insurer-page.partner-page{
   background: #d81b60;
-}
+}*/
 .cc-injury-quiz .injury-quiz-form .form-material {
   margin-left: 17px;
 }
