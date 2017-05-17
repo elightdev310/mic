@@ -120,4 +120,11 @@ class MICHelper
     }
     return false;
   }
+
+  public static function getAllCaseManagers() {
+    $cm_users = User::where('type', snake_case(config('mic.user_type.case_manager')))
+                    ->where('status', 'active')
+                    ->get();
+    return $cm_users;
+  }
 }

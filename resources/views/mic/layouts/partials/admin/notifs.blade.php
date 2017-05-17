@@ -41,7 +41,7 @@
           <!-- Menu toggle button -->
           <a href="#" class="user-notify-link dropdown-toggle" data-toggle="dropdown">
             <i class="fa fa-bell-o"></i>
-            <span class="label label-warning @if (MICNotification::getUnreadCount($currentUser->id)==0) hidden @endif">
+            <span class="label label-warning msg-count @if (MICNotification::getUnreadCount($currentUser->id)==0) hidden @endif">
               {{ MICNotification::getUnreadCount($currentUser->id) }}
             </span>
           </a>
@@ -91,6 +91,7 @@
 					</ul>
 				</li>
 				@endif
+
 				@if (Auth::guest())
 					<li><a href="{{ url('/login') }}">Login</a></li>
 					<li><a href="{{ url('/register') }}">Register</a></li>

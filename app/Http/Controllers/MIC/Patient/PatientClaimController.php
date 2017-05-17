@@ -30,6 +30,7 @@ trait PatientClaimController
   public function myClaimsPage(Request $request) {
     $user = MICHelper::currentUser();
     $claims = Claim::where('patient_uid', $user->id)
+                    ->orderBy('created_at', 'DESC')
                     ->paginate(self::PAGE_LIMIT);
 
     $params = array();

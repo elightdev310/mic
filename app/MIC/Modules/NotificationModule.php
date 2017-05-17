@@ -95,7 +95,7 @@ class NotificationModule {
   }
 
   public function sendMail($user_id, $type, $subject, $params, $type_suffix='') {
-    return;
+    //return;
     
     if (!MICHelper::isActiveUser($user_id)) {
       return;
@@ -145,10 +145,15 @@ class NotificationModule {
   }
 
   public function getOtherUsers($type, $params, $via='') {
+    $b_sent_CM = 0;
+
     extract($params);
 
     $users = array();
     switch ($type) {
+      case 'claim.create_claim':
+        $b_sent_CM = 1;
+        break;
       case 'claim.update_ioi':
       case 'claim.upload_photo':
       case 'claim.delete_photo':
@@ -185,9 +190,17 @@ class NotificationModule {
         break;
     }
 
+
     // add admin
     $admin_user = config('mic.admin_user');
     $users[$admin_user] = $admin_user;
+    // add Case Manager
+    if ($b_sent_CM) {
+      $cm_users = MICHelper::getAllCaseManagers();
+      foreach ($cm_users as $_user) {
+        $users[$_user->id] = $_user->id;
+      }
+    }
 
     // remove you 
     $you = $this->getYouUser($type, $params);
