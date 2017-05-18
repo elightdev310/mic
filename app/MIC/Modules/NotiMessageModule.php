@@ -15,6 +15,18 @@ trait NotiMessageModule
         $msg = 'You created claim #%d';
         $message = sprintf($msg, $claim->id);
         break;
+
+      case 'claim.doc.grant_access_doc':
+        // use $claim, $doc, $user
+        $msg = 'You get an access to document (%s) of claim #%d';
+        $message = sprintf($msg, $doc->file->name, $claim->id);
+        break;
+      case 'claim.doc.remove_access_doc':
+        // use $claim, $doc, $user
+        $msg = 'You lost an access to document (%s) of claim #%d';
+        $message = sprintf($msg, $doc->file->name, $claim->id);
+        break;
+
       case 'claim.doc.admin_upload_billing_doc':
         $msg = "%s sent you document(%s) as reply to document(%s) in claim #%d";
         $message = sprintf($msg, $user->name, $doc->file->name, $reply_to_doc->file->name, $claim->id);
@@ -89,6 +101,17 @@ trait NotiMessageModule
         // use $user, $doc, $comment
         $msg = '%s posted comment to document (%s) in Claim #%d';
         $message = sprintf($msg, $user->name, $doc->file->name, $doc->claim_id);
+        break;
+
+      case 'claim.doc.grant_access_doc':
+        // use $claim, $doc, $user
+        $msg = '%s get an access to document (%s) of claim #%d';
+        $message = sprintf($msg, $user->name, $doc->file->name, $claim->id);
+        break;
+      case 'claim.doc.remove_access_doc':
+        // use $claim, $doc, $user
+        $msg = '%s lost an access to document (%s) of claim #%d';
+        $message = sprintf($msg, $user->name,  $doc->file->name, $claim->id);
         break;
 
       case 'claim.doc.upload_billing_doc':

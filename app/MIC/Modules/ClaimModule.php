@@ -452,6 +452,17 @@ class ClaimModule {
         $content = sprintf($msg, $doc->file->name, $claim->id);
         break;
 
+      case 'grant_access_doc': 
+        // use $claim, $doc, $user
+        $msg = 'Granted %s an access to document (%s) of claim #%d';
+        $content = sprintf($msg, $user->name, $doc->file->name, $claim->id);
+        break;
+      case 'remove_access_doc': 
+        // use $claim, $doc, $user
+        $msg = 'Removed %s an access to document (%s) of claim #%d';
+        $content = sprintf($msg, $user->name, $doc->file->name, $claim->id);
+        break;
+
       case 'admin_upload_billing_doc': 
         $msg = 'Uploaded billing document (%s) that is replied to %s in claim #%d';
         $content = sprintf($msg, $doc->file->name, $reply_to_doc->file->name, $claim->id);
@@ -497,6 +508,12 @@ class ClaimModule {
     return $content;
   }
 
+  /**
+   * Viewable Users of Claim Activity 
+   * 
+   * It is used to add claim activity
+   * Claim Activities are public to Patient, EXCEPT FOR ones with [public_patient = 0]
+   */
   public function getCAFeeders($type, $params) {
     $feeders = array();
     extract($params);
@@ -527,9 +544,21 @@ class ClaimModule {
           $feeders[$cda->partner_uid] = $cda->partner_uid;
         }
         if (MICHelper::isPartner($doc->creator_uid)) {
-          $feeders[$doc->creator_uid] = $doc->creator_uid;   // Partner Author
+          if ($this->isAssignedToClaim($doc->creator_uid, $claim->id)) {
+            $feeders[$doc->creator_uid] = $doc->creator_uid;   // Partner Author
+          }
         }
         break;
+
+      case 'grant_access_doc':
+      case 'remove_access_doc':
+        // use $claim, $user, $doc
+        if (MICHelper::isPartner($doc->creator_uid)) {
+          $feeders[$doc->creator_uid] = $doc->creator_uid;   // Partner Author
+        }
+        $feeders[$user->id] = $user->id;
+        break;
+
       case 'admin_upload_billing_doc': 
         // use $claim, $user, $doc, $reply_to_doc
         $feeders[$reply_to_doc->creator_uid] = $reply_to_doc->creator_uid;

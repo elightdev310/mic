@@ -168,11 +168,14 @@ $(function () {
   $('#access_doc_modal').on('click', '.submit-btn', function() {
     var $form = $('#cda_frm');
     var cda_url = $form.attr('action');
+
+    $('#access_doc_modal .modal-content').loadingOverlay();
     $.ajax({
         dataType: 'json',
         url: cda_url,
         data: $form.serialize(), 
         success: function ( json ) {
+          $('#access_doc_modal .modal-content').loadingOverlay('remove');
           if (json.status=='success') {
             $('#access_doc_modal').modal('hide');
           } else {

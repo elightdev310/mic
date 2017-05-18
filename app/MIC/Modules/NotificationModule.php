@@ -95,7 +95,7 @@ class NotificationModule {
   }
 
   public function sendMail($user_id, $type, $subject, $params, $type_suffix='') {
-    //return;
+    return;
     
     if (!MICHelper::isActiveUser($user_id)) {
       return;
@@ -125,6 +125,12 @@ class NotificationModule {
         $you = $user->id;
         break;
 
+      case 'claim.doc.grant_access_doc':
+      case 'claim.doc.remove_access_doc':
+        // use $claim, $doc, $user
+        $you = $user->id;
+        break;
+      
       case 'claim.doc.admin_upload_billing_doc': 
         $you = $reply_to_doc->creator_uid;
         break;
@@ -145,14 +151,13 @@ class NotificationModule {
   }
 
   public function getOtherUsers($type, $params, $via='') {
-    $b_sent_CM = 0;
+    $b_sent_CM = 1;
 
     extract($params);
 
     $users = array();
     switch ($type) {
       case 'claim.create_claim':
-        $b_sent_CM = 1;
         break;
       case 'claim.update_ioi':
       case 'claim.upload_photo':
@@ -164,7 +169,6 @@ class NotificationModule {
         }
         break;
       case 'claim.doc.upload_doc': 
-        $b_sent_CM = 1;
       case 'claim.doc.delete_doc':
       case 'claim.doc.post_comment':
         // use $user, $doc, $comment
@@ -176,21 +180,27 @@ class NotificationModule {
         $users[$doc->claim->patient_uid] = $doc->claim->patient_uid;  // Claim User
         break;
 
+      case 'claim.doc.grant_access_doc':
+      case 'claim.doc.remove_access_doc':
+        // use $claim, $doc, $user
+        if (MICClaim::isAssignedToClaim($doc->creator_uid, $claim->id)) {
+          $users[$doc->creator_uid] = $doc->creator_uid;
+        }
+        break;
+
       case 'claim.assign_request':
         // use $partner, $claim
+        $b_sent_CM = 0;
         break;
       case 'claim.partner_approve_request': 
       case 'claim.partner_reject_request': 
-        $b_sent_CM = 1;
         break;
       case 'claim.patient_approve_request':
       case 'claim.patient_reject_request': 
-        $b_sent_CM = 1;
         break;
       case 'claim.assign_partner': 
       case 'claim.unassign_partner': 
         $users[$claim->patient_uid] = $claim->patient_uid;
-        $b_sent_CM = 1;
         break;
     }
 
@@ -198,13 +208,14 @@ class NotificationModule {
     // add admin
     $admin_user = config('mic.admin_user');
     $users[$admin_user] = $admin_user;
+
     // add Case Manager
-    //if ($b_sent_CM) {
+    if ($b_sent_CM) {
       $cm_users = MICHelper::getAllCaseManagers();
       foreach ($cm_users as $_user) {
         $users[$_user->id] = $_user->id;
       }
-    //}
+    }
 
     // remove you 
     $you = $this->getYouUser($type, $params);

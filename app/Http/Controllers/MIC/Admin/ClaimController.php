@@ -413,7 +413,12 @@ class ClaimController extends Controller
     return response()->json(['status'=>'success', 'panel' => $panel]);
   }
 
+  /**
+   * Grant & Deny Access to Doc
+   */
   public function setClaimDocAccess(Request $request, $claim_id, $doc_id) {
+    $currentUser = MICHelper::currentUser();
+
     $claim = Claim::find($claim_id);
     $doc = ClaimDoc::find($doc_id);
     $i_cda = $request->input('cda');
@@ -422,21 +427,41 @@ class ClaimController extends Controller
       $i_cda = array();
     }
 
-    // Set CDA table
+    // Remove Access
     $cda = ClaimDocAccess::where('doc_id', $doc_id)->get();
     foreach ($cda as $row) {
       if (isset( $i_cda[$row->partner_uid] )) {
         unset($i_cda[$row->partner_uid]);   // Already Access
       } else {
         $row->forceDelete();
+        // Activity Feed - Remove Access to Doc
+        $_user = User::find($row->partner_uid);
+        $ca_params = array(
+            'claim'   => $claim, 
+            'doc'     => $doc, 
+            'user'    => $_user, 
+          );
+        MICClaim::addClaimActivity($claim->id, $currentUser->id, 'remove_access_doc', $ca_params);
+        MICNotification::sendNotification('claim.doc.remove_access_doc', $ca_params);
       }
     }
 
+    // Grant Access
     foreach ($i_cda as $uid=>$item) {
       $n_cda = new ClaimDocAccess;
       $n_cda->doc_id = $doc_id;
       $n_cda->partner_uid = $uid;
       $n_cda->save();
+
+      // Activity Feed - Grant Access to Doc
+      $_user = User::find($uid);
+      $ca_params = array(
+          'claim'   => $claim, 
+          'doc'     => $doc, 
+          'user'    => $_user, 
+        );
+      MICClaim::addClaimActivity($claim->id, $currentUser->id, 'grant_access_doc', $ca_params);
+      MICNotification::sendNotification('claim.doc.grant_access_doc', $ca_params);
     }
 
     return response()->json(['status'=>'success']);

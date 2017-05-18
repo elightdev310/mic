@@ -16,6 +16,18 @@ trait NotiMailModule
         $subject = 'You created claim #%d';
         $subject = sprintf($subject, $claim->id);
         break;
+
+      case 'claim.doc.grant_access_doc':
+        // use $claim, $doc, $user
+        $subject = 'You get an access to document (%s) of claim #%d';
+        $subject = sprintf($subject, $doc->file->name, $claim->id);
+        break;
+      case 'claim.doc.remove_access_doc':
+        // use $claim, $doc, $user
+        $subject = 'You lost an access to document (%s) of claim #%d';
+        $subject = sprintf($subject, $doc->file->name, $claim->id);
+        break;
+
       case 'claim.doc.admin_upload_billing_doc':
         $subject = "%s sent you document(%s) in claim #%d";
         $subject = sprintf($subject, $user->name, $doc->file->name, $claim->id);
@@ -91,6 +103,17 @@ trait NotiMailModule
         // use $user, $doc, $comment
         $subject = '%s posted comment to document (%s) in Claim #%d';
         $subject = sprintf($subject, $user->name, $doc->file->name, $doc->claim_id);
+        break;
+
+      case 'claim.doc.grant_access_doc':
+        // use $claim, $doc, $user
+        $subject = '%s get an access to document (%s) of claim #%d';
+        $subject = sprintf($subject, $user->name, $doc->file->name, $claim->id);
+        break;
+      case 'claim.doc.remove_access_doc':
+        // use $claim, $doc, $user
+        $subject = '%s lost an access to document (%s) of claim #%d';
+        $subject = sprintf($subject, $user->name,  $doc->file->name, $claim->id);
         break;
 
       case 'claim.doc.upload_billing_doc':
