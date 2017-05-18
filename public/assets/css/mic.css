@@ -393,7 +393,7 @@ a {
   font-size: 12px;
 }
 .break-wrap {
-  word-wrap: break-word;
+  word-break: break-word;
 }
 .text-color-primary {
   color: #0a4391;
@@ -1284,6 +1284,9 @@ ul.claim-photo-section {
   .claim-view-header .claim-tabs > a {
     float: none;
     padding: 5px 50px;
+  }
+  ul.claim-photo-section {
+    padding: 10px 30px;
   }
 }
 @media (min-width: 768px) {

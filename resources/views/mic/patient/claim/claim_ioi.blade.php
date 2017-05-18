@@ -22,7 +22,7 @@
             <h2 class="text-color-primary claim-view-title"><strong>Incident Of Injury Information</strong></h2>
           </div>
           <div class="col-sm-6">
-            <button id="UpdateIOI" class="btn btn-primary pull-right mt15">Save Changes</button>
+            <button id="UpdateIOI" class="btn btn-primary pull-right mt20 mb10">Save Changes</button>
           </div>
         </div>
 

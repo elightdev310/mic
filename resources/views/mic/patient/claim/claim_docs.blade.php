@@ -22,7 +22,7 @@
             <h2 class="text-color-primary claim-view-title"><strong>Docs</strong></h2>
           </div>
           <div class="col-sm-6">
-            <button id="AddNewDoc" class="btn btn-primary pull-right mt20">Add New Document</button>
+            <button id="AddNewDoc" class="btn btn-primary pull-right mt20 mb10">Add New Document</button>
           </div>
         </div>
 

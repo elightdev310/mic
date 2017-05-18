@@ -11,7 +11,7 @@
           {{ MICUILayoutHelper::agoTime($feed->created_at, ' ago') }}
         </div>
       </div>
-      <div class="activity-text text-no-wrap">{!! $feed->content !!}</div>
+      <div class="activity-text break-wrap">{!! $feed->content !!}</div>
     </div>
   </div>
 @endforeach
