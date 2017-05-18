@@ -190,7 +190,7 @@ html, body {
 
 .dashboard-page {
   .dashboard-section {
-    width: 350px;
+    width: 250px;
     margin: 0 auto;
     
     .btn-link {
@@ -433,6 +433,7 @@ ul.claim-photo-section {
       & > .navbar-header, 
       & > .navbar-collapse {
         margin: 0px;
+        z-index: 99998;
       }
     }
 
@@ -450,6 +451,17 @@ ul.claim-photo-section {
   .no-main-header .content-wrapper {
     margin-top: 0px;
   }
+
+  .claim-view-header {
+    .claim-tabs {
+      border-top: solid 1px #e1e1e1;
+      > a {
+        float: none;
+        padding: 5px 50px;
+      }
+    }
+  }
+
 }
 
 @media (min-width: 768px) {

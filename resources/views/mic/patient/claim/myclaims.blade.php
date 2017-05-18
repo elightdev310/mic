@@ -23,7 +23,7 @@
         <table class="table table-striped table-hover">
           <thead>
             <th class="claim-id">#</th>
-            <th class="claim-submit-date">Submit Time</th>
+            <th class="claim-date">Submit Time</th>
             <th class="row-action">Action</th>
           </thead>
           <tbody>
@@ -34,7 +34,7 @@
                   Claim #{{ $claim->id }}
                 </a>
               </td>
-              <td class="claim-submit-date">{{ MICUILayoutHelper::strTime($claim->created_at, "M d, Y H:i") }}</td>
+              <td class="claim-date">{{ MICUILayoutHelper::strTime($claim->created_at, "M d, Y H:i") }}</td>
               <td class="row-action">
               </td>
             </tr>

@@ -25,7 +25,7 @@
           @if (count($docs))
           <ul>
             @foreach ($docs as $doc)
-            <li class="claim-doc-item text-color-primary text-bold">{{ $doc->file->name }}</li>
+            <li class="claim-doc-item text-color-primary text-bold break-wrap">{{ $doc->file->name }}</li>
             @endforeach
           </ul>
           @else

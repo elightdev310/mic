@@ -392,6 +392,9 @@ a {
 .dropdown-menu {
   font-size: 12px;
 }
+.break-wrap {
+  word-wrap: break-word;
+}
 .text-color-primary {
   color: #0a4391;
 }
@@ -1063,7 +1066,7 @@ body {
   margin: 2px 5px;
 }
 .dashboard-page .dashboard-section {
-  width: 350px;
+  width: 250px;
   margin: 0 auto;
 }
 .dashboard-page .dashboard-section .btn-link {
@@ -1261,6 +1264,7 @@ ul.claim-photo-section {
   .main-header .container > .navbar-header,
   .main-header .container > .navbar-collapse {
     margin: 0px;
+    z-index: 99998;
   }
   .main-header .navbar-collapse {
     background: #4e433d;
@@ -1273,6 +1277,13 @@ ul.claim-photo-section {
   }
   .no-main-header .content-wrapper {
     margin-top: 0px;
+  }
+  .claim-view-header .claim-tabs {
+    border-top: solid 1px #e1e1e1;
+  }
+  .claim-view-header .claim-tabs > a {
+    float: none;
+    padding: 5px 50px;
   }
 }
 @media (min-width: 768px) {

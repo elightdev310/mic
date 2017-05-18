@@ -6,7 +6,7 @@
 
 <div class="">
   <!--<div class="box-header"></div>-->
-  <div class="box-body">
+  <div class="box-body photos-box">
     <ul class="files_container claim-photo-section">
     @include('mic.patient.claim.partials.photo_list')
     </ul>
@@ -55,10 +55,12 @@ $(function () {
       message: "<p>Are you sure to delete photo?</p>", 
       callback: function (result) {
         if (result) {
+          $('.photos-box').loadingOverlay();
           $.ajax({
               dataType: 'json',
               url: delete_url,
               success: function ( json ) {
+                $('.photos-box').loadingOverlay('remove');
                 if (json.status=='success') {
                   $photo_item.remove();
                 } else if (json.status=='error') {
