@@ -4,6 +4,7 @@ namespace App\MIC\Modules;
 
 use DB;
 use Auth;
+use Entrust;
 
 use Illuminate\Support\Facades\Input;
 
