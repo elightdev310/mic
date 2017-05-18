@@ -407,6 +407,18 @@ a {
   border-top: solid 1px #e1e1e1;
   vertical-align: middle;
 }
+.stylish-input-group .input-group-addon {
+  background: white !important;
+}
+.stylish-input-group .form-control {
+  border-right: 0;
+  box-shadow: 0 0 0;
+  border-color: #ccc;
+}
+.stylish-input-group button {
+  border: 0;
+  background: transparent;
+}
 ul.claim-photo-section {
   overflow: auto;
 }

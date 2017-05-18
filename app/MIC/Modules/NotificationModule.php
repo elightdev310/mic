@@ -164,6 +164,7 @@ class NotificationModule {
         }
         break;
       case 'claim.doc.upload_doc': 
+        $b_sent_CM = 1;
       case 'claim.doc.delete_doc':
       case 'claim.doc.post_comment':
         // use $user, $doc, $comment
@@ -180,13 +181,16 @@ class NotificationModule {
         break;
       case 'claim.partner_approve_request': 
       case 'claim.partner_reject_request': 
+        $b_sent_CM = 1;
         break;
       case 'claim.patient_approve_request':
       case 'claim.patient_reject_request': 
+        $b_sent_CM = 1;
         break;
       case 'claim.assign_partner': 
       case 'claim.unassign_partner': 
         $users[$claim->patient_uid] = $claim->patient_uid;
+        $b_sent_CM = 1;
         break;
     }
 
@@ -195,12 +199,12 @@ class NotificationModule {
     $admin_user = config('mic.admin_user');
     $users[$admin_user] = $admin_user;
     // add Case Manager
-    if ($b_sent_CM) {
+    //if ($b_sent_CM) {
       $cm_users = MICHelper::getAllCaseManagers();
       foreach ($cm_users as $_user) {
         $users[$_user->id] = $_user->id;
       }
-    }
+    //}
 
     // remove you 
     $you = $this->getYouUser($type, $params);

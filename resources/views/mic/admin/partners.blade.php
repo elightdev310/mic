@@ -10,11 +10,25 @@
 
       <div class="partners-box box box-primary">
         <div class="box-header">
-          <div class='row'>
-            {!! Form::open(['route' => ['micadmin.partners.list'], 
+          {!! Form::open(['route' => ['micadmin.partners.list'], 
                 'method'=>'get', 
                 'class' =>'frm-search-user']) !!}
+          <div class="row">
+              <div class="col-sm-8">
+                  <div id="imaginary_container"> 
+                      <div class="input-group stylish-input-group">
+                          {!! Form::text('search_txt', Request::get('search_txt'), ['class' => 'form-control', 'placeholder'=>'Search']) !!}
+                          <span class="input-group-addon">
+                              <button type="submit">
+                                  <span class="glyphicon glyphicon-search"></span>
+                              </button>  
+                          </span>
+                      </div>
+                  </div>
+              </div>
+          </div>
 
+          <div class='row pt10'>
               <div class='form-group col-sm-4'>
                   {!! 
                     Form::select('partner_type', 
@@ -35,8 +49,8 @@
               <div class='form-group col-sm-4'>
                   {!! Form::submit('Filter', ['class'=>'btn btn-primary']) !!}
               </div>
-            {!! Form::close() !!}
           </div>
+          {!! Form::close() !!}
 
         </div><!-- /.box-header -->
         <div class="box-body table-responsive">
@@ -53,6 +67,7 @@
             <th class="action">Action</th>
           </thead>
           <tbody>
+            @if (count($partners))
             @foreach ($partners as $partner)
             <tr data-partner-id="{{ $partner->id }}">
               <td class="partner-name">
@@ -72,6 +87,11 @@
               <td class="action"></td>
             </tr>
             @endforeach
+            @else
+              <tr>
+                <td colspan="8"><p class="text-center p10">No Partner</p></td>
+              </tr>
+            @endif
           </tbody>
         </table>
 

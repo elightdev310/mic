@@ -10,6 +10,7 @@
       <th class="action">Action</th>
     </thead>
     <tbody>
+      @if (count($partner_list))
       @foreach ($partner_list as $user)
       <tr class="partner-item" data-partner-uid="{{ $user->id }}">
         <td class="partner-name">
@@ -34,6 +35,11 @@
         </td>
       </tr>
       @endforeach
+      @else
+        <tr>
+          <td colspan="6"><p class="text-center p10">No Partner</p></td>
+        </tr>
+      @endif
     </tbody>
   </table>
 

@@ -234,6 +234,17 @@ class ClaimController extends Controller
     if ($request->has('partner_type')) {
       $q->where('partners.membership_role', $request->input('partner_type'));
     }
+
+    if ($request->has('search_txt')) {
+      $search_txt = trim($request->input('search_txt'));
+
+      if ($search_txt) {
+        $q->where(function($query) use ($search_txt) {
+          $query->where('users.name', 'like', '%'.$search_txt.'%')
+                ->orWhere('users.email', 'like', '%'.$search_txt.'%');
+        });
+      }
+    }
     
     $paginate = $q->orderBy('users.created_at', 'DESC')
                ->get();

@@ -11,11 +11,26 @@
       <h4>Partners</h4>
     </div>
     <div class="panel-body">
-      <div class='row'>
-        {!! Form::open(['route' => ['micadmin.claim.view.invite_partner', $claim->id], 
+      {!! Form::open(['route' => ['micadmin.claim.view.invite_partner', $claim->id], 
             'method'=>'get', 
             'class' =>'frm-search-user']) !!}
 
+      <div class="row">
+          <div class="col-sm-4">
+              <div id="imaginary_container"> 
+                  <div class="input-group stylish-input-group">
+                      {!! Form::text('search_txt', Request::get('search_txt'), ['class' => 'form-control', 'placeholder'=>'Search']) !!}
+                      <span class="input-group-addon">
+                          <button type="submit">
+                              <span class="glyphicon glyphicon-search"></span>
+                          </button>  
+                      </span>
+                  </div>
+              </div>
+          </div>
+      </div>
+
+      <div class='row pt10'>
           <div class='form-group col-sm-4'>
               {!! 
                 Form::select('partner_type', 
@@ -27,8 +42,8 @@
           <div class='form-group col-sm-4'>
               {!! Form::submit('Filter', ['class'=>'btn btn-primary']) !!}
           </div>
-        {!! Form::close() !!}
       </div>
+      {!! Form::close() !!}
 
       @include('mic.admin.claim.partials.partner_list')
     </div>

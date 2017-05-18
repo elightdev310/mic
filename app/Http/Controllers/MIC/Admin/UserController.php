@@ -64,6 +64,17 @@ class UserController extends Controller
     if ($request->has('status')) {
       $q->where('status', $request->input('status'));
     }
+    if ($request->has('search_txt')) {
+      $search_txt = trim($request->input('search_txt'));
+
+      if ($search_txt) {
+        $q->where(function($query) use ($search_txt) {
+          $query->where('name', 'like', '%'.$search_txt.'%')
+                ->orWhere('email', 'like', '%'.$search_txt.'%');
+        });
+      }
+    }
+
     $users = $q->orderBy('created_at', 'DESC')
                ->paginate(self::PAGE_LIMIT);
 
@@ -83,6 +94,18 @@ class UserController extends Controller
     if ($request->has('status')) {
       $q->where('users.status', $request->input('status'));
     }
+
+    if ($request->has('search_txt')) {
+      $search_txt = trim($request->input('search_txt'));
+
+      if ($search_txt) {
+        $q->where(function($query) use ($search_txt) {
+          $query->where('users.name', 'like', '%'.$search_txt.'%')
+                ->orWhere('users.email', 'like', '%'.$search_txt.'%');
+        });
+      }
+    }
+
     $paginate = $q->orderBy('patients.created_at', 'DESC')
                ->paginate(self::PAGE_LIMIT);
 
@@ -112,6 +135,17 @@ class UserController extends Controller
     if ($request->has('status')) {
       $q->where('users.status', $request->input('status'));
     }
+    if ($request->has('search_txt')) {
+      $search_txt = trim($request->input('search_txt'));
+
+      if ($search_txt) {
+        $q->where(function($query) use ($search_txt) {
+          $query->where('users.name', 'like', '%'.$search_txt.'%')
+                ->orWhere('users.email', 'like', '%'.$search_txt.'%');
+        });
+      }
+    }
+
     $paginate = $q->orderBy('partners.created_at', 'DESC')
                ->paginate(self::PAGE_LIMIT);
 

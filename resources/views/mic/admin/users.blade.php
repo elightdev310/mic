@@ -16,11 +16,25 @@
             </div>
           </div>
 
-          <div class='row'>
-            {!! Form::open(['route' => ['micadmin.users.list'], 
+          {!! Form::open(['route' => ['micadmin.users.list'], 
                 'method'=>'get', 
                 'class' =>'frm-search-user']) !!}
+          <div class="row">
+              <div class="col-sm-8">
+                  <div id="imaginary_container"> 
+                      <div class="input-group stylish-input-group">
+                          {!! Form::text('search_txt', Request::get('search_txt'), ['class' => 'form-control', 'placeholder'=>'Search']) !!}
+                          <span class="input-group-addon">
+                              <button type="submit">
+                                  <span class="glyphicon glyphicon-search"></span>
+                              </button>  
+                          </span>
+                      </div>
+                  </div>
+              </div>
+          </div>
 
+          <div class='row pt10'>
               <div class='form-group col-sm-4'>
                   {!! Form::select('user_type', 
                                   [ snake_case(config('mic.user_type.patient')) => ucfirst(config('mic.user_type.patient')), 
@@ -43,8 +57,8 @@
               <div class='form-group col-sm-4'>
                   {!! Form::submit('Filter', ['class'=>'btn btn-primary']) !!}
               </div>
-            {!! Form::close() !!}
           </div>
+          {!! Form::close() !!}
 
         </div><!-- /.box-header -->
         <div class="box-body table-responsive">
@@ -60,6 +74,7 @@
 
           </thead>
           <tbody>
+            @if (count($users))
             @foreach ($users as $user)
             <tr data-user-id="{{ $user->id }}">
               <td class="user-id">{{ $user->id }}</td>
@@ -76,6 +91,11 @@
 
             </tr>
             @endforeach
+            @else
+            <tr">
+              <td colspan="6"><p class="text-center p10">No User</p></td>
+            </tr>
+            @endif
           </tbody>
         </table>
 
