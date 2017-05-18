@@ -121,7 +121,7 @@ class MICAuthController extends Controller
         }
         return redirect()->back()->withErrors($error);
       } else if ($user->status != config('mic.user_status.active')) {
-        $error = "Your account is canceled.";
+        $error = "Your account is canceled. Please call MIC to reactivate your account.";
         return redirect()->back()->withErrors($error);
       }
     } 
@@ -171,9 +171,22 @@ class MICAuthController extends Controller
       }
       
       ///////////////////////////
-      if ($this->getUserByEmail($request->input('email'))) {
+      if ($_user = MICHelper::getUserByEmail($request->input('email'))) {
+        $error = "Your email has been registered, already. <br/>";
+        if ($_user->status == config('mic.user_status.pending')) {
+          if (MICHelper::isPendingVerification($_user)) {
+            $error .= 'We sent verification email. Please check email to verfiy your email account.';
+          } else {
+            $error .= "But your account is pending. We're reviewing your account.";
+          }
+        } else if ($_user->status != config('mic.user_status.active')) {
+          $error .= "But your account is canceled. Please call MIC to reactivate your account.";
+        } else {
+          
+        }
+
         return redirect()->route('register.patient')
-                  ->withErrors("Your email has been registered, already.")
+                  ->withErrors($error)
                   ->withInput(); 
       } 
 
@@ -275,7 +288,7 @@ class MICAuthController extends Controller
     }
 
     $code = str_random(30);
-    $user = $this->getUserByEmail($email);
+    $user = MICHelper::getUserByEmail($email);
     if ($user) {
       $user->confirm_code = $code;
       $user->save();
@@ -287,7 +300,7 @@ class MICAuthController extends Controller
 
   protected function sendConfirmMail($email) 
   {
-    $user = $this->getUserByEmail($email);
+    $user = MICHelper::getUserByEmail($email);
     $patient = $user->patient;
     $confirm_url = route('ativation.user', ['token'=>$user->confirm_code]);
 

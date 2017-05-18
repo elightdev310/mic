@@ -14,9 +14,4 @@ use App\User;
 class Controller extends BaseController
 {
   use AuthorizesRequests, AuthorizesResources, DispatchesJobs, ValidatesRequests;
-
-  protected function getUserByEmail($email) {
-    $user = User::where("email", $email)->first();
-    return $user;
-  }
 }

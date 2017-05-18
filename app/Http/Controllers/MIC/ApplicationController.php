@@ -63,9 +63,22 @@ class ApplicationController extends Controller
       }
       
       // Email Duplication of User and Application
-      if (MICHelper::getUserByEmail($request->input('email'))) {
+      if ($_user = MICHelper::getUserByEmail($request->input('email'))) {
+        $error = "Your email has been registered, already. <br/>";
+        if ($_user->status == config('mic.user_status.pending')) {
+          if (MICHelper::isPendingVerification($_user)) {
+            $error .= 'We sent verification email. Please check email to verfiy your email account.';
+          } else {
+            $error .= "But your account is pending. We're reviewing your account.";
+          }
+        } else if ($_user->status != config('mic.user_status.active')) {
+          $error .= "But your account is canceled. Please call MIC to reactivate your account.";
+        } else {
+          
+        }
+
         return redirect()->route('apply.step1')
-                  ->withErrors("You're registerd as user, already.")
+                  ->withErrors($error)
                   ->withInput(); 
       } else {
         $app = Application::where('email', $request->input('email'))->first();
