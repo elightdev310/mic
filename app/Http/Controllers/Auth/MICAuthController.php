@@ -280,7 +280,6 @@ class MICAuthController extends Controller
    */
   public function resendActivation(Request $request) 
   {
-    //$email = "johndoe@example.com";
     if ($request->has('email')) {
       $email = $request->input('email');
     } else {
@@ -289,7 +288,7 @@ class MICAuthController extends Controller
 
     $code = str_random(30);
     $user = MICHelper::getUserByEmail($email);
-    if ($user) {
+    if ($user && $user->status == 'pending') {
       $user->confirm_code = $code;
       $user->save();
       return $this->sendConfirmMail($email);

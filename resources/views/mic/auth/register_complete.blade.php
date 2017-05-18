@@ -21,7 +21,7 @@
         <strong>{{ $email }}</strong>
       </p>
       <p class="login-box-msg">
-        Click the reset link to get started with MIC
+        Click the activation link to get started with MIC
       </p>
 
     </div><!-- /.login-box-body -->

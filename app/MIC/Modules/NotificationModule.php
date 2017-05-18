@@ -95,7 +95,7 @@ class NotificationModule {
   }
 
   public function sendMail($user_id, $type, $subject, $params, $type_suffix='') {
-    return;
+    //return;
     
     if (!MICHelper::isActiveUser($user_id)) {
       return;
