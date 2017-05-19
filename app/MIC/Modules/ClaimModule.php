@@ -282,6 +282,31 @@ class ClaimModule {
         "public" => $public,
         "user_id" => Auth::user()->id
       ]);
+
+      /** Rotate Image */
+      if(exif_imagetype($upload->path) == 2)//2 IMAGETYPE_JPEG
+      {
+          $exif = @exif_read_data($upload->path);
+          if(!empty($exif['Orientation']))
+          {
+              $image = imagecreatefromjpeg($upload->path);
+
+              switch($exif['Orientation']) 
+                      {
+              case 8:
+                  $image = imagerotate($image,90,0);
+                  break;
+              case 3:
+                  $image = imagerotate($image,180,0);
+                  break;
+              case 6:
+                  $image = imagerotate($image,-90,0);
+                  break;
+              }
+                  imagejpeg($image, $upload->path);
+          }
+      }
+
       // apply unique random hash to file
       while(true) {
         $hash = strtolower(str_random(20));

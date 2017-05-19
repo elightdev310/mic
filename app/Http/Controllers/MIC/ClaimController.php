@@ -274,8 +274,9 @@ class ClaimController extends Controller
 
       $file = Input::file('file');
       
-      // print_r($file);
-      $folder = storage_path("claims/docs/".$claim_id);
+      $doc_folder = "claims".DIRECTORY_SEPARATOR."docs".DIRECTORY_SEPARATOR;
+
+      $folder = storage_path($doc_folder.$claim_id);
       $upload = MICClaim::uploadClaimFile($file, $folder);
 
       if( $upload ) {

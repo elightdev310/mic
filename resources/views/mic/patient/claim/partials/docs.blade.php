@@ -48,7 +48,7 @@
       <div class="modal-header clearfix">
             <button type="button" class="close" data-dismiss="modal" aria-label="Close"><i class="fa fa-times"></i></button>
             <h4 class="modal-title pull-left" id="myModalLabel"><span class="doc-file-name">Document</span></h4>
-            <a class="btn btn-primary mt10 mr10 pull-right doc-download-link" href="#">Download</a>
+            <a class="btn btn-primary m10 mb5 pull-right doc-download-link" href="#">Download</a>
       </div>
       <div class="modal-body p0">
         <div class="view-panel-section doc-panel-section panel-loading">

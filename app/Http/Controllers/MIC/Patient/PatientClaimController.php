@@ -333,7 +333,8 @@ trait PatientClaimController
 
       $file = Input::file('file');
       
-      $folder = storage_path("claims/photos/".$claim_id);
+      $photo_folder = "claims".DIRECTORY_SEPARATOR."photos".DIRECTORY_SEPARATOR;
+      $folder = storage_path($photo_folder.$claim_id);
       $upload = MICClaim::uploadClaimFile($file, $folder);
 
       if( $upload ) {
