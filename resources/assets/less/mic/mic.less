@@ -103,13 +103,13 @@ html, body {
 
   .navbar-login
   {
-      width: 305px;
       padding: 10px;
       padding-bottom: 0px;
   }
 
   .notifications-menu {
     .user-notify-link {
+      padding-top: 9px; padding-bottom: 9px;
       i.fa {
         font-size: 20px;
       }
@@ -423,7 +423,6 @@ ul.claim-photo-section {
     }
 
     .logo {
-      padding: 5px 10px;
       img.site-logo {
         height: 60px;
       }
@@ -469,35 +468,40 @@ ul.claim-photo-section {
 }
 
 @media (min-width: 768px) {
-  .main-header .navbar .top-navbar {
-    .navbar-nav {
-      float: right;
+  .main-header {
+    .navbar-login {
+      width: 305px;
     }
-    .user-nav {
-      margin-top: 5px;
-    }
-
-    .nav > li > a {
-      padding-top: 5px;
-      padding-bottom: 5px;
-
-      &:hover {
-        background: inherit;
-        color: #ccc;
+    .navbar .top-navbar {
+      .navbar-nav {
+        float: right;
       }
-    }
+      .user-nav {
+        margin-top: 5px;
+      }
 
-    .top-menu-nav {
-      margin: 15px 0px 0px;
-      > ul > li {
-        border-right: solid 1px #fff;
-        > a {
-          padding-top: 0px;
-          padding-bottom: 0px;
+      .nav > li > a {
+        padding-top: 5px;
+        padding-bottom: 5px;
+
+        &:hover {
+          background: inherit;
+          color: #ccc;
         }
+      }
 
-        &:last-child {
-          border-right: none;
+      .top-menu-nav {
+        margin: 15px 0px 0px;
+        > ul > li {
+          border-right: solid 1px #fff;
+          > a {
+            padding-top: 0px;
+            padding-bottom: 0px;
+          }
+
+          &:last-child {
+            border-right: none;
+          }
         }
       }
     }

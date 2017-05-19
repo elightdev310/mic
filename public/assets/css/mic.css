@@ -411,6 +411,10 @@ a {
   border-top: solid 1px #e1e1e1;
   vertical-align: middle;
 }
+.navbar-default .navbar-nav > li > a:hover,
+.navbar-default .navbar-nav > li > a:focus {
+  color: #ccc;
+}
 .stylish-input-group .input-group-addon {
   background: white !important;
 }
@@ -874,6 +878,15 @@ ul.claim-photo-section li.claim-photo-item .hovereffect:hover a.info {
   left: 10px;
   top: 10px;
 }
+.notifications-menu .user-noti-list > ul.menu {
+  max-height: 500px;
+}
+.notifications-menu .user-noti-list > ul.menu > li > a {
+  overflow: initial;
+  text-overflow: unset;
+  white-space: normal;
+  word-wrap: break-word;
+}
 .notification-list .noti-item {
   display: table;
   width: 100%;
@@ -904,17 +917,26 @@ ul.claim-photo-section li.claim-photo-item .hovereffect:hover a.info {
   min-width: 60px;
   color: #777777;
 }
-.user-nav .notifications-menu .user-noti-list > ul.menu {
-  max-height: 500px;
-}
-.user-nav .notifications-menu .user-noti-list > ul.menu > li > a {
-  overflow: initial;
-  text-overflow: unset;
-  white-space: normal;
-  word-wrap: break-word;
-}
 .claim-billing-doc-section .billing-reply-doc td:first-child {
   padding-left: 30px;
+}
+/* smaller than Extra small screen */
+@media (max-width: 767px) {
+  .navbar-nav .notifications-menu.open .dropdown-menu {
+    background: #fff;
+    position: absolute;
+    right: -45px;
+  }
+  .user-nav.navbar-nav {
+    color: white;
+  }
+  .navbar-default .user-nav.navbar-nav .open .dropdown-menu > li > a {
+    color: white;
+  }
+  .navbar-default .user-nav.navbar-nav .open .dropdown-menu > li > a:hover,
+  .navbar-default .user-nav.navbar-nav .open .dropdown-menu > li > a:focus {
+    color: #ccc;
+  }
 }
 html,
 body {
@@ -1001,9 +1023,12 @@ body {
   font-size: 14px;
 }
 .main-header .navbar-login {
-  width: 305px;
   padding: 10px;
   padding-bottom: 0px;
+}
+.main-header .notifications-menu .user-notify-link {
+  padding-top: 9px;
+  padding-bottom: 9px;
 }
 .main-header .notifications-menu .user-notify-link i.fa {
   font-size: 20px;
@@ -1255,9 +1280,6 @@ ul.claim-photo-section {
     height: 40px;
     min-height: 40px;
   }
-  .main-header .logo {
-    padding: 5px 10px;
-  }
   .main-header .logo img.site-logo {
     height: 60px;
   }
@@ -1290,6 +1312,9 @@ ul.claim-photo-section {
   }
 }
 @media (min-width: 768px) {
+  .main-header .navbar-login {
+    width: 305px;
+  }
   .main-header .navbar .top-navbar .navbar-nav {
     float: right;
   }

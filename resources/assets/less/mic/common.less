@@ -528,6 +528,18 @@ ul.claim-photo-section {
   }
 }
 
+.notifications-menu {
+  .user-noti-list > ul.menu {
+    max-height: 500px;
+    > li > a {
+      overflow:initial;
+      text-overflow: unset;
+      white-space: normal;
+      word-wrap: break-word;
+    }
+  }
+}
+
 .notification-list {
   .noti-item {
     display: table;
@@ -561,22 +573,32 @@ ul.claim-photo-section {
   }
 }
 
-.user-nav .notifications-menu {
-  .user-noti-list > ul.menu {
-    max-height: 500px;
-    > li > a {
-      overflow:initial;
-      text-overflow: unset;
-      white-space: normal;
-      word-wrap: break-word;
-    }
-  }
-}
+
 
 .claim-billing-doc-section {
   .billing-reply-doc {
     td:first-child {
       padding-left: 30px;
+    }
+  }
+}
+
+
+/* smaller than Extra small screen */
+@media (max-width: (@screen-xs-max)) {
+  .navbar-nav .notifications-menu.open .dropdown-menu {
+    background: #fff;
+    position: absolute;
+    right: -45px;
+  }
+
+  .user-nav.navbar-nav {
+    color: white;
+  }
+  .navbar-default .user-nav.navbar-nav .open .dropdown-menu > li > a {
+    color: white;
+    &:hover, &:focus {
+      color: #ccc;
     }
   }
 }

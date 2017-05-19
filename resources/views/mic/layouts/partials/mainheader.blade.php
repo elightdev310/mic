@@ -9,22 +9,24 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span> 
         </button>
-        <div class="dropdown notifications-menu pull-right visible-xs">
-          <!-- Menu toggle button -->
-          <a href="#" class="user-notify-link dropdown-toggle" data-toggle="dropdown">
-            <i class="fa fa-bell-o"></i>
-            <span class="msg-count @if (MICNotification::getUnreadCount($currentUser->id)==0) hidden @endif">
-              {{ MICNotification::getUnreadCount($currentUser->id) }}
-            </span>
-          </a>
-          <ul class="dropdown-menu">
-            <li class="user-noti-list">
-              <!-- Inner Menu: contains the notifications -->
-              
-            </li>
-            <li class="footer"><a href="{{ route('notification.list') }}">View all</a></li>
-          </ul>
-        </div>
+        <ul class="nav navbar-nav m0">
+          <li class="dropdown notifications-menu pull-right visible-xs">
+            <!-- Menu toggle button -->
+            <a href="#" class="user-notify-link dropdown-toggle" data-toggle="dropdown">
+              <i class="fa fa-bell-o"></i>
+              <span class="msg-count @if (MICNotification::getUnreadCount($currentUser->id)==0) hidden @endif">
+                {{ MICNotification::getUnreadCount($currentUser->id) }}
+              </span>
+            </a>
+            <ul class="dropdown-menu">
+              <li class="user-noti-list">
+                <!-- Inner Menu: contains the notifications -->
+                
+              </li>
+              <li class="footer"><a href="{{ route('notification.list') }}">View all</a></li>
+            </ul>
+          </li>
+        </ul>
 
         <a href="{{ url(config('mic.front_url')) }}" class="logo">
           <img class="site-logo" typeof="foaf:Image" src="{{ config('mic.logo_url') }}" alt="{{ LAConfigs::getByKey('sitename') }}">
@@ -101,7 +103,7 @@
 @push('scripts')
 <script>
 $(function () {
-  $('.user-nav').on('click', 'a.user-notify-link', function() {
+  $('.main-header').on('click', 'a.user-notify-link', function() {
     var load_url = '{{ route('notification.user_notify') }}';
     loadUserNotify(load_url);
   });
