@@ -95,17 +95,17 @@ class NotificationModule {
   }
 
   public function sendMail($user_id, $type, $subject, $params, $type_suffix='') {
-    //return;
-    
-    if (!MICHelper::isActiveUser($user_id)) {
+    $sendTo = UserModel::find($user_id);
+
+    if (!MICHelper::isActiveUser($sendTo)) {
       return;
     }
 
-    $sendTo = UserModel::find($user_id);
     $params['sendTo'] = $sendTo;
     $this->additionalParams($user_id, $type, $params);
 
-    $response = Mail::send('emails.'.$type.$type_suffix, $params, 
+    $template = 'emails.'.$type.$type_suffix;
+    $response = Mail::send($template, $params, 
                   function ($m) use($sendTo, $subject) {
                     $m->to($sendTo->email)
                       ->subject($subject);
