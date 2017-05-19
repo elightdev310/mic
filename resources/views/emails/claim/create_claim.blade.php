@@ -1,6 +1,6 @@
 Dear {{ $sendTo->name }},<br><br>
 
-{{ $user->name }} created <a href="{{ route($url_as_prefix."claim.view", [$claim->id]) }}">claim #{{ $claim->id }}</a>
+{{ $user->name }} created claim #{{ $claim->id }}.
 <br/><br/>
 
 Best Regards,

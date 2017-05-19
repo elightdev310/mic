@@ -169,7 +169,7 @@ trait NotiMailModule
   public function additionalParams($user_id, $type, &$params) {
     $sendTo = User::find($user_id);
 
-    if ($sendTo->type == 'employee') {
+    if ($sendTo->type == 'employee' || $sendTo->type == 'case_manager') {
       $params['url_as_prefix'] = 'micadmin.';
     } else {
       $params['url_as_prefix'] = '';

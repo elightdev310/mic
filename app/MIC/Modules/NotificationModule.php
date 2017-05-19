@@ -157,8 +157,6 @@ class NotificationModule {
 
     $users = array();
     switch ($type) {
-      case 'claim.create_claim':
-        break;
       case 'claim.update_ioi':
       case 'claim.upload_photo':
       case 'claim.delete_photo':
@@ -219,7 +217,7 @@ class NotificationModule {
 
     // remove you 
     $you = $this->getYouUser($type, $params);
-    if ($you) {
+    if ($you && isset($users[$you])) {
       unset($users[$you]);
     }
 

@@ -9,6 +9,23 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span> 
         </button>
+        <div class="dropdown notifications-menu pull-right visible-xs">
+          <!-- Menu toggle button -->
+          <a href="#" class="user-notify-link dropdown-toggle" data-toggle="dropdown">
+            <i class="fa fa-bell-o"></i>
+            <span class="msg-count @if (MICNotification::getUnreadCount($currentUser->id)==0) hidden @endif">
+              {{ MICNotification::getUnreadCount($currentUser->id) }}
+            </span>
+          </a>
+          <ul class="dropdown-menu">
+            <li class="user-noti-list">
+              <!-- Inner Menu: contains the notifications -->
+              
+            </li>
+            <li class="footer"><a href="{{ route('notification.list') }}">View all</a></li>
+          </ul>
+        </div>
+
         <a href="{{ url(config('mic.front_url')) }}" class="logo">
           <img class="site-logo" typeof="foaf:Image" src="{{ config('mic.logo_url') }}" alt="{{ LAConfigs::getByKey('sitename') }}">
         </a>
@@ -20,7 +37,7 @@
         @if (isset($currentUser))
         <div class="clearfix">
         <ul class="nav navbar-nav user-nav">
-          <li class="dropdown notifications-menu">
+          <li class="dropdown notifications-menu hidden-xs">
             <!-- Menu toggle button -->
             <a href="#" class="user-notify-link dropdown-toggle" data-toggle="dropdown">
               <i class="fa fa-bell-o"></i>

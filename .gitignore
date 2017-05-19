@@ -8,5 +8,7 @@
 Homestead.yaml
 Homestead.json
 .env
+.env.bak
+remote.env
 access.log
 error.log
