@@ -937,7 +937,6 @@ ul.claim-photo-section li.claim-photo-item .hovereffect:hover a.info {
   .navbar-nav .notifications-menu.open .dropdown-menu {
     background: #fff;
     position: absolute;
-    right: -45px;
   }
   .user-nav.navbar-nav {
     color: white;
