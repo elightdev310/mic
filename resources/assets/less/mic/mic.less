@@ -354,7 +354,7 @@ html, body {
   }
 }
 ul.claim-photo-section {
-  padding: 10px 50px;
+  padding: 10px 20px;
 }
 
 .my-claims-list {
@@ -395,11 +395,100 @@ ul.claim-photo-section {
   }
   &.claim-photos-panel {
     .claim-photo-item {
-      margin: 0px 15px 15px 0px;
+      width: 33%;
+      &>a {
+        width: 95%;
+        margin: 10px auto;
+        border: solid 1px #eee;
+        display: block;
+        &>img {
+          width: 100%;
+          height: auto;
+        }
+      }
     }
   }
 }
 
+
+/* smaller than Small screen */
+@media (max-width: (@screen-sm-max)) {
+  .claim-right-panel {
+    &.claim-photos-panel {
+      .claim-photo-item {
+        width: 50%;
+      }
+    }
+  }
+}
+
+@media (min-width: (@screen-sm-min)) {
+  .main-header {
+    .navbar-login {
+      width: 305px;
+    }
+    .navbar .top-navbar {
+      .navbar-nav {
+        float: right;
+      }
+      .user-nav {
+        margin-top: 5px;
+      }
+
+      .nav > li > a {
+        padding-top: 5px;
+        padding-bottom: 5px;
+
+        &:hover {
+          background: inherit;
+          color: #ccc;
+        }
+      }
+
+      .top-menu-nav {
+        margin: 15px 0px 0px;
+        > ul > li {
+          border-right: solid 1px #fff;
+          > a {
+            padding-top: 0px;
+            padding-bottom: 0px;
+          }
+
+          &:last-child {
+            border-right: none;
+          }
+        }
+      }
+    }
+  }
+
+  .content {
+    padding-left: 0px;
+    padding-right: 0px;
+  }
+
+  .claim-view-header {
+    .claim-info {
+      .section-1 {
+        min-height: 150px;
+        border-right: solid 1px #e1e1e1;
+      }
+
+      .claim-description {
+        width: 80%;
+      }
+    }
+  }
+
+  .my-claims-list {
+    .claim-item-box {
+      margin-left: 20px;
+    }
+    .claim-description {
+      min-height: 150px;
+    }
+  }
+}
 
 /* smaller than Extra small screen */
 @media (max-width: (@screen-xs-max)) {
@@ -465,72 +554,27 @@ ul.claim-photo-section {
     padding: 10px 30px;
   }
 
+  .claim-right-panel {
+    &.claim-photos-panel {
+      .claim-photo-item {
+        width: 33%;
+      }
+    }
+  }
 }
 
-@media (min-width: 768px) {
-  .main-header {
-    .navbar-login {
-      width: 305px;
-    }
-    .navbar .top-navbar {
-      .navbar-nav {
-        float: right;
+/* smaller than 640px screen */
+@media (max-width: (639px)) {
+  
+}
+
+/* smaller than 480px screen */
+@media (max-width: (479px)) {
+  .claim-right-panel {
+    &.claim-photos-panel {
+      .claim-photo-item {
+        width: 50%;
       }
-      .user-nav {
-        margin-top: 5px;
-      }
-
-      .nav > li > a {
-        padding-top: 5px;
-        padding-bottom: 5px;
-
-        &:hover {
-          background: inherit;
-          color: #ccc;
-        }
-      }
-
-      .top-menu-nav {
-        margin: 15px 0px 0px;
-        > ul > li {
-          border-right: solid 1px #fff;
-          > a {
-            padding-top: 0px;
-            padding-bottom: 0px;
-          }
-
-          &:last-child {
-            border-right: none;
-          }
-        }
-      }
-    }
-  }
-
-  .content {
-    padding-left: 0px;
-    padding-right: 0px;
-  }
-
-  .claim-view-header {
-    .claim-info {
-      .section-1 {
-        min-height: 150px;
-        border-right: solid 1px #e1e1e1;
-      }
-
-      .claim-description {
-        width: 80%;
-      }
-    }
-  }
-
-  .my-claims-list {
-    .claim-item-box {
-      margin-left: 20px;
-    }
-    .claim-description {
-      min-height: 150px;
     }
   }
 }

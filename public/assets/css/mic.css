@@ -431,13 +431,21 @@ ul.claim-photo-section {
   overflow: auto;
 }
 ul.claim-photo-section li {
-  margin-right: 20px;
-  margin-bottom: 20px;
-  max-width: 180px;
-  width: 180px;
-  height: 180px;
+  width: 20%;
+  height: auto;
+  max-width: none;
+  margin: 0px;
+  border: none;
 }
-ul.claim-photo-section li a img {
+ul.claim-photo-section li > a,
+ul.claim-photo-section li > .hovereffect {
+  width: 95%;
+  margin: 10px auto;
+  border: solid 1px #eee;
+}
+ul.claim-photo-section li > a > img,
+ul.claim-photo-section li > .hovereffect > img {
+  width: 100%;
   height: auto;
 }
 ul.claim-photo-section .blueimp-gallery > .indicator > li {
@@ -446,8 +454,6 @@ ul.claim-photo-section .blueimp-gallery > .indicator > li {
   border-radius: 15px;
 }
 ul.claim-photo-section li.claim-photo-item .hovereffect {
-  width: 100%;
-  height: 100%;
   float: left;
   overflow: hidden;
   position: relative;
@@ -921,6 +927,12 @@ ul.claim-photo-section li.claim-photo-item .hovereffect:hover a.info {
   padding-left: 30px;
 }
 /* smaller than Extra small screen */
+@media (max-width: 991px) {
+  ul.claim-photo-section li {
+    width: 25%;
+  }
+}
+/* smaller than Extra small screen */
 @media (max-width: 767px) {
   .navbar-nav .notifications-menu.open .dropdown-menu {
     background: #fff;
@@ -936,6 +948,21 @@ ul.claim-photo-section li.claim-photo-item .hovereffect:hover a.info {
   .navbar-default .user-nav.navbar-nav .open .dropdown-menu > li > a:hover,
   .navbar-default .user-nav.navbar-nav .open .dropdown-menu > li > a:focus {
     color: #ccc;
+  }
+  ul.claim-photo-section li {
+    width: 33%;
+  }
+}
+/* smaller than 640px screen */
+@media (max-width: 639px) {
+  ul.claim-photo-section li {
+    width: 50%;
+  }
+}
+/* smaller than 480px screen */
+@media (max-width: 479px) {
+  ul.claim-photo-section li {
+    width: 100%;
   }
 }
 html,
@@ -1223,7 +1250,7 @@ body {
   padding-left: 50px;
 }
 ul.claim-photo-section {
-  padding: 10px 50px;
+  padding: 10px 20px;
 }
 .my-claims-list .claim-item-box {
   margin: 10px 0px 10px 0px;
@@ -1258,7 +1285,72 @@ ul.claim-photo-section {
   word-break: break-all;
 }
 .claim-right-panel.claim-photos-panel .claim-photo-item {
-  margin: 0px 15px 15px 0px;
+  width: 33%;
+}
+.claim-right-panel.claim-photos-panel .claim-photo-item > a {
+  width: 95%;
+  margin: 10px auto;
+  border: solid 1px #eee;
+  display: block;
+}
+.claim-right-panel.claim-photos-panel .claim-photo-item > a > img {
+  width: 100%;
+  height: auto;
+}
+/* smaller than Small screen */
+@media (max-width: 991px) {
+  .claim-right-panel.claim-photos-panel .claim-photo-item {
+    width: 50%;
+  }
+}
+@media (min-width: 768px) {
+  .main-header .navbar-login {
+    width: 305px;
+  }
+  .main-header .navbar .top-navbar .navbar-nav {
+    float: right;
+  }
+  .main-header .navbar .top-navbar .user-nav {
+    margin-top: 5px;
+  }
+  .main-header .navbar .top-navbar .nav > li > a {
+    padding-top: 5px;
+    padding-bottom: 5px;
+  }
+  .main-header .navbar .top-navbar .nav > li > a:hover {
+    background: inherit;
+    color: #ccc;
+  }
+  .main-header .navbar .top-navbar .top-menu-nav {
+    margin: 15px 0px 0px;
+  }
+  .main-header .navbar .top-navbar .top-menu-nav > ul > li {
+    border-right: solid 1px #fff;
+  }
+  .main-header .navbar .top-navbar .top-menu-nav > ul > li > a {
+    padding-top: 0px;
+    padding-bottom: 0px;
+  }
+  .main-header .navbar .top-navbar .top-menu-nav > ul > li:last-child {
+    border-right: none;
+  }
+  .content {
+    padding-left: 0px;
+    padding-right: 0px;
+  }
+  .claim-view-header .claim-info .section-1 {
+    min-height: 150px;
+    border-right: solid 1px #e1e1e1;
+  }
+  .claim-view-header .claim-info .claim-description {
+    width: 80%;
+  }
+  .my-claims-list .claim-item-box {
+    margin-left: 20px;
+  }
+  .my-claims-list .claim-description {
+    min-height: 150px;
+  }
 }
 /* smaller than Extra small screen */
 @media (max-width: 767px) {
@@ -1310,54 +1402,15 @@ ul.claim-photo-section {
   ul.claim-photo-section {
     padding: 10px 30px;
   }
+  .claim-right-panel.claim-photos-panel .claim-photo-item {
+    width: 33%;
+  }
 }
-@media (min-width: 768px) {
-  .main-header .navbar-login {
-    width: 305px;
-  }
-  .main-header .navbar .top-navbar .navbar-nav {
-    float: right;
-  }
-  .main-header .navbar .top-navbar .user-nav {
-    margin-top: 5px;
-  }
-  .main-header .navbar .top-navbar .nav > li > a {
-    padding-top: 5px;
-    padding-bottom: 5px;
-  }
-  .main-header .navbar .top-navbar .nav > li > a:hover {
-    background: inherit;
-    color: #ccc;
-  }
-  .main-header .navbar .top-navbar .top-menu-nav {
-    margin: 15px 0px 0px;
-  }
-  .main-header .navbar .top-navbar .top-menu-nav > ul > li {
-    border-right: solid 1px #fff;
-  }
-  .main-header .navbar .top-navbar .top-menu-nav > ul > li > a {
-    padding-top: 0px;
-    padding-bottom: 0px;
-  }
-  .main-header .navbar .top-navbar .top-menu-nav > ul > li:last-child {
-    border-right: none;
-  }
-  .content {
-    padding-left: 0px;
-    padding-right: 0px;
-  }
-  .claim-view-header .claim-info .section-1 {
-    min-height: 150px;
-    border-right: solid 1px #e1e1e1;
-  }
-  .claim-view-header .claim-info .claim-description {
-    width: 80%;
-  }
-  .my-claims-list .claim-item-box {
-    margin-left: 20px;
-  }
-  .my-claims-list .claim-description {
-    min-height: 150px;
+/* smaller than 640px screen */
+/* smaller than 480px screen */
+@media (max-width: 479px) {
+  .claim-right-panel.claim-photos-panel .claim-photo-item {
+    width: 50%;
   }
 }
 
