@@ -34,12 +34,16 @@
     <section class="content {{ $no_padding or '' }}">
       <!-- Your Page Content Here -->
       
-      <div class="row" style="margin-top: 100px;">
+      <div class="row" style="margin-top: 50px;">
         <div class="col-sm-6 text-center">
-          <a class="btn btn-primary btn-lg" href="{{ url('/login/patient') }}">Log in as Patient</a>
+          <div class="p20">
+            <a class="btn btn-primary btn-lg " href="{{ url('/login/patient') }}">Log in as Patient</a>
+          </div>
         </div>
         <div class="col-sm-6 text-center">
-          <a class="btn btn-primary btn-lg" href="{{ url('/login/partner') }}">Log in as others</a>
+          <div class="p20">
+            <a class="btn btn-primary btn-lg p20" href="{{ url('/login/partner') }}">Log in as others</a>
+          </div>
         </div>
       </div>
 

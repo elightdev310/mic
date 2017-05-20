@@ -13,10 +13,10 @@ $(function () {
         _height = $('.content').height();
       }
 
-      minHeight = _width*0.43 + 350;
-      if (_height < minHeight) {
-        _height = minHeight;
-      }
+      // minHeight = _width*0.43 + 350;
+      // if (_height < minHeight) {
+      //   _height = minHeight;
+      // }
 
       $('.auth-mic-left-bg').height(_height);
     });

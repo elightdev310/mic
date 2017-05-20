@@ -10,6 +10,10 @@ MICApp.UI = {
       $('.notifications-menu a.user-notify-link span.msg-count').addClass('hidden');
     }
   }, 
+
+  doAjaxAction: function() {
+    
+  }, 
   reloadPage: function(target) {
     if (typeof target == 'undefined') {
       target = '_blank';
@@ -20,10 +24,9 @@ MICApp.UI = {
     } else if (target == '_parent') {
       parent.location.reload(false);
     }
-  }, 
+  }
 
 };
-
 
 $(function () {
   "use strict";

@@ -10,7 +10,7 @@
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
     <div class="row">
-      <div class="col-sm-4 left-sidebar">
+      <div class="col-sm-4 left-sidebar hidden-xs">
         @yield('left_siebar')
       </div>
       <div class="col-sm-8 content">
