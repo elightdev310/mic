@@ -11,7 +11,7 @@
   <div class="my-claims-list">
     <div class="row">
         @foreach ($claims as $claim)
-        <div class="col-sm-4" data-claim-id="{{ $claim->id }}">
+        <div class="col-sm-6 col-md-4" data-claim-id="{{ $claim->id }}">
           <div class="claim-item-box content-box text-center">
             <a href="{{ route('claim.view', [$claim->id]) }}"><h3 class="text-bold text-color-primary">{{ $claim->patientUser->name }}</h3></a>
             <div class="claim-description text-left">

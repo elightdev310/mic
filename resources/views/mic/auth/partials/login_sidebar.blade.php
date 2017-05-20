@@ -8,7 +8,7 @@
     </div>
   </div>
 
-  <div class="text-center pt30">
+  <div class="text-center">
     <a href="{{ $sign_up_url or route('signup') }}" class="btn btn-primary btn-sign-up btn-lg">Free Sign Up</a>
   </div>
 </div>

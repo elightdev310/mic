@@ -884,10 +884,10 @@ ul.claim-photo-section li.claim-photo-item .hovereffect:hover a.info {
   left: 10px;
   top: 10px;
 }
-.notifications-menu .user-noti-list > ul.menu {
+.main-header .notifications-menu .user-noti-list > ul.menu {
   max-height: 500px;
 }
-.notifications-menu .user-noti-list > ul.menu > li > a {
+.main-header .notifications-menu .user-noti-list > ul.menu > li > a {
   overflow: initial;
   text-overflow: unset;
   white-space: normal;
