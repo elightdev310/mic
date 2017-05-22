@@ -58,20 +58,22 @@ $(function () {
           $('.photos-box').loadingOverlay();
           $.ajax({
               dataType: 'json',
-              url: delete_url,
-              success: function ( json ) {
-                $('.photos-box').loadingOverlay('remove');
-                if (json.status=='success') {
-                  $photo_item.remove();
-                } else if (json.status=='error') {
-                  //console.log(json.message);
-                  if (json.action == 'reload') {
-                    MICApp.UI.reloadPage();
-                  }
-                }
+              url: delete_url
+            })
+          .done(function( json, textStatus, jqXHR ) {
+            if (json.status=='success') {
+              $photo_item.remove();
+            } else if (json.status=='error') {
+              //console.log(json.message);
+              if (json.action == 'reload') {
+                MICApp.UI.reloadPage();
               }
+            }
+          })
+          .fail(function( jqXHR, textStatus, errorThrown ) {})
+          .always(function( data, textStatus, errorThrown ) { 
+            $('.photos-box').loadingOverlay('remove');
           });
-          
         }
       }
     });
@@ -81,14 +83,17 @@ $(function () {
 
 function loadClaimPhotos() {
   // load claim photo
+  $("ul.files_container").loadingOverlay();
   $.ajax({
       dataType: 'json',
-      url: "{{ route('patient.claim.photo_list', [$claim->id]) }}",
-      success: function ( json ) {
-          $("ul.files_container").empty();
-          $("ul.files_container").html(json.photo_html);
-      }
-  });
+      url: "{{ route('patient.claim.photo_list', [$claim->id]) }}"})
+    .done(function( data, textStatus, jqXHR ) {
+      $("ul.files_container").empty();
+      $("ul.files_container").html(data.photo_html);
+    })
+    .always(function( data, textStatus, errorThrown ) { 
+      $("ul.files_container").loadingOverlay('remove');
+    });
 }
 
 </script>

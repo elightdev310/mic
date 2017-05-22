@@ -56,7 +56,7 @@ h6,
   position: relative;
   pointer-events: none;
   min-height: 5.3rem;
-  z-index: 999999;
+  z-index: 99990;
 }
 .loading .loading-overlay {
   position: absolute;
@@ -67,7 +67,7 @@ h6,
   animation: loadingStart 100ms 300ms linear 1 both;
   background: rgba(255, 255, 255, 0.5);
   text-align: center;
-  z-index: 99999;
+  z-index: 99990;
 }
 .loading .loading-text {
   font-size: 0.875rem;
@@ -78,6 +78,13 @@ h6,
   display: none;
   text-transform: uppercase;
   font-weight: bold;
+}
+.modal {
+  z-index: 100001;
+}
+.modal .panel-loading .loading,
+.modal .panel-loading .loading .loading-overlay {
+  z-index: 999999;
 }
 .loading .loading-text:after {
   content: "...";
@@ -426,6 +433,9 @@ a {
 .stylish-input-group button {
   border: 0;
   background: transparent;
+}
+ul.files_container {
+  min-height: auto;
 }
 ul.claim-photo-section {
   overflow: auto;

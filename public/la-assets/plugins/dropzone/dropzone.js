@@ -1100,21 +1100,21 @@
     Dropzone.prototype.createThumbnailFromUrl = function(file, imageUrl, callback, crossOrigin) {
       var img;
       img = document.createElement("img");
+
       if (crossOrigin) {
         img.crossOrigin = crossOrigin;
       }
-      img.onload = (function(_this) {
 
-        var orientation = 0;
-        EXIF.getData(img, function() {
-           switch(parseInt(EXIF.getTag(this, "Orientation"))){
+      img.onload = (function(_this) {
+        return function() {
+          EXIF.getData(img, function() {
+            switch(parseInt(EXIF.getTag(this, "Orientation"))){
                  case 3: orientation = 180; break;
                  case 6: orientation = -90; break;
                  case 8: orientation = 90; break; 
-           }
-        });
+            }
+          });
 
-        return function() {
           var canvas, ctx, resizeInfo, thumbnail, _ref, _ref1, _ref2, _ref3;
           file.width = img.width;
           file.height = img.height;
@@ -1140,6 +1140,7 @@
       if (callback != null) {
         img.onerror = callback;
       }
+
       return img.src = imageUrl;
     };
 
@@ -1707,7 +1708,7 @@
 
     dh = dh / vertSquashRatio;
     ctx.translate( dx+dw/2, dy+dh/2 );
-    ctx.rotate(o*Math.PI/180);
+    ctx.rotate(-o*Math.PI/180);
     dx = -dw/2;
     dy = -dh/2;
 
