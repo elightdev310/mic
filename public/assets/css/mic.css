@@ -1011,7 +1011,6 @@ body {
   height: 110px;
   position: fixed;
   top: 0px;
-  overflow: hidden;
 }
 .main-header > .navbar {
   margin-left: 0px;
@@ -1056,8 +1055,9 @@ body {
   padding-bottom: 0px;
 }
 .main-header .notifications-menu .user-notify-link {
-  padding-top: 9px;
-  padding-bottom: 9px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  margin-top: 4px;
 }
 .main-header .notifications-menu .user-notify-link i.fa {
   font-size: 20px;
@@ -1318,6 +1318,7 @@ ul.claim-photo-section {
   .main-header .navbar .top-navbar .nav > li > a {
     padding-top: 5px;
     padding-bottom: 5px;
+    margin: 0px;
   }
   .main-header .navbar .top-navbar .nav > li > a:hover {
     background: inherit;

@@ -43,7 +43,7 @@ class ClaimController extends Controller
    * Get: admin/claims/list
    */
   public function claimsList(Request $request) {
-    $claims = Claim::paginate(self::PAGE_LIMIT);
+    $claims = Claim::orderBy('id', 'DESC')->paginate(self::PAGE_LIMIT);
 
     $params = array();
     $params['claims'] = $claims;
