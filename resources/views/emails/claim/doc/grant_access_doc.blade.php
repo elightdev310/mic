@@ -1,6 +1,6 @@
 Dear {{ $sendTo->name }},<br><br>
 
-{{ $user->name }} get an access to document ({{ $doc->file->name }}) of <a href="{{ route($url_as_prefix."claim.view", [$claim->id]) }}">claim #{{ $claim->id }}</a>
+{{ $user->name }} get an access to document ({{ $doc->file->name }}) of claim #{{ $claim->id }}
 <br/><br/>
 
 Best Regards,

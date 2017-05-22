@@ -893,6 +893,9 @@ ul.claim-photo-section li.claim-photo-item .hovereffect:hover a.info {
   white-space: normal;
   word-wrap: break-word;
 }
+.notifications-menu .dropdown-menu {
+  z-index: 99999;
+}
 .notification-list .noti-item {
   display: table;
   width: 100%;

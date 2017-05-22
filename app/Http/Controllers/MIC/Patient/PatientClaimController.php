@@ -440,8 +440,8 @@ trait PatientClaimController
             'partner' => $car->partnerUser, 
             'claim'   => $claim
           );
-        MICClaim::addClaimActivity($claim->id, $currentUser->id, 'patient_approve_request', $ca_params);
-        MICNotification::sendNotification('claim.patient_approve_request', $ca_params);
+        // MICClaim::addClaimActivity($claim->id, $currentUser->id, 'patient_approve_request', $ca_params);
+        // MICNotification::sendNotification('claim.patient_approve_request', $ca_params);
 
         // Assign Partner to Claim
         $this->claimAssignPartner($claim_id, $car->partner_uid);

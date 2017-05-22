@@ -95,6 +95,8 @@ class NotificationModule {
   }
 
   public function sendMail($user_id, $type, $subject, $params, $type_suffix='') {
+    //return;
+
     $sendTo = UserModel::find($user_id);
 
     if (!MICHelper::isActiveUser($sendTo)) {
@@ -188,7 +190,6 @@ class NotificationModule {
 
       case 'claim.assign_request':
         // use $partner, $claim
-        $b_sent_CM = 0;
         break;
       case 'claim.partner_approve_request': 
       case 'claim.partner_reject_request': 

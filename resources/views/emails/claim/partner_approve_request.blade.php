@@ -1,6 +1,6 @@
 Dear {{ $sendTo->name }},<br><br>
 
-{{ $partner->name }} approved to be assigned to <a href="{{ route($url_as_prefix."claim.view", [$claim->id]) }}">claim #{{ $claim->id }}</a>
+{{ $partner->name }} approved to be assigned to claim #{{ $claim->id }}
 <br/><br/>
 
 Best Regards,

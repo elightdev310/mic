@@ -1,7 +1,7 @@
 <form action="{{ route('patient.claim.upload.photo', [$claim->id]) }}" id="fm_dz_photo" class="dropzone-form" enctype="multipart/form-data" method="POST">
   {{ csrf_field() }}
   <a id="closePhotoDZ" class="closeDZ"><i class="fa fa-times"></i></a>
-  <div class="dz-message"><i class="fa fa-cloud-upload"></i><br>Drop photos here to upload</div>
+  <div class="dz-message"><i class="fa fa-cloud-upload"></i><br>Drop photos here to upload. <br>Photo should be less than 2M.</div>
 </form>
 
 <div class="">
@@ -28,7 +28,7 @@
 var fm_dz_photo = null;
 $(function () {
   fm_dz_photo = new Dropzone("#fm_dz_photo", {
-      maxFilesize: 8, // MB
+      maxFilesize: 2, // MB
       acceptedFiles: "image/*",
       init: function() {
           this.on("complete", function(file) {
