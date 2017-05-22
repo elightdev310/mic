@@ -145,19 +145,24 @@ $(function () {
       message: "<p>Are you sure to delete document?</p>", 
       callback: function (result) {
         if (result) {
+          $('.claim-doc-section').loadingOverlay();
           $.ajax({
               dataType: 'json',
               url: delete_url,
-              success: function ( json ) {
-                if (json.status=='success') {
-                  $doc_item.remove();
-                } else if (json.status=='error') {
-                  console.log(json.message);
-                  if (json.action == 'reload') {
-                    MICApp.UI.reloadPage();
-                  }
-                }
+            })
+          .done(function( json, textStatus, jqXHR ) {
+            if (json.status=='success') {
+              $doc_item.remove();
+            } else if (json.status=='error') {
+              console.log(json.message);
+              if (json.action == 'reload') {
+                MICApp.UI.reloadPage();
               }
+            }
+          })
+          .fail(function( jqXHR, textStatus, errorThrown ) {})
+          .always(function( data, textStatus, errorThrown ) { 
+            $('.claim-doc-section').loadingOverlay('remove');
           });
         }
       }
@@ -259,11 +264,14 @@ function loadClaimDocs() {
   $.ajax({
       dataType: 'json',
       url: "{{ route('claim.doc_list', [$claim->id]) }}",
-      success: function ( json ) {
-        $(".claim-doc-section").loadingOverlay('remove');
-        $(".claim-doc-section").empty();
-        $(".claim-doc-section").html(json.doc_html);
-      }
+    })
+  .done(function( json, textStatus, jqXHR ) {
+    $(".claim-doc-section").empty();
+    $(".claim-doc-section").html(json.doc_html);
+  })
+  .fail(function( jqXHR, textStatus, errorThrown ) {})
+  .always(function( data, textStatus, errorThrown ) { 
+    $(".claim-doc-section").loadingOverlay('remove');
   });
 }
 
