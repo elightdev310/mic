@@ -19,18 +19,18 @@ trait NotiMailModule
 
       case 'claim.doc.grant_access_doc':
         // use $claim, $doc, $user
-        $subject = 'You get an access to document (%s) of claim #%d';
-        $subject = sprintf($subject, $doc->file->name, $claim->id);
+        $subject = 'You get an access to document of claim #%d';
+        $subject = sprintf($subject, $claim->id);
         break;
       case 'claim.doc.remove_access_doc':
         // use $claim, $doc, $user
-        $subject = 'You lost an access to document (%s) of claim #%d';
-        $subject = sprintf($subject, $doc->file->name, $claim->id);
+        $subject = 'You lost an access to document of claim #%d';
+        $subject = sprintf($subject, $claim->id);
         break;
 
       case 'claim.doc.admin_upload_billing_doc':
-        $subject = "%s sent you document(%s) in claim #%d";
-        $subject = sprintf($subject, $user->name, $doc->file->name, $claim->id);
+        $subject = "%s sent you billing document in claim #%d";
+        $subject = sprintf($subject, $user->name, $claim->id);
         break;
 
       case 'claim.assign_request':    // to partner
@@ -81,50 +81,49 @@ trait NotiMailModule
         break;
       case 'claim.upload_photo':
         // use $claim, $user, $photo
-        $subject = '%s uploaded photo (%s) to claim #%d';
-        $subject = sprintf($subject, $user->name, $photo->file->name, $claim->id);
+        $subject = '%s uploaded photo to claim #%d';
+        $subject = sprintf($subject, $user->name, $claim->id);
         break;
       case 'claim.delete_photo':
         // use $claim, $user, $photo
-        $subject = '%s deleted photo (%s) from claim #%d';
-        $subject = sprintf($subject, $user->name, $photo->file->name, $claim->id);
+        $subject = '%s deleted photo from claim #%d';
+        $subject = sprintf($subject, $user->name, $claim->id);
         break;
       case 'claim.doc.upload_doc':
         // use $claim, $user, $doc
-        $subject = '%s uploaded document (%s) to claim #%d';
-        $subject = sprintf($subject, $user->name, $doc->file->name, $claim->id);
+        $subject = '%s uploaded document to claim #%d';
+        $subject = sprintf($subject, $user->name, $claim->id);
         break;
       case 'claim.doc.delete_doc':
         // use $claim, $user, $doc
-        $subject = '%s deleted document (%s) from claim #%d';
-        $subject = sprintf($subject, $user->name, $doc->file->name, $claim->id);
+        $subject = '%s deleted document from claim #%d';
+        $subject = sprintf($subject, $user->name, $claim->id);
         break;
       case 'claim.doc.post_comment':
         // use $user, $doc, $comment
-        $subject = '%s posted comment to document (%s) in Claim #%d';
-        $subject = sprintf($subject, $user->name, $doc->file->name, $doc->claim_id);
+        $subject = '%s posted comment to document in Claim #%d';
+        $subject = sprintf($subject, $user->name, $doc->claim_id);
         break;
 
       case 'claim.doc.grant_access_doc':
         // use $claim, $doc, $user
-        $subject = '%s get an access to document (%s) of claim #%d';
-        $subject = sprintf($subject, $user->name, $doc->file->name, $claim->id);
+        $subject = '%s get an access to document of claim #%d';
+        $subject = sprintf($subject, $user->name, $claim->id);
         break;
       case 'claim.doc.remove_access_doc':
         // use $claim, $doc, $user
-        $subject = '%s lost an access to document (%s) of claim #%d';
-        $subject = sprintf($subject, $user->name,  $doc->file->name, $claim->id);
+        $subject = '%s lost an access to document of claim #%d';
+        $subject = sprintf($subject, $user->name, $claim->id);
         break;
 
       case 'claim.doc.upload_billing_doc':
         // use $claim, $user, $doc
-        $subject = '%s uploaded billing document (%s) for claim #%d';
-        $subject = sprintf($subject, $user->name, $doc->file->name, $claim->id);
+        $subject = '%s uploaded billing document for claim #%d';
+        $subject = sprintf($subject, $user->name, $claim->id);
         break;
       case 'claim.doc.admin_upload_billing_doc':
-        $subject = "%s sent %s document(%s) in claim #%d";
-        $subject = sprintf($subject, $user->name, $reply_to_doc->creator->name, 
-                           $doc->file->name, $claim->id);
+        $subject = "%s sent %s billing document in claim #%d";
+        $subject = sprintf($subject, $user->name, $reply_to_doc->creator->name, $claim->id);
         break;
       case 'claim.assign_request':
         // use $partner, $claim
