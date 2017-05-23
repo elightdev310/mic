@@ -150,7 +150,7 @@ class UserController extends Controller
   }
 
   protected function saveGeneralSettingsEmployee(Request $request, $user) {
-    $this->updateAvatar($request, $user);
+    //$this->updateAvatar($request, $user);
 
     $employee = $user->employee;
     if (!$employee || !$employee->user_id) 
@@ -182,7 +182,7 @@ class UserController extends Controller
   }
 
   protected function saveGeneralSettingsPatient(Request $request, $user) {
-    $this->updateAvatar($request, $user);
+    //$this->updateAvatar($request, $user);
 
     $patient = $user->patient;
     if (!$patient || !$patient->user_id) 
@@ -217,7 +217,7 @@ class UserController extends Controller
   }
 
   protected function saveGeneralSettingsPartner(Request $request, $user) {
-    $this->updateAvatar($request, $user);
+    //$this->updateAvatar($request, $user);
 
     $partner = $user->partner;
     if (!$partner || !$partner->user_id) 
@@ -336,5 +336,43 @@ class UserController extends Controller
     $payment_info->save();
 
     return redirect()->back()->with('status', 'Payment settings saved, successfully.');
+  }
+
+  public function saveUserPicture(Request $request) {
+    $_user = MICHelper::currentUser();
+    $user = User::find($_user->id);
+
+    if (!$user) {
+      return response()->json([
+          "status" => "error",
+          "action" => "reload", 
+        ], 200);
+    }
+
+    $filename = snake_case($user->name). time() . '.png';
+    $fullpath = public_path(config('mic.avatar_path') . $filename);
+    
+    // Save Base64 Image data
+    $img = $request->input('user_pic');
+    $img = str_replace('data:image/png;base64,', '', $img);
+    $img = str_replace(' ', '+', $img);
+    $data = base64_decode($img);
+    file_put_contents($fullpath, $data);
+
+    // Remove old picture
+    if ($user->avatar && $user->avatar!='default.jpg') {
+      $old_picture = public_path(config('mic.avatar_path') . $user->avatar);
+      if (file_exists($old_picture)) {
+        unlink( $old_picture );
+      }
+    }
+
+    $user->avatar = $filename;
+    $user->save();
+
+    return response()->json([
+          "status" => "success",
+          "action" => "reload", 
+        ], 200);
   }
 }

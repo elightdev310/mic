@@ -11,8 +11,10 @@ MICApp.UI = {
     }
   }, 
 
-  doAjaxAction: function() {
-    
+  doAjaxAction: function(json) {
+    if (json.action == 'reload') {
+      MICApp.UI.reloadPage();
+    }
   }, 
   reloadPage: function(target) {
     if (typeof target == 'undefined') {
@@ -20,9 +22,9 @@ MICApp.UI = {
     }
 
     if (target == '_blank') {
-      window.location.reload(false); 
+      window.location.reload(true); 
     } else if (target == '_parent') {
-      parent.location.reload(false);
+      parent.location.reload(true);
     }
   }
 

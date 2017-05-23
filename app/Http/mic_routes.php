@@ -17,8 +17,13 @@ Route::group(['middleware' => ['auth']],
   Route::post('user/settings', [
     'as'=>'user.save_settings.post', 'uses'=>'MIC\UserController@saveUserSettings' 
   ]);
+  Route::post('user/save-picture', [
+    'as'=>'user.save_picture.post', 'uses'=>'MIC\UserController@saveUserPicture' 
+  ]);
+  // User Picture
+  
 
-
+  // Claim
   Route::get('claim/{claim_id}', [
     'as'=>'claim.view', 'uses'=>'MIC\ClaimController@claimViewPage' 
   ]);

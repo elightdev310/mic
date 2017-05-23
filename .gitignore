@@ -1,5 +1,6 @@
 /_backup
 /config
+/public/uploads
 /database
 /vendor
 /node_modules
