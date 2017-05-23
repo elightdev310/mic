@@ -20,6 +20,9 @@
         <div class="p10">
           <input type="file" name="avatar" id="user-profile-picture">
         </div>
+        <div class="upload-msg">
+          Upload a file to start cropping.
+        </div>
         <div class="upload-picture-wrap">
           <div id="upload-picture">
           </div>

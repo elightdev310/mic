@@ -940,6 +940,27 @@ ul.claim-photo-section li.claim-photo-item .hovereffect:hover a.info {
 .claim-billing-doc-section .billing-reply-doc td:first-child {
   padding-left: 30px;
 }
+#user-picture-modal .upload-msg {
+  text-align: center;
+  padding: 50px;
+  font-size: 22px;
+  color: #aaa;
+  width: 260px;
+  margin: 50px auto;
+  border: 1px solid #aaa;
+}
+#user-picture-modal .upload-picture-wrap {
+  display: none;
+}
+#user-picture-modal.ready .upload-msg {
+  display: none;
+}
+#user-picture-modal.ready .upload-picture-wrap {
+  display: block;
+}
+#user-picture-modal .croppie-container {
+  padding: 30px 0px;
+}
 /* smaller than Extra small screen */
 @media (max-width: 991px) {
   ul.claim-photo-section li {
