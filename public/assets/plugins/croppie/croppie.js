@@ -2,7 +2,7 @@
  * Croppie
  * Copyright 2016
  * Foliotek
- * Version: 2.0.1
+ * Version: 2.4.1
  *************************/
 (function (root, factory) {
     if (typeof define === 'function' && define.amd) {
@@ -17,10 +17,41 @@
     }
 }(this, function (exports) {
 
+    /* Polyfills */
     if (typeof Promise !== 'function') {
         /*! promise-polyfill 3.1.0 */
         !function(a){function b(a,b){return function(){a.apply(b,arguments)}}function c(a){if("object"!=typeof this)throw new TypeError("Promises must be constructed via new");if("function"!=typeof a)throw new TypeError("not a function");this._state=null,this._value=null,this._deferreds=[],i(a,b(e,this),b(f,this))}function d(a){var b=this;return null===this._state?void this._deferreds.push(a):void k(function(){var c=b._state?a.onFulfilled:a.onRejected;if(null===c)return void(b._state?a.resolve:a.reject)(b._value);var d;try{d=c(b._value)}catch(e){return void a.reject(e)}a.resolve(d)})}function e(a){try{if(a===this)throw new TypeError("A promise cannot be resolved with itself.");if(a&&("object"==typeof a||"function"==typeof a)){var c=a.then;if("function"==typeof c)return void i(b(c,a),b(e,this),b(f,this))}this._state=!0,this._value=a,g.call(this)}catch(d){f.call(this,d)}}function f(a){this._state=!1,this._value=a,g.call(this)}function g(){for(var a=0,b=this._deferreds.length;b>a;a++)d.call(this,this._deferreds[a]);this._deferreds=null}function h(a,b,c,d){this.onFulfilled="function"==typeof a?a:null,this.onRejected="function"==typeof b?b:null,this.resolve=c,this.reject=d}function i(a,b,c){var d=!1;try{a(function(a){d||(d=!0,b(a))},function(a){d||(d=!0,c(a))})}catch(e){if(d)return;d=!0,c(e)}}var j=setTimeout,k="function"==typeof setImmediate&&setImmediate||function(a){j(a,1)},l=Array.isArray||function(a){return"[object Array]"===Object.prototype.toString.call(a)};c.prototype["catch"]=function(a){return this.then(null,a)},c.prototype.then=function(a,b){var e=this;return new c(function(c,f){d.call(e,new h(a,b,c,f))})},c.all=function(){var a=Array.prototype.slice.call(1===arguments.length&&l(arguments[0])?arguments[0]:arguments);return new c(function(b,c){function d(f,g){try{if(g&&("object"==typeof g||"function"==typeof g)){var h=g.then;if("function"==typeof h)return void h.call(g,function(a){d(f,a)},c)}a[f]=g,0===--e&&b(a)}catch(i){c(i)}}if(0===a.length)return b([]);for(var e=a.length,f=0;f<a.length;f++)d(f,a[f])})},c.resolve=function(a){return a&&"object"==typeof a&&a.constructor===c?a:new c(function(b){b(a)})},c.reject=function(a){return new c(function(b,c){c(a)})},c.race=function(a){return new c(function(b,c){for(var d=0,e=a.length;e>d;d++)a[d].then(b,c)})},c._setImmediateFn=function(a){k=a},"undefined"!=typeof module&&module.exports?module.exports=c:a.Promise||(a.Promise=c)}(this);
     }
+
+    if ( typeof window.CustomEvent !== "function" ) {
+        (function(){
+            function CustomEvent ( event, params ) {
+                params = params || { bubbles: false, cancelable: false, detail: undefined };
+                var evt = document.createEvent( 'CustomEvent' );
+                evt.initCustomEvent( event, params.bubbles, params.cancelable, params.detail );
+                return evt;
+            }
+            CustomEvent.prototype = window.Event.prototype;
+            window.CustomEvent = CustomEvent;
+        }());
+    }
+
+    if (!HTMLCanvasElement.prototype.toBlob) {
+        Object.defineProperty(HTMLCanvasElement.prototype, 'toBlob', {
+            value: function (callback, type, quality) {
+                var binStr = atob( this.toDataURL(type, quality).split(',')[1] ),
+                len = binStr.length,
+                arr = new Uint8Array(len);
+
+                for (var i=0; i<len; i++ ) {
+                    arr[i] = binStr.charCodeAt(i);
+                }
+
+                callback( new Blob( [arr], {type: type || 'image/png'} ) );
+            }
+        });
+    }
+    /* End Polyfills */
 
     var cssPrefixes = ['Webkit', 'Moz', 'ms'],
         emptyStyles = document.createElement('div').style,
@@ -54,7 +85,7 @@
         for (var property in source) {
             if (source[property] && source[property].constructor && source[property].constructor === Object) {
                 destination[property] = destination[property] || {};
-                arguments.callee(destination[property], source[property]);
+                deepExtend(destination[property], source[property]);
             } else {
                 destination[property] = source[property];
             }
@@ -119,30 +150,45 @@
         }
     }
 
-    /* Utilities */
-    function loadImage(src, imageEl) {
-        var img = imageEl || new Image(),
-            prom;
-
-        prom = new Promise(function (resolve, reject) {
-            if (src.substring(0,4).toLowerCase() === 'http') {
-                img.setAttribute('crossOrigin', 'anonymous');
-            }
-            img.onload = function () {
-                setTimeout(function () {
-                    resolve(img);
-                }, 1);
-            };
-        });
-
-        img.style.opacity = 0;
-        img.src = src;
-        return prom;
+    function num(v) {
+        return parseInt(v, 10);
     }
 
+    /* Utilities */
+    function loadImage(src, imageEl) {
+        var img = imageEl || new Image();
+        img.style.opacity = 0;
+
+        return new Promise(function (resolve) {
+            if (img.src === src) {
+                // If image source hasn't changed resolve immediately
+                resolve(img);
+            } 
+            else {
+                img.removeAttribute('crossOrigin');
+                if (src.match(/^https?:\/\/|^\/\//)) {
+                    img.setAttribute('crossOrigin', 'anonymous');
+                }
+                img.onload = function () {
+                    setTimeout(function () {
+                        resolve(img);
+                    }, 1);
+                }
+                img.src = src;
+            }
+        });
+    }
+
+
     /* CSS Transform Prototype */
-    var _TRANSLATE = 'translate3d',
-        _TRANSLATE_SUFFIX = ', 0px';
+    var TRANSLATE_OPTS = {
+        'translate3d': {
+            suffix: ', 0px'
+        },
+        'translate': {
+            suffix: ''
+        }
+    };
     var Transform = function (x, y, scale) {
         this.x = parseFloat(x);
         this.y = parseFloat(y);
@@ -167,12 +213,12 @@
             vals = [1, 0, 0, 1, 0, 0];
         }
 
-        return new Transform(parseInt(vals[4], 10), parseInt(vals[5], 10), parseFloat(vals[0]));
+        return new Transform(num(vals[4]), num(vals[5]), parseFloat(vals[0]));
     };
 
     Transform.fromString = function (v) {
         var values = v.split(') '),
-            translate = values[0].substring(_TRANSLATE.length + 1).split(','),
+            translate = values[0].substring(Croppie.globals.translate.length + 1).split(','),
             scale = values.length > 1 ? values[1].substring(6) : 1,
             x = translate.length > 1 ? translate[0] : 0,
             y = translate.length > 1 ? translate[1] : 0;
@@ -181,7 +227,8 @@
     };
 
     Transform.prototype.toString = function () {
-        return _TRANSLATE + '(' + this.x + 'px, ' + this.y + 'px' + _TRANSLATE_SUFFIX + ') scale(' + this.scale + ')';
+        var suffix = TRANSLATE_OPTS[Croppie.globals.translate].suffix || '';
+        return Croppie.globals.translate + '(' + this.x + 'px, ' + this.y + 'px' + suffix + ') scale(' + this.scale + ')';
     };
 
     var TransformOrigin = function (el) {
@@ -204,21 +251,22 @@
             cb(0);
         }
 
-        EXIF.getData(img, function () { 
+        EXIF.getData(img, function () {
             var orientation = EXIF.getTag(this, 'Orientation');
-            cb(orientation);            
+            cb(orientation);
         });
     }
 
-    function rotateCanvas(canvas, ctx, img, orientation) {
+    function drawCanvas(canvas, img, orientation) {
         var width = img.width,
-            height = img.height;
+            height = img.height,
+            ctx = canvas.getContext('2d');
 
-      canvas.width = img.width;
-      canvas.height = img.height;
+        canvas.width = img.width;
+        canvas.height = img.height;
 
-      ctx.save();
-      switch (orientation) {
+        ctx.save();
+        switch (orientation) {
           case 2:
              ctx.translate(width, 0);
              ctx.scale(-1, 1);
@@ -272,9 +320,9 @@
         var self = this,
             contClass = 'croppie-container',
             customViewportClass = self.options.viewport.type ? 'cr-vp-' + self.options.viewport.type : null,
-            boundary, img, viewport, overlay, canvas;
+            boundary, img, viewport, overlay, canvas, bw, bh;
 
-        self.options.useCanvas = self.options.exif && window.EXIF;
+        self.options.useCanvas = self.options.enableOrientation || _hasExif.call(self);
         // Properties on class
         self.data = {};
         self.elements = {};
@@ -294,9 +342,11 @@
         }
 
         addClass(boundary, 'cr-boundary');
+        bw = self.options.boundary.width;
+        bh = self.options.boundary.height;
         css(boundary, {
-            width: self.options.boundary.width + 'px',
-            height: self.options.boundary.height + 'px'
+            width: (bw + (isNaN(bw) ? '' : 'px')),
+            height: (bh + (isNaN(bh) ? '' : 'px'))
         });
 
         addClass(viewport, 'cr-viewport');
@@ -307,6 +357,7 @@
             width: self.options.viewport.width + 'px',
             height: self.options.viewport.height + 'px'
         });
+        viewport.setAttribute('tabindex', 0);
 
         addClass(self.elements.preview, 'cr-image');
         addClass(overlay, 'cr-overlay');
@@ -321,32 +372,69 @@
             addClass(self.element, self.options.customClass);
         }
 
-        // Initialize drag & zoom
         _initDraggable.call(this);
 
         if (self.options.enableZoom) {
             _initializeZoom.call(self);
         }
+
+        // if (self.options.enableOrientation) {
+        //     _initRotationControls.call(self);
+        // }
+    }
+
+    // function _initRotationControls () {
+    //     var self = this,
+    //         wrap, btnLeft, btnRight, iLeft, iRight;
+
+    //     wrap = document.createElement('div');
+    //     self.elements.orientationBtnLeft = btnLeft = document.createElement('button');
+    //     self.elements.orientationBtnRight = btnRight = document.createElement('button');
+
+    //     wrap.appendChild(btnLeft);
+    //     wrap.appendChild(btnRight);
+
+    //     iLeft = document.createElement('i');
+    //     iRight = document.createElement('i');
+    //     btnLeft.appendChild(iLeft);
+    //     btnRight.appendChild(iRight);
+
+    //     addClass(wrap, 'cr-rotate-controls');
+    //     addClass(btnLeft, 'cr-rotate-l');
+    //     addClass(btnRight, 'cr-rotate-r');
+
+    //     self.elements.boundary.appendChild(wrap);
+
+    //     btnLeft.addEventListener('click', function () {
+    //         self.rotate(-90);
+    //     });
+    //     btnRight.addEventListener('click', function () {
+    //         self.rotate(90);
+    //     });
+    // }
+
+    function _hasExif() {
+        return this.options.enableExif && window.EXIF;
     }
 
     function _setZoomerVal(v) {
         if (this.options.enableZoom) {
-            this.elements.zoomer.value = fix(v, 4);
+            var z = this.elements.zoomer,
+                val = fix(v, 4);
+
+            z.value = Math.max(z.min, Math.min(z.max, val));
         }
     }
 
     function _initializeZoom() {
         var self = this,
             wrap = self.elements.zoomerWrap = document.createElement('div'),
-            zoomer = self.elements.zoomer = document.createElement('input'),
-            origin,
-            viewportRect,
-            transform;
+            zoomer = self.elements.zoomer = document.createElement('input');
 
         addClass(wrap, 'cr-slider-wrap');
         addClass(zoomer, 'cr-slider');
         zoomer.type = 'range';
-        zoomer.step = '0.01';
+        zoomer.step = '0.0001';
         zoomer.value = 1;
         zoomer.style.display = self.options.showZoomer ? '' : 'none';
 
@@ -354,19 +442,13 @@
         wrap.appendChild(zoomer);
 
         self._currentZoom = 1;
-        function start() {
-            _updateCenterPoint.call(self);
-            origin = new TransformOrigin(self.elements.preview);
-            viewportRect = self.elements.viewport.getBoundingClientRect();
-            transform = Transform.parse(self.elements.preview);
-        }
 
         function change() {
             _onZoom.call(self, {
                 value: parseFloat(zoomer.value),
-                origin: origin || new TransformOrigin(self.elements.preview),
-                viewportRect: viewportRect || self.elements.viewport.getBoundingClientRect(),
-                transform: transform || Transform.parse(self.elements.preview)
+                origin: new TransformOrigin(self.elements.preview),
+                viewportRect: self.elements.viewport.getBoundingClientRect(),
+                transform: Transform.parse(self.elements.preview)
             });
         }
 
@@ -378,21 +460,17 @@
             } else if (ev.deltaY) {
                 delta = ev.deltaY / 1060; //deltaY min: -53 max: 53 // max x 10 x 2
             } else if (ev.detail) {
-                delta = ev.detail / 60; //delta min: -3 max: 3 // max x 10 x 2
+                delta = ev.detail / -60; //delta min: -3 max: 3 // max x 10 x 2
             } else {
                 delta = 0;
             }
 
-            targetZoom = self._currentZoom + delta;
+            targetZoom = self._currentZoom + (delta * self._currentZoom);
 
             ev.preventDefault();
-            start();
             _setZoomerVal.call(self, targetZoom);
-            change();
+            change.call(self);
         }
-
-        self.elements.zoomer.addEventListener('mousedown', start);
-        self.elements.zoomer.addEventListener('touchstart', start);
 
         self.elements.zoomer.addEventListener('input', change);// this is being fired twice on keypress
         self.elements.zoomer.addEventListener('change', change);
@@ -405,42 +483,49 @@
 
     function _onZoom(ui) {
         var self = this,
-            transform = ui.transform,
-            vpRect = ui.viewportRect,
-            origin = ui.origin;
+            transform = ui ? ui.transform : Transform.parse(self.elements.preview),
+            vpRect = ui ? ui.viewportRect : self.elements.viewport.getBoundingClientRect(),
+            origin = ui ? ui.origin : new TransformOrigin(self.elements.preview),
+            transCss = {};
 
-        self._currentZoom = ui.value;
+        function applyCss() {
+            var transCss = {};
+            transCss[CSS_TRANSFORM] = transform.toString();
+            transCss[CSS_TRANS_ORG] = origin.toString();
+            css(self.elements.preview, transCss);
+        }
+
+        self._currentZoom = ui ? ui.value : self._currentZoom;
         transform.scale = self._currentZoom;
+        applyCss();
 
-        var boundaries = _getVirtualBoundaries.call(self, vpRect),
-            transBoundaries = boundaries.translate,
-            oBoundaries = boundaries.origin;
 
-        if (transform.x >= transBoundaries.maxX) {
-            origin.x = oBoundaries.minX;
-            transform.x = transBoundaries.maxX;
+        if (self.options.enforceBoundary) {
+            var boundaries = _getVirtualBoundaries.call(self, vpRect),
+                transBoundaries = boundaries.translate,
+                oBoundaries = boundaries.origin;
+
+            if (transform.x >= transBoundaries.maxX) {
+                origin.x = oBoundaries.minX;
+                transform.x = transBoundaries.maxX;
+            }
+
+            if (transform.x <= transBoundaries.minX) {
+                origin.x = oBoundaries.maxX;
+                transform.x = transBoundaries.minX;
+            }
+
+            if (transform.y >= transBoundaries.maxY) {
+                origin.y = oBoundaries.minY;
+                transform.y = transBoundaries.maxY;
+            }
+
+            if (transform.y <= transBoundaries.minY) {
+                origin.y = oBoundaries.maxY;
+                transform.y = transBoundaries.minY;
+            }
         }
-
-        if (transform.x <= transBoundaries.minX) {
-            origin.x = oBoundaries.maxX;
-            transform.x = transBoundaries.minX;
-        }
-
-        if (transform.y >= transBoundaries.maxY) {
-            origin.y = oBoundaries.minY;
-            transform.y = transBoundaries.maxY;
-        }
-
-        if (transform.y <= transBoundaries.minY) {
-            origin.y = oBoundaries.maxY;
-            transform.y = transBoundaries.minY;
-        }
-
-        var transCss = {};
-        transCss[CSS_TRANSFORM] = transform.toString();
-        transCss[CSS_TRANS_ORG] = origin.toString();
-        css(self.elements.preview, transCss);
-
+        applyCss();
         _debouncedOverlay.call(self);
         _triggerUpdate.call(self);
     }
@@ -450,15 +535,13 @@
             scale = self._currentZoom,
             vpWidth = viewport.width,
             vpHeight = viewport.height,
-            centerFromBoundaryX = self.options.boundary.width / 2,
-            centerFromBoundaryY = self.options.boundary.height / 2,
-            originalImgWidth = self._originalImageWidth,
-            originalImgHeight = self._originalImageHeight,
-            curImgWidth = originalImgWidth * scale,
-            curImgHeight = originalImgHeight * scale,
+            centerFromBoundaryX = self.elements.boundary.clientWidth / 2,
+            centerFromBoundaryY = self.elements.boundary.clientHeight / 2,
+            imgRect = self.elements.preview.getBoundingClientRect(),
+            curImgWidth = imgRect.width,
+            curImgHeight = imgRect.height,
             halfWidth = vpWidth / 2,
             halfHeight = vpHeight / 2;
-
 
         var maxX = ((halfWidth / scale) - centerFromBoundaryX) * -1;
         var minX = maxX - ((curImgWidth * (1 / scale)) - (vpWidth * (1 / scale)));
@@ -521,7 +604,84 @@
             originalX,
             originalY,
             originalDistance,
-            vpRect;
+            vpRect,
+            transform;
+
+        function assignTransformCoordinates(deltaX, deltaY) {
+            var imgRect = self.elements.preview.getBoundingClientRect(),
+                top = transform.y + deltaY,
+                left = transform.x + deltaX;
+
+            if (self.options.enforceBoundary) {
+                if (vpRect.top > imgRect.top + deltaY && vpRect.bottom < imgRect.bottom + deltaY) {
+                    transform.y = top;
+                }
+
+                if (vpRect.left > imgRect.left + deltaX && vpRect.right < imgRect.right + deltaX) {
+                    transform.x = left;
+                }
+            }
+            else {
+                transform.y = top;
+                transform.x = left;
+            }
+        }
+
+        function keyDown(ev) {
+            var LEFT_ARROW  = 37,
+                UP_ARROW    = 38,
+                RIGHT_ARROW = 39,
+                DOWN_ARROW  = 40;
+
+            if (ev.shiftKey && (ev.keyCode == UP_ARROW || ev.keyCode == DOWN_ARROW)) {
+                var zoom = 0.0;
+                if (ev.keyCode == UP_ARROW) {
+                    zoom = parseFloat(self.elements.zoomer.value, 10) + parseFloat(self.elements.zoomer.step, 10)
+                }
+                else {
+                    zoom = parseFloat(self.elements.zoomer.value, 10) - parseFloat(self.elements.zoomer.step, 10)
+                }
+                self.setZoom(zoom);
+            }
+            else if (ev.keyCode >= 37 && ev.keyCode <= 40) {
+                ev.preventDefault();
+                var movement = parseKeyDown(ev.keyCode);
+
+                transform = Transform.parse(self.elements.preview);
+                document.body.style[CSS_USERSELECT] = 'none';
+                vpRect = self.elements.viewport.getBoundingClientRect();
+                keyMove(movement);
+            };
+
+            function parseKeyDown(key) {
+                switch (key) {
+                    case LEFT_ARROW:
+                        return [1, 0];
+                    case UP_ARROW:
+                        return [0, 1];
+                    case RIGHT_ARROW:
+                        return [-1, 0];
+                    case DOWN_ARROW:
+                        return [0, -1];
+                };
+            };
+        }
+
+        function keyMove(movement) {
+            var deltaX = movement[0],
+                deltaY = movement[1],
+                newCss = {};
+
+            assignTransformCoordinates(deltaX, deltaY);
+
+            newCss[CSS_TRANSFORM] = transform.toString();
+            css(self.elements.preview, newCss);
+            _updateOverlay.call(self);
+            document.body.style[CSS_USERSELECT] = '';
+            _updateCenterPoint.call(self);
+            _triggerUpdate.call(self);
+            originalDistance = 0;
+        }
 
         function mouseDown(ev) {
             ev.preventDefault();
@@ -558,9 +718,6 @@
 
             var deltaX = pageX - originalX,
                 deltaY = pageY - originalY,
-                imgRect = self.elements.preview.getBoundingClientRect(),
-                top = transform.y + deltaY,
-                left = transform.x + deltaX,
                 newCss = {};
 
             if (ev.type == 'touchmove') {
@@ -581,13 +738,7 @@
                 }
             }
 
-            if (vpRect.top > imgRect.top + deltaY && vpRect.bottom < imgRect.bottom + deltaY) {
-                transform.y = top;
-            }
-
-            if (vpRect.left > imgRect.left + deltaX && vpRect.right < imgRect.right + deltaX) {
-                transform.x = left;
-            }
+            assignTransformCoordinates(deltaX, deltaY);
 
             newCss[CSS_TRANSFORM] = transform.toString();
             css(self.elements.preview, newCss);
@@ -609,6 +760,7 @@
         }
 
         self.elements.overlay.addEventListener('mousedown', mouseDown);
+        self.elements.viewport.addEventListener('keydown', keyDown);
         self.elements.overlay.addEventListener('touchstart', mouseDown);
     }
 
@@ -627,9 +779,28 @@
     var _debouncedOverlay = debounce(_updateOverlay, 500);
 
     function _triggerUpdate() {
-        var self = this;
-        if (_isVisible.call(self)) {
-            self.options.update.call(self, self.get());
+        var self = this,
+            data = self.get(),
+            ev;
+
+        if (!_isVisible.call(self)) {
+            return;
+        }
+
+        self.options.update.call(self, data);
+        if (self.$ && typeof Prototype == 'undefined') {
+            self.$(self.element).trigger('update', data); 
+        }
+        else {
+            var ev;
+            if (window.CustomEvent) {
+                ev = new CustomEvent('update', { detail: data });
+            } else {
+                ev = document.createEvent('CustomEvent');
+                ev.initCustomEvent('update', true, true, data);
+            }
+
+            self.element.dispatchEvent(ev);
         }
     }
 
@@ -672,9 +843,11 @@
         self._originalImageHeight = imgData.height;
 
         if (self.options.enableZoom) {
-            minW = vpData.width / imgData.width;
-            minH = vpData.height / imgData.height;
-            minZoom = Math.max(minW, minH);
+            if (self.options.enforceBoundary) {
+                minW = vpData.width / imgData.width;
+                minH = vpData.height / imgData.height;
+                minZoom = Math.max(minW, minH);
+            }
 
             if (minZoom >= maxZoom) {
                 maxZoom = minZoom + 1;
@@ -682,12 +855,16 @@
 
             zoomer.min = fix(minZoom, 4);
             zoomer.max = fix(maxZoom, 4);
-            initialZoom = Math.max((boundaryData.width / imgData.width), (boundaryData.height / imgData.height));
+            var defaultInitialZoom = Math.max((boundaryData.width / imgData.width), (boundaryData.height / imgData.height));
+            initialZoom = self.data.boundZoom !== null ? self.data.boundZoom : defaultInitialZoom;
             _setZoomerVal.call(self, initialZoom);
             dispatchChange(zoomer);
         }
+        else {
+            self._currentZoom = initialZoom;
+        }
 
-        self._currentZoom = transformReset.scale = initialZoom;
+        transformReset.scale = self._currentZoom;
         cssReset[CSS_TRANSFORM] = transformReset.toString();
         css(img, cssReset);
 
@@ -698,7 +875,7 @@
             _centerImage.call(self);
         }
 
-
+        _updateCenterPoint.call(self);
         _updateOverlay.call(self);
     }
 
@@ -744,19 +921,99 @@
         css(self.elements.preview, CSS_TRANSFORM, transform.toString());
     }
 
-    function _transferImageToCanvas() {
+    function _transferImageToCanvas(customOrientation) {
         var self = this,
             canvas = self.elements.canvas,
             img = self.elements.img,
-            ctx = canvas.getContext('2d');
+            ctx = canvas.getContext('2d'),
+            exif = _hasExif.call(self),
+            customOrientation = self.options.enableOrientation && customOrientation;
 
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         canvas.width = img.width;
         canvas.height = img.height;
 
-        getExifOrientation(img, function (orientation) {
-            rotateCanvas(canvas, ctx, img, parseInt(orientation));
-        });
+        if (exif) {
+            getExifOrientation(img, function (orientation) {
+                drawCanvas(canvas, img, num(orientation, 10));
+                if (customOrientation) {
+                    drawCanvas(canvas, img, customOrientation);
+                }
+            });
+        } else if (customOrientation) {
+            drawCanvas(canvas, img, customOrientation);
+        }
+    }
+
+    function _getCanvas(data) {
+        var self = this,
+            points = data.points,
+            left = num(points[0]),
+            top = num(points[1]),
+            right = num(points[2]),
+            bottom = num(points[3]),
+            width = right-left,
+            height = bottom-top,
+            circle = data.circle,
+            canvas = document.createElement('canvas'),
+            ctx = canvas.getContext('2d'),
+            outWidth = width,
+            outHeight = height,
+            startX = 0,
+            startY = 0,
+            canvasWidth = outWidth,
+            canvasHeight = outHeight,
+            customDimensions = (data.outputWidth && data.outputHeight),
+            outputRatio = 1;
+
+        if (customDimensions) {
+            canvasWidth = data.outputWidth;
+            canvasHeight = data.outputHeight;
+            outputRatio = canvasWidth / outWidth;
+        }
+
+        canvas.width = canvasWidth;
+        canvas.height = canvasHeight;
+
+        if (data.backgroundColor) {
+            ctx.fillStyle = data.backgroundColor;
+            ctx.fillRect(0, 0, outWidth, outHeight);
+        }
+        // start fixing data to send to draw image for enforceBoundary: false
+        if (left < 0) {
+            startX = Math.abs(left);
+            left = 0;
+        }
+        if (top < 0) {
+            startY = Math.abs(top);
+            top = 0;
+        }
+        if (right > self._originalImageWidth) {
+            width = self._originalImageWidth - left;
+            outWidth = width;
+        }
+        if (bottom > self._originalImageHeight) {
+            height = self._originalImageHeight - top;
+            outHeight = height;
+        }
+
+        if (outputRatio !== 1) {
+            startX *= outputRatio;
+            startY *= outputRatio;
+            outWidth *= outputRatio;
+            outHeight *= outputRatio;
+        }
+
+        ctx.drawImage(this.elements.preview, left, top, width, height, startX, startY, outWidth, outHeight);
+        if (circle) {
+            ctx.fillStyle = '#fff';
+            ctx.globalCompositeOperation = 'destination-in';
+            ctx.beginPath();
+            ctx.arc(outWidth / 2, outHeight / 2, outWidth / 2, 0, Math.PI * 2, true);
+            ctx.closePath();
+            ctx.fill();
+        }
+        return canvas;
     }
 
     function _getHtmlResult(data) {
@@ -781,42 +1038,24 @@
         return div;
     }
 
-    function _getCanvasResult(img, data) {
-        var points = data.points,
-            left = points[0],
-            top = points[1],
-            width = (points[2] - points[0]),
-            height = (points[3] - points[1]),
-            circle = data.circle,
-            canvas = document.createElement('canvas'),
-            ctx = canvas.getContext('2d'),
-            outWidth = width,
-            outHeight = height;
+    function _getBase64Result(data) {
+        return _getCanvas.call(this, data).toDataURL(data.format, data.quality);
+    }
 
-        if (data.outputWidth && data.outputHeight) {
-            outWidth = data.outputWidth;
-            outHeight = data.outputHeight;
-        }
-
-        canvas.width = outWidth;
-        canvas.height = outHeight;
-
-        ctx.drawImage(img, left, top, width, height, 0, 0, outWidth, outHeight);
-        if (circle) {
-            ctx.fillStyle = '#fff';
-            ctx.globalCompositeOperation = 'destination-in';
-            ctx.beginPath();
-            ctx.arc(outWidth / 2, outHeight / 2, outWidth / 2, 0, Math.PI * 2, true);
-            ctx.closePath();
-            ctx.fill();
-        }
-        return canvas.toDataURL(data.format, data.quality);
+    function _getBlobResult(data) {
+        var self = this;
+        return new Promise(function (resolve, reject) {
+            _getCanvas.call(self, data).toBlob(function (blob) {
+                resolve(blob);
+            }, data.format, data.quality);
+        });
     }
 
     function _bind(options, cb) {
         var self = this,
             url,
-            points = [];
+            points = [],
+            zoom = null;
 
         if (typeof (options) === 'string') {
             url = options;
@@ -833,26 +1072,60 @@
         else {
             url = options.url;
             points = options.points || [];
+            zoom = typeof(options.zoom) === 'undefined' ? null : options.zoom;
         }
 
         self.data.bound = false;
         self.data.url = url || self.data.url;
-        self.data.points = (points || self.data.points).map(function (p) {
-            return parseFloat(p);
-        });
-        var prom = loadImage(url, self.elements.img);
-        prom.then(function () {
+        self.data.boundZoom = zoom;
+
+        return loadImage(url, self.elements.img).then(function (img) {
+            if(!points.length){
+                var iWidth = img.naturalWidth;
+                var iHeight = img.naturalHeight;
+
+                var rect = self.elements.viewport.getBoundingClientRect();
+                var aspectRatio = rect.width / rect.height;
+                var width, height;
+
+                if( iWidth / iHeight > aspectRatio){
+                    height = iHeight;
+                    width = height * aspectRatio;
+                }else{
+                    width = iWidth;
+                    height = width / aspectRatio;
+                }
+
+                var x0 = (iWidth - width) / 2;
+                var y0 = (iHeight - height) / 2;
+                var x1 = x0 + width;
+                var y1 = y0 + height;
+
+                self.data.points = [x0, y0, x1, y1];
+            } else {
+                if(self.options.relative){
+                    // de-relative points
+                    points = [
+                        points[0] * img.naturalWidth / 100,
+                        points[1] * img.naturalHeight / 100,
+                        points[2] * img.naturalWidth / 100,
+                        points[3] * img.naturalHeight / 100
+                    ];
+                }
+
+                self.data.points = points.map(function (p) {
+                    return parseFloat(p);
+                });
+            }
+
             if (self.options.useCanvas) {
                 self.elements.img.exifdata = null;
-                _transferImageToCanvas.call(self);
+                _transferImageToCanvas.call(self, options.orientation || 1);
             }
             _updatePropertiesFromImage.call(self);
             _triggerUpdate.call(self);
-            if (cb) {
-                cb();
-            }
+            cb && cb();
         });
-        return prom;
     }
 
     function fix(v, decimalPoints) {
@@ -865,18 +1138,21 @@
             vpData = self.elements.viewport.getBoundingClientRect(),
             x1 = vpData.left - imgData.left,
             y1 = vpData.top - imgData.top,
-            x2 = x1 + vpData.width,
-            y2 = y1 + vpData.height,
+            widthDiff = (vpData.width - self.elements.viewport.offsetWidth) / 2,
+            heightDiff = (vpData.height - self.elements.viewport.offsetHeight) / 2,
+            x2 = x1 + self.elements.viewport.offsetWidth + widthDiff,
+            y2 = y1 + self.elements.viewport.offsetHeight + heightDiff,
             scale = self._currentZoom;
 
         if (scale === Infinity || isNaN(scale)) {
             scale = 1;
         }
 
-        x1 = Math.max(0, x1 / scale);
-        y1 = Math.max(0, y1 / scale);
-        x2 = Math.max(0, x2 / scale);
-        y2 = Math.max(0, y2 / scale);
+        var max = self.options.enforceBoundary ? 0 : Number.NEGATIVE_INFINITY;
+        x1 = Math.max(max, x1 / scale);
+        y1 = Math.max(max, y1 / scale);
+        x2 = Math.max(max, x2 / scale);
+        y2 = Math.max(max, y2 / scale);
 
         return {
             points: [fix(x1), fix(y1), fix(x2), fix(y2)],
@@ -885,9 +1161,8 @@
     }
 
     var RESULT_DEFAULTS = {
-            type: 'canvas', 
-            size: 'viewport', 
-            format: 'png', 
+            type: 'canvas',
+            format: 'png',
             quality: 1
         },
         RESULT_FORMATS = ['jpeg', 'webp', 'png'];
@@ -896,17 +1171,30 @@
         var self = this,
             data = _get.call(self),
             opts = deepExtend(RESULT_DEFAULTS, deepExtend({}, options)),
-            type = (typeof (options) === 'string' ? options : opts.type),
+            resultType = (typeof (options) === 'string' ? options : (opts.type || 'base64')),
             size = opts.size,
             format = opts.format,
             quality = opts.quality,
-            vpRect,
+            backgroundColor = opts.backgroundColor,
+            circle = typeof opts.circle === 'boolean' ? opts.circle : (self.options.viewport.type === 'circle'),
+            vpRect = self.elements.viewport.getBoundingClientRect(),
+            ratio = vpRect.width / vpRect.height,
             prom;
 
         if (size === 'viewport') {
-            vpRect = self.elements.viewport.getBoundingClientRect();
             data.outputWidth = vpRect.width;
             data.outputHeight = vpRect.height;
+        } else if (typeof size === 'object') {
+            if (size.width && size.height) {
+                data.outputWidth = size.width;
+                data.outputHeight = size.height;
+            } else if (size.width) {
+                data.outputWidth = size.width;
+                data.outputHeight = size.width / ratio;
+            } else if (size.height) {
+                data.outputWidth = size.height * ratio;
+                data.outputHeight = size.height;
+            }
         }
 
         if (RESULT_FORMATS.indexOf(format) > -1) {
@@ -914,15 +1202,26 @@
             data.quality = quality;
         }
 
-        data.circle = self.options.viewport.type === 'circle';
+        data.circle = circle;
         data.url = self.data.url;
+        data.backgroundColor = backgroundColor;
 
         prom = new Promise(function (resolve, reject) {
-            if (type === 'canvas') {
-                resolve(_getCanvasResult.call(self, self.elements.preview, data));
-            }
-            else {
-                resolve(_getHtmlResult.call(self, data));
+            switch(resultType.toLowerCase())
+            {
+                case 'rawcanvas':
+                    resolve(_getCanvas.call(self, data));
+                    break;
+                case 'canvas':
+                case 'base64':
+                    resolve(_getBase64Result.call(self, data));
+                    break;
+                case 'blob':
+                    _getBlobResult.call(self, data).then(resolve);
+                    break;
+                default:
+                    resolve(_getHtmlResult.call(self, data));
+                    break;
             }
         });
         return prom;
@@ -930,6 +1229,30 @@
 
     function _refresh() {
         _updatePropertiesFromImage.call(this);
+    }
+
+    function _rotate(deg) {
+        if (!this.options.useCanvas) {
+            throw 'Croppie: Cannot rotate without enableOrientation';
+        }
+
+        var self = this,
+            canvas = self.elements.canvas,
+            img = self.elements.img,
+            copy = document.createElement('canvas'),
+            ornt = 1;
+
+        copy.width = canvas.width;
+        copy.height = canvas.height;
+        var ctx = copy.getContext('2d');
+        ctx.drawImage(canvas, 0, 0);
+
+        if (deg === 90 || deg === -270) ornt = 6;
+        if (deg === -90 || deg === 270) ornt = 8;
+        if (deg === 180 || deg === -180) ornt = 3;
+
+        drawCanvas(canvas, copy, ornt);
+        _onZoom.call(self);
     }
 
     function _destroy() {
@@ -942,8 +1265,8 @@
         delete self.elements;
     }
 
-    if (this.jQuery) {
-        var $ = this.jQuery;
+    if (window.jQuery) {
+        var $ = window.jQuery;
         $.fn.croppie = function (opts) {
             var ot = typeof opts;
 
@@ -956,6 +1279,9 @@
                 }
                 else if (opts === 'result') {
                     return singleInst.result.apply(singleInst, args);
+                }
+                else if (opts === 'bind') {
+                    return singleInst.bind.apply(singleInst, args);
                 }
 
                 return this.each(function () {
@@ -977,6 +1303,7 @@
             else {
                 return this.each(function () {
                     var i = new Croppie(this, opts);
+                    i.$ = $;
                     $(this).data('croppie', i);
                 });
             }
@@ -987,7 +1314,26 @@
         this.element = element;
         this.options = deepExtend(deepExtend({}, Croppie.defaults), opts);
 
+        if (this.element.tagName.toLowerCase() === 'img') {
+            var origImage = this.element;
+            addClass(origImage, 'cr-original-image');
+            var replacementDiv = document.createElement('div');
+            this.element.parentNode.appendChild(replacementDiv);
+            replacementDiv.appendChild(origImage);
+            this.element = replacementDiv;
+            this.options.url = this.options.url || origImage.src;
+        }
+
         _create.call(this);
+        if (this.options.url) {
+            var bindOpts = {
+                url: this.options.url,
+                points: this.options.points
+            };
+            delete this.options['url'];
+            delete this.options['points'];
+            _bind.call(this, bindOpts);
+        }
     }
 
     Croppie.defaults = {
@@ -996,16 +1342,24 @@
             height: 100,
             type: 'square'
         },
-        boundary: {
-            width: 300,
-            height: 300
+        boundary: { },
+        orientationControls: {
+            enabled: true,
+            leftClass: '',
+            rightClass: ''
         },
         customClass: '',
         showZoomer: true,
         enableZoom: true,
         mouseWheelZoom: true,
-        exif: false,
+        enableExif: false,
+        enforceBoundary: true,
+        enableOrientation: false,
         update: function () { }
+    };
+
+    Croppie.globals = {
+        translate: 'translate3d'
     };
 
     deepExtend(Croppie.prototype, {
@@ -1013,7 +1367,18 @@
             return _bind.call(this, options, cb);
         },
         get: function () {
-            return _get.call(this);
+            var data = _get.call(this);
+            var points = data.points;
+            if (this.options.relative) {
+                //
+                // Relativize points
+                //
+                points[0] /= this.elements.img.naturalWidth / 100;
+                points[1] /= this.elements.img.naturalHeight / 100;
+                points[2] /= this.elements.img.naturalWidth / 100;
+                points[3] /= this.elements.img.naturalHeight / 100;
+            }
+            return data;
         },
         result: function (type) {
             return _result.call(this, type);
@@ -1025,6 +1390,9 @@
             _setZoomerVal.call(this, v);
             dispatchChange(this.elements.zoomer);
         },
+        rotate: function (deg) {
+            _rotate.call(this, deg);
+        },
         destroy: function () {
             return _destroy.call(this);
         }
@@ -1033,6 +1401,6 @@
     exports.Croppie = window.Croppie = Croppie;
 
     if (typeof module === 'object' && !!module.exports) {
-        module.exports = Croppie;    
+        module.exports = Croppie;
     }
 }));

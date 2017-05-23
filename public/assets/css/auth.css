@@ -423,6 +423,9 @@ a {
 .navbar-default .navbar-nav > li > a:focus {
   color: #ccc;
 }
+.lity {
+  z-index: 99999;
+}
 .stylish-input-group .input-group-addon {
   background: white !important;
 }

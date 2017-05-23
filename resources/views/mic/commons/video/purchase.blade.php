@@ -6,7 +6,7 @@
 @section('page_classes')learning-center @endsection
 
 @section('content')
-<div class="row">
+<div class="row m0">
 
   <div class="col-sm-5">
     <div class="learning-center-videos video-list">
