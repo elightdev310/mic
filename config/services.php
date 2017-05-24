@@ -37,7 +37,7 @@ return [
 
     'qbms'  => [
         'application_login' => 'micapayment.medicalicapp.com', 
-        'connection_ticket' => 'SDK-TGT-54-DodsftfMu7eyIUr7r40ZwA', 
+        'connection_ticket' => 'SDK-TGT-38-a2s1NLfSHy_FUUeRZ0X3_w', 
     ], 
 
 ];

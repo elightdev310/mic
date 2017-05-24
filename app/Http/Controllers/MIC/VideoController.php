@@ -141,12 +141,8 @@ class VideoController extends Controller
                 ->withInput();
     }
     
-    $payment_info = $user->paymentInfo;
-    if (!$payment_info ) 
-    {
-      $payment_info = new PaymentInfo;
-      $payment_info->user_id = $user->id;
-    }
+    $payment_info = new PaymentInfo;
+    $payment_info->user_id = $user->id;
     
     $payment_info->name_card   = $request->input('name_card');
     $payment_info->cc_number   = $request->input('cc_number');
@@ -161,15 +157,23 @@ class VideoController extends Controller
 
     $payment_info->payment_type= $request->input('payment_type');
 
-    $payment_info->save();
+    // $payment_info->save();
 
     // Purchase Video (Using Payment)
     $comment = sprintf("Purchase youtube video(%s)", $va->video->vid);
-    if (MICPay::charge($user->id, $price, $comment)) {
-      //MICVideo::insertPurchaseVideo($user->id, $va_id);
+    $err_msg = 'Payment is failed.';
+    if ($result = MICPay::charge($payment_info, $price, $comment)) {
+      if ($result['status'] == 'success') {
+        //MICVideo::insertPurchaseVideo($user->id, $va_id);
+        return redirect()->back()->with('status', "You purchased video, successfully.")
+                                 ->with('redirect', '_parent');
+      } else {
+        $err_msg = $result['msg'];
+      }
     }
 
-    return redirect()->route('learning_center.video.purchase', ['va_id'=>$va_id]);
+    //return redirect()->route('learning_center.video.purchase', ['va_id'=>$va_id]);
+    return redirect()->back()->withErrors($err_msg);
   }
 
   public function trackVideo(Request $request) {

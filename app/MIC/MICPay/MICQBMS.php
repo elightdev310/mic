@@ -27,8 +27,8 @@ class MICQBMS {
     );
 
     if ($this->MS) {
-      //$this->MS->useTestEnvironment(true);
-      $this->MS->useDebugMode(true);
+      // $this->MS->useTestEnvironment(true);
+      // $this->MS->useDebugMode(true);
     }
   }
 

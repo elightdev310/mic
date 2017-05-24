@@ -46,21 +46,17 @@ class MICPay {
     }
   }
 
-  public function charge($user_id, $amount, $comment=null) {
-    $card_info = $this->getCardInfo($user_id);
+  public function charge($payment_info, $amount, $comment=null) {
+    $card_info = $this->getCardInfo($payment_info);
     if ($card_info) {
       $result = $this->qbms->charge($card_info, $amount, $comment);
-      dd($result);
-      if ($result['status'] == 'success') {
-        return true;
-      }
+      return $result;
     }
     return false;
   }
 
-  protected function getCardInfo($user_id) {
-    $user = User::find($user_id);
-    if ($paymentInfo = $user->paymentInfo) {
+  protected function getCardInfo($paymentInfo) {
+    if ($paymentInfo) {
       list($exp_month, $exp_year) = explode('-', $paymentInfo->exp);
       $card_info = array(
           'name'      => $paymentInfo->name_card, 
@@ -69,7 +65,7 @@ class MICPay {
           'expmonth'  => $exp_month, 
           'address'   => $paymentInfo->address, 
           'postalcode'=> $paymentInfo->zip, 
-          'cvv'       => '', 
+          'cvv'       => $paymentInfo->cid, 
         );
       return $card_info;
     }

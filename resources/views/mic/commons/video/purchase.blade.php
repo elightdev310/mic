@@ -84,7 +84,7 @@
               $months[$_month] = $_month;
             }
             $index = 0;
-            while($index<5) { $years[$_year%100] = $_year; $index++; $_year++; } 
+            while($index<5) { $years[$_year] = $_year; $index++; $_year++; } 
            /*--}}
           <div class="row m0">
             <div class="form-material col-xs-5 pl0 pr10">
