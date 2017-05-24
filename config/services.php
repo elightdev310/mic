@@ -36,8 +36,8 @@ return [
     ],
 
     'qbms'  => [
-        'application_login' => 'test.foxycart.com', 
-        'connection_ticket' => 'TGT-157-p3PyZPoH3DtieLSh4ykp6Q', 
+        'application_login' => 'micapayment.medicalicapp.com', 
+        'connection_ticket' => 'SDK-TGT-54-DodsftfMu7eyIUr7r40ZwA', 
     ], 
 
 ];

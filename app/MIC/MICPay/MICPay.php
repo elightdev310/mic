@@ -22,7 +22,8 @@ class MICPay {
 
   protected $qbms;
   protected $paypal;
-
+  protected $qbpayments;
+  
   /**
    * Create a new confide instance.
    *
@@ -46,22 +47,26 @@ class MICPay {
   }
 
   public function charge($user_id, $amount, $comment=null) {
-    return true;
-    
     $card_info = $this->getCardInfo($user_id);
     if ($card_info) {
-      //$this->qbms->charge($card_info, $amount, $comment);
+      $result = $this->qbms->charge($card_info, $amount, $comment);
+      dd($result);
+      if ($result['status'] == 'success') {
+        return true;
+      }
     }
+    return false;
   }
 
   protected function getCardInfo($user_id) {
     $user = User::find($user_id);
     if ($paymentInfo = $user->paymentInfo) {
+      list($exp_month, $exp_year) = explode('-', $paymentInfo->exp);
       $card_info = array(
           'name'      => $paymentInfo->name_card, 
           'number'    => $paymentInfo->cc_number, 
-          'expyear'   => '', 
-          'expmonth'  => '', 
+          'expyear'   => $exp_year, 
+          'expmonth'  => $exp_month, 
           'address'   => $paymentInfo->address, 
           'postalcode'=> $paymentInfo->zip, 
           'cvv'       => '', 

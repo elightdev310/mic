@@ -232,7 +232,7 @@ class ApplicationController extends Controller
       $pi = array(
           'name_card'   => $data['name_card'], 
           'cc_number'   => $data['cc_number'], 
-          'exp'         => $data['exp'], 
+          'exp'         => $data['exp_month'].'-'.$data['exp_year'], 
           'cid'         => $data['cid'], 
           'address'     => $data['pi_address'], 
           'address2'    => $data['pi_address2'], 

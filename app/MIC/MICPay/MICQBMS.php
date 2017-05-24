@@ -7,6 +7,9 @@ use Auth;
 
 use MICHelper;
 
+use QuickBooks_MerchantService;
+use QuickBooks_MerchantService_CreditCard;
+
 class MICQBMS {
   protected $MS;
   public function __construct()
@@ -24,7 +27,7 @@ class MICQBMS {
     );
 
     if ($this->MS) {
-      $this->MS->useTestEnvironment(true);
+      //$this->MS->useTestEnvironment(true);
       $this->MS->useDebugMode(true);
     }
   }
@@ -67,7 +70,10 @@ class MICQBMS {
                                                       $cvv);
 
     if ($Transaction = $this->MS->charge($Card, $amount, null, $comment)) {
-      return true;
+      return array(
+        'status' => 'success', 
+        'transaction' => $Transaction, 
+      );
     } else {
       return array(
           'status' => 'error', 

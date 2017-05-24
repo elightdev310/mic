@@ -188,6 +188,16 @@ class UserController extends Controller
       $params['employee'] = $user->employee? $user->employee : new Employee;
     }
 
+    // Payment Exp Field
+    $params['exp_year'] = $params['exp_month'] = NULL;
+    if (!empty($params['payment_info']->exp)) {
+      $arr_exp = explode('-', $params['payment_info']->exp);
+      if (is_array($arr_exp)) {
+        $params['exp_month'] = $arr_exp[0];
+        $params['exp_year'] = $arr_exp[1];
+      }
+    }
+
     if (MICHelper::isPatient($user) || MICHelper::isPartner($user)) {
       //Learning Center
       $user_videos = MICVideo::getVideoList('user', $user->id);
@@ -559,7 +569,8 @@ class UserController extends Controller
       'payment_type'  => 'required', 
       'name_card'     => 'required', 
       'cc_number'     => 'required', 
-      'exp'           => 'required', 
+      'exp_month'     => 'required', 
+      'exp_year'      => 'required', 
       'cid'           => 'required', 
 
       'address'       => 'required', 
@@ -583,7 +594,7 @@ class UserController extends Controller
     
     $payment_info->name_card   = $request->input('name_card');
     $payment_info->cc_number   = $request->input('cc_number');
-    $payment_info->exp         = $request->input('exp');
+    $payment_info->exp         = $request->input('exp_month').'-'.$request->input('exp_year');
     $payment_info->cid         = $request->input('cid');
 
     $payment_info->address     = $request->input('address');

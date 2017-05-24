@@ -122,7 +122,38 @@
             </div>
             
             <div class="form-group has-feedback">
-              <input type="text" class="form-control" placeholder="Exp" name="exp" value="{{ old('exp') }}" />
+              {{-- <input type="text" class="form-control" placeholder="Exp" name="exp" value="{{ old('exp') }}" /> --}}
+
+              {{--*/ 
+                $months= [];
+                $years = [];
+                $_year=date('Y');
+                for ($index = 1; $index<=12; $index++) {
+                  $_month = ($index<10)? '0'.$index : $index;
+                  $months[$_month] = $_month;
+                }
+                $index = 0;
+                while($index<5) { $years[$_year%100] = $_year; $index++; $_year++; } 
+               /*--}}
+              <div class="row m0">
+                <div class="col-xs-5 pl0 pr10">
+                  {!! 
+                    Form::select('exp_month', 
+                                  $months,
+                                  NULL, 
+                                  ['class' => 'form-control', 'placeholder'=>'Exp Month']) 
+                  !!}
+                </div>
+                <div class="col-xs-7 p0">
+                  {!! 
+                    Form::select('exp_year', 
+                                  $years,
+                                  NULL, 
+                                  ['class' => 'form-control', 'placeholder'=>'Exp Year']) 
+                  !!}
+                </div>
+              </div>
+
             </div> 
             <div class="form-group has-feedback">
               <input type="text" class="form-control" placeholder="CID" name="cid" value="{{ old('cid') }}" />

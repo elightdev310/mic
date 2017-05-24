@@ -19,6 +19,7 @@ use App\MIC\Models\VideoTracking;
 
 use MICVideo;
 use MICHelper;
+use MICPay;
 
 /**
  * Class IQuestionController
@@ -93,6 +94,17 @@ class VideoController extends Controller
     $params['video'] = $video;
 
     $params['payment_info'] = ($_user->paymentInfo)? $_user->paymentInfo : new PaymentInfo;
+
+    // Payment Exp Field
+    $params['exp_year'] = $params['exp_month'] = NULL;
+    if (!empty($params['payment_info']->exp)) {
+      $arr_exp = explode('-', $params['payment_info']->exp);
+      if (is_array($arr_exp)) {
+        $params['exp_month'] = $arr_exp[0];
+        $params['exp_year'] = $arr_exp[1];
+      }
+    }
+
     if (MICVideo::checkVideoPurchase($va)) {
       
     } else {
@@ -113,7 +125,8 @@ class VideoController extends Controller
       'payment_type'  => 'required', 
       'name_card'     => 'required', 
       'cc_number'     => 'required', 
-      'exp'           => 'required', 
+      'exp_month'     => 'required', 
+      'exp_year'      => 'required', 
       'cid'           => 'required', 
 
       'address'       => 'required', 
@@ -137,7 +150,7 @@ class VideoController extends Controller
     
     $payment_info->name_card   = $request->input('name_card');
     $payment_info->cc_number   = $request->input('cc_number');
-    $payment_info->exp         = $request->input('exp');
+    $payment_info->exp         = $request->input('exp_month').'-'.$request->input('exp_year');
     $payment_info->cid         = $request->input('cid');
 
     $payment_info->address     = $request->input('address');
@@ -150,13 +163,11 @@ class VideoController extends Controller
 
     $payment_info->save();
 
-    // Purchase Video
-    // TO DO: Charge 
+    // Purchase Video (Using Payment)
     $comment = sprintf("Purchase youtube video(%s)", $va->video->vid);
-    // MICPay::charge($user->id, $price, $comment);
-    
-    // TO DO : Uncomment after implementing of charge
-    // MICVideo::insertPurchaseVideo($user->id, $va_id);
+    if (MICPay::charge($user->id, $price, $comment)) {
+      //MICVideo::insertPurchaseVideo($user->id, $va_id);
+    }
 
     return redirect()->route('learning_center.video.purchase', ['va_id'=>$va_id]);
   }

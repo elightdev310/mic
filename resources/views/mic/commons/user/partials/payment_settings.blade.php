@@ -36,7 +36,36 @@
   <div class="form-group">
     {!! Form::label('exp', 'Exp :', ['class' => 'control-label col-md-4 col-lg-2']); !!}
     <div class="col-md-8 col-lg-4"><div class="form-material">
-      {!! Form::text('exp', $payment_info->exp, ['class' => 'form-control']) !!}
+      {{-- {!! Form::text('exp', $payment_info->exp, ['class' => 'form-control']) !!} --}}
+      {{--*/ 
+        $months= [];
+        $years = [];
+        $_year=date('Y');
+        for ($index = 1; $index<=12; $index++) {
+          $_month = ($index<10)? '0'.$index : $index;
+          $months[$_month] = $_month;
+        }
+        $index = 0;
+        while($index<5) { $years[$_year%100] = $_year; $index++; $_year++; } 
+       /*--}}
+      <div class="row m0">
+        <div class="form-material col-xs-5 pl0 pr10">
+          {!! 
+            Form::select('exp_month', 
+                          $months,
+                          $exp_month, 
+                          ['class' => 'form-control']) 
+          !!}
+        </div>
+        <div class="form-material col-xs-7 p0">
+          {!! 
+            Form::select('exp_year', 
+                          $years,
+                          $exp_year, 
+                          ['class' => 'form-control']) 
+          !!}
+        </div>
+      </div>
     </div></div>
   </div>
   <div class="form-group">
