@@ -96,14 +96,14 @@ class VideoController extends Controller
     $params['payment_info'] = ($_user->paymentInfo)? $_user->paymentInfo : new PaymentInfo;
 
     // Payment Exp Field
-    $params['exp_year'] = $params['exp_month'] = NULL;
-    if (!empty($params['payment_info']->exp)) {
-      $arr_exp = explode('-', $params['payment_info']->exp);
-      if (is_array($arr_exp)) {
-        $params['exp_month'] = $arr_exp[0];
-        $params['exp_year'] = $arr_exp[1];
-      }
-    }
+    // $params['exp_year'] = $params['exp_month'] = NULL;
+    // if (!empty($params['payment_info']->exp)) {
+    //   $arr_exp = explode('-', $params['payment_info']->exp);
+    //   if (is_array($arr_exp)) {
+    //     $params['exp_month'] = $arr_exp[0];
+    //     $params['exp_year'] = $arr_exp[1];
+    //   }
+    // }
 
     if (MICVideo::checkVideoPurchase($va)) {
       
@@ -157,14 +157,12 @@ class VideoController extends Controller
 
     $payment_info->payment_type= $request->input('payment_type');
 
-    // $payment_info->save();
-
     // Purchase Video (Using Payment)
     $comment = sprintf("Purchase youtube video(%s)", $va->video->vid);
     $err_msg = 'Payment is failed.';
     if ($result = MICPay::charge($payment_info, $price, $comment)) {
       if ($result['status'] == 'success') {
-        //MICVideo::insertPurchaseVideo($user->id, $va_id);
+        MICVideo::insertPurchaseVideo($user->id, $va_id);
         return redirect()->back()->with('status', "You purchased video, successfully.")
                                  ->with('redirect', '_parent');
       } else {

@@ -231,9 +231,9 @@ class ApplicationController extends Controller
       // Create PaymentInfo Model
       $pi = array(
           'name_card'   => $data['name_card'], 
-          'cc_number'   => $data['cc_number'], 
-          'exp'         => $data['exp_month'].'-'.$data['exp_year'], 
-          'cid'         => $data['cid'], 
+          'cc_number'   => '', //$data['cc_number'], 
+          'exp'         => '', //$data['exp_month'].'-'.$data['exp_year'], 
+          'cid'         => '', //$data['cid'], 
           'address'     => $data['pi_address'], 
           'address2'    => $data['pi_address2'], 
           'city'        => $data['pi_city'], 

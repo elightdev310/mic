@@ -67,7 +67,7 @@
       <div class="form-group">
         {!! Form::label('cc_number', 'Credit Card Number :', ['class' => 'control-label col-md-4 col-lg-2']); !!}
         <div class="col-md-8 col-lg-4"><div class="form-material">
-          {!! Form::text('cc_number', $payment_info->cc_number, ['class' => 'form-control']) !!}
+          {!! Form::text('cc_number', NULL, ['class' => 'form-control']) !!}
         </div></div>
       </div>
 
@@ -91,16 +91,16 @@
               {!! 
                 Form::select('exp_month', 
                               $months,
-                              $exp_month, 
-                              ['class' => 'form-control']) 
+                              NULL, 
+                              ['class' => 'form-control', 'placeholder' => 'Exp month']) 
               !!}
             </div>
             <div class="form-material col-xs-7 p0">
               {!! 
                 Form::select('exp_year', 
                               $years,
-                              $exp_year, 
-                              ['class' => 'form-control']) 
+                              NULL, 
+                              ['class' => 'form-control', 'placeholder' =>'Exp year']) 
               !!}
             </div>
           </div>
@@ -109,7 +109,7 @@
       <div class="form-group">
         {!! Form::label('cid', 'CID :', ['class' => 'control-label col-md-4 col-lg-2']); !!}
         <div class="col-md-8 col-lg-4"><div class="form-material">
-          {!! Form::text('cid', $payment_info->cid, ['class' => 'form-control']) !!}
+          {!! Form::text('cid', NULL, ['class' => 'form-control']) !!}
         </div></div>
       </div>
 
