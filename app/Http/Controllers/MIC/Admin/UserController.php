@@ -485,6 +485,24 @@ class UserController extends Controller
     $user->name = $patient->first_name.' '.$patient->last_name;
     $user->save();
 
+    // Save Address
+    $payment_info = $user->paymentInfo;
+    if (!$payment_info ) 
+    {
+      $payment_info = new PaymentInfo;
+      $payment_info->user_id = $user->id;
+    }
+
+    $payment_info->address     = $request->input('address');
+    $payment_info->address2    = $request->input('address2');
+    $payment_info->city        = $request->input('city');
+    $payment_info->state       = $request->input('state');
+    $payment_info->zip         = $request->input('zip');
+
+    $payment_info->name_card   = $user->name;
+    
+    $payment_info->save();
+
     return redirect()->back()->with('status', 'General settings saved, successfully.');
   }
 
@@ -527,6 +545,24 @@ class UserController extends Controller
 
     $user->name = $partner->first_name.' '.$partner->last_name;
     $user->save();
+
+    // Save Address
+    $payment_info = $user->paymentInfo;
+    if (!$payment_info ) 
+    {
+      $payment_info = new PaymentInfo;
+      $payment_info->user_id = $user->id;
+    }
+
+    $payment_info->address     = $request->input('address');
+    $payment_info->address2    = $request->input('address2');
+    $payment_info->city        = $request->input('city');
+    $payment_info->state       = $request->input('state');
+    $payment_info->zip         = $request->input('zip');
+
+    $payment_info->name_card   = $user->name;
+    
+    $payment_info->save();
 
     return redirect()->back()->with('status', 'General settings saved, successfully.');
   }

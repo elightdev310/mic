@@ -70,14 +70,14 @@
       </li>
       @endif
 
-      @if (isset($payment_info))
+      {{-- @if (isset($payment_info))
       <li class="@if (session('_action')=='savePaymentSettings') active @endif">
         <a role="tab" data-toggle="tab" class="@if (session('_action')=='savePaymentSettings') active @endif" 
             href="#tab-payment" data-target="#tab-payment" aria-expanded="false">
           <i class="fa fa-credit-card"></i> Payment Settings
         </a>
       </li>
-      @endif
+      @endif --}}
 
       <li class="@if (session('_action')=='saveAccountSettings') active @endif">
         <a role="tab" data-toggle="tab" class="@if (session('_action')=='saveAccountSettings') active @endif" 
@@ -128,7 +128,7 @@
       </div>
       @endif
 
-      @if (isset($payment_info))
+      {{-- @if (isset($payment_info))
       <!-- Payment Settings -->
       <div role="tabpanel" class="tab-pane fade @if (session('_action')=='savePaymentSettings') active in @endif" id="tab-payment">
         <div class="tab-content">
@@ -142,7 +142,7 @@
           </div>
         </div>
       </div>
-      @endif
+      @endif --}}
 
       <!-- Account Settings -->
       <div role="tabpanel" class="tab-pane fade @if (session('_action')=='saveAccountSettings') active in @endif" id="tab-account">

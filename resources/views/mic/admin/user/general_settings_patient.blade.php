@@ -35,6 +35,8 @@
     </div></div>
   </div>
 
+  @include('mic.commons.user.partials.user_address')
+  
   <div class="form-group">
     <div class="col-md-12">
       {!! Form::submit('Save General Settings', ['class'=>'btn btn-primary']) !!}

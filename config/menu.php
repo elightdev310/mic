@@ -84,10 +84,6 @@ return [
       'title' => 'Learning Center', 
       'url'   => 'learning-center', 
     ], 
-    'more' => [
-      'title' => 'More', 
-      'url'   => '#', 
-    ], 
   ], 
 
   // Partner Menu
@@ -99,10 +95,6 @@ return [
     'videos' => [
       'title' => 'Learning Center', 
       'url'   => 'learning-center', 
-    ], 
-    'more' => [
-      'title' => 'More', 
-      'url'   => '#', 
     ], 
   ], 
 

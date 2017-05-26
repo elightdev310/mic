@@ -88,7 +88,7 @@
       !!}
     </div> --}}
 
-    <div class="form-group has-feedback">
+    {{-- <div class="form-group has-feedback">
       {!! Form::label('payment_type', 'Payment Type :') !!}
       {!! 
         Form::select('payment_type', 
@@ -96,13 +96,9 @@
                       old('payment_type'), 
                       ['class' => 'form-control', 'placeholder' => '- Please Select -']) 
       !!}
-    </div>
+    </div> --}}
 
-    <div class="form-group has-feedback">
-      
-    </div>
-
-    <div class="panel-group app-panel" id="step3" role="tablist" aria-multiselectable="true">
+    {{-- <div class="panel-group app-panel" id="step3" role="tablist" aria-multiselectable="true">
       <div class="panel panel-default payment-info-section">
         <div class="panel-heading" role="tab" id="s3_payment_info_label">
           <h4 class="panel-title">
@@ -121,7 +117,7 @@
               <input type="text" class="form-control" placeholder="Credit Card Number" name="cc_number" value="{{ old('cc_number') }}" />
             </div>
             
-            <div class="form-group has-feedback">
+            <div class="form-group has-feedback"> --}}
               {{-- <input type="text" class="form-control" placeholder="Exp" name="exp" value="{{ old('exp') }}" /> --}}
 
               {{--*/ 
@@ -135,7 +131,7 @@
                 $index = 0;
                 while($index<5) { $years[$_year] = $_year; $index++; $_year++; } 
                /*--}}
-              <div class="row m0">
+              {{-- <div class="row m0">
                 <div class="col-xs-5 pl0 pr10">
                   {!! 
                     Form::select('exp_month', 
@@ -178,7 +174,7 @@
         </div>
       </div> <!-- /.payment-info-section -->
       
-    </div>
+    </div> --}}
     
     <div class="row">
       <div class="col-xs-12">

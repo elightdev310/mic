@@ -136,7 +136,7 @@ class ApplicationController extends Controller
       $validator = Validator::make($request->all(), [
         'membership_role'   => 'required', 
         //'membership_level'  => 'required', 
-        'payment_type'      => 'required', 
+        // 'payment_type'      => 'required', 
         // 'name_card'         => 'required', 
         // 'cc_number'         => 'required', 
         // 'exp'               => 'required', 
@@ -228,27 +228,27 @@ class ApplicationController extends Controller
       $role = Role::where('name', config('mic.user_role.partner'))->first();
       $user->attachRole($role);
 
-      // Create PaymentInfo Model
-      $pi = array(
-          'name_card'   => $data['name_card'], 
-          'cc_number'   => '', //$data['cc_number'], 
-          'exp'         => '', //$data['exp_month'].'-'.$data['exp_year'], 
-          'cid'         => '', //$data['cid'], 
-          'address'     => $data['pi_address'], 
-          'address2'    => $data['pi_address2'], 
-          'city'        => $data['pi_city'], 
-          'state'       => $data['pi_state'], 
-          'zip'         => $data['pi_zip'], 
-          'user_id'     => $uid, 
-          'payment_type'=> $data['payment_type'], 
-        );
+      // // Create PaymentInfo Model
+      // $pi = array(
+      //     'name_card'   => $data['name_card'], 
+      //     'cc_number'   => '', //$data['cc_number'], 
+      //     'exp'         => '', //$data['exp_month'].'-'.$data['exp_year'], 
+      //     'cid'         => '', //$data['cid'], 
+      //     'address'     => $data['pi_address'], 
+      //     'address2'    => $data['pi_address2'], 
+      //     'city'        => $data['pi_city'], 
+      //     'state'       => $data['pi_state'], 
+      //     'zip'         => $data['pi_zip'], 
+      //     'user_id'     => $uid, 
+      //     'payment_type'=> $data['payment_type'], 
+      //   );
 
-      $pi_id = Module::insert("PaymentInfos", (object)$pi);
-      if (!$pi_id) {
-        return redirect()->route($url_step3)
-                ->withErrors("Error occurs when creating Payment Information.")
-                ->withInput(); 
-      }
+      // $pi_id = Module::insert("PaymentInfos", (object)$pi);
+      // if (!$pi_id) {
+      //   return redirect()->route($url_step3)
+      //           ->withErrors("Error occurs when creating Payment Information.")
+      //           ->withInput(); 
+      // }
 
       // Create Partner Model
       $partner = array(

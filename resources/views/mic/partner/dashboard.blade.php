@@ -11,9 +11,8 @@
 @section('content')
 <div class="hold-transition dashboard-section">
   <h3 class="text-center">{{ MICUILayoutHelper::getPartnerTypeTitle() }} Dashboard</h3>
-  <a class="btn btn-primary btn-lg btn-link" href="{{ route('partner.claims')}}">My Claims</a>
-  <a class="btn btn-primary btn-lg btn-link" href="{{ route('learning_center') }}">Learning Center</a>
-  <a class="btn btn-default btn-lg btn-link" href="#">More</a>
+  <a class="btn btn-default btn-lg btn-link" href="{{ route('partner.claims')}}">My Claims</a>
+  <a class="btn btn-default btn-lg btn-link" href="{{ route('learning_center') }}">Learning Center</a>
 
   <br/>
   <a class="btn btn-default btn-lg btn-link" href="{{ url('/logout') }}">Log out</a>
