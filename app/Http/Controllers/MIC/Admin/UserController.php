@@ -56,30 +56,46 @@ class UserController extends Controller
 
   public function index(Request $request)
   {
-    $q = User::where('id', '<>', 2);
+    $q = DB::table('users')
+           ->select('users.*')
+           ->leftJoin('partners', 'partners.user_id', '=', 'users.id')
+           ->where('users.id', '<>', 2);
 
     if ($request->has('user_type')) {
-      $q->where('type', $request->input('user_type'));
+      $q->where('users.type', $request->input('user_type'));
+      if ($request->input('user_type') == 'partner') {
+        if ($request->has('partner_type')) {
+          $q->where('partners.membership_role', $request->input('partner_type'));
+        }
+      }
     }
     if ($request->has('status')) {
-      $q->where('status', $request->input('status'));
+      $q->where('users.status', $request->input('status'));
     }
     if ($request->has('search_txt')) {
       $search_txt = trim($request->input('search_txt'));
 
       if ($search_txt) {
         $q->where(function($query) use ($search_txt) {
-          $query->where('name', 'like', '%'.$search_txt.'%')
-                ->orWhere('email', 'like', '%'.$search_txt.'%');
+          $query->where('users.name', 'like', '%'.$search_txt.'%')
+                ->orWhere('users.email', 'like', '%'.$search_txt.'%');
         });
       }
     }
 
-    $users = $q->orderBy('created_at', 'DESC')
+    $paginate = $q->orderBy('created_at', 'DESC')
                ->paginate(self::PAGE_LIMIT);
+
+    $users = array();
+
+    foreach ($paginate as $record) {
+      $users[] = User::find($record->id);
+    }
+    $params = array();
 
     $params = array();
     $params['users'] = $users;
+    $params['paginate'] = $paginate;
     
     return view('mic.admin.users', $params);
   }

@@ -15,6 +15,10 @@ require __DIR__.'/admin_routes.php';
 require __DIR__.'/micadmin_routes.php';
 require __DIR__.'/mic_routes.php';
 
+Route::get('test-qb', [
+  'uses' => 'HomeController@testAction'
+]);
+
 /* ============================================================= */
 Route::get('login/patient', [
   'as' => 'login.patient', 'uses' => 'Auth\MICAuthController@showLoginPatientForm'

@@ -20,7 +20,7 @@
                 'method'=>'get', 
                 'class' =>'frm-search-user']) !!}
           <div class="row">
-              <div class="col-sm-8">
+              <div class="col-sm-9">
                   <div id="imaginary_container"> 
                       <div class="input-group stylish-input-group">
                           {!! Form::text('search_txt', Request::get('search_txt'), ['class' => 'form-control', 'placeholder'=>'Search']) !!}
@@ -35,7 +35,7 @@
           </div>
 
           <div class='row pt10'>
-              <div class='form-group col-sm-4'>
+              <div class='form-group col-sm-3 user-type-section'>
                   {!! Form::select('user_type', 
                                   [ snake_case(config('mic.user_type.patient')) => ucfirst(config('mic.user_type.patient')), 
                                     snake_case(config('mic.user_type.partner')) => ucfirst(config('mic.user_type.partner')), 
@@ -45,7 +45,15 @@
                                   ['class' => 'form-control', 'placeholder' => '- All User Type -']); 
                     !!}
               </div>
-              <div class='form-group col-sm-4'>
+              <div class='form-group col-sm-3 partner-type-section'>
+                  {!! 
+                    Form::select('partner_type', 
+                                  config('mic.partner_type'),
+                                  Request::get('partner_type'), 
+                                  ['class' => 'form-control', 'placeholder' => '- All Partners -']) 
+                  !!}
+              </div>
+              <div class='form-group col-sm-3'>
                   {!! Form::select('status', 
                                   [ config('mic.user_status.active') => ucfirst(config('mic.user_status.active')), 
                                     config('mic.user_status.pending') => ucfirst(config('mic.user_status.pending')), 
@@ -54,7 +62,7 @@
                                   ['class' => 'form-control', 'placeholder' => '- All Status -']); 
                   !!}
               </div>
-              <div class='form-group col-sm-4'>
+              <div class='form-group col-sm-3'>
                   {!! Form::submit('Filter', ['class'=>'btn btn-primary']) !!}
               </div>
           </div>
@@ -85,7 +93,12 @@
                 </a>
               </td>
               <td class="user-email">{{ $user->email}}</td>
-              <td class="user-type">{{ ucfirst(config('mic.user_type.'.$user->type)) }}</td>
+              <td class="user-type">
+                {{ ucfirst(config('mic.user_type.'.$user->type)) }}
+                @if ($user->type == 'partner' && $user->partner) 
+                  - {{ ucfirst(config('mic.partner_type.'.$user->partner->membership_role)) }}
+                @endif 
+              </td>
               <td class="user-status">{{ ucfirst($user->status) }}</td>
               <td class="user-from">{{ MICUILayoutHelper::strTime($user->created_at) }}</td>
 
@@ -102,7 +115,7 @@
         </div><!-- /.box-body -->
         <div class="box-footer clearfix no-border">
           <div class="paginator pull-right">
-            {{ $users->appends(Request::except('page'))->links() }}
+            {{ $paginate->appends(Request::except('page'))->links() }}
           </div>
         </div>
       </div><!-- /.box -->
@@ -110,3 +123,26 @@
     </section>
   </div>
 @endsection
+
+
+@push('scripts')
+<script>
+
+$(function () {
+  function partnerFilterVisible() {
+    if ($('.user-type-section select').val() == 'partner') {
+      $('.partner-type-section').removeClass('hidden');
+    } else {
+      $('.partner-type-section').addClass('hidden');
+    }
+  }
+
+  $('.user-type-section select').on('change', function() {
+    partnerFilterVisible();
+  });
+
+  partnerFilterVisible();
+
+});
+</script>
+@endpush

@@ -65,4 +65,14 @@ class HomeController extends Controller
       return view('mic.partner.dashboard');
     }
   }
+
+  public function testAction() {
+    $qbo_obj = new \App\Http\Controllers\MIC\QuickBookController();
+    $qbo_connect = $qbo_obj->qboConnect();
+
+    $result = $qbo_obj->test();
+
+    dd($result);
+    return "Test";
+  }
 }

@@ -1,7 +1,7 @@
 <form action="{{ route('claim.upload.doc', [$claim->id]) }}" id="fm_dz_doc" class="dropzone-form" enctype="multipart/form-data" method="POST">
   {{ csrf_field() }}
   <a id="closeDocDZ" class="closeDZ"><i class="fa fa-times"></i></a>
-  <div class="dz-message"><i class="fa fa-cloud-upload"></i><br>Drop document here to upload</div>
+  <div class="dz-message"><i class="fa fa-cloud-upload"></i><br>Drop document(.doc, docx and .pdf) here to upload. <br>Document should be less than 10M.</div>
 </form>
 
 <div class="">
@@ -68,7 +68,7 @@
 var fm_dz_doc = null;
 $(function () {
   fm_dz_doc = new Dropzone("#fm_dz_doc", {
-      maxFilesize: 1,
+      maxFilesize: 10,  // MB
       acceptedFiles: ".doc, .docx, .pdf",
       init: function() {
           this.on("complete", function(file) {

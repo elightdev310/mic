@@ -178,4 +178,10 @@ Route::group(['prefix'=>config('mic.adminRoute'),
     'as'=>$as.'user.learning_video.sort.post', 'uses'=>'MIC\Admin\VideoController@userVideoSortPost' 
   ]);  
 
+  Route::get('qbo/connection', 'MIC\QuickBookController@qboConnection');
+
+  Route::get('qbo/oauth', 'MIC\QuickBookController@qboOauth');
+  Route::get('qbo/success','MIC\QuickBookController@qboSuccess');
+  Route::get('qbo/disconnect','MIC\QuickBookController@qboDisconnect');
+
 });
