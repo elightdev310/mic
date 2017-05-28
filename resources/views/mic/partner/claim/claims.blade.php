@@ -7,34 +7,15 @@
 @section('page_classes')my-claims @endsection
 
 @section('content')
-
-  <div class="my-claims-list">
-    <div class="row">
-        @foreach ($claims as $claim)
-        <div class="col-sm-6 col-md-4" data-claim-id="{{ $claim->id }}">
-          <div class="claim-item-box content-box text-center">
-            <a href="{{ route('claim.view', [$claim->id]) }}"><h3 class="text-bold text-color-primary">{{ $claim->patientUser->name }}</h3></a>
-            <div class="claim-description text-left">
-              Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.
-            </div>
-            <div class="claim-submit-date text-bold">
-              <strong>DOI: {{ MICUILayoutHelper::strTime($claim->created_at, 'n/j/y') }}</strong>
-            </div>
-          </div>
-        </div>
-        @endforeach
-
-    </div>
-  </div><!-- /.my-claims-list -->
-
-
+  
+  {{-- Assigned Claims awaiting approval--}}
   @if (isset($assign_requests) && $assign_requests->count() > 0)
   <div class="row">
     <section class="col-md-12">
       <div class="my-assign-request-list box box-success">
         <div class="box-header row">
           <div class="col-sm-12">
-            <h4>Assign Requests</h4>
+            <h4>Assigned Claims awaiting approval</h4>
           </div>
         </div><!-- /.box-header -->
         <div class="box-body table-responsive">
@@ -78,6 +59,25 @@
     </section>
   </div>
   @endif
+
+  <div class="my-claims-list">
+    <div class="row">
+        @foreach ($claims as $claim)
+        <div class="col-sm-6 col-md-4" data-claim-id="{{ $claim->id }}">
+          <div class="claim-item-box content-box text-center">
+            <a href="{{ route('claim.view', [$claim->id]) }}"><h3 class="text-bold text-color-primary">{{ $claim->patientUser->name }}</h3></a>
+            <div class="claim-description text-left">
+              Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.
+            </div>
+            <div class="claim-submit-date text-bold">
+              <strong>DOI: {{ MICUILayoutHelper::strTime($claim->created_at, 'n/j/y') }}</strong>
+            </div>
+          </div>
+        </div>
+        @endforeach
+
+    </div>
+  </div><!-- /.my-claims-list -->
 
 @endsection
 
