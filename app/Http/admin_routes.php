@@ -158,4 +158,8 @@ Route::group(['as' => $as, 'middleware' => ['auth', 'permission:ADMIN_PANEL']], 
 	/* ================== ResourcePages ================== */
 	Route::resource(config('laraadmin.adminRoute') . '/resourcepages', 'LA\ResourcePagesController');
 	Route::get(config('laraadmin.adminRoute') . '/resourcepage_dt_ajax', 'LA\ResourcePagesController@dtajax');
+
+	/* ================== ResourceAccesses ================== */
+	Route::resource(config('laraadmin.adminRoute') . '/resourceaccesses', 'LA\ResourceAccessesController');
+	Route::get(config('laraadmin.adminRoute') . '/resourceaccess_dt_ajax', 'LA\ResourceAccessesController@dtajax');
 });
