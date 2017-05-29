@@ -154,4 +154,8 @@ Route::group(['as' => $as, 'middleware' => ['auth', 'permission:ADMIN_PANEL']], 
 	/* ================== VideoTrackings ================== */
 	Route::resource(config('laraadmin.adminRoute') . '/videotrackings', 'LA\VideoTrackingsController');
 	Route::get(config('laraadmin.adminRoute') . '/videotracking_dt_ajax', 'LA\VideoTrackingsController@dtajax');
+
+	/* ================== ResourcePages ================== */
+	Route::resource(config('laraadmin.adminRoute') . '/resourcepages', 'LA\ResourcePagesController');
+	Route::get(config('laraadmin.adminRoute') . '/resourcepage_dt_ajax', 'LA\ResourcePagesController@dtajax');
 });
