@@ -23,7 +23,7 @@ use MICPay;
 
 /**
  * Class IQuestionController
- * @package App\Http\Controllers\MIC\Admin
+ * @package App\Http\Controllers\MIC
  */
 class VideoController extends Controller
 {

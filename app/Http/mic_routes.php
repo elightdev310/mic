@@ -93,6 +93,14 @@ Route::group(['middleware' => ['auth']],
     'as'=>'learning_center.video.track', 'uses'=>'MIC\VideoController@trackVideo'
   ]);
 
+  // Resource
+  Route::get('resources', [
+    'as'=>'resource.list', 'uses'=>'MIC\ResourceController@resourcePageList'
+  ]);
+  Route::get('resource/{ra_id}/view/', [
+    'as'=>'resource.view', 'uses'=>'MIC\ResourceController@resourcePageView'
+  ]);
+
   
   // Notification
   Route::get('notifications', [

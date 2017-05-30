@@ -1054,10 +1054,14 @@ ul.claim-photo-section li.claim-photo-item .hovereffect:hover a.info {
   width: auto;
   margin-right: 10px;
 }
-.group-videos .group-video-section {
+.group-videos .group-video-section,
+.group-resources .group-video-section,
+.group-videos .group-resource-section,
+.group-resources .group-resource-section {
   margin-bottom: 50px;
 }
-.group-videos .group-title {
+.group-videos .group-title,
+.group-resources .group-title {
   padding: 5px 0px;
   font-size: 16px;
   font-weight: bold;

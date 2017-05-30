@@ -14,6 +14,7 @@
   <a class="btn btn-default btn-lg btn-link" href="{{ route('patient.claim.create') }}">Create A Claim</a>
   <a class="btn btn-default btn-lg btn-link" href="{{ route('patient.myclaims') }}">My Claim</a>
   <a class="btn btn-default btn-lg btn-link" href="{{ route('learning_center') }}">Learning Center</a>
+  <a class="btn btn-default btn-lg btn-link" href="{{ route('resource.list') }}">Resources</a>
   <br/>
   <a class="btn btn-default btn-lg btn-link" href="{{ url('/logout') }}">Log out</a>
 </div>

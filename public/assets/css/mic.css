@@ -1391,6 +1391,10 @@ ul.claim-photo-section {
   .my-claims-list .claim-description {
     min-height: 150px;
   }
+  .resource-list .resource-item .content-box {
+    height: 300px;
+    overflow: hidden;
+  }
 }
 /* smaller than Extra small screen */
 @media (max-width: 767px) {

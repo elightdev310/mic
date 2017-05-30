@@ -54,6 +54,11 @@ return [
       'url'   => 'admin/learning-videos', 
       'icon'  => 'fa-file-video-o', 
     ], 
+    'resources' => [
+      'title' => 'Resource Pages', 
+      'url'   => 'admin/resources', 
+      'icon'  => 'fa-file-pdf-o', 
+    ], 
     'users' => [
       'title' => 'User Accounts', 
       'url'   => 'admin/users', 

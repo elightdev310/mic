@@ -164,4 +164,13 @@ class MICUILayoutHelper
                      $avatar_url, $classes, $size, $size);
     return $html;
   }
+
+  public static function teaserString($text, $length=400) {
+    preg_match('/^([^.!?]*[\.!?]+){0,100}/', strip_tags($text), $abstract);
+    $summary = $abstract[0];
+    if (strlen($summary) > $length) {
+      $summary = substr($summary, 0, $length)."...";
+    }
+    return $summary;
+  }
 }

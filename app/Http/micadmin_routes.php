@@ -144,6 +144,34 @@ Route::group(['prefix'=>config('mic.adminRoute'),
     'as'=>$as.'iquiz.delete', 'uses'=>'MIC\Admin\IQuestionController@quizDelete' 
   ]);  
 
+  // Resources
+  Route::get('resources', [
+    'as'=>$as.'resource.list', 'uses'=>'MIC\Admin\ResourceController@resourceList' 
+  ]);  
+
+  Route::post('resources/sort', [
+    'as'=>$as.'resource.sort.post', 'uses'=>'MIC\Admin\ResourceController@resourceSortPost' 
+  ]);  
+
+  Route::get('resoure/add', [
+    'as'=>$as.'resource.add', 'uses'=>'MIC\Admin\ResourceController@resourceAddForm' 
+  ]);  
+  Route::post('resource/add', [
+    'as'=>$as.'resource.add.post', 'uses'=>'MIC\Admin\ResourceController@resourceAddPost' 
+  ]);   
+
+  Route::get('resoure/{resource_id}/edit', [
+    'as'=>$as.'resource.edit', 'uses'=>'MIC\Admin\ResourceController@resourceEditForm' 
+  ]);  
+  Route::post('resoure/{resource_id}/edit', [
+    'as'=>$as.'resource.edit.post', 'uses'=>'MIC\Admin\ResourceController@resourceEditPost' 
+  ]);   
+
+  Route::get('resource/{ra_id}/delete', [
+    'as'=>$as.'resource.delete', 'uses'=>'MIC\Admin\ResourceController@resourceDelete' 
+  ]);
+
+
   // Claims
 
   Route::get('learning-videos', [

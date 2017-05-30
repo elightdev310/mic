@@ -83,4 +83,12 @@ return [
 
   // Video Price
   'video_price' => 5.00, 
+
+  // Resources
+  'resource' => array(
+      'template' => array(
+        'one_column' => 'One Column Page', 
+        'two_column' => 'Two Column Page',
+      ), 
+    ), 
 ];

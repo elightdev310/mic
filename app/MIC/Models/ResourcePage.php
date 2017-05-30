@@ -11,5 +11,5 @@ use App\Models\ResourcePage as ResourcePageModule;
 
 class ResourcePage extends ResourcePageModule
 {
-    
+  public $va = null;
 }

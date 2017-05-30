@@ -9,7 +9,8 @@
         "laravel/framework": "5.2.*",
         "dwij/laraadmin": "1.0.40",
         "alaouy/youtube": "dev-master",
-        "consolibyte/quickbooks": "v3.2"
+        "consolibyte/quickbooks": "v3.2",
+        "regulus/activity-log": "0.6.*"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
