@@ -151,6 +151,8 @@ return [
         Intervention\Image\ImageServiceProvider::class, 
         Alaouy\Youtube\YoutubeServiceProvider::class,
 
+        Regulus\ActivityLog\ActivityLogServiceProvider::class,
+
         /*
          * Application Service Providers...
          */
@@ -209,6 +211,7 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
         'Image' => Intervention\Image\Facades\Image::class, 
         'Youtube' => Alaouy\Youtube\Facades\Youtube::class,
+        'Activity' => Regulus\ActivityLog\Models\Activity::class,
 
     ],
 

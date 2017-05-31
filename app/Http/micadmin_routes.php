@@ -73,7 +73,7 @@ Route::group(['prefix'=>config('mic.adminRoute'),
 });
 
 Route::group(['prefix'=>config('mic.adminRoute'), 
-              'middleware' => ['auth', 'permission:ADMIN_PANEL']], 
+              'middleware' => ['auth', 'permission:MICADMIN_PANEL']], 
               function () {
   $as = 'micadmin.';
 
@@ -211,5 +211,20 @@ Route::group(['prefix'=>config('mic.adminRoute'),
   Route::get('qbo/oauth', 'MIC\QuickBookController@qboOauth');
   Route::get('qbo/success','MIC\QuickBookController@qboSuccess');
   Route::get('qbo/disconnect','MIC\QuickBookController@qboDisconnect');
+
+});
+
+
+Route::group(['prefix'=>config('mic.superRoute'), 
+              'middleware' => ['auth', 'permission:ADMIN_PANEL']], 
+              function () {
+  $as = 'micsuper.';
+  Route::get('/', [
+    'as'=>$as.'dashboard', 'uses'=>'MIC\SuperAdmin\LogController@historyLogin' 
+  ]);  
+
+  Route::get('history/login', [
+    'as'=>$as.'history.login', 'uses'=>'MIC\SuperAdmin\LogController@historyLogin' 
+  ]);  
 
 });

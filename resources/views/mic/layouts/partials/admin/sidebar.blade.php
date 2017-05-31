@@ -28,13 +28,28 @@
         <?php echo MICUILayoutHelper::printMenu($menu); ?>
       @endforeach
     </ul><!-- /.sidebar-menu -->
-    @else
+    @elseif (MICHelper::isAdmin($currentUser) || MICHelper::isSuperAdmin($currentUser))
     <!-- Sidebar Menu -->
     <ul class="sidebar-menu">
       <!-- Optionally, you can add icons to the links -->
       <li><a href="{{ url(config('mic.adminRoute')) }}"><i class='fa fa-home'></i> <span>Dashboard</span></a></li>
       <?php
       $menuItems = MICUILayoutHelper::getMenuData('admin');
+      ?>
+      @foreach ($menuItems as $menu)
+        <?php echo MICUILayoutHelper::printMenu($menu); ?>
+      @endforeach
+      <!-- LAMenus -->
+      
+    </ul><!-- /.sidebar-menu -->
+    @endif
+    @if (MICHelper::isSuperAdmin($currentUser))
+    <!-- Sidebar Menu -->
+    <div class="">&nbsp;</div>
+    <ul class="sidebar-menu">
+      <!-- Optionally, you can add icons to the links -->
+      <?php
+      $menuItems = MICUILayoutHelper::getMenuData('super_admin');
       ?>
       @foreach ($menuItems as $menu)
         <?php echo MICUILayoutHelper::printMenu($menu); ?>

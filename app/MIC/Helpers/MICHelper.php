@@ -67,6 +67,30 @@ class MICHelper
     return $user;
   }
 
+  public static function isSuperAdmin($user) {
+    if (is_numeric($user)) {
+      $user = User::find($user);
+    }
+
+    if ($user->id == config('mic.super_admin_user')) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  public static function isAdmin($user) {
+    if (is_numeric($user)) {
+      $user = User::find($user);
+    }
+
+    if ($user->id == config('mic.admin_user')) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
   public static function isCaseManager($user) {
     if (is_numeric($user)) {
       $user = User::find($user);

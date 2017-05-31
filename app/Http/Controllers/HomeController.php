@@ -56,7 +56,8 @@ class HomeController extends Controller
     } else if ($user->hasRole(config('mic.user_role.case_manager'))) {
       return redirect()->route('micadmin.claim.list');
     } else if ($user->hasRole(config('mic.user_role.super_admin'))) {
-      return redirect(config('laraadmin.adminRoute'));
+      // return redirect(config('laraadmin.adminRoute'));
+      return redirect(config('mic.superRoute'));
     }
 
     if ($user->hasRole(config('mic.user_role.patient'))) {

@@ -15,6 +15,7 @@ return [
   */
 
   'adminRoute' => 'admin',
+  'superRoute' => 'super-admin',
   
   'front_url' => '/',
 
@@ -23,6 +24,7 @@ return [
   'avatar_path' => 'uploads/avatar/', 
   'pending_user' => 2, 
   'admin_user' => 3, 
+  'super_admin_user' => 1, 
 
   // User Status
   'user_status' => array(

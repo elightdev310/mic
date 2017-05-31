@@ -66,6 +66,24 @@ return [
     ], 
   ], 
 
+  // Super Admin Menu
+  'super_admin' => [
+    'history' => [
+      'title' => 'History', 
+      'url'   => '#', 
+      'icon'  => 'fa-clock-o', 
+      '#child' => [
+        'claims' => [
+          'title' => 'Login History', 
+          'url'   => 'super-admin/history/login', 
+          'icon'  => 'fa-sign-in', 
+        ], 
+      ]
+    ], 
+
+    
+  ], 
+
   // Case Manager Menu
   'case_manager' => [
     'claims' => [
