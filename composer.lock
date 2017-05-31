@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "cef1f07e87dc80b9623bdcc64c5b55fb",
+    "content-hash": "661ef42439f3d3d756f138381e44d074",
     "packages": [
         {
             "name": "alaouy/youtube",
@@ -200,6 +200,69 @@
                 "laravel"
             ],
             "time": "2017-02-15T22:07:40+00:00"
+        },
+        {
+            "name": "delatbabel/elocryptfive",
+            "version": "v1.5.6",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/delatbabel/elocryptfive.git",
+                "reference": "c1aad9d865a2884750ad42d2db2c4146434dba5e"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/delatbabel/elocryptfive/zipball/c1aad9d865a2884750ad42d2db2c4146434dba5e",
+                "reference": "c1aad9d865a2884750ad42d2db2c4146434dba5e",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/config": "^5.0",
+                "illuminate/console": "^5.0",
+                "illuminate/container": "^5.0",
+                "illuminate/contracts": "^5.0",
+                "illuminate/encryption": "^5.0",
+                "illuminate/support": "^5.0",
+                "paragonie/random_compat": "^1.1|^2.0",
+                "php": ">=5.6.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "~4.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Delatbabel\\Elocrypt\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Darren Taylor",
+                    "email": "shout@darrenonthe.net"
+                },
+                {
+                    "name": "Del",
+                    "email": "del@babel.com.au"
+                }
+            ],
+            "description": "Automatically encrypt and decrypt Eloquent attributes with ease.",
+            "keywords": [
+                "elocrypt",
+                "eloquent",
+                "eloquent aes",
+                "eloquent encryption",
+                "encrypt",
+                "encryption",
+                "l5",
+                "laravel",
+                "laravel5",
+                "laravel5 aes",
+                "laravel5 encryption"
+            ],
+            "time": "2016-09-22T11:10:23+00:00"
         },
         {
             "name": "dnoegel/php-xdg-base-dir",

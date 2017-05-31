@@ -7,10 +7,18 @@ namespace App\MIC\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Delatbabel\Elocrypt\Elocrypt;
+
 use App\Models\Claim as ClaimModule;
 
 class Claim extends ClaimModule
 {
+  use Elocrypt;
+
+  protected $encrypts = [
+    'answers'
+  ];
+
   public function patientUser() {
     return $this->belongsTo('App\MIC\Models\User', 'patient_uid');
   }
@@ -22,5 +30,4 @@ class Claim extends ClaimModule
   public function setAnswers($answers) {
     $this->answers = serialize($answers);
   }
-  
 }

@@ -152,7 +152,8 @@ return [
         Alaouy\Youtube\YoutubeServiceProvider::class,
 
         Regulus\ActivityLog\ActivityLogServiceProvider::class,
-
+        Delatbabel\Elocrypt\ElocryptServiceProvider::class,
+        
         /*
          * Application Service Providers...
          */
