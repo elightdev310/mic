@@ -46,7 +46,13 @@ class NotificationModule {
 
   public function sendNotification($type, $params=array()) {
     try {
-      //* To You
+      // Log activity
+      $log_data = $this->getActivityLogData($type, $params);
+      if ($log_data) {
+        MICHelper::logActivity($log_data);
+      }
+      
+      // To You
       $messageToYou = $this->getMessageToYou($type, $params);
       $you = $this->getYouUser($type, $params, 'database');
       if ($you && $messageToYou) {
@@ -227,4 +233,253 @@ class NotificationModule {
     return $users;
   }
 
+  public function getActivityLogData($type, $params) {
+
+    extract($params);
+
+    $message = '';
+    switch ($type) {
+      case 'claim.create_claim':
+        // use $claim, $user
+        $msg = '%s created claim #%d';
+        $message = sprintf($msg, $user->name, $claim->id);
+        $log_data = array (
+          'userId'      => $user->id,
+          'contentId'   => $claim->id,
+          'contentType' => 'Claim',
+          'action'      => 'create',
+          'description' => $message,
+          'details'     => 'Claim: '.$claim->id,
+        );
+        break;
+      case 'claim.update_ioi':
+        // use $user, $claim
+        $msg = '%s updated Incident of Injury Information in claim #%d';
+        $message = sprintf($msg, $user->name, $claim->id);
+        $log_data = array (
+          'userId'      => $user->id,
+          'contentId'   => $claim->id,
+          'contentType' => 'Claim',
+          'action'      => 'update',
+          'description' => $message,
+          'details'     => 'Claim: '.$claim->id,
+        );
+        break;
+      case 'claim.upload_photo':
+        // use $claim, $user, $photo
+        $msg = '%s uploaded photo to claim #%d';
+        $message = sprintf($msg, $user->name, $claim->id);
+        $log_data = array (
+          'userId'      => $user->id,
+          'contentId'   => $photo->id,
+          'contentType' => 'ClaimPhoto',
+          'action'      => 'upload',
+          'description' => $message,
+          'details'     => 'Claim: '.$claim->id,
+        );
+        break;
+      case 'claim.delete_photo':
+        // use $claim, $user, $photo
+        $msg = '%s deleted photo from claim #%d';
+        $message = sprintf($msg, $user->name, $claim->id);
+        break;
+        $log_data = array (
+          'userId'      => $user->id,
+          'contentId'   => $photo->id,
+          'contentType' => 'ClaimPhoto',
+          'action'      => 'delete',
+          'description' => $message,
+          'details'     => 'Claim: '.$claim->id,
+        );
+      case 'claim.doc.upload_doc':
+        // use $claim, $user, $doc
+        $msg = '%s uploaded document to claim #%d';
+        $message = sprintf($msg, $user->name, $claim->id);
+        $log_data = array (
+          'userId'      => $user->id,
+          'contentId'   => $doc->id,
+          'contentType' => 'ClaimDoc',
+          'action'      => 'upload',
+          'description' => $message,
+          'details'     => 'Claim: '.$claim->id,
+        );
+        break;
+      case 'claim.doc.delete_doc':
+        // use $claim, $user, $doc
+        $msg = '%s deleted document from claim #%d';
+        $message = sprintf($msg, $user->name, $claim->id);
+        $log_data = array (
+          'userId'      => $user->id,
+          'contentId'   => $doc->id,
+          'contentType' => 'ClaimDoc',
+          'action'      => 'delete',
+          'description' => $message,
+          'details'     => 'Claim: '.$claim->id,
+        );
+        break;
+      case 'claim.doc.post_comment':
+        // use $user, $doc, $comment
+        $msg = '%s posted comment to document in Claim #%d';
+        $message = sprintf($msg, $user->name, $doc->claim_id);
+        $log_data = array (
+          'userId'      => $user->id,
+          'contentId'   => $comment->id,
+          'contentType' => 'ClaimDocComment',
+          'action'      => 'post',
+          'description' => $message,
+          'details'     => 'Claim: '.$claim->id,
+        );
+        break;
+
+      case 'claim.doc.grant_access_doc':
+        // use $claim, $doc, $user
+        $msg = '%s get an access to document of claim #%d';
+        $message = sprintf($msg, $user->name, $claim->id);
+        $log_data = array (
+          'userId'      => $user->id,
+          'contentId'   => $doc->id,
+          'contentType' => 'ClaimDoc',
+          'action'      => 'grant',
+          'description' => $message,
+          'details'     => 'Claim: '.$claim->id,
+        );
+        break;
+      case 'claim.doc.remove_access_doc':
+        // use $claim, $doc, $user
+        $msg = '%s lost an access to document of claim #%d';
+        $message = sprintf($msg, $user->name, $claim->id);
+        $log_data = array (
+          'userId'      => $user->id,
+          'contentId'   => $doc->id,
+          'contentType' => 'ClaimDoc',
+          'action'      => 'remove_grant',
+          'description' => $message,
+          'details'     => 'Claim: '.$claim->id,
+        );
+        break;
+
+      case 'claim.doc.upload_billing_doc':
+        // use $claim, $user, $doc
+        $msg = '%s uploaded billing document for claim #%d';
+        $message = sprintf($msg, $user->name, $claim->id);
+        $log_data = array (
+          'userId'      => $user->id,
+          'contentId'   => $doc->id,
+          'contentType' => 'ClaimDoc',
+          'action'      => 'upload',
+          'description' => $message,
+          'details'     => 'Claim: '.$claim->id,
+        );
+        break;
+      case 'claim.doc.admin_upload_billing_doc':
+        $msg = "%s sent %s document in claim #%d";
+        $message = sprintf($msg, $user->name, $reply_to_doc->creator->name, $claim->id);
+        $log_data = array (
+          'userId'      => $user->id,
+          'contentId'   => $doc->id,
+          'contentType' => 'ClaimDoc',
+          'action'      => 'upload',
+          'description' => $message,
+          'details'     => 'Claim: '.$claim->id,
+        );
+        break;
+
+      case 'claim.assign_request':
+        // use $partner, $claim
+        $msg = '%s received a request of claim #%d';
+        $message = sprintf($msg, $partner->name, $claim->id);
+        $log_data = array (
+          'userId'      => $partner->user->id,
+          'contentId'   => $partner->user->id,
+          'contentType' => 'User',
+          'action'      => 'request',
+          'description' => $message,
+          'details'     => 'Claim: '.$claim->id,
+        );
+        break;
+      case 'claim.partner_approve_request': 
+        // use $partner, $claim
+        $msg = '%s approved to be assigned to claim #%d';
+        $message = sprintf($msg, $partner->name, $claim->id);
+        $log_data = array (
+          'userId'      => $partner->user->id,
+          'contentId'   => $partner->user->id,
+          'contentType' => 'User',
+          'action'      => 'approve',
+          'description' => $message,
+          'details'     => 'Claim: '.$claim->id,
+        );
+        break;
+      case 'claim.partner_reject_request': 
+        // use $partner, $claim
+        $msg = '%s rejected claim #%d';
+        $message = sprintf($msg, $partner->name, $claim->id);
+        $log_data = array (
+          'userId'      => $partner->user->id,
+          'contentId'   => $partner->user->id,
+          'contentType' => 'User',
+          'action'      => 'reject',
+          'description' => $message,
+          'details'     => 'Claim: '.$claim->id,
+        );
+        break;
+      case 'claim.patient_reject_request': 
+        // use $partner, $claim
+        $msg = '%s rejected %s from claim #%d';
+        $message = sprintf($msg, $claim->patientUser->name, $partner->name, $claim->id);
+        $log_data = array (
+          'userId'      => $partner->user->id,
+          'contentId'   => $partner->user->id,
+          'contentType' => 'User',
+          'action'      => 'reject',
+          'description' => $message,
+          'details'     => 'Claim: '.$claim->id,
+        );
+        break;
+      case 'claim.patient_approve_request': 
+        // use $partner, $claim
+        $msg = '%s allowed %s to claim #%d';
+        $message = sprintf($msg, $claim->patientUser->name, $partner->name, $claim->id);
+        $log_data = array (
+          'userId'      => $partner->user->id,
+          'contentId'   => $partner->user->id,
+          'contentType' => 'User',
+          'action'      => 'approve',
+          'description' => $message,
+          'details'     => 'Claim: '.$claim->id,
+        );
+        break;
+      case 'claim.assign_partner': 
+        // use $partner, $claim
+        $msg = '%s is assigned to claim #%d';
+        $message = sprintf($msg, $partner->name, $claim->id);
+        $log_data = array (
+          'userId'      => $partner->user->id,
+          'contentId'   => $partner->user->id,
+          'contentType' => 'User',
+          'action'      => 'assign',
+          'description' => $message,
+          'details'     => 'Claim: '.$claim->id,
+        );
+        break;
+      case 'claim.unassign_partner': 
+        // use $partner, $claim
+        $msg = '%s is unassigned from claim #%d';
+        $message = sprintf($msg, $partner->name, $claim->id);
+        $log_data = array (
+          'userId'      => $partner->user->id,
+          'contentId'   => $partner->user->id,
+          'contentType' => 'User',
+          'action'      => 'unassign',
+          'description' => $message,
+          'details'     => 'Claim: '.$claim->id,
+        );
+        break;
+    }
+
+    if (isset($log_data)) {
+      return $log_data;
+    }
+    return false;
+  }
 }
