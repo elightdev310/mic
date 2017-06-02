@@ -19,11 +19,11 @@
         <div class="notification-list">
           @foreach ($notifications as $notification) 
           <div class="noti-item" data-noti-id="{{ $notification->id }}">
-            <div class="noti-remove-icon">
+            {{-- <div class="noti-remove-icon">
               <a href="#" class="noti-remove" data-url="{{ route('notification.delete', [$notification->id]) }}">
                 <span class="fa fa-remove"></span> 
               </a>
-            </div>
+            </div> --}}
             <div class="noti-message">
               {{ $notification->message }}
             </div>
@@ -51,20 +51,20 @@
 <script>
 (function ($) {
   $(document).ready(function() {
-    $('.noti-remove').on('click', function() {
-      var url = $(this).data('url');
-      var $noti = $(this).closest('.noti-item');
+    // $('.noti-remove').on('click', function() {
+    //   var url = $(this).data('url');
+    //   var $noti = $(this).closest('.noti-item');
 
-      $.ajax({
-        dataType: 'json',
-        url: url,
-        success: function ( json ) {
-          $noti.fadeOut('fast', function(){ $noti.remove(); });
-        }
-      });
+    //   $.ajax({
+    //     dataType: 'json',
+    //     url: url,
+    //     success: function ( json ) {
+    //       $noti.fadeOut('fast', function(){ $noti.remove(); });
+    //     }
+    //   });
 
-      return false;
-    });
+    //   return false;
+    // });
   });
 })(jQuery);
 </script>

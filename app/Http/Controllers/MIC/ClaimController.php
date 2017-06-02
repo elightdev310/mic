@@ -375,6 +375,16 @@ class ClaimController extends Controller
     $view = View::make('mic.patient.claim.partials.doc_view_panel', $params);
     $panel = $view->render();
 
+    // Activity 
+    MICHelper::logActivity([
+      'userId'      => $user->id,
+      'contentId'   => $doc->id,
+      'contentType' => 'ClaimDoc',
+      'action'      => 'view',
+      'description' => $user->name." viewed document( {$doc->file->name} ) of claim #{$claim->id}",
+      'details'     => 'Claim: '.$claim->id,
+    ]);
+
     return response()->json(['status'=>'success', 'panel' => $panel]);
   }
 

@@ -215,6 +215,9 @@ Route::group(['prefix'=>config('mic.adminRoute'),
 });
 
 
+/**
+ * Super Admin Route
+ */
 Route::group(['prefix'=>config('mic.superRoute'), 
               'middleware' => ['auth', 'permission:ADMIN_PANEL']], 
               function () {
@@ -225,6 +228,10 @@ Route::group(['prefix'=>config('mic.superRoute'),
 
   Route::get('history/login', [
     'as'=>$as.'history.login', 'uses'=>'MIC\SuperAdmin\LogController@historyLogin' 
+  ]);
+
+  Route::get('history/all', [
+    'as'=>$as.'history.all', 'uses'=>'MIC\SuperAdmin\LogController@historyAll' 
   ]);  
 
 });

@@ -73,9 +73,14 @@ return [
       'url'   => '#', 
       'icon'  => 'fa-clock-o', 
       '#child' => [
-        'claims' => [
+        'login' => [
           'title' => 'Login History', 
           'url'   => 'super-admin/history/login', 
+          'icon'  => 'fa-sign-in', 
+        ], 
+        'all' => [
+          'title' => 'All History', 
+          'url'   => 'super-admin/history/all', 
           'icon'  => 'fa-sign-in', 
         ], 
       ]

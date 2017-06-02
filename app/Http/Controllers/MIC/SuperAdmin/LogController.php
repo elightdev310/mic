@@ -40,6 +40,11 @@ class LogController extends Controller
     
   }
 
+  /**
+   * Page handler
+   * path: history/login
+   * alias: micsuper.history.login
+   */
   public function historyLogin(Request $request)
   {
     
@@ -51,6 +56,23 @@ class LogController extends Controller
     $params['logs'] = $logs;
     
     return view('mic.superadmin.history.login_history', $params);
+  }
+
+  /**
+   * Page handler
+   * path: history/all
+   * alias: micsuper.history.all
+   */
+  public function historyAll(Request $request)
+  {
+    
+    $logs = Activity::orderBy('created_at', 'DESC')
+                    ->paginate(self::PAGE_LIMIT);
+
+    $params = array();
+    $params['logs'] = $logs;
+    
+    return view('mic.superadmin.history.all_history', $params);
   }
 
 }

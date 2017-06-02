@@ -26,9 +26,9 @@
   {!! $resource->body !!}
 </div>
 
-<div class="resource-submit mt20">
+<div class="resource-submit mt20 text-right">
   {{ Form::textarea('body', null, ['class'=>'hidden resource-body-html']) }}
-  <a href="#" class="btn btn-primary save-resource">Save</a>
+  <a href="#" class="btn btn-primary save-resource"><span class="pl20 pr20">Save</span></a>
 </div>
 {!! Form::close() !!}
 @endsection

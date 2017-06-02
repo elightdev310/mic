@@ -2,7 +2,7 @@
 namespace App\Listeners;
 
 use Illuminate\Auth\Events\Login;
-use Activity;
+use MICHelper;
 
 class LogSuccessfulLogin
 {
@@ -25,7 +25,7 @@ class LogSuccessfulLogin
   public function handle(Login $event)
   {
     $user = $event->user;
-      $a = Activity::log([
+    MICHelper::logActivity([
       'userId'      => $user->id,
       'contentId'   => $user->id,
       'contentType' => 'User',

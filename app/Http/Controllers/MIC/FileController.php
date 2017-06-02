@@ -26,6 +26,7 @@ use Datatables;
 use App\Models\Upload;
 
 use MICClaim;
+use MICHelper;
 /**
  * Class FileController
  * @package App\Http\Controllers\MIC
@@ -98,6 +99,25 @@ class FileController extends Controller
 
           $download = Input::get('download');
           if(isset($download)) {
+              // Activity 
+              $user = MICHelper::currentUser();
+              $doc = MICClaim::isClaimDoc($upload->id);
+              if ($doc) {
+                $claim = $doc->claim;
+                $desc = $user->name." downloaded document( {$upload->name} ) of claim #{$claim->id}";
+                if ($doc->isBillingDoc()) {
+                  $desc = $user->name." downloaded billing document( {$upload->name} ) of claim #{$claim->id}";
+                }
+                MICHelper::logActivity([
+                  'userId'      => $user->id,
+                  'contentId'   => $doc->id,
+                  'contentType' => 'ClaimDoc',
+                  'action'      => 'download',
+                  'description' => $desc,
+                  'details'     => 'Claim: '.$claim->id,
+                ]); 
+              }
+
               return response()->download($path, $upload->name);
           } else {
               $response = FacadeResponse::make($file, 200);

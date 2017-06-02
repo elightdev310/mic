@@ -68,6 +68,16 @@ trait PartnerClaimController
       $docs = $docs->splice(0, 3);
     }
 
+    // Activity 
+    MICHelper::logActivity([
+      'userId'      => $user->id,
+      'contentId'   => $claim->id,
+      'contentType' => 'Claim',
+      'action'      => 'view',
+      'description' => $user->name.' viewed claim #'.$claim->id,
+      'details'     => 'Claim: '.$claim->id,
+    ]);
+
     $params = array();
     $params['user']       = $user;
     $params['claim']      = $claim;

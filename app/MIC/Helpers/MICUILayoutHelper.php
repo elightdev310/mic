@@ -111,9 +111,9 @@ class MICUILayoutHelper
     if (date_format($date, 'M d, Y') == date('M d, Y')) {
       $str = date_format($date, 'H:i');
     } else if (date_format($date, 'Y') == date('Y')) {
-      $str = date_format($date, 'M d');
+      $str = date_format($date, 'M d H:i');
     } else {
-      $str = date_format($date, 'm/d/Y');
+      $str = date_format($date, 'm/d/Y H:i');
     }
 
     return $str;
@@ -165,12 +165,14 @@ class MICUILayoutHelper
     return $html;
   }
 
-  public static function teaserString($text, $length=400) {
-    preg_match('/^([^.!?]*[\.!?]+){0,100}/', strip_tags($text), $abstract);
-    $summary = $abstract[0];
+  public static function teaserString($text, $length=300) {
+    // preg_match('/^([^.!?]*[\.!?]+){0,100}/', strip_tags($text), $abstract);
+    // $summary = $abstract[0];
+    
+    $summary = trim(strip_tags($text));
     if (strlen($summary) > $length) {
       $summary = substr($summary, 0, $length)."...";
-    }
+    } 
     return $summary;
   }
 }

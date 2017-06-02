@@ -5,6 +5,7 @@ namespace App\MIC\Helpers;
 use Auth;
 use MICClaim;
 use App\MIC\Models\User;
+use Activity;
 
 class MICHelper
 {
@@ -150,5 +151,12 @@ class MICHelper
                     ->where('status', 'active')
                     ->get();
     return $cm_users;
+  }
+
+  /**
+   * Log Activity for Audit
+   */
+  public static function logActivity($data) {
+    return Activity::log($data);
   }
 }

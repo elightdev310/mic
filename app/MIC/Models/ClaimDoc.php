@@ -22,4 +22,8 @@ class ClaimDoc extends ClaimDocModule
   public function creator() {
     return $this->belongsTo('App\MIC\Models\User', 'creator_uid');
   }
+
+  public function isBillingDoc() {
+    return ($this->type == 'bill' || $this->type == 'bill_reply')? true : false;
+  }
 }
