@@ -196,6 +196,16 @@ trait PatientClaimController
     // Photo
     $photos = MICClaim::getClaimPhotos($claim_id);
 
+    // Activity 
+    MICHelper::logActivity([
+      'userId'      => $user->id,
+      'contentId'   => $claim->id,
+      'contentType' => 'Claim',
+      'action'      => 'photo',
+      'description' => $user->name.' viewed claim #'.$claim->id,
+      'details'     => 'Claim: '.$claim->id,
+    ]);
+    
     $params = array();
     $params['user']       = $user;
     $params['claim']      = $claim;
