@@ -304,9 +304,26 @@ class NotificationModule {
           'details'     => 'Claim: '.$claim->id,
         );
         break;
+      case 'claim.doc.upload_doc_message':
+        // use $claim, $user, $doc
+        $msg = '%s uploaded message to claim #%d';
+        $message = sprintf($msg, $user->name, $claim->id);
+        $log_data = array (
+          'userId'      => $user->id,
+          'contentId'   => $doc->id,
+          'contentType' => 'ClaimDoc',
+          'action'      => 'upload',
+          'description' => $message,
+          'details'     => 'Claim: '.$claim->id,
+        );
+        break;
+
       case 'claim.doc.delete_doc':
         // use $claim, $user, $doc
         $msg = '%s deleted document from claim #%d';
+        if ($doc->isHL7Message()) {
+          $msg = '%s deleted message from claim #%d';
+        }
         $message = sprintf($msg, $user->name, $claim->id);
         $log_data = array (
           'userId'      => $user->id,

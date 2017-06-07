@@ -12,7 +12,10 @@ use App\Models\ClaimDoc as ClaimDocModule;
 class ClaimDoc extends ClaimDocModule
 {
   public function file() {
-    return $this->belongsTo('App\Models\Upload', 'file_id');
+    if ($this->file_id) {
+      return $this->belongsTo('App\Models\Upload', 'file_id');
+    }
+    return false;
   }  
 
   public function claim() {
@@ -25,5 +28,9 @@ class ClaimDoc extends ClaimDocModule
 
   public function isBillingDoc() {
     return ($this->type == 'bill' || $this->type == 'bill_reply')? true : false;
+  }
+
+  public function isHL7Message() {
+    return (!empty($this->message))? true : false;
   }
 }

@@ -50,6 +50,10 @@ Route::group(['middleware' => ['auth']],
   Route::post('claim/{claim_id}/upload-doc', [
     'as'=>'claim.upload.doc', 'uses'=>'MIC\ClaimController@uploadClaimDoc' 
   ]);
+  // Claim Doc 
+  Route::post('claim/{claim_id}/upload-message', [
+    'as'=>'claim.upload.message', 'uses'=>'MIC\ClaimController@uploadClaimDocMessage' 
+  ]);
   Route::get('claim/{claim_id}/delete/{doc_id}', [
     'as'=>'claim.delete.doc', 'uses'=>'MIC\ClaimController@deleteClaimDoc' 
   ]);

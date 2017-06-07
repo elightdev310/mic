@@ -92,10 +92,21 @@ trait NotiMessageModule
         $msg = '%s uploaded document (%s) to claim #%d';
         $message = sprintf($msg, $user->name, $doc->file->name, $claim->id);
         break;
+      case 'claim.doc.upload_doc_message':
+        // use $claim, $user, $doc
+        $msg = '%s uploaded message to claim #%d';
+        $message = sprintf($msg, $user->name, $claim->id);
+        break;
       case 'claim.doc.delete_doc':
         // use $claim, $user, $doc
         $msg = '%s deleted document (%s) from claim #%d';
-        $message = sprintf($msg, $user->name, $doc->file->name, $claim->id);
+        if ($doc->isHL7Message()) {
+          $msg = '%s deleted message from claim #%d';
+          $message = sprintf($msg, $user->name, $claim->id);
+        } else {
+          $message = sprintf($msg, $user->name, $doc->file->name, $claim->id);
+        }
+        
         break;
       case 'claim.doc.post_comment':
         // use $user, $doc, $comment

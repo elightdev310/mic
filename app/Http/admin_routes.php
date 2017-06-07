@@ -162,4 +162,5 @@ Route::group(['as' => $as, 'middleware' => ['auth', 'permission:ADMIN_PANEL']], 
 	/* ================== ResourceAccesses ================== */
 	Route::resource(config('laraadmin.adminRoute') . '/resourceaccesses', 'LA\ResourceAccessesController');
 	Route::get(config('laraadmin.adminRoute') . '/resourceaccess_dt_ajax', 'LA\ResourceAccessesController@dtajax');
+
 });

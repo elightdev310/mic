@@ -359,10 +359,12 @@ class ClaimModule {
   public function deleteClaimDoc($doc) {
     $this->deleteClaimDocAccess($doc->id);
 
-    $upload = Upload::find($doc->file_id);
-    if ($upload) {
-      unlink($upload->path);
-      $upload->forceDelete();
+    if ($doc->file_id) {
+      $upload = Upload::find($doc->file_id);
+      if ($upload) {
+        unlink($upload->path);
+        $upload->forceDelete();
+      }
     }
     $doc->forceDelete();
   }
@@ -461,11 +463,21 @@ class ClaimModule {
         $msg = 'Uploaded document (%s) to claim #%d';
         $content = sprintf($msg, $doc->file->name, $claim->id);
         break;
+      case 'upload_doc_message':
+        // use $claim, $user, $doc
+        $msg = 'Uploaded HL7 message to claim #%d';
+        $content = sprintf($msg, $claim->id);
+        break;
 
       case 'delete_doc':
         // use $claim, $user, $doc
         $msg = 'Deleted document (%s) from claim #%d';
-        $content = sprintf($msg, $doc->file->name, $claim->id);
+        if ($doc->isHL7Message()) {
+          $msg = 'Deleted HL7 message from claim #%d';
+          $content = sprintf($msg, $claim->id);
+        } else {
+          $content = sprintf($msg, $doc->file->name, $claim->id);
+        }
         break;
       case 'post_comment':
         // use $claim, $user, $doc, $comment

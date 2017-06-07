@@ -1,8 +1,45 @@
-<form action="{{ route('claim.upload.doc', [$claim->id]) }}" id="fm_dz_doc" class="dropzone-form" enctype="multipart/form-data" method="POST">
-  {{ csrf_field() }}
-  <a id="closeDocDZ" class="closeDZ"><i class="fa fa-times"></i></a>
-  <div class="dz-message"><i class="fa fa-cloud-upload"></i><br>Drop document(.doc, docx and .pdf) here to upload. <br>Document should be less than 10M.</div>
-</form>
+<!-- Upload Doc Modal -->
+<div id="upload-doc-modal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Upload Document</h4>
+      </div>
+      <div class="modal-body">
+        <form action="{{ route('claim.upload.doc', [$claim->id]) }}" id="fm_dz_doc" class="dropzone-form" enctype="multipart/form-data" method="POST">
+          {{ csrf_field() }}
+          <div class="dz-message"><i class="fa fa-cloud-upload"></i><br>Drop document(.doc, docx and .pdf) here to upload. <br>Document should be less than 10M.</div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Upload Doc Modal -->
+<div id="upload-message-modal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Upload HL7 Message</h4>
+      </div>
+      <div class="modal-body">
+        <textarea id="txt-message" rows="10" class="form-control"></textarea>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary btn-save">Save</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 
 <div class="">
   <!--<div class="box-header"></div>-->
@@ -90,6 +127,23 @@ $(function () {
       $("#fm_dz_doc").slideUp();
   });
 
+  $('#upload-message-modal .btn-save').on('click', function() {
+    $.ajax({
+        type: "POST", 
+        url: "{{ route('claim.upload.message', [$claim->id]) }}",
+        dataType: 'json',
+        data: {
+          "_token"   : "{{ csrf_token() }}",
+          "message" : $('#upload-message-modal #txt-message').val(),
+        }
+    })
+    .done(function( json, textStatus, jqXHR ) {
+      loadClaimDocs();
+    })
+    .fail(function( jqXHR, textStatus, errorThrown ) { })
+    .always(function( data, textStatus, errorThrown ) { });
+  });
+
   // View Link
   $('.claim-doc-section').on('click', 'a.view-doc-link', function() {
     var view_url = $(this).data('url');
@@ -99,7 +153,11 @@ $(function () {
     $("#view_doc_modal").find('.doc-file-name').html($doc_item.find('.doc-name a').html());
     $("#view_doc_modal").find('.view-panel-section').empty().addClass('panel-loading');
 
-    $("#view_doc_modal").find('.doc-download-link').attr("href", $doc_path+"?download");
+    if ($doc_path != '') {
+      $("#view_doc_modal").find('.doc-download-link').removeClass('hidden').attr("href", $doc_path+"?download");
+    } else {
+      $("#view_doc_modal").find('.doc-download-link').addClass('hidden');
+    }
     
     $("#view_doc_modal").modal('show');
     $.ajax({
@@ -261,6 +319,8 @@ $(function () {
 
 function loadClaimDocs() {
   $(".claim-doc-section").loadingOverlay();
+  $('#upload-doc-modal').modal('hide');
+  $('#upload-message-modal').modal('hide');
   $.ajax({
       dataType: 'json',
       url: "{{ route('claim.doc_list', [$claim->id]) }}",

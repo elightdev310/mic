@@ -94,9 +94,17 @@ trait NotiMailModule
         $subject = '%s uploaded document to claim #%d';
         $subject = sprintf($subject, $user->name, $claim->id);
         break;
+      case 'claim.doc.upload_doc_message':
+        // use $claim, $user, $doc
+        $subject = '%s uploaded message to claim #%d';
+        $subject = sprintf($subject, $user->name, $claim->id);
+        break;
       case 'claim.doc.delete_doc':
         // use $claim, $user, $doc
         $subject = '%s deleted document from claim #%d';
+        if ($doc->isHL7Message()) {
+          $subject = '%s deleted message from claim #%d';
+        }
         $subject = sprintf($subject, $user->name, $claim->id);
         break;
       case 'claim.doc.post_comment':

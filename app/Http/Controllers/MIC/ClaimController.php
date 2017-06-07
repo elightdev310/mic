@@ -283,6 +283,7 @@ class ClaimController extends Controller
         $doc = ClaimDoc::create([
           'claim_id' => $claim_id,
           'file_id'  => $upload->id, 
+          'message'  => '', 
           'show_to_patient' => 1, 
           'creator_uid' =>$user->id, 
         ]);
@@ -304,6 +305,45 @@ class ClaimController extends Controller
       } else {
         return response()->json('error: upload file not found.', 404);
       }
+    } else {
+      return response()->json('error: upload failed.', 470);
+    }
+  }
+
+  /**
+   * Upload HL7 Message
+   *
+   */
+  public function uploadClaimDocMessage(Request $request, $claim_id) {
+    $user = MICHelper::currentUser();
+    $claim = MICClaim::accessibleClaim($user, $claim_id);
+
+    if($user && $claim && $request->has('message')) {
+
+      $message = $request->input('message');
+        
+        $doc = ClaimDoc::create([
+          'claim_id' => $claim_id,
+          'file_id'  => 0, 
+          'message'  => $message, 
+          'show_to_patient' => 1, 
+          'creator_uid' =>$user->id, 
+        ]);
+        $doc->save();
+
+        // Activity Feed
+        $ca_params = array(
+            'claim' => $claim, 
+            'user'  => $user, 
+            'doc'   => $doc, 
+          );        
+        MICClaim::addClaimActivity($claim->id, $user->id, 'upload_doc_message', $ca_params);
+        MICNotification::sendNotification('claim.doc.upload_doc_message', $ca_params);
+
+        return response()->json([
+          "status" => "success",
+        ], 200);
+
     } else {
       return response()->json('error: upload failed.', 500);
     }
@@ -328,6 +368,7 @@ class ClaimController extends Controller
       MICClaim::addClaimActivity($claim->id, $user->id, 'delete_doc', $ca_params);
       MICNotification::sendNotification('claim.doc.delete_doc', $ca_params);
 
+      
       MICClaim::deleteClaimDoc($doc);
 
       return response()->json([
