@@ -406,23 +406,26 @@ class ClaimController extends Controller
     $user = MICHelper::currentUser();
     $claim = MICClaim::accessibleClaim($user, $claim_id);
     $doc = ClaimDoc::find($doc_id);
-    $file = $doc->file;
 
     $params = array();
     $params['claim'] = $claim;
     $params['doc']   = $doc;
-    $params['file']  = $file;
 
     $view = View::make('mic.patient.claim.partials.doc_view_panel', $params);
     $panel = $view->render();
 
     // Activity 
+    if ($doc->isHL7Message()) {
+      $log_description = $user->name." viewed message-{$doc->id} of claim #{$claim->id}";
+    } else {
+      $log_description = $user->name." viewed document( {$doc->file->name} ) of claim #{$claim->id}";
+    }
     MICHelper::logActivity([
       'userId'      => $user->id,
       'contentId'   => $doc->id,
       'contentType' => 'ClaimDoc',
       'action'      => 'view',
-      'description' => $user->name." viewed document( {$doc->file->name} ) of claim #{$claim->id}",
+      'description' => $log_description,
       'details'     => 'Claim: '.$claim->id,
     ]);
 

@@ -1,5 +1,6 @@
 /_backup
 /config
+/packages
 /public/uploads
 /database
 /vendor

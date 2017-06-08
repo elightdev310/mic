@@ -25,7 +25,9 @@
           @if (count($docs))
           <ul>
             @foreach ($docs as $doc)
-            <li class="claim-doc-item text-color-primary text-bold break-wrap">{{ $doc->file->name }}</li>
+            <li class="claim-doc-item text-color-primary text-bold break-wrap">
+              @if ($doc->isHL7Message()) {{ 'Message - '.$doc->id }} @else {{ $doc->file->name }} @endif
+            </li>
             @endforeach
           </ul>
           @else

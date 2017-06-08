@@ -8,6 +8,7 @@ use Illuminate\Foundation\AliasLoader;
 use App\MIC\Modules\PartnerApp;
 use App\MIC\Modules\ClaimModule;
 use App\MIC\Modules\VideoModule;
+use App\MIC\Modules\HL7FarserModule;
 use App\MIC\Modules\ResourceModule;
 use App\MIC\Modules\NotificationModule;
 use App\MIC\Modules\SubscriberModule;
@@ -48,6 +49,9 @@ class AppServiceProvider extends ServiceProvider
     $this->app->bind('micvideo', function ($app) {
       return new VideoModule($app);
     });
+    $this->app->bind('michl7farser', function ($app) {
+      return new HL7FarserModule($app);
+    });
     $this->app->bind('micresource', function ($app) {
       return new ResourceModule($app);
     });
@@ -71,6 +75,7 @@ class AppServiceProvider extends ServiceProvider
     $loader->alias('PartnerApp', \App\MIC\Facades\PartnerAppFacade::class);
     $loader->alias('MICClaim', \App\MIC\Facades\ClaimFacade::class);
     $loader->alias('MICVideo', \App\MIC\Facades\VideoFacade::class);
+    $loader->alias('MICHL7Farser', \App\MIC\Facades\HL7FarserFacade::class);
     $loader->alias('MICResource', \App\MIC\Facades\ResourceFacade::class);
     $loader->alias('MICNotification', \App\MIC\Facades\NotificationFacade::class);
     $loader->alias('MICSubscriber', \App\MIC\Facades\SubscriberFacade::class);

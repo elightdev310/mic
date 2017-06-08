@@ -50,7 +50,6 @@ Route::group(['middleware' => ['auth']],
   Route::post('claim/{claim_id}/upload-doc', [
     'as'=>'claim.upload.doc', 'uses'=>'MIC\ClaimController@uploadClaimDoc' 
   ]);
-  // Claim Doc 
   Route::post('claim/{claim_id}/upload-message', [
     'as'=>'claim.upload.message', 'uses'=>'MIC\ClaimController@uploadClaimDocMessage' 
   ]);
@@ -65,6 +64,9 @@ Route::group(['middleware' => ['auth']],
   Route::get('claim/{claim_id}/view/{doc_id}', [
     'as'=>'claim.doc.view_panel', 'uses'=>'MIC\ClaimController@claimDocViewPanel' 
   ]);
+  Route::get('claim/{claim_id}/view-message/{doc_id}', [
+  'as'=>'claim.doc.view_message_panel', 'uses'=>'MIC\HL7\HL7FarserController@claimDocMessageViewPanel' 
+]);
 
   // Claim Doc Comment
   Route::get('claim/doc/{doc_id}/comment/{comment_id}/post', [

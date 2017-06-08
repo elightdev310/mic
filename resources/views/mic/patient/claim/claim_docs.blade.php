@@ -24,7 +24,7 @@
           <div class="col-sm-6 text-right">
             <button id="AddNewDoc" class="btn btn-primary mt20 mb10" data-toggle="modal" data-target="#upload-doc-modal">Add New Document</button> 
             {{-- <span>&nbsp;&nbsp;</span>
-            <button id="AddNewMsg" class="btn btn-primary mt20 mb10">Add HL7 Message</button> --}}
+            <button id="AddNewMsg" class="btn btn-primary mt20 mb10" data-toggle="modal" data-target="#upload-message-modal">Add HL7 Message</button> --}}
           </div>
         </div>
 
