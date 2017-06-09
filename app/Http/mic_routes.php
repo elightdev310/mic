@@ -65,8 +65,11 @@ Route::group(['middleware' => ['auth']],
     'as'=>'claim.doc.view_panel', 'uses'=>'MIC\ClaimController@claimDocViewPanel' 
   ]);
   Route::get('claim/{claim_id}/view-message/{doc_id}', [
-  'as'=>'claim.doc.view_message_panel', 'uses'=>'MIC\HL7\HL7FarserController@claimDocMessageViewPanel' 
-]);
+    'as'=>'claim.doc.view_message_panel', 'uses'=>'MIC\HL7\HL7FarserController@claimDocMessageViewPanel' 
+  ]);
+  Route::get('claim/{claim_id}/view-message/{doc_id}/segment', [
+    'as'=>'claim.doc.view_message_panel.segment', 'uses'=>'MIC\HL7\HL7FarserController@claimDocMessageSegmentPanel' 
+  ]);
 
   // Claim Doc Comment
   Route::get('claim/doc/{doc_id}/comment/{comment_id}/post', [

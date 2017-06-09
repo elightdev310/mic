@@ -1,3 +1,6 @@
+@if (isset($invalid_hl7_segment))
+<p class="text-center p10">Invalid Segment</p>
+@else
 <div class="table-responsive">
   <table class="table table-hover table-border mic-table">
     <thead>
@@ -26,3 +29,4 @@
     </tbody>
   </table>
 </div>
+@endif

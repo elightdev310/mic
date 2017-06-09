@@ -984,6 +984,10 @@ ul.claim-photo-section li.claim-photo-item .hovereffect:hover a.info {
 }
 .claim-doc-message-panel .panel-title > a {
   display: block;
+  padding: 10px 15px;
+}
+.claim-doc-message-panel .panel-heading {
+  padding: 0px;
 }
 .claim-doc-message-panel .panel-heading .accordion-toggle:after {
   /* symbol for "opening" panels */

@@ -8,12 +8,15 @@
 @section('content')
 
 @if (isset($invalid_hl7_message))
-  <h4 class="text-center">Invalid HL7 Message. It couldn't be parsed.</h4>
+  <div class="p10">
+      {!! nl2br($hl7_message) !!}
+  </div>
+  <h4 class="text-center pt20">Invalid HL7 Message. It couldn't be parsed.</h4>
 @else
 
 <div class="claim-doc-message-panel">
   <div class="pb10">
-    {!! nl2br($hl7->message) !!}
+    {!! nl2br($hl7_message) !!}
   </div>
   <div class="pb10">
     <div>
@@ -24,18 +27,18 @@
     </div>
   </div>
   <div class="panel-group" id="accordion">
-  @foreach($hl7->segmentTypes as $segment)
+  @foreach($hl7->segmentTypes as $key=>$segment)
   <div class="panel panel-default">
     <div class="panel-heading">
       <h4 class="panel-title">
-        <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#seg-{{$segment->segmentId}}">
+        <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" data-segment="{{ $key }}" href="#seg-{{$segment->segmentId}}">
           {{ $segment->segmentName }}
         </a>
       </h4>
     </div>
     <div id="seg-{{$segment->segmentId}}" class="panel-collapse collapse">
       <div class="panel-body">
-        @include('mic.patient.claim.partials.doc_message_segment')
+        {{-- @include('mic.patient.claim.partials.doc_message_segment') --}}
       </div>
     </div>
   </div>
@@ -47,3 +50,31 @@
 @endif
 
 @endsection
+
+@push('scripts')
+<script>
+$(function () {
+  $('.claim-doc-message-panel a.accordion-toggle').on('click', function() {
+    var $this = $(this);
+    var $panel = $this.closest('.panel').find('.panel-collapse .panel-body');
+    if (!$this.hasClass('loaded')) {
+      $this.addClass('loaded');
+      $panel.loadingOverlay();
+
+      var segment_index = $this.data('segment');
+      var segment_url = '{{ route('claim.doc.view_message_panel.segment', [$doc->claim_id, $doc->id]) }}';
+      $.ajax({
+        dataType: 'json',
+        method: 'GET', 
+        url: segment_url,
+        data: { segment: segment_index }, 
+        success: function ( json ) {
+          $panel.loadingOverlay('remove');
+          $panel.html(json.segment_html);
+        }
+      });
+    }
+  });
+});
+</script>
+@endpush
