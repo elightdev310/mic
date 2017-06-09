@@ -620,6 +620,39 @@ ul.claim-photo-section {
   }
 }
 
+.claim-doc-message-panel {
+  padding: 0px 10px;
+
+  .mic-table {
+    font-size: 14px;
+    tbody > tr > td {
+      vertical-align: top;
+    }
+    .field-panel {
+      padding: 3px 0px 0px 10px;
+      font-size: 12px;
+      .fields-section, .components-section, .sub-components-section {
+        padding-left: 10px;
+      }
+    }
+  }
+  .panel-title > a {
+    display: block;
+  }
+  .panel-heading .accordion-toggle:after {
+    /* symbol for "opening" panels */
+    font-family: 'Glyphicons Halflings';  /* essential for enabling glyphicon */
+    content: "\e114";    /* adjust as needed, taken from bootstrap.css */
+    float: right;        /* adjust as needed */
+    color: grey;         /* adjust as needed */
+  }
+  .panel-heading .accordion-toggle.collapsed:after {
+      /* symbol for "collapsed" panels */
+      content: "\e080";    /* adjust as needed, taken from bootstrap.css */
+  }
+}
+
+
 
 
 /* smaller than Extra small screen */

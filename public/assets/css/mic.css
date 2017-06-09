@@ -964,6 +964,43 @@ ul.claim-photo-section li.claim-photo-item .hovereffect:hover a.info {
 #user-picture-modal .croppie-container {
   padding: 30px 0px;
 }
+.claim-doc-message-panel {
+  padding: 0px 10px;
+}
+.claim-doc-message-panel .mic-table {
+  font-size: 14px;
+}
+.claim-doc-message-panel .mic-table tbody > tr > td {
+  vertical-align: top;
+}
+.claim-doc-message-panel .mic-table .field-panel {
+  padding: 3px 0px 0px 10px;
+  font-size: 12px;
+}
+.claim-doc-message-panel .mic-table .field-panel .fields-section,
+.claim-doc-message-panel .mic-table .field-panel .components-section,
+.claim-doc-message-panel .mic-table .field-panel .sub-components-section {
+  padding-left: 10px;
+}
+.claim-doc-message-panel .panel-title > a {
+  display: block;
+}
+.claim-doc-message-panel .panel-heading .accordion-toggle:after {
+  /* symbol for "opening" panels */
+  font-family: 'Glyphicons Halflings';
+  /* essential for enabling glyphicon */
+  content: "\e114";
+  /* adjust as needed, taken from bootstrap.css */
+  float: right;
+  /* adjust as needed */
+  color: grey;
+  /* adjust as needed */
+}
+.claim-doc-message-panel .panel-heading .accordion-toggle.collapsed:after {
+  /* symbol for "collapsed" panels */
+  content: "\e080";
+  /* adjust as needed, taken from bootstrap.css */
+}
 /* smaller than Extra small screen */
 @media (max-width: 991px) {
   ul.claim-photo-section li {

@@ -30,7 +30,7 @@ class HL7FarserModule {
   public function __construct($app)
   {
       $this->app = $app;
-      $this->baseUrl = 'http://hl7.cc/api';
+      $this->baseUrl = 'https://hl7.cc/api';
   }
 
   /**
@@ -46,9 +46,10 @@ class HL7FarserModule {
     // );
     // $cxContext = stream_context_create($aContext);
     //$result = file_get_contents($url, False, $cxContext);
-    
+
     $curlSession = curl_init();
     curl_setopt($curlSession, CURLOPT_URL, $url);
+    curl_setopt($curlSession, CURLOPT_SSL_VERIFYPEER, false);
     curl_setopt($curlSession, CURLOPT_BINARYTRANSFER, true);
     curl_setopt($curlSession, CURLOPT_RETURNTRANSFER, true);
 
