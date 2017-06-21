@@ -23,7 +23,7 @@ class PartnersController extends Controller
 {
 	public $show_action = true;
 	public $view_col = 'first_name';
-	public $listing_cols = ['id', 'first_name', 'last_name', 'company', 'phone', 'address', 'address2', 'city', 'state', 'zip', 'membership_role', 'membership_level', 'user_id'];
+	public $listing_cols = ['id', 'first_name', 'last_name', 'company', 'phone', 'address', 'address2', 'city', 'state', 'zip', 'membership_role', 'membership_level', 'payment_info_id', 'user_id'];
 	
 	public function __construct() {
 		// Field Access of Listing Columns

@@ -154,8 +154,6 @@ return [
         Regulus\ActivityLog\ActivityLogServiceProvider::class,
         Delatbabel\Elocrypt\ElocryptServiceProvider::class,
         
-        // Spitoglou\HL7\HL7ServiceProvider::class, 
-        
         /*
          * Application Service Providers...
          */

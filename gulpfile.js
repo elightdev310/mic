@@ -20,10 +20,10 @@ elixir(function(mix) {
     // mix.less('admin-lte/AdminLTE.less', 'public/la-assets/css');
     // mix.less('bootstrap/bootstrap.less', 'public/la-assets/css');
 
-    mix.less('mic/mic.less', 'public/assets/css');
     mix.less('mic/auth.less', 'public/assets/css');
-    
-    mix.less('mic/admin.less', 'public/assets/css');
+    mix.less('mic/patient.less', 'public/assets/css');
+    mix.less('mic/partner.less', 'public/assets/css');
+    mix.less('mic/mic.less', 'public/assets/css');
 });
 
 /*

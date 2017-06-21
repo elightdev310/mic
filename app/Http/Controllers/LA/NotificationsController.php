@@ -134,7 +134,7 @@ class NotificationsController extends Controller
 	 */
 	public function edit($id)
 	{
-		if(Module::hasAccess("Notifications", "edit")) {
+		if(Module::hasAccess("Notifications", "edit")) {			
 			$notification = Notification::find($id);
 			if(isset($notification->id)) {	
 				$module = Module::get('Notifications');
