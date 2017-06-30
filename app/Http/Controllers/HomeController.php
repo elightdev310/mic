@@ -7,6 +7,7 @@
 namespace App\Http\Controllers;
 
 use Auth;
+use Redirect;
 use App\Http\Requests;
 use Illuminate\Http\Request;
 
@@ -47,8 +48,8 @@ class HomeController extends Controller
 
     $user = Auth::user();
     if (!$user) {
-      return view('home');
-      //return redirect('/login');
+      //return view('home');
+      return Redirect::to('http://www.servertest.me/micsite');
     } 
 
     if ($user->hasRole(config('mic.user_role.admin'))) {

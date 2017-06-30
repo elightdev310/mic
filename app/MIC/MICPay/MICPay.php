@@ -42,7 +42,7 @@ class MICPay {
 
     $card_info = $this->getCardInfo($user_id);
     if ($card_info) {
-      //$this->qbms->authorize($card_info);
+        //$this->qbms->authorize($card_info);
     }
   }
 
