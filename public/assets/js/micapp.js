@@ -24,7 +24,8 @@ MICApp.UI = {
     if (target == '_blank') {
       window.location.reload(true); 
     } else if (target == '_parent') {
-      parent.location.reload(true);
+      window.opener.location.reload(true);
+      window.close();
     }
   }
 

@@ -8,6 +8,5 @@
       @foreach ($menuItems as $menu)
         <?php echo MICUILayoutHelper::printMenuTop($menu); ?>
       @endforeach
-		@endforeach
 	</ul>
 </div><!-- /.navbar-collapse -->
