@@ -402,12 +402,12 @@ class NotificationModule {
         break;
 
       case 'claim.assign_request':
-        // use $partner, $claim
+        // use $partner(User Model), $claim
         $msg = '%s received a request of claim #%d';
         $message = sprintf($msg, $partner->name, $claim->id);
         $log_data = array (
-          'userId'      => $partner->user->id,
-          'contentId'   => $partner->user->id,
+          'userId'      => $partner->id,
+          'contentId'   => $partner->id,
           'contentType' => 'User',
           'action'      => 'request',
           'description' => $message,
@@ -419,8 +419,8 @@ class NotificationModule {
         $msg = '%s approved to be assigned to claim #%d';
         $message = sprintf($msg, $partner->name, $claim->id);
         $log_data = array (
-          'userId'      => $partner->user->id,
-          'contentId'   => $partner->user->id,
+          'userId'      => $partner->id,
+          'contentId'   => $partner->id,
           'contentType' => 'User',
           'action'      => 'approve',
           'description' => $message,
@@ -432,8 +432,8 @@ class NotificationModule {
         $msg = '%s rejected claim #%d';
         $message = sprintf($msg, $partner->name, $claim->id);
         $log_data = array (
-          'userId'      => $partner->user->id,
-          'contentId'   => $partner->user->id,
+          'userId'      => $partner->id,
+          'contentId'   => $partner->id,
           'contentType' => 'User',
           'action'      => 'reject',
           'description' => $message,
@@ -445,8 +445,8 @@ class NotificationModule {
         $msg = '%s rejected %s from claim #%d';
         $message = sprintf($msg, $claim->patientUser->name, $partner->name, $claim->id);
         $log_data = array (
-          'userId'      => $partner->user->id,
-          'contentId'   => $partner->user->id,
+          'userId'      => $partner->id,
+          'contentId'   => $partner->id,
           'contentType' => 'User',
           'action'      => 'reject',
           'description' => $message,
@@ -458,8 +458,8 @@ class NotificationModule {
         $msg = '%s allowed %s to claim #%d';
         $message = sprintf($msg, $claim->patientUser->name, $partner->name, $claim->id);
         $log_data = array (
-          'userId'      => $partner->user->id,
-          'contentId'   => $partner->user->id,
+          'userId'      => $partner->id,
+          'contentId'   => $partner->id,
           'contentType' => 'User',
           'action'      => 'approve',
           'description' => $message,
@@ -471,8 +471,8 @@ class NotificationModule {
         $msg = '%s is assigned to claim #%d';
         $message = sprintf($msg, $partner->name, $claim->id);
         $log_data = array (
-          'userId'      => $partner->user->id,
-          'contentId'   => $partner->user->id,
+          'userId'      => $partner->id,
+          'contentId'   => $partner->id,
           'contentType' => 'User',
           'action'      => 'assign',
           'description' => $message,
@@ -484,8 +484,8 @@ class NotificationModule {
         $msg = '%s is unassigned from claim #%d';
         $message = sprintf($msg, $partner->name, $claim->id);
         $log_data = array (
-          'userId'      => $partner->user->id,
-          'contentId'   => $partner->user->id,
+          'userId'      => $partner->id,
+          'contentId'   => $partner->id,
           'contentType' => 'User',
           'action'      => 'unassign',
           'description' => $message,
