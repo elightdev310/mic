@@ -8,7 +8,7 @@
       <div class="feed-user clearfix">
         <div class="user-name text-color-primary text-bold pull-left">{{ $feed->author->name }}</div>
         <div class="activity-time pull-right">
-          {{ MICUILayoutHelper::agoTime($feed->created_at, ' ago') }}
+          {{ MICUILayoutHelper::strDTime($feed->created_at) }}
         </div>
       </div>
       <div class="activity-text break-wrap">{!! $feed->content !!}</div>

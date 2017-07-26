@@ -7,6 +7,7 @@
       <th class="partner-role">Membership Role</th>
       <th class="partner-company">Company</th>
       <th class="partner-phone">Phone</th>
+      <th class="partner-claim-count">Assigned Claims</th>
       <th class="action">Action</th>
     </thead>
     <tbody>
@@ -21,6 +22,7 @@
         <td class="partner-role">{{ MICHelper::getPartnerTypeTitle($user->partner) }}</td>
         <td class="partner-company">{{ $user->partner->company or ""}}</td>
         <td class="partner-phone">{{ $user->partner->phone or ""}}</td>
+        <td class="partner-claim-count">{{ MICClaim::getAssignedClaimCount($user->id) }}</td>
         <td class="action">
           @if (MICHelper::checkIfP2C($user->id, $claim->id))
           <span class="text-green">Assigned</span>

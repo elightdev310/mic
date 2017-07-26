@@ -62,6 +62,7 @@
             <th class="partner-role">Membership Role</th>
             <th class="partner-company">Company</th>
             <th class="partner-phone">Phone</th>
+            <th class="partner-claim-count">Assigned Claims</th>
             <th class="partner-user">User Account</th>
             <th class="partner-status">Status</th>
             <th class="action">Action</th>
@@ -77,6 +78,7 @@
               <td class="partner-role">{{ MICHelper::getPartnerTypeTitle($partner) }}</td>
               <td class="partner-company">{{ $partner->company }}</td>
               <td class="partner-phone">{{ $partner->phone}}</td>
+              <td class="partner-claim-count">{{ MICClaim::getAssignedClaimCount($partner->user_id) }}</td>
               <td class="partner-user">
                 <a href="{{ url(route('micadmin.user.settings', [$partner->user_id])) }}">
                   {!! MICUILayoutHelper::avatarImage($partner->user, 24) !!}

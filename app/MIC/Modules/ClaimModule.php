@@ -208,6 +208,10 @@ class ClaimModule {
     return $claims;
   }
 
+  public function getAssignedClaimCount($partner_uid) {
+    return Partner2Claim::where('partner_uid', $partner_uid)->count();
+  }
+
   public function getCAFeeds($claim_id, $user_type) {
     $user = MICHelper::currentUser();
     $feeds = array();
