@@ -1056,6 +1056,9 @@ ul.claim-photo-section li.claim-photo-item .hovereffect:hover a.info {
 .color-inherited {
   color: inherit !important;
 }
+.panel.infolist .claim-summary-section .form-group {
+  border-bottom: none;
+}
 /* smaller than Extra small screen */
 @media (max-width: 767px) {
   .navbar-brand {

@@ -44,7 +44,7 @@
                 @endif 
 
                 @if ($video->watched) 
-                  &nbsp;<span>[Watched {{ MICUILayoutHelper::strDTime($video->watched) }}]</span>
+                  &nbsp;<span>[Watched {{ MICUILayoutHelper::strTime($video->watched, 'M d, Y H:i') }}]</span>
                 @endif
 
                 </a>
@@ -118,7 +118,7 @@
                 @endif 
 
                 @if ($video->watched) 
-                  &nbsp;<span>[Watched {{ MICUILayoutHelper::strDTime($video->watched) }}]</span>
+                  &nbsp;<span>[Watched {{ MICUILayoutHelper::strTime($video->watched, 'M d, Y H:i') }}]</span>
                 @endif
 
                 </a>

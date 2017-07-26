@@ -35,6 +35,7 @@
 					{{--
 					@la_input($module, 'answers')
 					@la_input($module, 'patient_uid')
+					@la_input($module, 'summary')
 					--}}
                     <br>
 					<div class="form-group">

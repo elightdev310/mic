@@ -23,7 +23,7 @@ class ClaimsController extends Controller
 {
 	public $show_action = true;
 	public $view_col = 'patient_uid';
-	public $listing_cols = ['id', 'answers', 'patient_uid'];
+	public $listing_cols = ['id', 'answers', 'patient_uid', 'summary'];
 	
 	public function __construct() {
 		// Field Access of Listing Columns

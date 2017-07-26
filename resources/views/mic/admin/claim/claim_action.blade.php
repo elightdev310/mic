@@ -21,6 +21,7 @@
           <h4>Action</h4>
         </div>
         <div class="panel-body">
+          @include('mic.admin.partials.success_error')
           @include('mic.admin.claim.partials.action')
         </div>
       </div>

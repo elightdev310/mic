@@ -109,6 +109,7 @@
 					<div class="panel-body">
 						@la_display($module, 'answers')
 						@la_display($module, 'patient_uid')
+						@la_display($module, 'summary')
 					</div>
 				</div>
 			</div>

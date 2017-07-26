@@ -70,6 +70,11 @@ Route::group(['prefix'=>config('mic.adminRoute'),
     'as'=>$as.'claim.doc.set_access', 'uses'=>'MIC\Admin\ClaimController@setClaimDocAccess' 
   ]);
 
+  // Claim Billing Doc 
+  Route::post('claim/{claim_id}/summary', [
+    'as'=>$as.'claim.summary.post', 'uses'=>'MIC\Admin\ClaimController@saveClaimSummary' 
+  ]);
+
 });
 
 Route::group(['prefix'=>config('mic.adminRoute'), 

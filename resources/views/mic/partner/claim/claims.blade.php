@@ -67,7 +67,7 @@
           <div class="claim-item-box content-box text-center">
             <a href="{{ route('claim.view', [$claim->id]) }}"><h3 class="text-bold text-color-primary">{{ $claim->patientUser->name }}</h3></a>
             <div class="claim-description text-left">
-              Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.
+              {{ $claim->summary }}
             </div>
             <div class="claim-submit-date text-bold">
               <strong>DOI: {{ MICUILayoutHelper::strTime($claim->created_at, 'n/j/y') }}</strong>

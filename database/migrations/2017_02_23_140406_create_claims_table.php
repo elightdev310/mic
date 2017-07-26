@@ -20,6 +20,7 @@ class CreateClaimsTable extends Migration
         Module::generate("Claims", 'claims', 'patient_uid', 'fa-cube', [
             ["answers", "Answers", "Textarea", false, "", 0, 0, false],
             ["patient_uid", "Patient User", "Dropdown", false, "", 0, 0, false, "@users"],
+            ["summary", "Summary", "Textarea", false, "", 0, 0, false],
         ]);
 		
 		/*

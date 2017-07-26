@@ -532,4 +532,20 @@ class ClaimController extends Controller
       return response()->json('error: upload file not found.', 400);
     }
   }
+
+  /**
+   * URL(POST): admin/claim/{claim_id}/summary
+   */
+  public function saveClaimSummary(Request $request, $claim_id)
+  {
+    $claim = Claim::find($claim_id);
+    if ($claim) {
+      $claim->summary = $request->input('summary');
+      $claim->save();
+      return redirect()->back()
+                ->with('status', "Summary updated successfully.");
+    }
+    return redirect()->back()
+                ->withError("Claim#$claim_id doesn't exist");
+  }
 }
